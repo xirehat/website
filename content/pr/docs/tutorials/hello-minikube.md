@@ -9,149 +9,139 @@ card:
 
 <!-- overview -->
 
-This tutorial shows you how to run a sample app on Kubernetes using minikube.
-The tutorial provides a container image that uses NGINX to echo back all the requests.
+این آموزش به شما نشان می‌دهد که چگونه یک اپلیکیشن نمونه  را با استفاده از Minikube روی Kubernetes اجرا کنید.در این آموزش، یک ایمیج Nginx  استفاده شده است  و برای بازگرداندن تمام درخواست‌ها (Echo) استفاده می‌کند.
 
 ## {{% heading "objectives" %}}
 
-* Deploy a sample application to minikube.
-* Run the app.
-* View application logs.
+* راه اندازی یک اپلیکیشن به صورت نمونه 
+* اجرای برنامه
+* مشاهده خطا های ایجاد شده در برنامه
 
 ## {{% heading "prerequisites" %}}
 
 
-This tutorial assumes that you have already set up `minikube`.
-See __Step 1__ in [minikube start](https://minikube.sigs.k8s.io/docs/start/) for installation instructions.
+این آموزش فرض می‌کند که شما قبلاً Minikube را راه‌اندازی کرده‌اید.
+.به مرحله مراجعه کنید   برای دستورالعمل‌های نصب __Step 1__ in [minikube start](https://minikube.sigs.k8s.io/docs/start/) 
 {{< note >}}
-Only execute the instructions in __Step 1, Installation__. The rest is covered on this page.  
+فقط دستورالعمل‌های مربوط به مرحله ۱ (نصب) را انجام دهید __Step 1, Installation__.فقط دستورالعمل‌های مربوط به مرحله ۱ (نصب) را انجام دهید
 {{< /note >}}
 
-You also need to install `kubectl`.
-See [Install tools](/docs/tasks/tools/#kubectl) for installation instructions.
+همچنین نیاز می باشد تا را نصب کنید `kubectl`.
+ [Install tools](/docs/tasks/tools/#kubectl) لینک پیوست شده را برای نصب مشاهده کنید .
 
 
 <!-- lessoncontent -->
 
-## Create a minikube cluster
+## راه اندازی کلاستر minikube
 
 ```shell
 minikube start
 ```
 
-## Open the Dashboard
+## بازکردن داشبورد
 
-Open the Kubernetes dashboard. You can do this two different ways:
+برای باز کردن داشبورد minikube  می توانید از دو روش زیر استقاده نمایید :
 
 {{< tabs name="dashboard" >}}
 {{% tab name="Launch a browser" %}}
-Open a **new** terminal, and run:
+ترمینال جدید باز کیند و دستور زیرا اجرا کنید:
 ```shell
-# Start a new terminal, and leave this running.
+# ترمینال جدید را باز کنید و دستور زیر را اجرا کنید .
 minikube dashboard
 ```
 
-Now, switch back to the terminal where you ran `minikube start`.
+حالا به ترمینال قبلی بروید که دستور minikube start  را اجرا کرده بودید. `minikube start`.
 
 {{< note >}}
-The `dashboard` command enables the dashboard add-on and opens the proxy in the default web browser.
-You can create Kubernetes resources on the dashboard such as Deployment and Service.
+دستور `dashboard` افزونه‌ی داشبورد را فعال کرده و یک پراکسی (proxy) موقت را در مرورگر پیش‌فرض شما باز می‌کند. در این داشبورد می‌توانید منابع Kubernetes مانند `Deployment` و `Service` ایجاد کنید.
 
-To find out how to avoid directly invoking the browser from the terminal and get a URL for the web dashboard, see the "URL copy and paste" tab.
+برای اینکه بدون باز شدن مستقیم مرورگر از طریق ترمینال، فقط آدرس URL داشبورد را دریافت کنید، به برگه‌ی «URL copy and paste» مراجعه کنید.
 
-By default, the dashboard is only accessible from within the internal Kubernetes virtual network.
-The `dashboard` command creates a temporary proxy to make the dashboard accessible from outside the Kubernetes virtual network.
+به‌صورت پیش‌فرض، داشبورد تنها از طریق شبکه داخلی مجازی Kubernetes قابل دسترسی است. دستور `dashboard` یک پراکسی موقتی ایجاد می‌کند تا داشبورد را از بیرون شبکه Kubernetes نیز قابل دسترس کند.
 
-To stop the proxy, run `Ctrl+C` to exit the process.
-After the command exits, the dashboard remains running in the Kubernetes cluster.
-You can run the `dashboard` command again to create another proxy to access the dashboard.
+برای متوقف کردن پراکسی، کافیست کلیدهای `Ctrl+C` را بزنید تا از فرآیند خارج شوید. پس از خروج از دستور، داشبورد همچنان روی خوشه‌ی Kubernetes اجرا می‌ماند. شما می‌توانید مجدداً دستور `dashboard` را اجرا کنید تا یک پراکسی جدید برای دسترسی به داشبورد بسازید.
 {{< /note >}}
 
 {{% /tab %}}
 {{% tab name="URL copy and paste" %}}
 
-If you don't want minikube to open a web browser for you, run the `dashboard` subcommand with the
-`--url` flag. `minikube` outputs a URL that you can open in the browser you prefer.
+اگر نمی‌خواهید Minikube به‌طور خودکار مرورگر را باز کند، دستور `dashboard` را با فلگ `--url` اجرا کنید
 
-Open a **new** terminal, and run:
+یک ترمینال **جدید** باز کنید و دستور زیر را اجرا کیند :
 ```shell
-# Start a new terminal, and leave this running.
+# ترمینال جدید بسازید و دستور زیرا اجرا نمایید 
 minikube dashboard --url
 ```
 
-Now, you can use this URL and switch back to the terminal where you ran `minikube start`.
-
+حالا میتوانید به ترمینالی که دستور `minikube start` را زدید برگردید 
 {{% /tab %}}
 {{< /tabs >}}
 
-## Create a Deployment
+## ساخت Deployment
 
-A Kubernetes [*Pod*](/docs/concepts/workloads/pods/) is a group of one or more Containers,
-tied together for the purposes of administration and networking. The Pod in this
-tutorial has only one Container. A Kubernetes
-[*Deployment*](/docs/concepts/workloads/controllers/deployment/) checks on the health of your
-Pod and restarts the Pod's Container if it terminates. Deployments are the
-recommended way to manage the creation and scaling of Pods.
+[*Pod*](/docs/concepts/workloads/pods/)  در داخل کوبرنتیز ، به مجموعه ای از یک یا چند container  گویند ، یک پارچه شده اند برای اجرای دستوراتی از ادمین ها و نتورک به انها میرسد. POD  در این سناریو فقط یک عدد می باشد . deployment  های کوبرنتیز بررسی میکنند تا سلامت POD  برقرار است یا نه ، اگر نبود به صورت خودکار راه اندازی مجدد میکنند .
+[*Deployment*](/docs/concepts/workloads/controllers/deployment/)  ها راه پیشنهادی کوبرنتیز می باشند برای مدیریت POD  ها.
 
-1. Use the `kubectl create` command to create a Deployment that manages a Pod. The
-   Pod runs a Container based on the provided Docker image.
+
+1. از دستور `kubectl create`  استفاده کنید تا یک Deployment ایجاد کنید که مدیریت یک Pod را بر عهده دارد.
 
     ```shell
-    # Run a test container image that includes a webserver
+    # کانتینر webmaster  را جهت تست اجرا نمایید:
     kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080
     ```
 
-1. View the Deployment:
+1. مشاهده deployment ها:
 
     ```shell
     kubectl get deployments
     ```
 
-    The output is similar to:
+   نتیجه می بایست به شکل زیر باشد 
 
     ```
     NAME         READY   UP-TO-DATE   AVAILABLE   AGE
     hello-node   1/1     1            1           1m
     ```
 
-    (It may take some time for the pod to become available. If you see "0/1", try again in a few seconds.)
+    (ممکن است مدتی طول بکشد تا Pod در دسترس قرار گیرد. اگر پیام "0/1" را مشاهده کردید، چند ثانیه بعد دوباره امتحان کنید.)
 
-1. View the Pod:
+1. مشاهده پاد ها:
 
     ```shell
     kubectl get pods
     ```
 
-    The output is similar to:
+   :نتیجه می بایست به شکل زیر باشد 
 
     ```
     NAME                          READY     STATUS    RESTARTS   AGE
     hello-node-5f76cf6ccf-br9b5   1/1       Running   0          1m
     ```
 
-1. View cluster events:
+1. :مشاهده رخداد ها
 
     ```shell
     kubectl get events
     ```
 
-1. View the `kubectl` configuration:
+1. مشاهده تنظیمات `kubectl` :
 
     ```shell
     kubectl config view
     ```
 
-1. View application logs for a container in a pod (replace pod name with the one you got from `kubectl get pods`).
+1. برای مشاهده‌ی لاگ‌های اپلیکیشن در یک کانتینر داخل یک Pod، از دستور زیر استفاده کنید (نام Pod را با نامی که از دستور `kubectl get pods` به دست آورده‌اید جایگزین کنید).
    
    {{< note >}}
    Replace `hello-node-5f76cf6ccf-br9b5` in the `kubectl logs` command with the name of the pod from the `kubectl get pods` command output.
+  ارگومان `hello-node-5f76cf6ccf-br9b5` در مقابل دستور `kubectl logs` قرار دهید اسم POD  `kubectl get pods` برداشته شده است. قبلا از طریق دستور  
    {{< /note >}}
    
    ```shell
    kubectl logs hello-node-5f76cf6ccf-br9b5
    ```
 
-   The output is similar to:
+  :نتیجه می بایست به شکل زیر باشد 
 
    ```
    I0911 09:19:26.677397       1 log.go:195] Started HTTP server on port 8080
@@ -160,41 +150,39 @@ recommended way to manage the creation and scaling of Pods.
 
 
 {{< note >}}
-For more information about `kubectl` commands, see the [kubectl overview](/docs/reference/kubectl/).
+برای اطلاعات بیشتر از دستور `kubectl `لینک پیوست شده را مشاهده کنید [kubectl overview](/docs/reference/kubectl/).
 {{< /note >}}
 
-## Create a Service
+## ساخت سرویس
 
-By default, the Pod is only accessible by its internal IP address within the
-Kubernetes cluster. To make the `hello-node` Container accessible from outside the
-Kubernetes virtual network, you have to expose the Pod as a
-Kubernetes [*Service*](/docs/concepts/services-networking/service/).
+به‌صورت پیش‌فرض، Pod فقط از طریق آدرس IP داخلی خود درون کلاستر  Kubernetes قابل دسترسی است.
+برای اینکه کانتینر   `hello-node` از بیرون شبکه‌ی مجازی Kubernetes قابل دسترسی باشد، باید Pod را به‌عنوان یک سرویس Kubernetes [*Service*](/docs/concepts/services-networking/service/).منتشر (Expose) کنید.
 
 {{< warning >}}
-The agnhost container has a `/shell` endpoint, which is useful for
-debugging, but dangerous to expose to the public internet. Do not run this on an
-internet-facing cluster, or a production cluster.
+کانتینر  agnhost دارای یک مسیر (endpoint) به نام `/shell` است که برای عیب‌یابی (debug) مفید است، اما در معرض خطر در صورت اتصال به اینترنت عمومی قرار دارد.
+این کانتینر را روی کلاستر هایی  که به اینترنت متصل هستند یا کلاستر های تولیدی (production) اجرا نکنید.
+
 {{< /warning >}}
 
-1. Expose the Pod to the public internet using the `kubectl expose` command:
+1. 1.	برای در دسترس قرار دادن Pod از طریق اینترنت عمومی، از دستور `kubectl expose` استفاده کنید:
 
     ```shell
     kubectl expose deployment hello-node --type=LoadBalancer --port=8080
     ```
 
-    The `--type=LoadBalancer` flag indicates that you want to expose your Service
-    outside of the cluster.
+    دستور `-type=LoadBalancer`  به این معنی می باشد که میخواهید سرویس را به بیرون کلاستر دسترسی بدید 
     
-    The application code inside the test image only listens on TCP port 8080. If you used
-    `kubectl expose` to expose a different port, clients could not connect to that other port.
+    کد اپلیکیشن داخل تصویر تست (test image) فقط روی پورت TCP شماره 8080 باز میشود.
+اگر با استفاده از دستور  `kubectl expose` پورتی متفاوت را منتشر کرده باشید، کلاینت‌ها نمی‌توانند به آن پورت متصل شوند.
 
-2. View the Service you created:
+
+2. مشاهده service  ساخته شده:
 
     ```shell
     kubectl get services
     ```
 
-    The output is similar to:
+   نتیجه می بایست به شکل زیر باشد:
 
     ```
     NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
@@ -202,30 +190,29 @@ internet-facing cluster, or a production cluster.
     kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP          23m
     ```
 
-    On cloud providers that support load balancers,
-    an external IP address would be provisioned to access the Service. On minikube,
-    the `LoadBalancer` type makes the Service accessible through the `minikube service`
-    command.
+    در ارائه‌دهندگان خدمات ابری (Cloud Providers) که از Load Balancer پشتیبانی می‌کنند,
+    آدرس IP خارجی برای دسترسی به Service  اختصاص داده می‌شود.
+   اما در Minikube، نوع سرویس `LoadBalancer` باعث می‌شود سرویس از طریق دستور زیر در دسترس باشد: `minikube service`
 
-3. Run the following command:
+3. دستور زیر را اجرا کنید:
 
     ```shell
     minikube service hello-node
     ```
 
-    This opens up a browser window that serves your app and shows the app's response.
+    با اجرای این دستور صفحه مرورگر باز میشود و جواب اپلیکشن را به شما نشان میدهد 
 
-## Enable addons
+## فعال سازی اضافه ها(addons)
 
 The minikube tool includes a set of built-in {{< glossary_tooltip text="addons" term_id="addons" >}} that can be enabled, disabled and opened in the local Kubernetes environment.
-
-1. List the currently supported addons:
+ابزار{{< glossary_tooltip text="addons" term_id="addons" >}} که میتواند در محییط کوبرنتیز فعالیا غیر فعال شود minikube  شامل تعدادی ابزار داخلی می باشد که امکان 
+1. لیست (addons) های در حال خاضر minikube  پشتیبانی میکند:
 
     ```shell
     minikube addons list
     ```
 
-    The output is similar to:
+    نتیجه دستور به این شکل می باشد :
 
     ```
     addon-manager: enabled
@@ -247,25 +234,25 @@ The minikube tool includes a set of built-in {{< glossary_tooltip text="addons" 
     storage-provisioner-gluster: disabled
     ```
 
-1. Enable an addon, for example, `metrics-server`:
+1. برای مثال فعال سازی addon  بر روی , `metrics-server`:
 
     ```shell
     minikube addons enable metrics-server
     ```
 
-    The output is similar to:
+   نتیجه دستور به این شکل می باشد :
 
     ```
     The 'metrics-server' addon is enabled
     ```
 
-1. View the Pod and Service you created by installing that addon:
+1. مشاهده pod,services  که از طریق addons  نصب شده است:
 
     ```shell
     kubectl get pod,svc -n kube-system
     ```
 
-    The output is similar to:
+   نتیجه دستور به این شکل می باشد :
 
     ```
     NAME                                        READY     STATUS    RESTARTS   AGE
@@ -288,40 +275,40 @@ The minikube tool includes a set of built-in {{< glossary_tooltip text="addons" 
     service/monitoring-influxdb    ClusterIP   10.111.169.94   <none>        8083/TCP,8086/TCP   26s
     ```
 
-1. Check the output from `metrics-server`:
+1. نیجه سرویس بررسی میکینیم `metrics-server`:
 
     ```shell
     kubectl top pods
     ```
 
-    The output is similar to:
+    نتیجه دستور به این شکل می باشد :
 
     ```
     NAME                         CPU(cores)   MEMORY(bytes)   
     hello-node-ccf4b9788-4jn97   1m           6Mi             
     ```
 
-    If you see the following message, wait, and try again:
+    اگر پیام زیر را مشاهده کردید ، بعد از چند دقیقه مجدد بررسی کنید:
 
     ```
     error: Metrics API not available
     ```
 
-1. Disable `metrics-server`:
+1. غیرفال کردن `metrics-server`:
 
     ```shell
     minikube addons disable metrics-server
     ```
 
-    The output is similar to:
+    نتیجه به این شکل می باشد :
 
     ```
     metrics-server was successfully disabled
     ```
 
-## Clean up
+## پاک کردن پروژه
 
-Now you can clean up the resources you created in your cluster:
+بعد از مشاهده نتیاج ، میتونید از با دستورات زیر منبعی که داخل کلاستر ساختید را پاک کنید: 
 
 ```shell
 kubectl delete service hello-node
@@ -334,24 +321,24 @@ Stop the Minikube cluster
 minikube stop
 ```
 
-Optionally, delete the Minikube VM:
+درصوت تمایل میتوانید کلاستر minikube را غیر فعال نمایید :
 
 ```shell
 # Optional
 minikube delete
 ```
 
-If you want to use minikube again to learn more about Kubernetes, you don't need to delete it.
+اکر میخواهید بیشتر با minikube  کار کنید ، نیازی به پاک کردن کلاستر نمی باشد .
 
-## Conclusion
+## نتیجه گیری:
 
-This page covered the basic aspects to get a minikube cluster up and running. You are now ready to deploy applications.
+این صفحه جنبه‌های اولیه برای راه‌اندازی یک کلاستر  Minikube را پوشش داد.اکنون آماده‌اید تا اپلیکیشن‌های خود را مستقر (Deploy) کنید
 
 ## {{% heading "whatsnext" %}}
 
 
-* Tutorial to _[deploy your first app on Kubernetes with kubectl](/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/)_.
-* Learn more about [Deployment objects](/docs/concepts/workloads/controllers/deployment/).
-* Learn more about [Deploying applications](/docs/tasks/run-application/run-stateless-application-deployment/).
-* Learn more about [Service objects](/docs/concepts/services-networking/service/).
+* منابع  _[deploy your first app on Kubernetes with kubectl](/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/)_.
+* بیشتر راجبش یادبگیرید [Deployment objects](/docs/concepts/workloads/controllers/deployment/).
+* بیشتر راجبش یادبگیرید  [Deploying applications](/docs/tasks/run-application/run-stateless-application-deployment/).
+* بیشتر راجبش یادبگیرید [Service objects](/docs/concepts/services-networking/service/).
 
