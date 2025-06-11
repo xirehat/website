@@ -1,7 +1,7 @@
 ---
-title: Kubernetes Release Cycle
-type: docs
-auto_generated: true
+عنوان: چرخه انتشار Kubernetes
+نوع: مستندات (docs)
+خودکار تولید شده: بله (auto_generated: true)
 ---
 <!-- این محتوا به صورت خودکار تولید می‌شود از طریق https://github.com/kubernetes/website/blob/main/scripts/releng/update-release-info.sh -->
 
@@ -73,10 +73,10 @@ auto_generated: true
 - /lgtm
 - /approved
 
-ادغام‌ها در شاخه ۱.y اکنون [از طریق انتخاب‌های گیلاس] انجام می‌شوند.[cherry-picks], تأیید شده توسط [مدیران انتشار][release-managers].
+ادغام‌ها در شاخه ۱.y اکنون انجام می‌شوند.[cherry-picks], تأیید شده توسط [ SIG Owner Label][release-managers].
 
-در گذشته، برای درخواست‌های pull که با هدف تعیین نقطه عطف (milestone-targeted) انجام می‌شدند، الزام باز بودن یک issue مرتبط در GitHub وجود داشت، اما دیگر این‌طور نیست.
-ویژگی‌ها یا بهبودها عملاً مشکلات گیت‌هاب یا [KEPها] هستند.[keps] که منجر به PR های بعدی می شود.
+در گذشته، برای درخواست‌های pull که با هدف تعیین نقطه عطف milestone-targeted انجام می‌شدند، الزام باز بودن یک issue مرتبط در GitHub وجود داشت، اما دیگر این‌طور نیست.
+ویژگی‌ها یا بهبودها عملاً مشکلات گیت‌هاب یا [KEP] هستند.[keps] که منجر به PR های بعدی می شود.
 
 فرآیند کلی برچسب‌گذاری باید در بین انواع مصنوعات سازگار باشد.
 
@@ -84,10 +84,10 @@ auto_generated: true
 
 - *صاحبان مسئله*: ایجادکننده، واگذارکنندگان و کاربری که مسئله را به مرحله انتشار رسانده است
 
-- *تیم انتشار*: هر نسخه Kubernetes دارای تیمی است که مدیریت پروژه را انجام می‌دهد.
+- *release-team*: هر نسخه Kubernetes دارای تیمی است که مدیریت پروژه را انجام می‌دهد.
   وظایف شرح داده شده [اینجا][release-team].
 
-  Tاطلاعات تماس تیم مرتبط با هر نسخه منتشر شده را می‌توان یافت.
+  اطلاعات تماس تیم مرتبط با هر نسخه منتشر شده را می‌توان یافت.
   [اینجا](https://git.k8s.io/sig-release/releases/).
 
 - *Y days*: مربوط به روزهای کاری است
@@ -138,16 +138,15 @@ auto_generated: true
 با تعریف مداوم ویژگی‌ها در طول سال، مجموعه‌ای از موارد به صورت حبابی ظاهر می‌شوند که هدفشان انتشار یک نسخه خاص است. **[توقف پیشرفت‌ها][enhancements-freeze]**
 تقریباً ۴ هفته پس از شروع چرخه انتشار شروع می‌شود. تا این مرحله، تمام کارهای مربوط به ویژگی‌های مورد نظر برای انتشار مورد نظر، در مصنوعات برنامه‌ریزی مناسب، همراه با [سرپرست بهبودها] تیم انتشار، تعریف شده‌اند.(https://git.k8s.io/sig-release/release-team/role-handbooks/enhancements/README.md).
 
-After Enhancements Freeze, tracking milestones on PRs and issues is important.
-Items within the milestone are used as a punchdown list to complete the
-release. *On issues*, milestones must be applied correctly, via triage by the
-SIG, so that [Release Team][release-team] can track bugs and enhancements (any
-enhancement-related issue needs a milestone).
+پس از انجماد بهبودها (Enhancements Freeze)، پیگیری مایل‌استون‌ها (milestones) در Pull Requestها و Issueها اهمیت زیادی دارد. مواردی که درون یک مایل‌استون قرار دارند، به عنوان یک لیست انجام (punchdown list) برای تکمیل نسخه انتشار مورد استفاده قرار می‌گیرند.
 
-There is some automation in place to help automatically assign milestones to
-PRs.
+در مورد Issueها، مایل‌استون‌ها باید به‌درستی اعمال شوند؛ این کار باید از طریق triage توسط گروه SIG انجام شود تا [تیم انتشار [Release Team][release-team] بتواند باگ‌ها و بهبودها را دنبال کند.
+(هر Issue مرتبط با بهبود باید حتماً دارای یک مایل‌استون باشد.)
 
-This automation currently applies to the following repos:
+
+نوعی اتوماسیون برای کمک به اختصاص خودکار نقاط عطف به PRها وجود دارد.
+
+این اتوماسیون در حال حاضر برای مخازن زیر اعمال می‌شود:
 
 - `kubernetes/enhancements`
 - `kubernetes/kubernetes`
@@ -155,186 +154,137 @@ This automation currently applies to the following repos:
 - `kubernetes/sig-release`
 - `kubernetes/test-infra`
 
-At creation time, PRs against the `master` branch need humans to hint at which
-milestone they might want the PR to target. Once merged, PRs against the
-`master` branch have milestones auto-applied so from that time onward human
-management of that PR's milestone is less necessary. On PRs against release
-branches, milestones are auto-applied when the PR is created so no human
-management of the milestone is ever necessary.
+ددر زمان ایجاد، Pull Requestهایی که به شاخه `master` ارسال می‌شوند نیاز دارند که افراد به صورت دستی مشخص کنند که این PR باید به کدام مایل‌استون (milestone) اختصاص یابد.
+پس از Merge شدن، این PRها به‌طور خودکار `master` دریافت می‌کنند و از آن به بعد نیازی به مدیریت دستی مایل‌استون توسط انسان نیست.
 
-Any other effort that should be tracked by the Release Team that doesn't fall
-under that automation umbrella should be have a milestone applied.
+برای PRهایی که به شاخه‌های نسخه (release branches) ارسال می‌شوند، مایل‌استون‌ها به‌صورت خودکار در لحظه ایجاد PR اعمال می‌شوند؛ بنابراین هیچ‌گونه مدیریت دستی برای مایل‌استون در این موارد لازم نیست.
 
-Implementation and bug fixing is ongoing across the cycle, but culminates in a
-code freeze period.
 
-**[Code Freeze][code-freeze]** starts in week ~12 and continues for ~2 weeks.
-Only critical bug fixes are accepted into the release codebase during this
-time.
+هر تلاش یا فعالیت دیگری که باید توسط تیم انتشار (Release Team) پیگیری شود اما تحت پوشش خودکارسازی قرار نمی‌گیرد، باید دارای یک مایل‌استون (milestone) مشخص باشد.
 
-There are approximately two weeks following Code Freeze, and preceding release,
-during which all remaining critical issues must be resolved before release.
-This also gives time for documentation finalization.
+پیاده‌سازی (Implementation) و رفع باگ (bug fixing) در طول چرخه انتشار به‌طور مداوم انجام می‌شود، اما در نهایت به یک دوره‌ی انجماد کد (code freeze) ختم می‌شود.
 
-When the code base is sufficiently stable, the master branch re-opens for
-general development and work begins there for the next release milestone. Any
-remaining modifications for the current release are cherry picked from master
-back to the release branch. The release is built from the release branch.
 
-Each release is part of a broader Kubernetes lifecycle:
+**[Code Freeze][code-freeze]** تقریباً در هفته دوازدهم آغاز می‌شود و حدود دو هفته ادامه دارد.
+در این بازه زمانی، تنها رفع باگ‌های بحرانی به مخزن کد انتشار اضافه می‌شوند.
 
-![Image of Kubernetes release lifecycle spanning three releases](/images/releases/release-lifecycle.jpg)
 
-## Removal Of Items From The Milestone
+حدود دو هفته پس از Code Freeze و پیش از release وجود دارد که در این مدت باید تمامی مشکلات بحرانی باقی‌مانده حل شوند. این بازه زمانی همچنین فرصت نهایی‌سازی مستندات را فراهم می‌کند.
 
-Before getting too far into the process for adding an item to the milestone,
-please note:
+زمانی که کدبیس به اندازه کافی پایدار شد، شاخه master برای توسعه عمومی باز می‌شود و کار روی milestone بعدی انتشار در آن آغاز می‌شود. هر تغییر باقی‌مانده برای انتشار فعلی از شاخه master به شاخه release به صورت cherry pick منتقل می‌شود. انتشار از شاخه release ساخته می‌شود.
 
-Members of the [Release Team][release-team] may remove issues from the
-milestone if they or the responsible SIG determine that the issue is not
-actually blocking the release and is unlikely to be resolved in a timely
-fashion.
+هر release بخشی از چرخه‌ی عمر گسترده‌تر Kubernetes است:
 
-Members of the Release Team may remove PRs from the milestone for any of the
-following, or similar, reasons:
+![تصویر چرخه عمر انتشار Kubernetes که سه نسخه را پوشش می‌دهد](/images/releases/release-lifecycle.jpg)
 
-- PR is potentially de-stabilizing and is not needed to resolve a blocking
-  issue
-- PR is a new, late feature PR and has not gone through the enhancements
-  process or the [exception process][exceptions]
-- There is no responsible SIG willing to take ownership of the PR and resolve
-  any follow-up issues with it
-- PR is not correctly labelled
-- Work has visibly halted on the PR and delivery dates are uncertain or late
+## حذف موارد از Milestone
 
-While members of the Release Team will help with labelling and contacting
-SIG(s), it is the responsibility of the submitter to categorize PRs, and to
-secure support from the relevant SIG to guarantee that any breakage caused by
-the PR will be rapidly resolved.
+قبل از پیش رفتن زیاد در روند افزودن یک مورد به milestone، لطفاً توجه کنید:
+اعضای تیم [Release Team][release-team] می‌توانند مسائل را از milestone حذف کنند اگر خودشان یا SIG مسئول تشخیص دهند که آن مسئله در واقع مانع انتشار نیست و احتمال حل شدن به موقع آن کم است.
 
-Where additional action is required, an attempt at human to human escalation
-will be made by the Release Team through the following channels:
+اعضای تیم Release Team ممکن است PRها را از milestone به دلایل زیر یا دلایل مشابه حذف کنند:
 
-- Comment in GitHub mentioning the SIG team and SIG members as appropriate for
-  the issue type
-- Emailing the SIG mailing list
-  - bootstrapped with group email addresses from the
+- PR ممکن است باعث ناپایداری شود و برای حل یک مشکل مسدودکننده ضروری نباشد.
+
+- PR یک ویژگی جدید و دیرهنگام است و از فرآیند بهبودها یا [exception process][exceptions] عبور نکرده است.
+- هیچ SIG مسئول و آماده‌ای برای قبول مالکیت PR و حل مشکلات پیگیری‌کننده آن وجود ندارد.
+-PR به درستی برچسب‌گذاری نشده است.
+-کار روی PR به‌وضوح متوقف شده است و تاریخ‌های تحویل نامشخص یا دیر شده‌اند.
+
+در حالی که اعضای تیم Release Team در برچسب‌گذاری و تماس با SIGها کمک می‌کنند، مسئولیت دسته‌بندی PRها و جلب حمایت از SIG مربوطه بر عهده ارسال‌کننده است تا تضمین شود که هر مشکلی که توسط PR ایجاد شود، به سرعت حل خواهد شد.
+
+در مواردی که اقدامات بیشتری لازم باشد، تیم Release Team از طریق کانال‌های زیر تلاش خواهد کرد تا از طریق ارتباط انسانی به انسانی موضوع را پیگیری کند.:
+
+- ثبت کامنت در GitHub با ذکر نام تیم SIG و اعضای SIG مربوطه بسته به نوع مسئله.
+- ارسال ایمیل به لیست پستی SIG
+  - راه‌اندازی شده با آدرس‌های ایمیل گروهی از
     [community sig list][sig-list]
-  - optionally also directly addressing SIG leadership or other SIG members
-- Messaging the SIG's Slack channel
-  - bootstrapped with the slackchannel and SIG leadership from the
+  - اختیاری، همچنین مستقیماً خطاب قرار دادن رهبری SIG یا سایر اعضای SIG
+- ارسال پیام به کانال Slack تیم SIG
+  -راه‌اندازی شده با کانال Slack و رهبری SIG از
     [community sig list][sig-list]
-  - optionally directly "@" mentioning SIG leadership or others by handle
+  - اختیاری، به‌صورت مستقیم با استفاده از علامت "@" رهبری SIG یا سایر اعضا را با شناسه‌شان ذکر کردن
+  
 
-## Adding An Item To The Milestone
+## اضافه کردن موارد جدید به Milestone
 
-### Milestone Maintainers
+
+### بررسی Milestone
 
 The members of the [`milestone-maintainers`](https://github.com/orgs/kubernetes/teams/milestone-maintainers/members)
 GitHub team are entrusted with the responsibility of specifying the release
 milestone on GitHub artifacts.
+اعضای گروه [`milestone-maintainers`](https://github.com/orgs/kubernetes/teams/milestone-maintainers/members)
+گره github  این مسعولیت را بر عهده داردند که اپدیت ها و artifact  خای جدید را بروز رسانی کنند 
+[maintained](https://git.k8s.io/sig-release/release-team/README.md#milestone-maintainers) بررسی میشنود و اخرین اپدیت های leadership  ها در این جا قرار میگیرینداین گروه توسط 
 
-This group is [maintained](https://git.k8s.io/sig-release/release-team/README.md#milestone-maintainers)
-by SIG Release and has representation from the various SIGs' leadership.
+اضافه کردن مرحله انتشار در حال انجام به  pull request  پس از توقف کد اکیداً ممنوع است، زیرا می‌تواند پایداری نسخه را به خطر بیندازد. قبل از اعمال چنین تغییراتی، باید از سرپرست تیم انتشار و مشاور  تأییدیه گرفته شود.
 
-Adding the in-progress release milestone to pull requests after the Code Freeze is strictly prohibited, as it can compromise the stability of the release. Prior to making such changes, approval must be obtained from both the Release Team Lead and the Emeritus Advisor(s).
+### ویژگی های اضافه شده
 
-### Feature additions
+برنامه‌ریزی و تعریف قابلیت‌ها امروزه به شکل‌های مختلفی انجام می‌شود، اما یک مثال رایج ممکن است یک کار بزرگ باشد که در قالب یک [KEP][keps] توصیف شده و دارای وظایف مرتبط در گیت‌هاب است.
+زمانی که این برنامه به حالت قابل اجرا می‌رسد و کار روی آن آغاز می‌شود، این قابلیت یا بخش‌هایی از آن برای یک نسخه آینده هدف‌گذاری می‌شود؛ به این صورت که مسائل (Issues) مربوطه در گیت‌هاب ایجاد شده و با استفاده از دستور /milestone در Prow علامت‌گذاری می‌شوند.
 
-Feature planning and definition takes many forms today, but a typical example
-might be a large piece of work described in a [KEP][keps], with associated task
-issues in GitHub. When the plan has reached an implementable state and work is
-underway, the enhancement or parts thereof are targeted for an upcoming milestone
-by creating GitHub issues and marking them with the Prow "/milestone" command.
+در حدود ۴ هفته‌ اول چرخه انتشار، مسئول ارتقاء (Enhancements Lead) در تیم انتشار با گروه‌های SIG و مالکان قابلیت‌ها از طریق گیت‌هاب، اسلک و جلسات SIG تعامل خواهد داشت تا تمام اسناد برنامه‌ریزی مورد نیاز را جمع‌آوری کند.
 
-For the first ~4 weeks into the release cycle, the Release Team's Enhancements
-Lead will interact with SIGs and feature owners via GitHub, Slack, and SIG
-meetings to capture all required planning artifacts.
+اگر قصد دارید یک قابلیت (Enhancement) را برای یک نسخه‌ی آینده هدف‌گذاری کنید، گفت‌و‌گو با رهبران گروه SIG خود و مسئول ارتقاء (Enhancements Lead) آن نسخه را آغاز کنید.
 
-If you have an enhancement to target for an upcoming release milestone, begin a
-conversation with your SIG leadership and with that release's Enhancements
-Lead.
+###  افزودن آیتم‌ها به لیست مسائل 
 
-### Issue additions
+مسائل (Issues) با استفاده از دستور /milestone در Prow به‌عنوان هدف‌گذاری‌شده برای یک نسخه مشخص علامت‌گذاری می‌شوند.
 
-Issues are marked as targeting a milestone via the Prow "/milestone" command.
+رهبر تیم انتشار با عنوان  [Bug Triage Lead](https://git.k8s.io/sig-release/release-team/role-handbooks/bug-triage/README.md)و همچنین کل جامعه، مسائل ورودی را زیر نظر گرفته و آن‌ها را دسته‌بندی می‌کنند، همان‌طور که در بخش راهنمای مشارکت‌کنندگان درباره‌ی [issue triage](https://k8s.dev/docs/guide/issue-triage/). توضیح داده شده است.
 
-The Release Team's [Bug Triage Lead](https://git.k8s.io/sig-release/release-team/role-handbooks/bug-triage/README.md)
-and overall community watch incoming issues and triage them, as described in
-the contributor guide section on
-[issue triage](https://k8s.dev/docs/guide/issue-triage/).
+علامت‌گذاری مسائل (Issues) با نسخه (milestone) دید بهتری به جامعه ارائه می‌دهد تا بدانند یک مسئله کی مشاهده شده و تا چه زمانی جامعه احساس می‌کند باید حل شود. در طول دوره‌ی [Code Freeze][code-freeze]، برای ادغام یک PR حتماً باید یک نسخه (milestone) تعیین شود.
 
-Marking issues with the milestone provides the community better visibility
-regarding when an issue was observed and by when the community feels it must be
-resolved. During [Code Freeze][code-freeze], a milestone must be set to merge
-a PR.
+open issue دیگر برای ایجاد یک PR ضروری نیست، اما مسائل باز و PRهای مرتبط باید برچسب‌های هماهنگ داشته باشند. به عنوان مثال، ممکن است یک باگ با اولویت بالا تا زمانی که PR مرتبط آن فقط با برچسب اولویت پایین علامت‌گذاری شده است، ادغام نشود.
 
-An open issue is no longer required for a PR, but open issues and associated
-PRs should have synchronized labels. For example a high priority bug issue
-might not have its associated PR merged if the PR is only marked as lower
-priority.
+### PR افزایش
 
-### PR Additions
+PRها با استفاده از دستور /milestone در Prow به‌عنوان هدف‌گذاری‌شده برای یک milestone علامت‌گذاری می‌شوند.
 
-PRs are marked as targeting a milestone via the Prow "/milestone" command.
+این یک الزام مسدودکننده (blocking requirement) در طول Code Freeze است، همان‌طور که در بالا توضیح داده شد.
 
-This is a blocking requirement during Code Freeze as described above.
+## سایر برچسب های مورد نیاز
 
-## Other Required Labels
+[در اینجا فهرست برچسب‌ها و کاربرد و هدف هر کدام آمده است.](https://git.k8s.io/test-infra/label_sync/labels.md#labels-that-apply-to-all-repos-for-both-issues-and-prs)
 
-[Here is the list of labels and their use and purpose.](https://git.k8s.io/test-infra/label_sync/labels.md#labels-that-apply-to-all-repos-for-both-issues-and-prs)
+### برچسب SIG Owner
 
-### SIG Owner Label
+برچسب SIG owner نشان‌دهنده گروه SIG است که در صورت طولانی شدن رسیدگی به یک milestone issue یا نیاز به توجه بیشتر، مسئله به آن‌ها ارجاع داده می‌شود. اگر پس از ارجاع هیچ به‌روزرسانی‌ای صورت نگیرد، ممکن است آن issue به‌صورت خودکار از milestone حذف شود.
 
-The SIG owner label defines the SIG to which we escalate if a milestone issue
-is languishing or needs additional attention. If there are no updates after
-escalation, the issue may be automatically removed from the milestone.
+این برچسب‌ها با دستور /sig در Prow اضافه می‌شوند. به‌عنوان مثال، برای اضافه کردن برچسبی که نشان دهد SIG Storage مسئول است، کافی است کامنتی با متن /sig storage ارسال کنید.
 
-These are added with the Prow "/sig" command. For example to add the label
-indicating SIG Storage is responsible, comment with `/sig storage`.
+### الویت برچسب ها 
 
-### Priority Label
+برچسب‌های Priority برای تعیین مسیر ارجاع (escalation path) قبل از حذف مسائل از release milestone استفاده می‌شوند. همچنین این برچسب‌ها مشخص می‌کنند که آیا انتشار (release) باید تا حل شدن آن مسئله متوقف شود یا خیر.
 
-Priority labels are used to determine an escalation path before moving issues
-out of the release milestone. They are also used to determine whether or not a
-release should be blocked on the resolution of the issue.
+- `priority/critical-urgent`:هرگز به‌صورت خودکار مسئله را از release milestone خارج نکنید؛ بلکه به‌طور مستمر از طریق تمامی کانال‌های موجود، موضوع را به contributor و SIG ارجاع دهید.
+  - به‌عنوان یک مسئله مسدودکننده (release blocking issue) در نظر گرفته می‌شود
+  - در طول [Code Freeze][code-freeze] نیازمند به‌روزرسانی روزانه از سوی مالکان issue است.
+  - اگر تا پس از انتشار نسخه جزئی کشف نشود، نیاز به انتشار یک patch release خواهد داشت.
+- `priority/important-soon`: موضوع را به مالکان issue و SIG owner ارجاع دهید؛ در صورت چندین تلاش ناموفق برای ارجاع، مسئله را از milestone خارج کنید.
+  - به‌عنوان یک مسئله مسدودکننده‌ی release در نظر گرفته نمی‌شود.
+  - نیاز به انتشار patch release ندارد.
+  - پس از گذشت دورهٔ ۴ روزهٔ مهلت (grace period) در طول Code Freeze، به‌طور خودکار از release milestone خارج خواهد شد.
+- `priority/important-longterm`: موضوع را به مالکان issue ارجاع دهید؛ پس از یک بار تلاش، مسئله را از milestone خارج کنید.
+  - حتی کمتر فوری / بحرانی از `priority/important-soon`
+  - از milestone با شدت بیشتری خارج شود نسبت به `priority/important-soon`
 
-- `priority/critical-urgent`: Never automatically move out of a release
-  milestone; continually escalate to contributor and SIG through all available
-  channels.
-  - considered a release blocking issue
-  - requires daily updates from issue owners during [Code Freeze][code-freeze]
-  - would require a patch release if left undiscovered until after the minor
-    release
-- `priority/important-soon`: Escalate to the issue owners and SIG owner; move
-  out of milestone after several unsuccessful escalation attempts.
-  - not considered a release blocking issue
-  - would not require a patch release
-  - will automatically be moved out of the release milestone at Code Freeze
-    after a 4 day grace period
-- `priority/important-longterm`: Escalate to the issue owners; move out of the
-  milestone after 1 attempt.
-  - even less urgent / critical than `priority/important-soon`
-  - moved out of milestone more aggressively than `priority/important-soon`
+### برچسب Kind برای Issue/PR
 
-### Issue/PR Kind Label
+برچسب kind برای کمک به شناسایی نوع تغییراتی که در طول زمان وارد release می‌شوند استفاده می‌شود. این موضوع به تیم انتشار کمک می‌کند تا درک بهتری از نوع مسائلی که ممکن است در صورت سرعت بالاتر چرخه انتشار از دست بروند، پیدا کند.
 
-The issue kind is used to help identify the types of changes going into the
-release over time. This may allow the Release Team to develop a better
-understanding of what sorts of issues we would miss with a faster release
-cadence.
+برای مسائل هدف‌گذاری‌شده در release، از جمله pull requestها، باید یکی از برچسب‌های kind زیر تنظیم شود:
 
-For release targeted issues, including pull requests, one of the following
-issue kind labels must be set:
-
-- `kind/api-change`: Adds, removes, or changes an API
-- `kind/bug`: Fixes a newly discovered bug.
-- `kind/cleanup`: Adding tests, refactoring, fixing old bugs.
-- `kind/design`: Related to design
-- `kind/documentation`: Adds documentation
-- `kind/failing-test`: CI test case is failing consistently.
-- `kind/feature`: New functionality.
-- `kind/flake`: CI test case is showing intermittent failures.
+- `kind/api-change`:افزودن، حذف یا تغییر یک API
+- `kind/bug`: یک اشکال تازه کشف شده را برطرف می‌کند.
+- `kind/cleanup`: اضافه کردن تست‌ها، ریفکتورینگ، رفع اشکالات قدیمی.
+- `kind/design`: مربوط به طراحی
+- `kind/documentation`:اسناد را اضافه می کند
+- `kind/failing-test`:مورد آزمایشی CI به طور مداوم شکست می‌خورد.
+- `kind/feature`: عملکرد جدید.
+- `kind/flake`:مورد آزمایشی CI به طور متناوب دچار خطا می‌شود.
 
 [cherry-picks]: https://git.k8s.io/community/contributors/devel/sig-release/cherry-picks.md
 [code-freeze]: https://git.k8s.io/sig-release/releases/release_phases.md#code-freeze
