@@ -1,198 +1,177 @@
 ---
-title: Viewing Pods and Nodes
+title: مشاهده Pods و گره‌ها
 weight: 10
 ---
 
 ## {{% heading "objectives" %}}
 
-* Learn about Kubernetes Pods.
-* Learn about Kubernetes Nodes.
-* Troubleshoot deployed applications.
+* درباره Kubernetes Pods اطلاعات کسب کنید.
+* با Nodes Kubernetes آشنا شوید.
+* عیب یابی برنامه های مستقر شده.
 
 ## Kubernetes Pods
 
 {{% alert %}}
-_A Pod is a group of one or more application containers (such as Docker) and includes
-shared storage (volumes), IP address and information about how to run them._
+_یک  Pod گروهی از یک یا چند کانتینر برنامه (مانند داکر) است و شامل فضای ذخیره‌سازی مشترک (volumes)، آدرس IP و اطلاعاتی در مورد نحوه اجرای آنها می‌شود.
+._
 {{% /alert %}}
 
-When you created a Deployment in [Module 2](/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/),
-Kubernetes created a **Pod** to host your application instance. A Pod is a Kubernetes
-abstraction that represents a group of one or more application containers (such as Docker),
-and some shared resources for those containers. Those resources include:
 
-* Shared storage, as Volumes
-* Networking, as a unique cluster IP address
-* Information about how to run each container, such as the container image version
-or specific ports to use
+وقتی در [Module 2](/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/) یک Deployment ایجاد کردید، Kubernetes یک **Pod** برای میزبانی instance برنامه شما ایجاد کرد. یک Pod یک انتزاع Kubernetes است که گروهی از یک یا چند کانتینر برنامه (مانند Docker) و برخی منابع مشترک برای آن کانتینرها را نشان می‌دهد. این منابع عبارتند از:
 
-A Pod models an application-specific "logical host" and can contain different application
-containers which are relatively tightly coupled. For example, a Pod might include
-both the container with your Node.js app as well as a different container that feeds
-the data to be published by the Node.js webserver. The containers in a Pod share an
-IP Address and port space, are always co-located and co-scheduled, and run in a shared
-context on the same Node.
+* فضای ذخیره‌سازی مشترک، به عنوان Volumeها
+* شبکه، به عنوان یک   cluster IP address منحصر به فرد
+* اطلاعات مربوط به نحوه اجرای هر کانتینر، مانند نسخه image container
+یا پورت‌های خاص برای استفاده
 
-Pods are the atomic unit on the Kubernetes platform. When we create a Deployment
-on Kubernetes, that Deployment creates Pods with containers inside them (as opposed
-to creating containers directly). Each Pod is tied to the Node where it is scheduled,
-and remains there until termination (according to restart policy) or deletion. In
-case of a Node failure, identical Pods are scheduled on other available Nodes in
-the cluster.
 
-### Pods overview
+یک Pod یک "میزبان منطقی" مختص برنامه را مدل‌سازی می‌کند و می‌تواند شامل کانتینرهای برنامه مختلفی باشد که نسبتاً به هم متصل هستند. به عنوان مثال، یک Pod ممکن است شامل کانتینری با برنامه Node.js شما و همچنین کانتینر دیگری باشد که داده‌هایی را که قرار است توسط وب سرور Node.js منتشر شود، تغذیه می‌کند. کانتینرهای موجود در یک Pod یک آدرس IP و فضای پورت را به اشتراک می‌گذارند، همیشه در یک مکان و زمان‌بندی مشترک قرار دارند و در یک زمینه مشترک در همان Node اجرا می‌شوند.
+
+
+پادها (Pods) واحدهای اتمی در پلتفرم Kubernetes هستند. وقتی ما یک Deployment در Kubernetes ایجاد می‌کنیم، آن Deployment پادهایی را با کانتینرهایی درون آنها ایجاد می‌کند (برخلاف ایجاد مستقیم کانتینرها). هر پاد به Node که در آن برنامه‌ریزی شده است، متصل است و تا زمان خاتمه (طبق restart policy) یا حذف، در آنجا باقی می‌ماند. در صورت خرابی یک Node پادهای مشابه روی سایر گره‌های موجود در Node برنامه‌ریزی می‌شوند.
+
+
+### Pods نمای کلی
 
 {{< figure src="/docs/tutorials/kubernetes-basics/public/images/module_03_pods.svg" class="diagram-medium" >}}
 
 {{% alert %}}
-_Containers should only be scheduled together in a single Pod if they are tightly
-coupled and need to share resources such as disk._
+_کانتینرها فقط در صورتی باید با هم در یک Pod زمان‌بندی شوند که به شدت به هم وابسته باشند و نیاز به اشتراک منابعی مانند دیسک داشته باشند.._
 {{% /alert %}}
 
 ## Nodes
 
-A Pod always runs on a **Node**. A Node is a worker machine in Kubernetes and may
-be either a virtual or a physical machine, depending on the cluster. Each Node is
-managed by the control plane. A Node can have multiple pods, and the Kubernetes
-control plane automatically handles scheduling the pods across the Nodes in the
-cluster. The control plane's automatic scheduling takes into account the available
-resources on each Node.
+یک پاد همیشه روی یک **Node** اجرا می‌شود. یک گره یک ماشین worker در Kubernetes است و بسته به کلاستر، می‌تواند یک ماشین مجازی یا فیزیکی باشد. هر Node توسط control plane مدیریت می‌شود. یک گره می‌تواند چندین پاد داشته باشد و control plane  Kubernetes به طور خودکار زمان‌بندی پادها را در بین Node موجود در کلاستر مدیریت می‌کند. زمان‌بندی خودکار control plane ، منابع موجود در هر Node را در نظر می‌گیرد.
 
-Every Kubernetes Node runs at least:
+هر Node Kubernetes حداقل موارد زیر را اجرا می‌کند:
 
-* Kubelet, a process responsible for communication between the Kubernetes control
-plane and the Node; it manages the Pods and the containers running on a machine.
+* Kubelet، فرآیندی که مسئول ارتباط بین   Kubernetes control و Node است؛ این فرآیند، Podها و کانتینرهای در حال اجرا روی یک دستگاه را مدیریت می‌کند.
+plane وNode؛ Podها و کانتینرهای در حال اجرا روی یک دستگاه را مدیریت می‌کند.
 
-* A container runtime (like Docker) responsible for pulling the container image
-from a registry, unpacking the container, and running the application.
+* یک container runtime (مانند داکر) که مسئول دریافت container image از رجیستری، باز کردن کانتینر و اجرای برنامه است.
 
-### Nodes overview
+
+### Nodes بررسی
 
 {{< figure src="/docs/tutorials/kubernetes-basics/public/images/module_03_nodes.svg" class="diagram-medium" >}}
 
-## Troubleshooting with kubectl
+## عیب‌یابی با kubectl
 
-In [Module 2](/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/), you used
-the kubectl command-line interface. You'll continue to use it in Module 3 to get
-information about deployed applications and their environments. The most common
-operations can be done with the following kubectl subcommands:
 
-* `kubectl get` - list resources
-* `kubectl describe` - show detailed information about a resource
-* `kubectl logs`  - print the logs from a container in a pod
-* `kubectl exec` - execute a command on a container in a pod
+در [Module 2](/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/)، شما از رابط خط فرمان kubectl استفاده کردید. در Module ۳ نیز برای دریافت اطلاعات در مورد برنامه‌های مستقر شده و محیط‌های آنها، از آن استفاده خواهید کرد. رایج‌ترین عملیات را می‌توان با زیرفرمان‌های kubectl زیر انجام داد:
 
-You can use these commands to see when applications were deployed, what their current
-statuses are, where they are running and what their configurations are.
+* `kubectl get` - فهرست منابع
+* `kubectl describe` - نمایش اطلاعات دقیق در مورد یک منبع
+* `kubectl logs`  - چاپ گزارش‌ها از یک کانتینر در یک پاد
+* `kubectl exec` -اجرای یک دستور روی یک کانتینر در یک پاد
 
-Now that we know more about our cluster components and the command line, let's
-explore our application.
+شما می‌توانید از این دستورات برای مشاهده زمان استقرار برنامه‌ها، وضعیت فعلی آنها، محل اجرا و پیکربندی‌های آنها استفاده کنید.
 
-### Check application configuration
+حالا که اطلاعات بیشتری در مورد اجزای کلاستر و خط فرمان خود داریم، بیایید برنامه خود را بررسی کنیم.
 
-Let's verify that the application we deployed in the previous scenario is running.
-We'll use the `kubectl get` command and look for existing Pods:
+### تنظیمات برنامه را بررسی کنید
+
+بیایید بررسی کنیم که آیا برنامه‌ای که در سناریوی قبلی مستقر کردیم، در حال اجرا است یا خیر. ما از دستور `kubectl get` استفاده می‌کنیم و به دنبال Pod های موجود خواهیم گشت:
 
 ```shell
 kubectl get pods
 ```
 
-If no pods are running, please wait a couple of seconds and list the Pods again.
-You can continue once you see one Pod running.
 
-Next, to view what containers are inside that Pod and what images are used to build
-those containers we run the `kubectl describe pods` command:
+اگر هیچ پادی در حال اجرا نیست، لطفاً چند ثانیه صبر کنید و دوباره پادها را فهرست کنید.
+
+به محض اینکه یک پاد در حال اجرا را مشاهده کردید، می‌توانید ادامه دهید.
+
+در مرحله بعد، برای مشاهده اینکه چه کانتینرهایی درون آن پاد هستند و از چه images برای ساخت آن کانتینرها استفاده شده است، دستور `kubectl describe pods` را اجرا می‌کنیم:
 
 ```shell
 kubectl describe pods
 ```
 
-We see here details about the Pod’s container: IP address, the ports used and a
-list of events related to the lifecycle of the Pod.
 
-The output of the `describe` subcommand is extensive and covers some concepts that
-we didn’t explain yet, but don’t worry, they will become familiar by the end of this tutorial.
+در اینجا جزئیاتی در مورد کانتینر Pod مشاهده می‌کنیم: آدرس IP، پورت‌های مورد استفاده و فهرستی از رویدادهای مربوط به چرخه عمر Pod.
+
+خروجی زیردستور `describe` گسترده است و برخی از مفاهیمی را که هنوز توضیح نداده‌ایم، پوشش می‌دهد، اما نگران نباشید، تا پایان این آموزش با آنها آشنا خواهید شد.
+
 
 {{< note >}}
-The `describe` subcommand can be used to get detailed information about most of the
-Kubernetes primitives, including Nodes, Pods, and Deployments. The describe output is
-designed to be human readable, not to be scripted against.
+زیردستور `describe` می‌تواند برای دریافت اطلاعات دقیق در مورد اکثر اجزای اولیه Kubernetes، از جمله Nodeها، Podها و Deployments، مورد استفاده قرار گیرد. خروجی describe طوری طراحی شده است که برای انسان قابل خواندن باشد، نه اینکه بتوان روی آن اسکریپت نوشت.
 {{< /note >}}
 
-### Show the app in the terminal
+### نمایش برنامه در ترمینال
 
-Recall that Pods are running in an isolated, private network - so we need to proxy access
-to them so we can debug and interact with them. To do this, we'll use the `kubectl proxy`
-command to run a proxy in a **second terminal**. Open a new terminal window, and
-in that new terminal, run:
+به یاد داشته باشید که پادها در یک شبکه خصوصی و ایزوله اجرا می‌شوند - بنابراین ما باید به آنها دسترسی پروکسی داشته باشیم تا بتوانیم آنها را اشکال‌زدایی و با آنها تعامل داشته باشیم. برای انجام این کار، از دستور `kubectl proxy` برای اجرای یک پروکسی در **second terminal** استفاده خواهیم کرد. یک پنجره ترمینال جدید باز کنید و در آن ترمینال جدید، دستور زیر را اجرا کنید:
 
 ```shell
 kubectl proxy
 ```
 
-Now again, we'll get the Pod name and query that pod directly through the proxy.
-To get the Pod name and store it in the `POD_NAME` environment variable:
+حالا دوباره، نام پاد را دریافت می‌کنیم و آن پاد را مستقیماً از طریق پروکسی جستجو می‌کنیم.
+برای دریافت نام پاد و ذخیره آن در environment variable`POD_NAME`:
 
 ```shell
 export POD_NAME="$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')"
 echo Name of the Pod: $POD_NAME
 ```
 
-To see the output of our application, run a `curl` request:
+برای دیدن خروجی برنامه، یک درخواست `curl` اجرا کنید:
 
 ```shell
 curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME:8080/proxy/
 ```
 
-The URL is the route to the API of the Pod.
+URL مسیر دسترسی به API مربوط به Pod است.
 
 {{< note >}}
-We don't need to specify the container name, because we only have one container inside the pod.
+نیازی به مشخص کردن نام کانتینر نداریم، زیرا فقط یک کانتینر درون pod داریم
 {{< /note >}}
 
-### Executing commands on the container
+### اجرای دستورات روی کانتینر
 
-We can execute commands directly on the container once the Pod is up and running.
-For this, we use the `exec` subcommand and use the name of the Pod as a parameter.
-Let’s list the environment variables:
+می‌توانیم پس از راه‌اندازی و اجرای پاد، دستورات را مستقیماً روی کانتینر اجرا کنیم.
+
+برای این کار، از زیردستور `exec` استفاده می‌کنیم و نام پاد را به عنوان پارامتر وارد می‌کنیم.
+
+بیاییدenvironment variables را فهرست کنیم:
 
 ```shell
 kubectl exec "$POD_NAME" -- env
 ```
 
-Again, it's worth mentioning that the name of the container itself can be omitted
-since we only have a single container in the Pod.
 
-Next let’s start a bash session in the Pod’s container:
+باز هم، شایان ذکر است که نام خود کانتینر را می‌توان حذف کرد
+
+زیرا ما فقط یک کانتینر در Pod داریم.
+
+در مرحله بعد، بیایید یک ه bash session را در کانتینر Pod شروع کنیم:
 
 ```shell
 kubectl exec -ti $POD_NAME -- bash
 ```
 
-We have now an open console on the container where we run our NodeJS application.
-The source code of the app is in the `server.js` file:
+اکنون یک کنسول باز روی کانتینر داریم که برنامه NodeJS خود را در آن اجرا می‌کنیم. کد منبع برنامه در فایل `server.js` قرار دارد:
 
 ```shell
 cat server.js
 ```
 
-You can check that the application is up by running a curl command:
+با اجرای دستور curl می‌توانید بررسی کنید که برنامه در حال اجرا است:
 
 ```shell
 curl http://localhost:8080
 ```
 
 {{< note >}}
-Here we used `localhost` because we executed the command inside the NodeJS Pod.
-If you cannot connect to `localhost:8080`, check to make sure you have run the
-`kubectl exec` command and are launching the command from within the Pod.
+در اینجا ما از `localhost` استفاده کردیم زیرا دستور را درون NodeJS Pod اجرا کردیم.
+
+اگر نمی‌توانید به `localhost:8080` متصل شوید، بررسی کنید که دستور `kubectl exec` را اجرا کرده‌اید و دستور را از درون Pod اجرا می‌کنید.
 {{< /note >}}
 
-To close your container connection, type `exit`.
+برای بستن اتصال کانتینر، دستور `exit` را تایپ کنید.
 
 ## {{% heading "whatsnext" %}}
 
-* Tutorial
+* آموزش
 [Using A Service To Expose Your App](/docs/tutorials/kubernetes-basics/expose/expose-intro/).
-* Learn more about [Pods](/docs/concepts/workloads/pods/).
-* Learn more about [Nodes](/docs/concepts/architecture/nodes/).
+* بیشتر بدانید [Pods](/docs/concepts/workloads/pods/).
+* بیشتر بدانید [Nodes](/docs/concepts/architecture/nodes/).

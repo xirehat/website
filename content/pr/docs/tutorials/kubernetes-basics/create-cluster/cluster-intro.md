@@ -1,75 +1,67 @@
 ---
-title: Using Minikube to Create a Cluster
-weight: 10
+title: استفاده از minikube برای راه اندازی cluster
 ---
 
 ## {{% heading "objectives" %}}
 
-* Learn what a Kubernetes cluster is.
-* Learn what Minikube is.
-* Start a Kubernetes cluster on your computer.
+* بیاموزید که یک کلاستر Kubernetes چیست.
+* یاد بگیرید که minikube چیست.
+* یک کلاستر Kubernetes را روی رایانه خود راه‌اندازی کنید.
 
-## Kubernetes Clusters
+## کلاستر کوبرنتیز
 
 {{% alert %}}
-_Kubernetes is a production-grade, open-source platform that orchestrates
-the placement (scheduling) and execution of application containers
-within and across computer clusters._
+_کوبرنتیز یک پلتفرم متن‌باز در سطح production است که قرار دادن (زمان‌بندی) و اجرای کانتینرهای برنامه را در داخل و بین cluster سیستم هماهنگ می‌کند._
 {{% /alert %}}
 
-**Kubernetes coordinates a highly available cluster of computers that are connected
-to work as a single unit.** The abstractions in Kubernetes allow you to deploy
-containerized applications to a cluster without tying them specifically to individual
-machines. To make use of this new model of deployment, applications need to be packaged
-in a way that decouples them from individual hosts: they need to be containerized.
-Containerized applications are more flexible and available than in past deployment models,
-where applications were installed directly onto specific machines as packages deeply
-integrated into the host. **Kubernetes automates the distribution and scheduling of
-application containers across a cluster in a more efficient way.** Kubernetes is an
-open-source platform and is production-ready.
+**کوبرنتیز یک کلاستر با قابلیت دسترسی بالا از کامپیوترهای متصل به هم را هماهنگ می‌کند.
+به صورت یک واحد واحد کار کردن.** انتزاعات موجود در Kubernetes به شما امکان می‌دهد برنامه‌های کانتینر شده را بدون اتصال خاص آنها به دستگاه‌های منفرد، در یک cluster مستقر کنید. برای استفاده از این مدل جدید استقرار، برنامه‌ها باید به گونه‌ای بسته‌بندی شوند که از میزبان‌های منفرد جدا باشند: آنها باید کانتینریزه شوند.
+برنامه‌های کانتینر شده نسبت به مدل‌های استقرار گذشته انعطاف‌پذیرتر و در دسترس‌تر هستند,
+که در آن برنامه‌ها مستقیماً بر روی ماشین‌های خاص به عنوان بسته‌هایی که عمیقاً در میزبان ادغام شده بودند، نصب می‌شدند
+. **کوبرنتیز توزیع و زمان‌بندی کانتینرهای برنامه را در یک کلاستر به روشی کارآمدتر خودکار می‌کند.** کوبرنتیز یک پلتفرم متن‌باز است و آماده‌ی اجرا  می‌باشد.
 
-A Kubernetes cluster consists of two types of resources:
+یک کلاستر Kubernetes از دو نوع منبع تشکیل شده است:
 
-* The **Control Plane** coordinates the cluster
-* **Nodes** are the workers that run applications
+* **Control Plane** کلاستر را مدیریت میکند
+* **Nodes** سرور هایی هستند که برنامه ها بر روی ان قرار میگیرند
 
-### Cluster Diagram
+
+### Cluster نمودار
 
 {{< figure src="/docs/tutorials/kubernetes-basics/public/images/module_01_cluster.svg" style="width: 100%;" >}}
 
-**The Control Plane is responsible for managing the cluster.** The Control Plane
-coordinates all activities in your cluster, such as scheduling applications, maintaining
-applications' desired state, scaling applications, and rolling out new updates.
+**Control Plane وظیفه مدیریت cluster  هارا دارد**
+Control Plane تمام فعالیت های موجود در cluster  را میدریت میکند
+مثل برنامه ریزی برنامه ها نگهداری شرایط کلی و بزرگ کردن بروزرسانی برنامه ها، 
 
 {{% alert %}}
-_Control Planes manage the cluster and the nodes that are used to host the running
-applications._
+_Control Planes هم cluster  را مدیت میکند هم node های که بر روی ان برنامه ها در حال اجرا می باشند._
+
 {{% /alert %}}
+node  ها می تونن ماشین مجازی باشند یا سرور های فیزکی برای اینکه به عنوان worker  داخل کوبرنتیز.**هر node یک kubelet دارد برای مدیریتش و همچنین ارتباطش با control plane  یا node  اصلی.
+node  ها همچنین باید ابزاری برای مدیریت تسک های conatners  ها داشته باشند  مثله{{< glossary_tooltip text="containerd" term_id="containerd" >}} یا {{< glossary_tooltip term_id="cri-o" >}}
+یک کلاستر کوبرنتیزی که ترافیک محیط Production را مدیریت می‌کند، باید حداقل سه نود داشته باشد، زیرا اگر یکی از نودها از کار بیفتد، هم یک عضو از [etcd](/docs/concepts/architecture/#etcd) و هم یک نمونه از Control Plane از دست می‌رود و در نتیجه، پایداری و افزونگی (Redundancy) به خطر می‌افتد.
+شما می‌توانید با افزودن نودهای بیشتر به Control Plane، این ریسک را کاهش دهید.
 
-**A node is a VM or a physical computer that serves as a worker machine in a Kubernetes
-cluster.** Each node has a Kubelet, which is an agent for managing the node and
-communicating with the Kubernetes control plane. The node should also have tools for
-handling container operations, such as {{< glossary_tooltip text="containerd" term_id="containerd" >}}
-or {{< glossary_tooltip term_id="cri-o" >}}. A Kubernetes cluster that handles production
-traffic should have a minimum of three nodes because if one node goes down, both an
-[etcd](/docs/concepts/architecture/#etcd) member and a control plane instance are lost,
-and redundancy is compromised. You can mitigate this risk by adding more control plane nodes.
+**node  ها می تونن ماشین مجازی باشند یا سرور های فیزکی برای اینکه به عنوان worker  داخل کوبرنتیز.**هر node یک kubelet دارد برای مدیریتش و همچنین ارتباطش با control plane  یا node  اصلی.
+node  ها همچنین باید ابزاری برای مدیریت تسک های conatners  ها داشته باشند  مثله{{< glossary_tooltip text="containerd" term_id="containerd" >}} یا {{< glossary_tooltip term_id="cri-o" >}}
+یک کلاستر کوبرنتیزی که ترافیک محیط Production را مدیریت می‌کند، باید حداقل سه نود داشته باشد، زیرا اگر یکی از نودها از کار بیفتد، هم یک عضو از [etcd](/docs/concepts/architecture/#etcd) و هم یک نمونه از Control Plane از دست می‌رود و در نتیجه، پایداری و افزونگی (Redundancy) به خطر می‌افتد.
+شما می‌توانید با افزودن نودهای بیشتر به Control Plane، این ریسک را کاهش دهید..
 
-When you deploy applications on Kubernetes, you tell the control plane to start
-the application containers. The control plane schedules the containers to run on
-the cluster's nodes. **Node-level components, such as the kubelet, communicate
-with the control plane using the [Kubernetes API](/docs/concepts/overview/kubernetes-api/)**,
-which the control plane exposes. End users can also use the Kubernetes API directly
-to interact with the cluster.
+وقتی شما برنامه‌هایی را روی کوبرنتیز  مستقر می‌کنید، به   Control Plane دستور می‌دهید که کانتینرهای برنامه را راه‌اندازی کند. Control Plane این کانتینرها را روی نودهای cluster زمان‌بندی  می‌کند تا اجرا شوند.
+کامپوننت‌های سطح نود، مانند kubelet، از طریق [Kubernetes API](/docs/concepts/overview/kubernetes-api/)**,که توسط Control Plane   ارائه می‌شود، با Control Plane  ارتباط برقرار می‌کنند.
+کاربران نهایی نیز می‌توانند به طور مستقیم از Kubernetes API برای تعامل با کلاستر استفاده کنند.
 
-A Kubernetes cluster can be deployed on either physical or virtual machines. To
-get started with Kubernetes development, you can use Minikube. Minikube is a lightweight
-Kubernetes implementation that creates a VM on your local machine and deploys a
-simple cluster containing only one node. Minikube is available for Linux, macOS,
-and Windows systems. The Minikube CLI provides basic bootstrapping operations for
-working with your cluster, including start, stop, status, and delete.
+
+یک کلاستر کوبرنتیز را می‌توان هم روی ماشین‌های فیزیکی و هم روی ماشین‌های مجازی مستقر کرد.
+برای شروع توسعه با کوبرنتیز، می‌توانید از Minikube استفاده کنید.
+Minikube یک پیاده‌سازی سبک از کوبرنتیز است که یک ماشین مجازی روی سیستم محلی شما ایجاد کرده و یک کلاستر ساده با تنها یک نود راه‌اندازی می‌کند.
+
+Minikube برای سیستم‌عامل‌های لینوکس،  macOS و ویندوز در دسترس است.
+رابط خط فرمان Minikube (Minikube CLI) عملیات اولیه‌ای برای راه‌اندازی کلاستر فراهم می‌کند، از جمله دستورات:
+start (شروع)، stop ، status ، و delete .
 
 ## {{% heading "whatsnext" %}}
 
-* Tutorial [Hello Minikube](/docs/tutorials/hello-minikube/).
-* Learn more about [Cluster Architecture](/docs/concepts/architecture/).
+* آموزش [Hello Minikube](/docs/tutorials/hello-minikube/).
+* بیشتر بدانید [Cluster Architecture](/docs/concepts/architecture/).
