@@ -1,156 +1,136 @@
 ---
 reviewers:
-- sig-cluster-lifecycle
-title: Creating a cluster with kubeadm
-content_type: task
+- چرخه حیات cluster sig
+
+title: ایجاد یک کلاستر با kubeadm
+content_type: وظیفه
 weight: 30
 ---
 
 <!-- overview -->
 
 <img src="/images/kubeadm-stacked-color.png" align="right" width="150px"></img>
-Using `kubeadm`, you can create a minimum viable Kubernetes cluster that conforms to best practices.
-In fact, you can use `kubeadm` to set up a cluster that will pass the
-[Kubernetes Conformance tests](/blog/2017/10/software-conformance-certification/).
-`kubeadm` also supports other cluster lifecycle functions, such as
-[bootstrap tokens](/docs/reference/access-authn-authz/bootstrap-tokens/) and cluster upgrades.
+با استفاده از `kubeadm`، می‌توانید یک کلاستر Kubernetes با حداقل قابلیت اجرا ایجاد کنید که با بهترین شیوه‌ها مطابقت داشته باشد.
 
-The `kubeadm` tool is good if you need:
+در واقع، می‌توانید از `kubeadm` برای راه‌اندازی کلاستری استفاده کنید که آزمون‌های انطباق [Kubernetes Conformance tests](/blog/2017/10/software-conformance-certification/). را با موفقیت پشت سر بگذارد.
 
-- A simple way for you to try out Kubernetes, possibly for the first time.
-- A way for existing users to automate setting up a cluster and test their application.
-- A building block in other ecosystem and/or installer tools with a larger
-  scope.
+`kubeadm` همچنین از سایر توابع چرخه عمر کلاستر، مانند `[bootstrap tokens](/docs/reference/access-authn-authz/bootstrap-tokens/) و ارتقاء کلاستر پشتیبانی می‌کند.
 
-You can install and use `kubeadm` on various machines: your laptop, a set
-of cloud servers, a Raspberry Pi, and more. Whether you're deploying into the
-cloud or on-premises, you can integrate `kubeadm` into provisioning systems such
-as Ansible or Terraform.
+
+ابزار `kubeadm` در صورت نیاز به موارد زیر مفید است:
+
+- روشی ساده برای شما تا احتمالاً برای اولین بار Kubernetes را امتحان کنید.
+- روشی برای کاربران فعلی تا راه‌اندازی یک کلاستر را خودکار کرده و برنامه خود را آزمایش کنند.
+- یک بلوک سازنده در سایر اکوسیستم‌ها و/یا ابزارهای نصب با دامنه وسیع‌تر.
+
+شما می‌توانید `kubeadm` را روی دستگاه‌های مختلفی نصب و استفاده کنید: لپ‌تاپ، مجموعه‌ای از سرورهای ابری، رزبری پای و موارد دیگر. چه در حال استقرار در فضای ابری باشید و چه در محل، می‌توانید `kubeadm` را در سیستم‌های آماده‌سازی مانند Ansible یا Terraform ادغام کنید.
 
 ## {{% heading "prerequisites" %}}
 
-To follow this guide, you need:
+برای دنبال کردن این راهنما، شما نیاز دارید به:
 
-- One or more machines running a deb/rpm-compatible Linux OS; for example: Ubuntu or CentOS.
-- 2 GiB or more of RAM per machine--any less leaves little room for your apps.
-- At least 2 CPUs on the machine that you use as a control-plane node.
-- Full network connectivity among all machines in the cluster. You can use either a
-  public or a private network.
+- One or more machines running a deb/rpm-compatible Linux OS; - یک یا چند دستگاه که سیستم عامل لینوکس سازگار با deb/rpm را اجرا می‌کنند؛ به عنوان مثال: اوبونتو یا CentOS.
 
-You also need to use a version of `kubeadm` that can deploy the version
-of Kubernetes that you want to use in your new cluster.
+
+۲ گیگابایت یا بیشتر رم برای هر دستگاه - کمتر از این مقدار، فضای کمی برای برنامه‌های شما باقی می‌گذارد.
+
+
+حداقل ۲ پردازنده روی دستگاهی که به عنوان گره صفحه کنترل استفاده می‌کنید.
+
+
+اتصال کامل شبکه بین تمام دستگاه‌های موجود در خوشه. می‌توانید از یک شبکه عمومی یا خصوصی استفاده کنید.
+
+همچنین باید از نسخه‌ای از `kubeadm` استفاده کنید که بتواند نسخه Kubernetes مورد نظر شما را در کلاستر جدیدتان مستقر کند.
 
 [Kubernetes' version and version skew support policy](/docs/setup/release/version-skew-policy/#supported-versions)
-applies to `kubeadm` as well as to Kubernetes overall.
-Check that policy to learn about what versions of Kubernetes and `kubeadm`
-are supported. This page is written for Kubernetes {{< param "version" >}}.
+هم برای `kubeadm` و هم برای کل Kubernetes اعمال می‌شود.
 
-The `kubeadm` tool's overall feature state is General Availability (GA). Some sub-features are
-still under active development. The implementation of creating the cluster may change
-slightly as the tool evolves, but the overall implementation should be pretty stable.
+برای اطلاع از نسخه‌های Kubernetes و `kubeadm` که پشتیبانی می‌شوند، این سیاست را بررسی کنید. این صفحه برای Kubernetes نوشته شده است {{< param "version" >}}.
+
+
+وضعیت کلی ویژگی ابزار `kubeadm` در حالت دسترسی عمومی (GA) است. برخی از زیرویژگی‌ها هنوز در دست توسعه فعال هستند. پیاده‌سازی ایجاد خوشه ممکن است با تکامل ابزار کمی تغییر کند، اما پیاده‌سازی کلی باید کاملاً پایدار باشد.
 
 {{< note >}}
-Any commands under `kubeadm alpha` are, by definition, supported on an alpha level.
+هر دستوری که تحت `kubeadm alpha` باشد، طبق تعریف، در سطح آلفا پشتیبانی می‌شود.
 {{< /note >}}
 
 <!-- steps -->
 
 ## Objectives
 
-* Install a single control-plane Kubernetes cluster
-* Install a Pod network on the cluster so that your Pods can
-  talk to each other
+* نصب یک کلاستر Kubernetes با صفحه کنترل واحد
+* نصب یک شبکه Pod روی کلاستر به طوری که Pod های شما بتوانند با یکدیگر ارتباط برقرار کنند
 
-## Instructions
+## دستورالعمل ها
 
-### Preparing the hosts
+### آماده سازی میزبانان
 
-#### Component installation
+#### نصب کامپوننت
 
-Install a {{< glossary_tooltip term_id="container-runtime" text="container runtime" >}}
-and kubeadm on all the hosts. For detailed instructions and other prerequisites, see
-[Installing kubeadm](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
+یک {{< glossary_tooltip term_id="container-runtime" text="container runtime" >}}
+و kubeadm را روی همه میزبان‌ها نصب کنید. برای دستورالعمل‌های دقیق و سایر پیش‌نیازها، به [Installing kubeadm](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/). مراجعه کنید.
+
 
 {{< note >}}
-If you have already installed kubeadm, see the first two steps of the
-[Upgrading Linux nodes](/docs/tasks/administer-cluster/kubeadm/upgrading-linux-nodes)
-document for instructions on how to upgrade kubeadm.
+اگر قبلاً kubeadm را نصب کرده‌اید، برای دستورالعمل‌های مربوط به نحوه‌ی ارتقاء kubeadm، به دو مرحله‌ی اول سند [Upgrading Linux nodes](/docs/tasks/administer-cluster/kubeadm/upgrading-linux-nodes) مراجعه کنید.
 
-When you upgrade, the kubelet restarts every few seconds as it waits in a crashloop for
-kubeadm to tell it what to do. This crashloop is expected and normal.
-After you initialize your control-plane, the kubelet runs normally.
+
+
+وقتی شما ارتقا می‌دهید، kubelet هر چند ثانیه یک بار مجدداً راه‌اندازی می‌شود و در یک حلقه‌ی خرابی منتظر می‌ماند تا kubeadm به آن بگوید چه کاری انجام دهد. این حلقه‌ی خرابی مورد انتظار و طبیعی است.
+پس از اینکه صفحه کنترل خود را مقداردهی اولیه کردید، kubelet به طور عادی اجرا می‌شود.
 {{< /note >}}
 
 #### Network setup
 
-kubeadm similarly to other Kubernetes components tries to find a usable IP on
-the network interfaces associated with a default gateway on a host. Such
-an IP is then used for the advertising and/or listening performed by a component.
+kubeadm مشابه سایر اجزای Kubernetes سعی می‌کند یک IP قابل استفاده در رابط‌های شبکه مرتبط با یک دروازه پیش‌فرض روی یک میزبان پیدا کند. سپس چنین IP برای تبلیغات و/یا شنود انجام شده توسط یک جزء استفاده می‌شود.
 
-To find out what this IP is on a Linux host you can use:
+برای فهمیدن اینکه این IP در هاست لینوکس چیست، می‌توانید از دستور زیر استفاده کنید:
 
 ```shell
 ip route show # Look for a line starting with "default via"
 ```
 
 {{< note >}}
-If two or more default gateways are present on the host, a Kubernetes component will
-try to use the first one it encounters that has a suitable global unicast IP address.
-While making this choice, the exact ordering of gateways might vary between different
-operating systems and kernel versions.
+اگر دو یا چند default gateways روی میزبان وجود داشته باشد، یک جزء Kubernetes سعی می‌کند از اولین default gateways که با آن مواجه می‌شود و دارای یک آدرس IP جهانی تک‌پخشی مناسب است، استفاده کند. هنگام انجام این انتخاب، ترتیب دقیق default gateways ممکن است بین سیستم‌عامل‌ها و نسخه‌های هسته مختلف متفاوت باشد.
 {{< /note >}}
 
-Kubernetes components do not accept custom network interface as an option,
-therefore a custom IP address must be passed as a flag to all components instances
-that need such a custom configuration.
+اجزای Kubernetes رابط شبکه سفارشی را به عنوان یک گزینه نمی‌پذیرند، بنابراین یک آدرس IP سفارشی باید به عنوان یک پرچم به تمام نمونه‌های اجزایی که به چنین پیکربندی سفارشی نیاز دارند، ارسال شود.
 
 {{< note >}}
-If the host does not have a default gateway and if a custom IP address is not passed
-to a Kubernetes component, the component may exit with an error.
+اگر میزبان دروازه پیش‌فرض نداشته باشد و اگر یک آدرس IP سفارشی به یک جزء Kubernetes ارسال نشود، ممکن است آن جزء با خطا خارج شود.
 {{< /note >}}
 
-To configure the API server advertise address for control plane nodes created with both
-`init` and `join`, the flag `--apiserver-advertise-address` can be used.
-Preferably, this option can be set in the [kubeadm API](/docs/reference/config-api/kubeadm-config.v1beta4)
-as `InitConfiguration.localAPIEndpoint` and `JoinConfiguration.controlPlane.localAPIEndpoint`.
+برای پیکربندی آدرس تبلیغ سرور API برای گره‌های صفحه کنترل که با هر دو `init` و `join` ایجاد شده‌اند، می‌توان از پرچم `--apiserver-advertise-address` استفاده کرد.
 
-For kubelets on all nodes, the `--node-ip` option can be passed in
-`.nodeRegistration.kubeletExtraArgs` inside a kubeadm configuration file
-(`InitConfiguration` or `JoinConfiguration`).
+ترجیحاً، این گزینه می‌تواند در [kubeadm API](/docs/reference/config-api/kubeadm-config.v1beta4) به صورت `InitConfiguration.localAPIEndpoint` و `JoinConfiguration.controlPlane.localAPIEndpoint` تنظیم شود.
 
-For dual-stack see
-[Dual-stack support with kubeadm](/docs/setup/production-environment/tools/kubeadm/dual-stack-support).
+برای kubeletها روی همه گره‌ها، گزینه `--node-ip` را می‌توان در `.nodeRegistration.kubeletExtraArgs` درون یک فایل پیکربندی kubeadm (`InitConfiguration` یا `JoinConfiguration`) ارسال کرد.
 
-The IP addresses that you assign to control plane components become part of their X.509 certificates'
-subject alternative name fields. Changing these IP addresses would require
-signing new certificates and restarting the affected components, so that the change in
-certificate files is reflected. See
-[Manual certificate renewal](/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#manual-certificate-renewal)
-for more details on this topic.
+
+
+برای دو پشته‌سازی به [Dual-stack support with kubeadm](/docs/setup/production-environment/tools/kubeadm/dual-stack-support).مراجعه کنید.
+
+آدرس‌های IP که به اجزای صفحه کنترل اختصاص می‌دهید، بخشی از فیلدهای نام جایگزین موضوع گواهی‌های X.509 آنها می‌شوند. تغییر این آدرس‌های IP نیاز به امضای گواهی‌های جدید و راه‌اندازی مجدد اجزای آسیب‌دیده دارد، به طوری که تغییر در فایل‌های گواهی منعکس شود. برای جزئیات بیشتر در مورد این موضوع به [Manual certificate renewal](/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/#manual-certificate-renewal) مراجعه کنید.
+
 
 {{< warning >}}
-The Kubernetes project recommends against this approach (configuring all component instances
-with custom IP addresses). Instead, the Kubernetes maintainers recommend to setup the host network,
-so that the default gateway IP is the one that Kubernetes components auto-detect and use.
-On Linux nodes, you can use commands such as `ip route` to configure networking; your operating
-system might also provide higher level network management tools. If your node's default gateway
-is a public IP address, you should configure packet filtering or other security measures that
-protect the nodes and your cluster.
+پروژه Kubernetes این رویکرد (پیکربندی تمام نمونه‌های کامپوننت با آدرس‌های IP سفارشی) را توصیه نمی‌کند. در عوض، نگهدارندگان Kubernetes توصیه می‌کنند شبکه میزبان را طوری تنظیم کنید که IP ,default gateway  IP باشد که اجزای Kubernetes به طور خودکار آن را شناسایی و استفاده می‌کنند.
+در گره‌های لینوکس، می‌توانید از دستوراتی مانند `ip route` برای پیکربندی شبکه استفاده کنید. سیستم عامل شما ممکن است ابزارهای مدیریت شبکه سطح بالاتری را نیز ارائه دهد. اگر دروازه پیش‌فرض گره شما یک آدرس IP عمومی است، باید فیلتر کردن بسته‌ها یا سایر اقدامات امنیتی را که از گره‌ها و خوشه شما محافظت می‌کند، پیکربندی کنید.
 {{< /warning >}}
 
-### Preparing the required container images
+### آماده‌سازیcontainer images مورد نیاز
 
-This step is optional and only applies in case you wish `kubeadm init` and `kubeadm join`
-to not download the default container images which are hosted at `registry.k8s.io`.
+این مرحله اختیاری است و فقط در صورتی اعمال می‌شود که شما نخواهید `kubeadm init` و `kubeadm join` تصاویر کانتینر پیش‌فرض را که در `registry.k8s.io` میزبانی می‌شوند، دانلود کنند.
 
-Kubeadm has commands that can help you pre-pull the required images
-when creating a cluster without an internet connection on its nodes.
-See [Running kubeadm without an internet connection](/docs/reference/setup-tools/kubeadm/kubeadm-init#without-internet-connection)
-for more details.
 
-Kubeadm allows you to use a custom image repository for the required images.
-See [Using custom images](/docs/reference/setup-tools/kubeadm/kubeadm-init#custom-images)
-for more details.
+Kubeadm دستوراتی دارد که می‌تواند به شما در پیش‌دریافت تصاویر مورد نیاز هنگام ایجاد یک کلاستر بدون اتصال اینترنت روی گره‌های آن کمک کند.
+برای جزئیات بیشتر به [Running kubeadm without an internet connection](/docs/reference/setup-tools/kubeadm/kubeadm-init#without-internet-connection) مراجعه کنید.
+
+
+Kubeadm به شما امکان می‌دهد از یک مخزن image سفارشی برای تصاویر مورد نیاز استفاده کنید.
+برای جزئیات بیشتر به [Using custom images](/docs/reference/setup-tools/kubeadm/kubeadm-init#custom-images)مراجعه کنید.
+
+.
 
 ### Initializing your control-plane node
 
