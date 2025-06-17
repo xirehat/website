@@ -132,101 +132,97 @@ Kubeadm به شما امکان می‌دهد از یک مخزن image سفارش
 
 .
 
-### Initializing your control-plane node
+### مقداردهی اولیه control-plane node
 
-The control-plane node is the machine where the control plane components run, including
-{{< glossary_tooltip term_id="etcd" >}} (the cluster database) and the
-{{< glossary_tooltip text="API Server" term_id="kube-apiserver" >}}
-(which the {{< glossary_tooltip text="kubectl" term_id="kubectl" >}} command line tool
-communicates with).
+control-plane node, ماشینی است که اجزای صفحه کنترل، از جمله {{< glossary_tooltip term_id="etcd" >}} (پایگاه داده خوشه‌ای) و {{< glossary_tooltip text="API Server" term_id="kube-apiserver" >}} (که ابزار خط فرمان {{< glossary_tooltip text="kubectl" term_id="kubectl" >}} با آن ارتباط برقرار می‌کند) در آن اجرا می‌شوند.
 
-1. (Recommended) If you have plans to upgrade this single control-plane `kubeadm` cluster
-   to [high availability](/docs/setup/production-environment/tools/kubeadm/high-availability/)
-   you should specify the `--control-plane-endpoint` to set the shared endpoint for all control-plane nodes.
-   Such an endpoint can be either a DNS name or an IP address of a load-balancer.
-1. Choose a Pod network add-on, and verify whether it requires any arguments to
-   be passed to `kubeadm init`. Depending on which
-   third-party provider you choose, you might need to set the `--pod-network-cidr` to
-   a provider-specific value. See [Installing a Pod network add-on](#pod-network).
-1. (Optional) `kubeadm` tries to detect the container runtime by using a list of well
-   known endpoints. To use different container runtime or if there are more than one installed
-   on the provisioned node, specify the `--cri-socket` argument to `kubeadm`. See
-   [Installing a runtime](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-runtime).
+دارید این کلاستر واحد `kubeadm` در صفحه کنترل را به [high availability](/docs/setup/production-environment/tools/kubeadm/high-availability/) ارتقا دهید، باید `--control-plane-endpoint` را برای تنظیم endpoint مشترک برای همهcontrol-plane مشخص کنید. چنین نقطه پایانی می‌تواند یک نام DNS یا یک آدرس IP از یک load-balancer باشد.
 
-To initialize the control-plane node run:
+
+1. .دارید این کلاستر واحد `kubeadm` در صفحه کنترل را به [high availability](/docs/setup/production-environment/tools/kubeadm/high-availability/) ارتقا دهید، باید `--control-plane-endpoint` را برای تنظیم endpoint مشترک برای همهcontrol-plane مشخص کنید. چنین نقطه پایانی می‌تواند یک نام DNS یا یک آدرس IP از یک load-balancer باشد.
+
+یک افزونه شبکه Pod انتخاب کنید و بررسی کنید که آیا نیاز به ارسال آرگومان به `kubeadm init` دارد یا خیر. بسته به اینکه کدام ارائه‌دهنده شخص ثالث را انتخاب می‌کنید، ممکن است لازم باشد `--pod-network-cidr` را روی یک مقدار خاص ارائه‌دهنده تنظیم کنید. به [Installing a Pod network add-on](#pod-network) مراجعه کنید.
+1. Cیک افزونه شبکه Pod انتخاب کنید و بررسی کنید که آیا نیاز به ارسال آرگومان به `kubeadm init` دارد یا خیر. بسته به اینکه کدام ارائه‌دهنده شخص ثالث را انتخاب می‌کنید، ممکن است لازم باشد `--pod-network-cidr` را روی یک مقدار خاص ارائه‌دهنده تنظیم کنید. به [Installing a Pod network add-on](#pod-network) مراجعه کنید.
+
+۱. (اختیاری) `kubeadm` سعی می‌کند با استفاده از فهرستی از نقاط پایانی شناخته‌شده، زمان اجرای کانتینر را شناسایی کند. برای استفاده از زمان اجرای کانتینرهای مختلف یا اگر بیش از یک زمان اجرای کانتینر روی گره تأمین‌شده نصب شده است، آرگومان `--cri-socket` را برای `kubeadm` مشخص کنید. به [Installing a runtime](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-runtime) مراجعه کنید.
+
+برای مقداردهی اولیه گره صفحه کنترل، دستور زیر را اجرا کنید:
 
 ```bash
 kubeadm init <args>
 ```
 
-### Considerations about apiserver-advertise-address and ControlPlaneEndpoint
+### ملاحظاتی در مورد apiserver-advertise-address و ControlPlaneEndpoint
 
-While `--apiserver-advertise-address` can be used to set the advertised address for this particular
-control-plane node's API server, `--control-plane-endpoint` can be used to set the shared endpoint
-for all control-plane nodes.
+در حالی که می‌توان از `--apiserver-advertise-address` برای تنظیم آدرس تبلیغ‌شده برای سرور API این گره صفحه کنترل خاص استفاده کرد، `--control-plane-endpoint` می‌تواند برای تنظیم نقطه پایانی مشترک برای همهcontrol-plane nodes  استفاده شود.
 
-`--control-plane-endpoint` allows both IP addresses and DNS names that can map to IP addresses.
-Please contact your network administrator to evaluate possible solutions with respect to such mapping.
 
-Here is an example mapping:
+`--control-plane-endpoint` به آدرس‌های IP و نام‌های DNS اجازه می‌دهد تا به آدرس‌های IP نگاشت شوند. لطفاً برای ارزیابی راه‌حل‌های ممکن در رابطه با چنین نگاشتی، با مدیر شبکه خود تماس بگیرید.
+
+
+در اینجا یک نمونه نقشه برداری آورده شده است:
+
 
 ```
 192.168.0.102 cluster-endpoint
 ```
 
-Where `192.168.0.102` is the IP address of this node and `cluster-endpoint` is a custom DNS name that maps to this IP.
-This will allow you to pass `--control-plane-endpoint=cluster-endpoint` to `kubeadm init` and pass the same DNS name to
-`kubeadm join`. Later you can modify `cluster-endpoint` to point to the address of your load-balancer in a
-high availability scenario.
+که در آن `192.168.0.102` آدرس IP این گره و `cluster-endpoint` یک نام DNS سفارشی است که به این IP نگاشت می‌شود.
+این به شما امکان می‌دهد `--control-plane-endpoint=cluster-endpoint` را به `kubeadm init` ارسال کنید و همان نام DNS را به `kubeadm join` ارسال کنید. بعداً می‌توانید `cluster-endpoint` را تغییر دهید تا در سناریوی دسترسی بالا به آدرس متعادل‌کننده بار شما اشاره کند.
 
-Turning a single control plane cluster created without `--control-plane-endpoint` into a highly available cluster
-is not supported by kubeadm.
+تبدیل یک کلاستر صفحه کنترل که بدون `--control-plane-endpoint` ایجاد شده است به یک کلاستر با دسترسی بالا توسط kubeadm پشتیبانی نمی‌شود.
 
-### More information
 
-For more information about `kubeadm init` arguments, see the [kubeadm reference guide](/docs/reference/setup-tools/kubeadm/).
+### اطلاعات بیشتر
 
-To configure `kubeadm init` with a configuration file see
-[Using kubeadm init with a configuration file](/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file).
+برای اطلاعات بیشتر در مورد آرگومان‌های `kubeadm init`، به [Using kubeadm init with a configuration file](/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file).مراجعه کنید.
 
-To customize control plane components, including optional IPv6 assignment to liveness probe
-for control plane components and etcd server, provide extra arguments to each component as documented in
-[custom arguments](/docs/setup/production-environment/tools/kubeadm/control-plane-flags/).
 
-To reconfigure a cluster that has already been created see
-[Reconfiguring a kubeadm cluster](/docs/tasks/administer-cluster/kubeadm/kubeadm-reconfigure).
+برای سفارشی‌سازی اجزای صفحه کنترل، از جمله تخصیص اختیاری IPv6 به کاوشگر زنده بودن برای اجزای صفحه کنترل و سرور etcd، آرگومان‌های اضافی را برای هر جزء ارائه دهید، همانطور که در [custom arguments](/docs/setup/production-environment/tools/kubeadm/control-plane-flags/) مستند شده است.
 
-To run `kubeadm init` again, you must first [tear down the cluster](#tear-down).
 
-If you join a node with a different architecture to your cluster, make sure that your deployed DaemonSets
-have container image support for this architecture.
+برای پیکربندی مجدد کلاستری که قبلاً ایجاد شده است، به [Reconfiguring a kubeadm cluster](/docs/tasks/administer-cluster/kubeadm/kubeadm-reconfigure). مراجعه کنید.
 
-`kubeadm init` first runs a series of prechecks to ensure that the machine
-is ready to run Kubernetes. These prechecks expose warnings and exit on errors. `kubeadm init`
-then downloads and installs the cluster control plane components. This may take several minutes.
-After it finishes you should see:
+
+برای اجرای مجدد `kubeadm init`، ابتدا باید [tear down the cluster](#tear-down).
+
+
+اگر به node با معماری متفاوت با کلاستر خود متصل می‌شوید، مطمئن شوید که DaemonSetهای مستقر شده شما از image کانتینر برای این معماری پشتیبانی می‌کنند.
+
+
+`kubeadm init` ابتدا یک سری پیش‌بررسی انجام می‌دهد تا مطمئن شود که دستگاه برای اجرای Kubernetes آماده است. این پیش‌بررسی‌ها هشدارها را نمایش می‌دهند و در صورت بروز خطا از سیستم خارج می‌شوند. `kubeadm init` سپس اجزای صفحه کنترل کلاستر را دانلود و نصب می‌کند. این کار ممکن است چند دقیقه طول بکشد.
+
+بعد از اتمام باید ببینید:
+
 
 ```none
-Your Kubernetes control-plane has initialized successfully!
 
-To start using your cluster, you need to run the following as a regular user:
+control-plane Kubernetes شما با موفقیت راه‌اندازی شد!
+
+برای شروع استفاده از کلاستر خود، باید دستور زیر را به عنوان یک کاربر معمولی اجرا کنید:
+
 
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-You should now deploy a Pod network to the cluster.
-Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+
+اکنون باید یک شبکه پاد (Pod network) را در کلاستر مستقر کنید. دستور "kubectl apply -f [podnetwork].yaml" را با یکی از گزینه‌های ذکر شده در آدرس زیر اجرا کنید:
   /docs/concepts/cluster-administration/addons/
 
-You can now join any number of machines by running the following on each node
-as root:
+
+اکنون باید یک شبکه پاد (Pod network) را در کلاستر مستقر کنید. دستور "kubectl apply -f [podnetwork].yaml" را با یکی از گزینه‌های ذکر شده در آدرس زیر اجرا کنید:
+  /docs/concepts/cluster-administration/addons/
+
+
+اکنون می‌توانید با اجرای دستور زیر روی هر گره به عنوان کاربر root هر تعداد ماشین را به هم متصل کنید:
+
 
   kubeadm join <control-plane-host>:<control-plane-port> --token <token> --discovery-token-ca-cert-hash sha256:<hash>
 ```
 
-To make kubectl work for your non-root user, run these commands, which are
-also part of the `kubeadm init` output:
+برای اینکه kubectl برای کاربر غیر ریشه شما کار کند، این دستورات را اجرا کنید که بخشی از خروجی `kubeadm init` نیز هستند:
+
 
 ```bash
 mkdir -p $HOME/.kube
