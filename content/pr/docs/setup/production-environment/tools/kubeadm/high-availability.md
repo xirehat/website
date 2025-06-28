@@ -46,13 +46,13 @@ weight: 60
 
 - شامل {{< glossary_tooltip text="container runtime" term_id="container-runtime" >}}، که از قبل تنظیم شده و کار می‌کند
 - سه یا چند دستگاه که [حداقل الزامات kubeadm](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) را برای کارگران برآورده کنند
-  - including a container runtime, already set up and working
-- Full network connectivity between all machines in the cluster (public or
-  private network)
-- Superuser privileges on all machines using `sudo`
-  - You can use a different tool; this guide uses `sudo` in the examples.
-- SSH access from one device to all nodes in the system
-- `kubeadm` and `kubelet` already installed on all machines.
+  - شامل یک کانتینر در زمان اجرا، که از قبل راه‌اندازی شده و در حال کار است
+- اتصال کامل شبکه بین تمام ماشین‌های موجود در کلاستر (شبکه عمومی یا خصوصی)
+- امتیازات کاربر ارشد در تمام دستگاه‌ها با استفاده از `sudo`
+- شما می‌توانید از ابزار دیگری استفاده کنید؛ این راهنما در مثال‌ها از `sudo` استفاده می‌کند.
+- دسترسی SSH از یک دستگاه به تمام گره‌های سیستم
+- `kubeadm` و `kubelet` از قبل روی همه دستگاه‌ها نصب شده‌اند.
+
 
 _See [Stacked etcd topology](/docs/setup/production-environment/tools/kubeadm/ha-topology/#stacked-etcd-topology) for context._
 
@@ -62,98 +62,81 @@ _See [Stacked etcd topology](/docs/setup/production-environment/tools/kubeadm/ha
     note to reviewers: these prerequisites should match the start of the
     stacked etc tab
 -->
-You need:
+شما نیاز دارید:
 
-- Three or more machines that meet [kubeadm's minimum requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) for
-  the control-plane nodes. Having an odd number of control plane nodes can help
-  with leader selection in the case of machine or zone failure.
-  - including a {{< glossary_tooltip text="container runtime" term_id="container-runtime" >}}, already set up and working
-- Three or more machines that meet [kubeadm's minimum
-  requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) for the workers
-  - including a container runtime, already set up and working
-- Full network connectivity between all machines in the cluster (public or
-  private network)
-- Superuser privileges on all machines using `sudo`
-  - You can use a different tool; this guide uses `sudo` in the examples.
-- SSH access from one device to all nodes in the system
-- `kubeadm` and `kubelet` already installed on all machines.
+- سه یا چند ماشین که حداقل الزامات kubeadm را برآورده کنند [kubeadm's minimum requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) برای control-plane node. داشتن تعداد فرد گره‌های صفحه کنترل می‌تواند در صورت خرابی ماشین یا منطقه به انتخاب رهبر کمک کند.
+- شامل {{< glossary_tooltip text="container runtime" term_id="container-runtime" >}}، که از قبل تنظیم شده و کار می‌کند
+- سه یا چند دستگاه که [kubeadm's minimum
+  requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) را برای worker برآورده کنند
+- شامل یک زمان اجرای کانتینر، که از قبل تنظیم شده و در حال کار است
+- اتصال کامل شبکه بین تمام ماشین‌های موجود در کلاستر (شبکه عمومی یا خصوصی)
+
+- امتیازات کاربر ارشد (Superuser) در تمام دستگاه‌ها با استفاده از `sudo`
+- شما می‌توانید از ابزار دیگری استفاده کنید؛ این راهنما در مثال‌ها از `sudo` استفاده می‌کند.
+- دسترسی SSH از یک دستگاه به تمام گره‌های سیستم
+- `kubeadm` و `kubelet` از قبل روی تمام دستگاه‌ها نصب شده‌اند.
 
 <!-- end of shared prerequisites -->
 
-And you also need:
+و همچنین شما نیاز دارید:
 
-- Three or more additional machines, that will become etcd cluster members.
-  Having an odd number of members in the etcd cluster is a requirement for achieving
-  optimal voting quorum.
-  - These machines again need to have `kubeadm` and `kubelet` installed.
-  - These machines also require a container runtime, that is already set up and working.
 
+- سه یا چند ماشین اضافی، که به اعضای cluster etcd تبدیل می‌شوند.
+داشتن تعداد فرد عضو در خوشه etcd برای دستیابی به حد نصاب رأی‌گیری بهینه ضروری است.
+- این ماشین‌ها نیز باید `kubeadm` و `kubelet` را نصب داشته باشند.
+- این ماشین‌ها همچنین به یک زمان اجرای کانتینر نیاز دارند که از قبل راه‌اندازی شده و کار می‌کند.
 _See [External etcd topology](/docs/setup/production-environment/tools/kubeadm/ha-topology/#external-etcd-topology) for context._
 {{% /tab %}}
 {{< /tabs >}}
 
-### Container images
+### کانتینر ایمیج
 
-Each host should have access read and fetch images from the Kubernetes container image registry,
-`registry.k8s.io`. If you want to deploy a highly-available cluster where the hosts do not have
-access to pull images, this is possible. You must ensure by some other means that the correct
-container images are already available on the relevant hosts.
+هر میزبان باید به خواندن و واکشی تصاویر از رجیستری تصویر کانتینر Kubernetes، `registry.k8s.io` دسترسی داشته باشد. اگر می‌خواهید یک کلاستر با قابلیت دسترسی بالا مستقر کنید که در آن میزبان‌ها به دریافت تصاویر دسترسی نداشته باشند، این کار امکان‌پذیر است. شما باید به روش‌های دیگری اطمینان حاصل کنید که ایمیج کانتینر صحیح از قبل در میزبان‌های مربوطه موجود هستند.
 
-### Command line interface {#kubectl}
 
-To manage Kubernetes once your cluster is set up, you should
-[install kubectl](/docs/tasks/tools/#kubectl) on your PC. It is also useful
-to install the `kubectl` tool on each control plane node, as this can be
-helpful for troubleshooting.
+### رابط خط فرمان {#kubectl}
+برای مدیریت Kubernetes پس از راه‌اندازی کلاستر، باید [install kubectl](/docs/tasks/tools/#kubectl) را روی رایانه خود نصب کنید. همچنین نصب ابزار `kubectl` روی هرcontrol plane node مفید است، زیرا این امر می‌تواند برای عیب‌یابی مفید باشد.
 
 <!-- steps -->
 
-## First steps for both methods
+## مراحل اولیه برای هر دو روش
 
-### Create load balancer for kube-apiserver
+### ایجاد متعادل‌کننده بار برای kube-apiserver
+
 
 {{< note >}}
-There are many configurations for load balancers. The following example is only one
-option. Your cluster requirements may need a different configuration.
+پیکربندی‌های زیادی برای متعادل‌کننده‌های بار وجود دارد. مثال زیر تنها یکی از گزینه‌هاست. ممکن است نیازهای کلاستر شما به پیکربندی متفاوتی نیاز داشته باشد.
 {{< /note >}}
 
-1. Create a kube-apiserver load balancer with a name that resolves to DNS.
+1. یک متعادل‌کننده بار kube-apiserver با نامی که به DNS متصل می‌شود، ایجاد کنید.
 
-   - In a cloud environment you should place your control plane nodes behind a TCP
-     forwarding load balancer. This load balancer distributes traffic to all
-     healthy control plane nodes in its target list. The health check for
-     an apiserver is a TCP check on the port the kube-apiserver listens on
-     (default value `:6443`).
+- در یک محیط ابری، باید control plane nodesل خود را پشت یک متعادل‌کننده بار  TCP قرار دهید. این متعادل‌کننده بار، ترافیک را به همه گره‌های صفحه کنترل سالم در لیست هدف خود توزیع می‌کند. بررسی سلامت یک سرور api، بررسی TCP روی پورتی است که kube-apiser به آن گوش می‌دهد (مقدار پیش‌فرض `:6443`).
 
-   - It is not recommended to use an IP address directly in a cloud environment.
+   - استفاده مستقیم از آدرس IP در محیط ابری توصیه نمی‌شود.
 
-   - The load balancer must be able to communicate with all control plane nodes
-     on the apiserver port. It must also allow incoming traffic on its
-     listening port.
+   - متعادل‌کننده بار باید بتواند با تمام گره‌های صفحه کنترل روی پورت apiserver ارتباط برقرار کند. همچنین باید به ترافیک ورودی روی پورت Listening خود اجازه عبور دهد.
 
-   - Make sure the address of the load balancer always matches
-     the address of kubeadm's `ControlPlaneEndpoint`.
 
-   - Read the [Options for Software Load Balancing](https://git.k8s.io/kubeadm/docs/ha-considerations.md#options-for-software-load-balancing)
-     guide for more details.
+   - مطمئن شوید که آدرس متعادل‌کننده بار همیشه با آدرس `ControlPlaneEndpoint` در kubeadm مطابقت دارد.
 
-1. Add the first control plane node to the load balancer, and test the
-   connection:
+
+  - برای جزئیات بیشتر، راهنمای [Options for Software Load Balancing](https://git.k8s.io/kubeadm/docs/ha-considerations.md#options-for-software-load-balancing) را مطالعه کنید.
+
+1. اولین گره  کنترل پلین  را به متعادل‌کننده بار اضافه کنید و اتصال را آزمایش کنید:
+
 
    ```shell
    nc -zv -w 2 <LOAD_BALANCER_IP> <PORT>
    ```
 
-   A connection refused error is expected because the API server is not yet
-   running. A timeout, however, means the load balancer cannot communicate
-   with the control plane node. If a timeout occurs, reconfigure the load
-   balancer to communicate with the control plane node.
+  انتظار می‌رود خطای عدم پذیرش اتصال رخ دهد زیرا سرور API هنوز در حال اجرا نیست. با این حال، وقفه زمانی به این معنی است که متعادل‌کننده بار نمی‌تواند باcontrol plane node ارتباط برقرار کند. اگر وقفه زمانی رخ داد، متعادل‌کننده بار را برای ارتباط با گره صفحه کنترل مجدداً پیکربندی کنید.
 
-1. Add the remaining control plane nodes to the load balancer target group.
+1. control plane node  باقی‌مانده را به گروه هدف متعادل‌کننده بار اضافه کنید.
 
-## Stacked control plane and etcd nodes
 
-### Steps for the first control plane node
+## صفحه کنترل انباشته و گره‌های etcd
+
+###  پلین مراحل مربوط به اولین گره  کنترل
 
 1. Initialize the control plane:
 
@@ -161,27 +144,23 @@ option. Your cluster requirements may need a different configuration.
    sudo kubeadm init --control-plane-endpoint "LOAD_BALANCER_DNS:LOAD_BALANCER_PORT" --upload-certs
    ```
 
-   - You can use the `--kubernetes-version` flag to set the Kubernetes version to use.
-     It is recommended that the versions of kubeadm, kubelet, kubectl and Kubernetes match.
-   - The `--control-plane-endpoint` flag should be set to the address or DNS and port of the load balancer.
+- می‌توانید از پرچم `--kubernetes-version` برای تنظیم نسخه Kubernetes مورد استفاده استفاده کنید.
+توصیه می‌شود نسخه‌های kubeadm، kubelet، kubectl و Kubernetes با هم مطابقت داشته باشند.
+- پرچم `--control-plane-endpoint` باید روی آدرس یا DNS و پورت متعادل‌کننده بار تنظیم شود.
 
-   - The `--upload-certs` flag is used to upload the certificates that should be shared
-     across all the control-plane instances to the cluster. If instead, you prefer to copy certs across
-     control-plane nodes manually or using automation tools, please remove this flag and refer to [Manual
-     certificate distribution](#manual-certs) section below.
+- پرچم `--upload-certs` برای آپلود گواهی‌هایی که باید در تمام نمونه‌های صفحه کنترل به کلاستر به اشتراک گذاشته شوند، استفاده می‌شود. اگر در عوض، ترجیح می‌دهید گواهی‌ها را به صورت دستی یا با استفاده از ابزارهای اتوماسیون در گره‌های صفحه کنترل کپی کنید، لطفاً این پرچم را حذف کرده و به بخش [توزیع گواهی دستی](#manual-certs) در زیر مراجعه کنید.
 
-   {{< note >}}
-   The `kubeadm init` flags `--config` and `--certificate-key` cannot be mixed, therefore if you want
-   to use the [kubeadm configuration](/docs/reference/config-api/kubeadm-config.v1beta4/)
-   you must add the `certificateKey` field in the appropriate config locations
-   (under `InitConfiguration` and `JoinConfiguration: controlPlane`).
+
+   {{< note >}}  
+فلگ‌های `kubeadm init` یعنی `--config` و `--certificate-key` را نمی‌توان با هم ترکیب کرد، بنابراین اگر می‌خواهید از [kubeadm configuration](/docs/reference/config-api/kubeadm-config.v1beta4/) استفاده کنید، باید فیلد `certificateKey` را در مکان‌های پیکربندی مناسب (زیر `InitConfiguration` و `JoinConfiguration: controlPlane`) اضافه کنید.
+
    {{< /note >}}
 
    {{< note >}}
-   Some CNI network plugins require additional configuration, for example specifying the pod IP CIDR, while others do not.
-   See the [CNI network documentation](/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network).
-   To add a pod CIDR pass the flag `--pod-network-cidr`, or if you are using a kubeadm configuration file
-   set the `podSubnet` field under the `networking` object of `ClusterConfiguration`.
+   برخی از افزونه‌های شبکه CNI به پیکربندی اضافی نیاز دارند، برای مثال مشخص کردن IP CIDR برای pod، در حالی که برخی دیگر این کار را نمی‌کنند.
+
+به [CNI network documentation](/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network) مراجعه کنید.
+برای افزودن یک pod CIDR، علامت `--pod-network-cidr` را وارد کنید، یا اگر از فایل پیکربندی kubeadm استفاده می‌کنید، فیلد `podSubnet` را در زیر شیء `networking` از `ClusterConfiguration` تنظیم کنید.
    {{< /note >}}
 
    The output looks similar to:
@@ -198,81 +177,79 @@ option. Your cluster requirements may need a different configuration.
        kubeadm join 192.168.0.200:6443 --token 9vr73a.a8uxyaju799qwdjv --discovery-token-ca-cert-hash sha256:7c2e69131a36ae2a042a339b33381c6d0d43887e2de83720eff5359e26aec866
    ```
 
-   - Copy this output to a text file. You will need it later to join control plane and worker nodes to
-     the cluster.
-   - When `--upload-certs` is used with `kubeadm init`, the certificates of the primary control plane
-     are encrypted and uploaded in the `kubeadm-certs` Secret.
-   - To re-upload the certificates and generate a new decryption key, use the following command on a
-     control plane
-     node that is already joined to the cluster:
+   - - این خروجی را در یک فایل متنی کپی کنید. بعداً برای اتصال صفحه کنترل و گره‌های ورکر به خوشه به آن نیاز خواهید داشت.
+   - وقتی از `--upload-certs` به همراه `kubeadm init` استفاده می‌شود، گواهی‌های صفحه کنترل اصلی
+رمزگذاری شده و در فایل مخفی `kubeadm-certs` بارگذاری می‌شوند.
+   - برای بارگذاری مجدد گواهی‌ها و ایجاد کلید رمزگشایی جدید، از دستور زیر در گره‌ای که از قبل به خوشه متصل است، استفاده کنید:
 
      ```sh
      sudo kubeadm init phase upload-certs --upload-certs
      ```
 
-   - You can also specify a custom `--certificate-key` during `init` that can later be used by `join`.
-     To generate such a key you can use the following command:
+   - همچنین می‌توانید در طول `init` یک `--certificate-key` سفارشی مشخص کنید که بعداً توسط `join` مورد استفاده قرار گیرد. برای تولید چنین کلیدی می‌توانید از دستور زیر استفاده کنید:
 
      ```sh
      kubeadm certs certificate-key
      ```
 
-   The certificate key is a hex encoded string that is an AES key of size 32 bytes.
+   کلید گواهی یک رشته کدگذاری شده هگز است که یک کلید AES با اندازه ۳۲ بایت است.
 
    {{< note >}}
-   The `kubeadm-certs` Secret and the decryption key expire after two hours.
+   رمز `kubeadm-certs` و کلید رمزگشایی پس از دو ساعت منقضی می‌شوند.
    {{< /note >}}
 
    {{< caution >}}
-   As stated in the command output, the certificate key gives access to cluster sensitive data, keep it secret!
+   همانطور که در خروجی دستور آمده است، کلید گواهی به داده‌های حساس کلاستر دسترسی می‌دهد، آن را مخفی نگه دارید!
    {{< /caution >}}
 
-1. Apply the CNI plugin of your choice:
-   [Follow these instructions](/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network)
-   to install the CNI provider. Make sure the configuration corresponds to the Pod CIDR specified in the
-   kubeadm configuration file (if applicable).
+1. افزونه CNI مورد نظر خود را اعمال کنید:
+ [Follow these instructions](/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network)
+برای نصب ارائه‌دهنده CNI. مطمئن شوید که پیکربندی با Pod CIDR مشخص شده در فایل پیکربندی kubeadm (در صورت وجود) مطابقت دارد.
 
    {{< note >}}
-   You must pick a network plugin that suits your use case and deploy it before you move on to next step.
-   If you don't do this, you will not be able to launch your cluster properly.
+شما باید یک افزونه شبکه متناسب با مورد استفاده خود انتخاب کنید و قبل از رفتن به مرحله بعدی، آن را مستقر کنید.
+اگر این کار را نکنید، نمی‌توانید خوشه خود را به درستی راه‌اندازی کنید.
    {{< /note >}}
 
-1. Type the following and watch the pods of the control plane components get started:
+1.  دستور زیر را تایپ کنید و شروع به کار پادهای اجزایcontrol plane  را تماشا کنید:
 
    ```sh
    kubectl get pod -n kube-system -w
    ```
 
-### Steps for the rest of the control plane nodes
+### مراحل مربوط به بقیهcontrol plane nodes
 
-For each additional control plane node you should:
+برای هر ontrol plane nodes اضافی باید:
 
-1. Execute the join command that was previously given to you by the `kubeadm init` output on the first node.
-   It should look something like this:
+1.  دستور join که قبلاً توسط خروجی `kubeadm init` به شما داده شده بود را روی گره اول اجرا کنید.
+
+باید چیزی شبیه به این باشد:
 
    ```sh
    sudo kubeadm join 192.168.0.200:6443 --token 9vr73a.a8uxyaju799qwdjv --discovery-token-ca-cert-hash sha256:7c2e69131a36ae2a042a339b33381c6d0d43887e2de83720eff5359e26aec866 --control-plane --certificate-key f8902e114ef118304e561c3ecd4d0b543adc226b7a07f675f56564185ffe0c07
    ```
 
-   - The `--control-plane` flag tells `kubeadm join` to create a new control plane.
-   - The `--certificate-key ...` will cause the control plane certificates to be downloaded
-     from the `kubeadm-certs` Secret in the cluster and be decrypted using the given key.
+  - پرچم `--control-plane` به `kubeadm join` می‌گوید که یک صفحه کنترل جدید ایجاد کند.
 
-You can join multiple control-plane nodes in parallel.
+  - دستور `--certificate-key ...` باعث دانلود گواهینامه‌های صفحه کنترل می‌شود.
+    از راز `kubeadm-certs` در خوشه و با استفاده از کلید داده شده رمزگشایی شود.
 
-## External etcd nodes
+شما می‌توانید چندین گره صفحه کنترل را به صورت موازی به هم متصل کنید.
 
-Setting up a cluster with external etcd nodes is similar to the procedure used for stacked etcd
-with the exception that you should setup etcd first, and you should pass the etcd information
-in the kubeadm config file.
+## گره های etcd خارجی
 
-### Set up the etcd cluster
+راه‌اندازی یک کلاستر با گره‌های خارجی etcd مشابه روشی است که برای etcd انباشته شده استفاده می‌شود، با این تفاوت که ابتدا باید etcd را راه‌اندازی کنید و اطلاعات etcd را در فایل پیکربندی kubeadm وارد کنید.
 
-1. Follow these [instructions](/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/) to set up the etcd cluster.
 
-1. Set up SSH as described [here](#manual-certs).
+### تنظیم  etcd cluster
 
-1. Copy the following files from any etcd node in the cluster to the first control plane node:
+
+1. برای راه‌اندازی کلاستر etcd، این [instructions](/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/) را دنبال کنید.
+
+1. SSH را طبق توضیحات تنظیم کنید [here](#manual-certs).
+
+1. فایل‌های زیر را از هر گره etcd در کلاستر به اولین گره صفحه کنترل کپی کنید:
+
 
    ```sh
    export CONTROL_PLANE="ubuntu@10.0.0.7"
@@ -281,11 +258,12 @@ in the kubeadm config file.
    scp /etc/kubernetes/pki/apiserver-etcd-client.key "${CONTROL_PLANE}":
    ```
 
-   - Replace the value of `CONTROL_PLANE` with the `user@host` of the first control-plane node.
+- مقدار `CONTROL_PLANE` را با `user@host` گره صفحه کنترل اول جایگزین کنید.
 
-### Set up the first control plane node
 
-1. Create a file called `kubeadm-config.yaml` with the following contents:
+### راه اندازی اولین control plane node
+
+1. فایلی با نام `kubeadm-config.yaml` با محتوای زیر ایجاد کنید
 
    ```yaml
    ---
@@ -305,12 +283,11 @@ in the kubeadm config file.
    ```
 
    {{< note >}}
-   The difference between stacked etcd and external etcd here is that the external etcd setup requires
-   a configuration file with the etcd endpoints under the `external` object for `etcd`.
-   In the case of the stacked etcd topology, this is managed automatically.
+تفاوت بین etcd انباشته شده و etcd خارجی در اینجا این است که تنظیم etcd خارجی نیاز به یک فایل پیکربندی با نقاط انتهایی etcd تحت شیء `external` برای `etcd` دارد. در مورد توپولوژی etcd انباشته شده، این به طور خودکار مدیریت می‌شود.
+
    {{< /note >}}
 
-   - Replace the following variables in the config template with the appropriate values for your cluster:
+   - متغیرهای زیر را در الگوی پیکربندی با مقادیر مناسب برای cluster خود جایگزین کنید:
 
      - `LOAD_BALANCER_DNS`
      - `LOAD_BALANCER_PORT`
@@ -318,85 +295,80 @@ in the kubeadm config file.
      - `ETCD_1_IP`
      - `ETCD_2_IP`
 
-The following steps are similar to the stacked etcd setup:
+مراحل زیر مشابه تنظیمات etcd پشته شده است:
 
-1. Run `sudo kubeadm init --config kubeadm-config.yaml --upload-certs` on this node.
 
-1. Write the output join commands that are returned to a text file for later use.
+1.دستور `sudo kubeadm init --config kubeadm-config.yaml --upload-certs` را روی این گره اجرا کنید.
 
-1. Apply the CNI plugin of your choice.
+1. دستورات اتصال خروجی را که برای استفاده بعدی به یک فایل متنی برگردانده می‌شوند، بنویسید.
+
+1. افزونه CNI مورد نظر خود را اعمال کنید.
 
    {{< note >}}
-   You must pick a network plugin that suits your use case and deploy it before you move on to next step.
-   If you don't do this, you will not be able to launch your cluster properly.
+شما باید یک افزونه شبکه متناسب با مورد استفاده خود انتخاب کنید و قبل از رفتن به مرحله بعدی، آن را مستقر کنید.
+اگر این کار را نکنید، نمی‌توانید خوشه خود را به درستی راه‌اندازی کنید.
    {{< /note >}}
 
-### Steps for the rest of the control plane nodes
+### مراحل مربوط به بقیه  control plane nodes
 
-The steps are the same as for the stacked etcd setup:
+مراحل همانند تنظیمات etcd پشته شده است:
 
-- Make sure the first control plane node is fully initialized.
-- Join each control plane node with the join command you saved to a text file. It's recommended
-  to join the control plane nodes one at a time.
-- Don't forget that the decryption key from `--certificate-key` expires after two hours, by default.
+- مطمئن شوید که اولین control plane node به طور کامل مقداردهی اولیه شده است.
+- هرcontrol plane node را با دستور join که در یک فایل متنی ذخیره کرده‌اید، به هم متصل کنید. توصیه می‌شود
+- control plane node را یکی یکی به هم متصل کنید.
 
-## Common tasks after bootstrapping control plane
+- فراموش نکنید که کلید رمزگشایی از `--certificate-key` به طور پیش‌فرض پس از دو ساعت منقضی می‌شود.
 
-### Install workers
+## کارهای متداول پس از بوت‌استرپ کردن کنترل‌پلن
 
-Worker nodes can be joined to the cluster with the command you stored previously
-as the output from the `kubeadm init` command:
+### نصب  workers
+
+گره‌های Worker می‌توانند با دستوری که قبلاً به عنوان خروجی دستور `kubeadm init` ذخیره کرده‌اید، به خوشه متصل شوند:
 
 ```sh
 sudo kubeadm join 192.168.0.200:6443 --token 9vr73a.a8uxyaju799qwdjv --discovery-token-ca-cert-hash sha256:7c2e69131a36ae2a042a339b33381c6d0d43887e2de83720eff5359e26aec866
 ```
 
-## Manual certificate distribution {#manual-certs}
+## توزیع دستی گواهی {#manual-certs}
 
-If you choose to not use `kubeadm init` with the `--upload-certs` flag this means that
-you are going to have to manually copy the certificates from the primary control plane node to the
-joining control plane nodes.
 
-There are many ways to do this. The following example uses `ssh` and `scp`:
+اگر تصمیم دارید از `kubeadm init` با فلگ `--upload-certs` استفاده نکنید، این بدان معناست که شما باید گواهی‌ها را از گره صفحه کنترل اصلی به گره‌های صفحه کنترل متصل‌کننده به صورت دستی کپی کنید.
 
-SSH is required if you want to control all nodes from a single machine.
 
-1. Enable ssh-agent on your main device that has access to all other nodes in
-   the system:
+روش‌های زیادی برای انجام این کار وجود دارد. مثال زیر از `ssh` و `scp` استفاده می‌کند:
+
+اگر می‌خواهید همه گره‌ها را از یک دستگاه واحد کنترل کنید، SSH مورد نیاز است.
+
+1. ssh-agent را روی دستگاه اصلی خود که به تمام گره‌های دیگر در سیستم دسترسی دارد، فعال کنید:
 
    ```shell
    eval $(ssh-agent)
    ```
 
-1. Add your SSH identity to the session:
+1. هویت SSH خود را به جلسه اضافه کنید:
 
    ```shell
    ssh-add ~/.ssh/path_to_private_key
    ```
 
-1. SSH between nodes to check that the connection is working correctly.
+1. SSH بین گره‌ها برای بررسی صحت اتصال.
 
-   - When you SSH to any node, add the `-A` flag. This flag allows the node that you
-     have logged into via SSH to access the SSH agent on your PC. Consider alternative
-     methods if you do not fully trust the security of your user session on the node.
+
+- وقتی به هر گره‌ای SSH می‌کنید، پرچم `-A` را اضافه کنید. این پرچم به گره‌ای که از طریق SSH وارد آن شده‌اید اجازه می‌دهد تا به عامل SSH روی رایانه شما دسترسی پیدا کند. اگر به امنیت جلسه کاربری خود در گره کاملاً اعتماد ندارید، روش‌های جایگزین را در نظر بگیرید.
 
      ```shell
      ssh -A 10.0.0.7
      ```
 
-   - When using sudo on any node, make sure to preserve the environment so SSH
-     forwarding works:
+- هنگام استفاده از sudo روی هر گره‌ای، مطمئن شوید که محیط را حفظ می‌کنید تا SSH forwarding کار کند:
 
      ```shell
      sudo -E -s
      ```
 
-1. After configuring SSH on all the nodes you should run the following script on the first
-   control plane node after running `kubeadm init`. This script will copy the certificates from
-   the first control plane node to the other control plane nodes:
+1. پس از پیکربندی SSH روی تمام گره‌ها، باید اسکریپت زیر را روی اولین گره صفحه کنترل پس از اجرای `kubeadm init` اجرا کنید. این اسکریپت گواهی‌ها را از اولین گره صفحه کنترل به سایر گره‌های صفحه کنترل کپی می‌کند:
 
-   In the following example, replace `CONTROL_PLANE_IPS` with the IP addresses of the
-   other control plane nodes.
+در مثال زیر، عبارت `CONTROL_PLANE_IPS` را با آدرس‌های IP سایر گره‌های صفحه کنترل جایگزین کنید.
 
    ```sh
    USER=ubuntu # customizable
@@ -415,14 +387,12 @@ SSH is required if you want to control all nodes from a single machine.
    ```
 
    {{< caution >}}
-   Copy only the certificates in the above list. kubeadm will take care of generating the rest of the certificates
-   with the required SANs for the joining control-plane instances. If you copy all the certificates by mistake,
-   the creation of additional nodes could fail due to a lack of required SANs.
+فقط گواهینامه‌های موجود در لیست بالا را کپی کنید. kubeadm بقیه گواهینامه‌ها را به همراه SANهای مورد نیاز برای نمونه‌های اتصال صفحه کنترل تولید خواهد کرد. اگر همه گواهینامه‌ها را به اشتباه کپی کنید، ایجاد گره‌های اضافی ممکن است به دلیل کمبود SANهای مورد نیاز با شکست مواجه شود.
+
    {{< /caution >}}
 
-1. Then on each joining control plane node you have to run the following script before running `kubeadm join`.
-   This script will move the previously copied certificates from the home directory to `/etc/kubernetes/pki`:
-
+1. سپس روی هر گره صفحه کنترل که به آن متصل می‌شوید، باید قبل از اجرای `kubeadm join`، اسکریپت زیر را اجرا کنید.
+این اسکریپت گواهی‌های کپی‌شده قبلی را از دایرکتوری خانگی به `/etc/kubernetes/pki` منتقل می‌کند:
    ```sh
    USER=ubuntu # customizable
    mkdir -p /etc/kubernetes/pki/etcd
