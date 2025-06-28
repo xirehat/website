@@ -1,40 +1,35 @@
 ---
 reviewers:
-- sig-cluster-lifecycle
-title: Creating Highly Available Clusters with kubeadm
+-  چرخه حیات cluster sig
+title: ایجاد کلاستر با دسترسی‌پذیری بالا با kubeadm
 content_type: task
 weight: 60
 ---
 
 <!-- overview -->
 
-This page explains two different approaches to setting up a highly available Kubernetes
-cluster using kubeadm:
+این صفحه دو رویکرد متفاوت برای راه‌اندازی یک کلاستر Kubernetes با دسترسی‌پذیری بالا با استفاده از kubeadm را توضیح می‌دهد:
 
-- With stacked control plane nodes. This approach requires less infrastructure. The etcd members
-  and control plane nodes are co-located.
-- With an external etcd cluster. This approach requires more infrastructure. The
-  control plane nodes and etcd members are separated.
 
-Before proceeding, you should carefully consider which approach best meets the needs of your applications
-and environment. [Options for Highly Available topology](/docs/setup/production-environment/tools/kubeadm/ha-topology/)
-outlines the advantages and disadvantages of each.
+- با control plane nodes انباشته. این رویکرد به زیرساخت کمتری نیاز دارد. اعضای etcd
+و control plane nodes در کنار هم قرار دارند.
 
-If you encounter issues with setting up the HA cluster, please report these
-in the kubeadm [issue tracker](https://github.com/kubernetes/kubeadm/issues/new).
+- با یک cluster etcd خارجی. این رویکرد به زیرساخت بیشتری نیاز دارد. control plane nodes و اعضای etcd از هم جدا هستند.
 
-See also the [upgrade documentation](/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/).
+قبل از ادامه، باید با دقت بررسی کنید که کدام رویکرد به بهترین وجه نیازهای برنامه‌ها و محیط شما را برآورده می‌کند. [Options for Highly Available topology](/docs/setup/production-environment/tools/kubeadm/ha-topology/)
+مزایا و معایب هر یک را شرح می‌دهد.
+
+اگر در راه‌اندازی کلاستر HA با مشکلی مواجه شدید، لطفاً این موارد را در kubeadm [issue tracker](https://github.com/kubernetes/kubeadm/issues/new). گزارش دهید.
+
+همچنین به [upgrade documentation](/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/) مراجعه کنید.
 
 {{< caution >}}
-This page does not address running your cluster on a cloud provider. In a cloud
-environment, neither approach documented here works with Service objects of type
-LoadBalancer, or with dynamic PersistentVolumes.
+این صفحه به اجرای کلاستر شما روی یک ارائه‌دهنده ابری نمی‌پردازد. در یک محیط ابری، هیچ یک از رویکردهای مستند شده در اینجا با اشیاء سرویس از نوع LoadBalancer یا با PersistentVolume های پویا کار نمی‌کنند.
 {{< /caution >}}
 
 ## {{% heading "prerequisites" %}}
 
-The prerequisites depend on which topology you have selected for your cluster's
-control plane:
+پیش‌نیازها بستگی به این دارد که کدام توپولوژی را برای صفحه control plane خود انتخاب کرده‌اید:
 
 {{< tabs name="prerequisite_tabs" >}}
 {{% tab name="Stacked etcd" %}}
@@ -43,14 +38,14 @@ control plane:
     external etc tab
 -->
 
-You need:
+شما نیاز دارید:
 
-- Three or more machines that meet [kubeadm's minimum requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) for
-  the control-plane nodes. Having an odd number of control plane nodes can help
-  with leader selection in the case of machine or zone failure.
-  - including a {{< glossary_tooltip text="container runtime" term_id="container-runtime" >}}, already set up and working
-- Three or more machines that meet [kubeadm's minimum
-  requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) for the workers
+- سه یا چند دستگاه که حداقل الزامات kubeadm را برآورده کنند [kubeadm's minimum requirements](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) برای control-plane nodes. داشتن تعداد فرد control-plane nodes می‌تواند مفید باشد.می‌تواند در صورت خرابی ماشین یا منطقه به انتخاب رهبر کمک کند.
+
+
+
+- شامل {{< glossary_tooltip text="container runtime" term_id="container-runtime" >}}، که از قبل تنظیم شده و کار می‌کند
+- سه یا چند دستگاه که [حداقل الزامات kubeadm](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#before-you-begin) را برای کارگران برآورده کنند
   - including a container runtime, already set up and working
 - Full network connectivity between all machines in the cluster (public or
   private network)
