@@ -1,5 +1,5 @@
 ---
-title: "Stateless Applications"
+title: "Stateless برنامه های"
 weight: 40
 ---
 
