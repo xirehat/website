@@ -1,132 +1,119 @@
 ---
-title: API Overview
+title: نمای کلی API
 reviewers:
 - erictune
 - lavalamp
 - jbeda
-content_type: concept
+content_type: مفهوم
 weight: 20
 no_list: true
 card:
-  name: reference
+  name: مرجع
   weight: 50
-  title: Overview of API
+  title:  نمای کلی API
 ---
 
 <!-- overview -->
 
-This section provides reference information for the Kubernetes API.
 
-The REST API is the fundamental fabric of Kubernetes. All operations and
-communications between components, and external user commands are REST API
-calls that the API Server handles. Consequently, everything in the Kubernetes
-platform is treated as an API object and has a corresponding entry in the
-[API](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/).
+این بخش اطلاعات مرجع برای API کوبرنتیز را ارائه می‌دهد.
 
-The [Kubernetes API reference](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/)
-lists the API for Kubernetes version {{< param "version" >}}.
+REST API ساختار اساسی کوبرنتیز است. تمام عملیات و ارتباطات بین اجزا و دستورات کاربر خارجی، فراخوانی‌های REST API هستند که سرور API آنها را مدیریت می‌کند. در نتیجه، هر چیزی در پلتفرم کوبرنتیز به عنوان یک شیء API در نظر گرفته می‌شود و ورودی متناظر آن در [API](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/) قرار دارد.
 
-For general background information, read
-[The Kubernetes API](/docs/concepts/overview/kubernetes-api/).
+[مرجع API Kubernetes](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/) API مربوط به نسخه Kubernetes {{< param "version" >}} را فهرست می‌کند.
+
+
+برای اطلاعات کلی پیش‌زمینه، [API Kubernetes](/docs/concepts/overview/kubernetes-api/) را مطالعه کنید.
 [Controlling Access to the Kubernetes API](/docs/concepts/security/controlling-access/)
-describes how clients can authenticate to the Kubernetes API server, and how their
-requests are authorized.
+نحوه احراز هویت کلاینت‌ها در سرور Kubernetes API و نحوه تأیید درخواست‌های آنها را شرح می‌دهد.
+
+
 
 
 ## API versioning
 
-The JSON and Protobuf serialization schemas follow the same guidelines for
-schema changes. The following descriptions cover both formats.
+طرح‌های سریال‌سازی JSON و Protobuf از دستورالعمل‌های یکسانی برای تغییرات طرحواره پیروی می‌کنند. توضیحات زیر هر دو قالب را پوشش می‌دهد.
 
-The API versioning and software versioning are indirectly related.
-The [API and release versioning proposal](https://git.k8s.io/sig-release/release-engineering/versioning.md)
-describes the relationship between API versioning and software versioning.
+نسخه‌بندی API و نسخه‌بندی نرم‌افزار به طور غیرمستقیم به هم مرتبط هستند.
 
-Different API versions indicate different levels of stability and support. You
-can find more information about the criteria for each level in the
-[API Changes documentation](https://git.k8s.io/community/contributors/devel/sig-architecture/api_changes.md#alpha-beta-and-stable-versions).
+[API and release versioning proposal](https://git.k8s.io/sig-release/release-engineering/versioning.md)
 
-Here's a summary of each level:
+رابطه بین نسخه‌بندی API و نسخه‌بندی نرم‌افزار را شرح می‌دهد.
 
-- Alpha:
-  - The version names contain `alpha` (for example, `v1alpha1`).
-  - Built-in alpha API versions are disabled by default and must be explicitly enabled in the `kube-apiserver` configuration to be used.
-  - The software may contain bugs. Enabling a feature may expose bugs.
-  - Support for an alpha API may be dropped at any time without notice.
-  - The API may change in incompatible ways in a later software release without notice.
-  - The software is recommended for use only in short-lived testing clusters,
-    due to increased risk of bugs and lack of long-term support.
+نسخه‌های مختلف API سطوح مختلف پایداری و پشتیبانی را نشان می‌دهند.
 
-- Beta:
-  - The version names contain `beta` (for example, `v2beta3`).
-  - Built-in beta API versions are disabled by default and must be explicitly enabled in the `kube-apiserver` configuration to be used
-    (**except** for beta versions of APIs introduced prior to Kubernetes 1.22, which were enabled by default).
-  - Built-in beta API versions have a maximum lifetime of 9 months or 3 minor releases (whichever is longer) from introduction
-    to deprecation, and 9 months or 3 minor releases (whichever is longer) from deprecation to removal.
-  - The software is well tested. Enabling a feature is considered safe.
-  - The support for a feature will not be dropped, though the details may change.
+می‌توانید اطلاعات بیشتری در مورد معیارهای هر سطح را در [API Changes documentation](https://git.k8s.io/community/contributors/devel/sig-architecture/api_changes.md#alpha-beta-and-stable-versions). بیابید.
 
-  - The schema and/or semantics of objects may change in incompatible ways in
-    a subsequent beta or stable API version. When this happens, migration
-    instructions are provided. Adapting to a subsequent beta or stable API version
-    may require editing or re-creating API objects, and may not be straightforward.
-    The migration may require downtime for applications that rely on the feature.
-  - The software is not recommended for production uses. Subsequent releases
-    may introduce incompatible changes. Use of beta API versions is
-    required to transition to subsequent beta or stable API versions
-    once the beta API version is deprecated and no longer served.
 
+در اینجا خلاصه‌ای از هر سطح آمده است:
+
+- آلفا:
+  - نام نسخه‌ها شامل `alpha` است (برای مثال، `v1alpha1`).
+  - نسخه‌های آلفای API داخلی به طور پیش‌فرض غیرفعال هستند و برای استفاده باید صریحاً در پیکربندی `kube-apiserver` فعال شوند.
+  - ممکن است نرم‌افزار دارای اشکالاتی باشد. فعال کردن یک ویژگی ممکن است اشکالات را آشکار کند.
+  - پشتیبانی از یک API آلفا ممکن است در هر زمانی و بدون اطلاع قبلی قطع شود.
+  - ممکن است API در نسخه‌های بعدی نرم‌افزار، بدون اطلاع قبلی، به روش‌های ناسازگار تغییر کند.
+  - به دلیل افزایش خطر اشکالات و عدم پشتیبانی طولانی مدت، استفاده از این نرم‌افزار فقط در خوشه‌های آزمایشی کوتاه‌مدت توصیه می‌شود.
+
+
+- بتا:
+  - نام نسخه‌ها شامل «بتا» است (برای مثال، «v2beta3»).
+  - نسخه‌های بتای API داخلی به طور پیش‌فرض غیرفعال هستند و برای استفاده باید صریحاً در پیکربندی `kube-apiserver` فعال شوند (**به جز** نسخه‌های بتای APIهای معرفی‌شده قبل از Kubernetes 1.22 که به طور پیش‌فرض فعال بودند).
+  - نسخه‌های بتای API داخلی، از زمان معرفی تا منسوخ شدن، حداکثر ۹ ماه یا ۳ نسخه فرعی (هر کدام که طولانی‌تر باشد) و از زمان منسوخ شدن تا حذف، حداکثر ۹ ماه یا ۳ نسخه فرعی (هر کدام که طولانی‌تر باشد) عمر مفید دارند.
+  - این نرم‌افزار به خوبی آزمایش شده است. فعال کردن یک ویژگی، ایمن تلقی می‌شود.
+  - پشتیبانی از یک ویژگی قطع نخواهد شد، هرچند جزئیات آن ممکن است تغییر کند.
+
+  - طرحواره و/یا معنای اشیاء ممکن است در نسخه بعدی بتا یا API پایدار به روش‌های ناسازگار تغییر کند. وقتی این اتفاق می‌افتد، دستورالعمل‌های مهاجرت ارائه می‌شوند. سازگاری با نسخه بعدی بتا یا  API پایدار ممکن است نیاز به ویرایش یا ایجاد مجدد اشیاء API داشته باشد و ممکن است ساده نباشد.
+
+این مهاجرت ممکن است برای برنامه‌هایی که به این ویژگی متکی هستند، نیاز به زمان از کار افتادن داشته باشد.
+  - این نرم‌افزار برای استفاده در محیط عملیاتی توصیه نمی‌شود. نسخه‌های بعدی
+  ممکن است تغییرات ناسازگاری ایجاد کنند. استفاده از نسخه‌های بتا API
+برای انتقال به نسخه‌های بعدی بتا یا   API پایدار
+  پس از منسوخ شدن و عدم ارائه نسخه بتا API الزامی است.
   {{< note >}}
-  Please try beta features and provide feedback. After the features exit beta, it
-  may not be practical to make more changes.
+  لطفاً ویژگی‌های بتا را امتحان کنید و بازخورد خود را ارائه دهید. پس از خروج ویژگی‌ها از نسخه بتا، ممکن است ایجاد تغییرات بیشتر عملی نباشد.
+
   {{< /note >}}
 
-- Stable:
-  - The version name is `vX` where `X` is an integer.
-  - Stable API versions remain available for all future releases within a Kubernetes major version,
-    and there are no current plans for a major version revision of Kubernetes that removes stable APIs.
+- پایدار:
+  - نام نسخه `vX` است که در آن `X` یک عدد صحیح است.
+  - نسخه‌های پایدار API برای تمام نسخه‌های آینده در نسخه اصلی Kubernetes در دسترس خواهند بود،
+    و در حال حاضر هیچ برنامه‌ای برای نسخه اصلی Kubernetes که APIهای پایدار را حذف کند، وجود ندارد.
 
 ## API groups
 
 [API groups](https://git.k8s.io/design-proposals-archive/api-machinery/api-group.md)
-make it easier to extend the Kubernetes API.
-The API group is specified in a REST path and in the `apiVersion` field of a
-serialized object.
+گسترش API Kubernetes را آسان‌تر می‌کند.
+گروه API در یک مسیر REST و در فیلد `apiVersion` یک شیء سریالی شده مشخص می‌شود.
 
-There are several API groups in Kubernetes:
 
-*  The *core* (also called *legacy*) group is found at REST path `/api/v1`.
-   The core group is not specified as part of the `apiVersion` field, for
-   example, `apiVersion: v1`.
-*  The named groups are at REST path `/apis/$GROUP_NAME/$VERSION` and use
-   `apiVersion: $GROUP_NAME/$VERSION` (for example, `apiVersion: batch/v1`).
-   You can find the full list of supported API groups in
-   [Kubernetes API reference](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#-strong-api-groups-strong-).
+چندین گروه API در Kubernetes وجود دارد:
 
+
+
+*  گروه *core* (که *میراث* نیز نامیده می‌شود) در مسیر REST `/api/v1` یافت می‌شود.
+گروه core به عنوان بخشی از فیلد `apiVersion` مشخص نشده است، برای مثال، `apiVersion: v1`.
+*  گروه‌های نامگذاری شده در مسیر REST `/apis/$GROUP_NAME/$VERSION` قرار دارند و از `apiVersion: $GROUP_NAME/$VERSION` (برای مثال، `apiVersion: batch/v1`) استفاده می‌کنند.
+شما می‌توانید لیست کامل گروه‌های API پشتیبانی شده را در
+[مرجع API Kubernetes](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#-strong-api-groups-strong-) بیابید.
 ## Enabling or disabling API groups   {#enabling-or-disabling}
 
-Certain resources and API groups are enabled by default. You can enable or
-disable them by setting `--runtime-config` on the API server.  The
-`--runtime-config` flag accepts comma separated `<key>[=<value>]` pairs
-describing the runtime configuration of the API server. If the `=<value>`
-part is omitted, it is treated as if `=true` is specified. For example:
+منابع و گروه‌های API خاصی به طور پیش‌فرض فعال هستند. می‌توانید با تنظیم `--runtime-config` در سرور API، آنها را فعال یا غیرفعال کنید. پرچم `--runtime-config` جفت‌های `<key>[=<value>]` را که با کاما از هم جدا شده‌اند، می‌پذیرد که پیکربندی زمان اجرای سرور API را توصیف می‌کنند. اگر قسمت `=<value>` حذف شود، طوری رفتار می‌شود که انگار `=true` مشخص شده است. به عنوان مثال:
 
- - to disable `batch/v1`, set `--runtime-config=batch/v1=false`
- - to enable `batch/v2alpha1`, set `--runtime-config=batch/v2alpha1`
- - to enable a specific version of an API, such as `storage.k8s.io/v1beta1/csistoragecapacities`, set `--runtime-config=storage.k8s.io/v1beta1/csistoragecapacities`
+- برای غیرفعال کردن `batch/v1`، مقدار `--runtime-config=batch/v1=false` را تنظیم کنید.
+- برای فعال کردن `batch/v2alpha1`، مقدار `--runtime-config=batch/v2alpha1` را تنظیم کنید.
+- برای فعال کردن یک نسخه خاص از API، مانند `storage.k8s.io/v1beta1/csistoragecapacities`، مقدار `--runtime-config=storage.k8s.io/v1beta1/csistoragecapacities` را تنظیم کنید.
 
 {{< note >}}
-When you enable or disable groups or resources, you need to restart the API
-server and controller manager to pick up the `--runtime-config` changes.
+وقتی گروه‌ها یا منابع را فعال یا غیرفعال می‌کنید، باید سرور API و مدیر کنترل را مجدداً راه‌اندازی کنید تا تغییرات `--runtime-config` اعمال شوند.
 {{< /note >}}
 
 ## Persistence
 
-Kubernetes stores its serialized state in terms of the API resources by writing them into
+کوبرنتس حالت سریالیزه شده خود را بر اساس منابع API با نوشتن آنها در ... ذخیره می‌کند.
 {{< glossary_tooltip term_id="etcd" >}}.
 
 ## {{% heading "whatsnext" %}}
 
-- Learn more about [API conventions](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#api-conventions)
-- Read the design documentation for
-  [aggregator](https://git.k8s.io/design-proposals-archive/api-machinery/aggregated-api-servers.md)
+- درباره  بیشتر بدانید [API conventions](https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#api-conventions)
+- مستندات طراحی [aggregator] را مطالعه کنید (https://git.k8s.io/design-proposals-archive/api-machinery/aggregated-api-servers.md)

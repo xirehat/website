@@ -1,93 +1,64 @@
 ---
-title: Kubernetes API Concepts
+title: مفاهیم API کوبرنتیز
 reviewers:
 - smarterclayton
 - lavalamp
 - liggitt
-content_type: concept
+content_type: مفهوم
 weight: 20
 ---
 
 <!-- overview -->
-The Kubernetes API is a resource-based (RESTful) programmatic interface
-provided via HTTP. It supports retrieving, creating, updating, and deleting
-primary resources via the standard HTTP verbs (POST, PUT, PATCH, DELETE,
-GET).
+رابط برنامه‌نویسی Kubernetes یک رابط برنامه‌نویسی مبتنی بر منبع (RESTful) است که از طریق HTTP ارائه می‌شود. این رابط از بازیابی، ایجاد، به‌روزرسانی و حذف منابع اولیه از طریق افعال استاندارد HTTP (POST، PUT، PATCH، DELETE، GET) پشتیبانی می‌کند.
 
-For some resources, the API includes additional subresources that allow
-fine-grained authorization (such as separate views for Pod details and
-log retrievals), and can accept and serve those resources in different
-representations for convenience or efficiency.
 
-Kubernetes supports efficient change notifications on resources via
-_watches_:
-{{< glossary_definition prepend="in the Kubernetes API, watch is" term_id="watch" length="short" >}}
-Kubernetes also provides consistent list operations so that API clients can
-effectively cache, track, and synchronize the state of resources.
+برای برخی منابع، API شامل زیرمنابع اضافی است که امکان مجوزدهی دقیق (مانند نماهای جداگانه برای جزئیات Pod و بازیابی لاگ) را فراهم می‌کند و می‌تواند آن منابع را در نمایش‌های مختلف برای راحتی یا کارایی بپذیرد و ارائه دهد.
 
-You can view the [API reference](/docs/reference/kubernetes-api/) online,
-or read on to learn about the API in general.
 
+Kubernetes از طریق _watches_ از اعلان‌های تغییر کارآمد در منابع پشتیبانی می‌کند:
+{{< glossary_definition prepend="در API Kubernetes، watch is" term_id="watch" length="short" >}}
+
+Kubernetes همچنین عملیات لیست ثابتی را ارائه می‌دهد تا کلاینت‌های API بتوانند وضعیت منابع را به طور مؤثر ذخیره، پیگیری و همگام‌سازی کنند.
+
+
+می‌توانید  [API reference](/docs/reference/kubernetes-api/) را به صورت آنلاین مشاهده کنید، یا برای آشنایی کلی با API، ادامه مطلب را بخوانید.
 <!-- body -->
 ## Kubernetes API terminology {#standard-api-terminology}
 
-Kubernetes generally leverages common RESTful terminology to describe the
-API concepts:
+کوبرنتیز عموماً از اصطلاحات رایج RESTful برای توصیف مفاهیم API استفاده می‌کند:
 
-* A *resource type* is the name used in the URL (`pods`, `namespaces`, `services`)
-* All resource types have a concrete representation (their object schema) which is called a *kind*
-* A list of instances of a resource type is known as a *collection*
-* A single instance of a resource type is called a *resource*, and also usually represents an *object*
-* For some resource types, the API includes one or more *sub-resources*, which are represented as URI paths below the resource
+* *resource type * نامی است که در URL استفاده می‌شود (`pods`، `namespaces`، `services`)
+* همه انواع منابع یک نمایش ملموس (طرحواره شیء خود) دارند که *kind* نامیده می‌شود.
+* فهرستی از نمونه‌های یک نوع منبع، به عنوان *collection* شناخته می‌شود.
+* یک نمونه واحد از یک نوع منبع، *resource* نامیده می‌شود و معمولاً نشان‌دهنده یک *object* نیز هست.
+* برای برخی از انواع منابع، API شامل یک یا چند *sub-resources* است که به صورت مسیرهای URI در زیر منبع نمایش داده می‌شوند.
 
-Most Kubernetes API resource types are
-{{< glossary_tooltip text="objects" term_id="object" >}} –
-they represent a concrete instance of a concept on the cluster, like a
-pod or namespace. A smaller number of API resource types are *virtual* in
-that they often represent operations on objects, rather than objects, such
-as a permission check
-(use a POST with a JSON-encoded body of `SubjectAccessReview` to the
-`subjectaccessreviews` resource), or the `eviction` sub-resource of a Pod
-(used to trigger
-[API-initiated eviction](/docs/concepts/scheduling-eviction/api-eviction/)).
+
+اکثر انواع منابع API Kubernetes عبارتند از
+{{< glossary_tooltip text="objects" term_id="object" >}} -
+آنها نمونه‌ای عینی از یک مفهوم در کلاستر، مانند یک پاد یا فضای نام، را نشان می‌دهند. تعداد کمتری از انواع منابع API *مجازی* هستند، به این معنی که اغلب عملیات روی اشیاء را نشان می‌دهند، نه اشیاء، مانند
+بررسی مجوز
+(از یک POST با بدنه کدگذاری شده JSON از `SubjectAccessReview` به منبع `subjectaccessreviews` استفاده کنید)، یا زیرمنبع `eviction` یک پاد
+(برای فعال کردن `[API-initiated eviction](/docs/concepts/scheduling-eviction/api-eviction/)) استفاده می‌شود.
 
 ### Object names
 
-All objects you can create via the API have a unique object
-{{< glossary_tooltip text="name" term_id="name" >}} to allow idempotent creation and
-retrieval, except that virtual resource types may not have unique names if they are
-not retrievable, or do not rely on idempotency.
-Within a {{< glossary_tooltip text="namespace" term_id="namespace" >}}, only one object
-of a given kind can have a given name at a time. However, if you delete the object,
-you can make a new object with the same name. Some objects are not namespaced (for
-example: Nodes), and so their names must be unique across the whole cluster.
+تمام اشیایی که می‌توانید از طریق API ایجاد کنید، یک شیء منحصر به فرد دارند. {{< glossary_tooltip text="name" term_id="name" >}} تا امکان ایجاد و بازیابی idempotent فراهم شود، به جز اینکه انواع منابع مجازی اگر قابل بازیابی نباشند یا به idempotency متکی نباشند، ممکن است نام‌های منحصر به فردی نداشته باشند.
+در یک {{< glossary_tooltip text="namespace" term_id="namespace" >}}، فقط یک شیء از یک نوع معین می‌تواند در یک زمان نام مشخصی داشته باشد. با این حال، اگر شیء را حذف کنید، می‌توانید یک شیء جدید با همان نام ایجاد کنید. برخی از اشیاء فضای نام ندارند (به عنوان مثال: گره‌ها)، و بنابراین نام آنها باید در کل خوشه منحصر به فرد باشد.
 
 ### API verbs
 
-Almost all object resource types support the standard HTTP verbs - GET, POST, PUT, PATCH,
-and DELETE. Kubernetes also uses its own verbs, which are often written in lowercase to distinguish
-them from HTTP verbs.
-
-Kubernetes uses the term **list** to describe the action of returning a [collection](#collections) of
-resources, to distinguish it from retrieving a single resource which is usually called
-a **get**. If you sent an HTTP GET request with the `?watch` query parameter,
-Kubernetes calls this a **watch** and not a **get**
-(see [Efficient detection of changes](#efficient-detection-of-changes) for more details).
-
-For PUT requests, Kubernetes internally classifies these as either **create** or **update**
-based on the state of the existing object. An **update** is different from a **patch**; the
-HTTP verb for a **patch** is PATCH.
+تقریباً همه انواع منابع شیء از افعال استاندارد HTTP پشتیبانی می‌کنند - GET، POST، PUT، PATCH و DELETE. کوبرنتیز همچنین از افعال خاص خود استفاده می‌کند که اغلب با حروف کوچک نوشته می‌شوند تا آنها را از افعال HTTP متمایز کند.
+کوبرنتیز از اصطلاح **list** برای توصیف عمل بازگرداندن یک [collection](#collections) از منابع استفاده می‌کند تا آن را از بازیابی یک منبع واحد که معمولاً **get** نامیده می‌شود، متمایز کند. اگر یک درخواست HTTP GET با پارامتر پرس و جو `?watch` ارسال کرده‌اید، کوبرنتیز آن را **watch** می‌نامد و نه **get**
+(برای جزئیات بیشتر به [Efficient detection of changes](#efficient-detection-of-changes) مراجعه کنید).
+برای درخواست‌های PUT، کوبرنتیز به صورت داخلی این درخواست‌ها را بر اساس وضعیت شیء موجود به **create** یا **update** طبقه‌بندی می‌کند. **update** با **patch** متفاوت است. فعل HTTP برای **پچ**، PATCH است.
 
 ## Resource URIs
 
-All resource types are either scoped by the cluster (`/apis/GROUP/VERSION/*`) or to a
-namespace (`/apis/GROUP/VERSION/namespaces/NAMESPACE/*`). A namespace-scoped resource
-type will be deleted when its namespace is deleted and access to that resource type
-is controlled by authorization checks on the namespace scope.
+همه انواع منابع یا توسط کلاستر (`/apis/GROUP/VERSION/*`) یا در یک فضای نام (`/apis/GROUP/VERSION/namespaces/NAMESPACE/*`) محدود می‌شوند. یک نوع منبع با فضای نام، هنگام حذف فضای نام آن حذف می‌شود و دسترسی به آن نوع منبع توسط بررسی‌های مجوز در محدوده فضای نام کنترل می‌شود.
+توجه: منابع اصلی به جای `/apis` از `/api` استفاده می‌کنند و بخش مسیر GROUP را حذف می‌کنند.
 
-Note: core resources use `/api` instead of `/apis` and omit the GROUP path segment.
-
-Examples:
+مثال ها:
 
 * `/api/v1/namespaces`
 * `/api/v1/pods`
@@ -96,62 +67,52 @@ Examples:
 * `/apis/apps/v1/namespaces/my-namespace/deployments`
 * `/apis/apps/v1/namespaces/my-namespace/deployments/my-deployment`
 
-You can also access collections of resources (for example: listing all Nodes).
-The following paths are used to retrieve collections and resources:
+همچنین می‌توانید به مجموعه‌ای از منابع دسترسی داشته باشید (برای مثال: فهرست کردن تمام گره‌ها). مسیرهای زیر برای بازیابی مجموعه‌ها و منابع استفاده می‌شوند:
 
-* Cluster-scoped resources:
+* Cluster-scoped منابع:
 
-  * `GET /apis/GROUP/VERSION/RESOURCETYPE` - return the collection of resources of the resource type
-  * `GET /apis/GROUP/VERSION/RESOURCETYPE/NAME` - return the resource with NAME under the resource type
+  * `GET /apis/GROUP/VERSION/RESOURCETYPE` - مجموعه‌ای از منابع از نوع منبع را برمی‌گرداند
+  * `GET /apis/GROUP/VERSION/RESOURCETYPE/NAME` - منبع را با نام NAME تحت نوع منبع برگردانید
 
-* Namespace-scoped resources:
+* Namespace-scoped منابع:
+  بازگرداندنمجموعه‌ای از تمام نمونه‌های نوع منبع در NAMESPACE
+  * `GET /apis/GROU /VERSION/RESOURCETYPE` - مجموعه تمام نمونه‌های نوع منبع را در تمام namespaces برمی‌گرداند
 
-  * `GET /apis/GROUP/VERSION/RESOURCETYPE` - return the collection of all
-    instances of the resource type across all namespaces
-  * `GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE` - return
-    collection of all instances of the resource type in NAMESPACE
-  * `GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME` -
-    return the instance of the resource type with NAME in NAMESPACE
+  * `GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE` - بازگرداندنمجموعه‌ای از تمام نمونه‌های نوع منبع در NAMESPACE
+                
+  * `GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME` - نمونه‌ای از نوع منبع را به همراه نام در NAMESPACE (NAME) برمی‌گرداند.
+ 
+از آنجایی که یک فضای نام یک نوع منبع با محدوده کلاستر است، می‌توانید لیست ("مجموعه") تمام  namespaces را با `GET /api/v1/namespaces` و جزئیات مربوط به یک فضای نام خاص را با `GET /api/v1/namespaces/NAME` بازیابی کنید.
 
-Since a namespace is a cluster-scoped resource type, you can retrieve the list
-(“collection”) of all namespaces with `GET /api/v1/namespaces` and details about
-a particular namespace with `GET /api/v1/namespaces/NAME`.
 
-* Cluster-scoped subresource: `GET /apis/GROUP/VERSION/RESOURCETYPE/NAME/SUBRESOURCE`
-* Namespace-scoped subresource: `GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME/SUBRESOURCE`
 
-The verbs supported for each subresource will differ depending on the object -
-see the [API reference](/docs/reference/kubernetes-api/) for more information. It
-is not possible to access sub-resources across multiple resources - generally a new
-virtual resource type would be used if that becomes necessary.
+* Cluster-scoped منبع فرعی: `GET /apis/GROUP/VERSION/RESOURCETYPE/NAME/SUBRESOURCE`
+* Namespace-scoped منبع فرعی: `GET /apis/GROUP/VERSION/namespaces/NAMESPACE/RESOURCETYPE/NAME/SUBRESOURCE`
 
-## HTTP media types {#alternate-representations-of-resources}
+افعال پشتیبانی شده برای هر زیرمنبع بسته به شیء متفاوت خواهد بود. -
+برای اطلاعات بیشتر به [API reference](/docs/reference/kubernetes-api/) مراجعه کنید.
+دسترسی به زیرمنابع در چندین منبع امکان‌پذیر نیست - در صورت لزوم، معمولاً از یک نوع منبع مجازی جدید استفاده می‌شود.
 
-Over HTTP, Kubernetes supports JSON and Protobuf wire encodings.
 
-By default, Kubernetes returns objects in [JSON serialization](#json-encoding), using the
-`application/json` media type. Although JSON is the default, clients may request a response in
-YAML, or use the more efficient binary [Protobuf representation](#protobuf-encoding) for better performance at scale.
+## HTTP media انواع {#alternate-representations-of-resources}
 
-The Kubernetes API implements standard HTTP content type negotiation: passing an
-`Accept` header with a `GET` call will request that the server tries to return
-a response in your preferred media type. If you want to send an object in Protobuf to
-the server for a `PUT` or `POST` request, you must set the `Content-Type` request header
-appropriately.
+Kubernetes از طریق HTTP از رمزگذاری‌های JSON و Protobuf wire پشتیبانی می‌کند.
 
-If you request an available media type, the API server returns a response with a suitable
-`Content-Type`; if none of the media types you request are supported, the API server returns
-a `406 Not acceptable` error message.
-All built-in resource types support the `application/json` media type.
+به طور پیش‌فرض، Kubernetes اشیاء را در [JSON serialization](#json-encoding) با استفاده از نوع رسانه‌ی application/json برمی‌گرداند. اگرچه JSON پیش‌فرض است، کلاینت‌ها می‌توانند پاسخ را در YAML درخواست کنند، یا از باینری کارآمدتر [Protobuf representation](#protobuf-encoding) برای عملکرد بهتر در مقیاس بزرگ استفاده کنند.
+
+
+رابط برنامه‌نویسی کاربردی Kubernetes، مذاکره‌ی نوع محتوای استاندارد HTTP را پیاده‌سازی می‌کند: ارسال یک هدر «پذیرش» به همراه یک فراخوانی `GET` از سرور درخواست می‌کند که پاسخی با نوع رسانه‌ی دلخواه شما برگرداند. اگر می‌خواهید یک شیء در Protobuf را برای درخواست `PUT` یا `POST` به سرور ارسال کنید، باید هدر درخواست `Content-Type` را به طور مناسب تنظیم کنید.
+اگر یک نوع رسانه‌ی موجود را درخواست کنید، سرور API پاسخی با نوع محتوای مناسب برمی‌گرداند؛ اگر هیچ یک از `Content-Type` درخواستی شما پشتیبانی نشود، سرور API پیام خطای 406 Not accepted را برمی‌گرداند.
+تمام انواع منابع داخلی از نوع رسانه‌ی `application/json` پشتیبانی می‌کنند.
 
 ### JSON resource encoding {#json-encoding}
 
-The Kubernetes API defaults to using [JSON](https://www.json.org/json-en.html) for encoding
-HTTP message bodies.
+API کوبرنتیز به طور پیش‌فرض از [JSON](https://www.json.org/json-en.html) برای رمزگذاری بدنه پیام‌های HTTP استفاده می‌کند.
 
-For example:
 
-1. List all of the pods on a cluster, without specifying a preferred format
+به عنوان مثال:
+
+1. فهرست کردن تمام پادهای (pods) موجود در یک کلاستر، بدون مشخص کردن قالب دلخواه
 
    ```
    GET /api/v1/pods
@@ -164,7 +125,7 @@ For example:
    … JSON encoded collection of Pods (PodList object)
    ```
 
-1. Create a pod by sending JSON to the server, requesting a JSON response.
+1. با ارسال JSON به سرور و درخواست پاسخ JSON، یک پاد ایجاد کنید.
 
    ```
    POST /api/v1/namespaces/test/pods
@@ -186,13 +147,12 @@ For example:
 
 ### YAML resource encoding {#yaml-encoding}
 
-Kubernetes also supports the [`application/yaml`](https://www.rfc-editor.org/rfc/rfc9512.html)
-media type for both requests and responses. [`YAML`](https://yaml.org/)
-can be used for defining Kubernetes manifests and API interactions.
+کوبرنتیز همچنین از نوع رسانه [`application/yaml`](https://www.rfc-editor.org/rfc/rfc9512.html) برای درخواست‌ها و پاسخ‌ها پشتیبانی می‌کند. [`YAML`](https://yaml.org/) می‌تواند برای تعریف مانیفست‌های کوبرنتیز و تعاملات API استفاده شود.
 
-For example:
 
-1. List all of the pods on a cluster in YAML format
+به عنوان مثال:
+
+1. لیست کردن تمام پادهای (pods) یک کلاستر با فرمت YAML
 
    ```
    GET /api/v1/pods
@@ -206,7 +166,7 @@ For example:
    … YAML encoded collection of Pods (PodList object)
    ```
 
-1. Create a pod by sending YAML-encoded data to the server, requesting a YAML response:
+1. با ارسال داده‌های کدگذاری شده با YAML به سرور و درخواست پاسخ YAML، یک پاد ایجاد کنید:
 
    ```
    POST /api/v1/namespaces/test/pods
@@ -228,16 +188,13 @@ For example:
 
 ### Kubernetes Protobuf encoding {#protobuf-encoding}
 
-Kubernetes uses an envelope wrapper to encode [Protobuf](https://protobuf.dev/) responses.
-That wrapper starts with a 4 byte magic number to help identify content in disk or in etcd as Protobuf
-(as opposed to JSON). The 4 byte magic number data is followed by a Protobuf encoded wrapper message, which
-describes the encoding and type of the underlying object. Within the Protobuf wrapper message,
-the inner object data is recorded using the `raw` field of Unknown (see the [IDL](#protobuf-encoding-idl)
-for more detail).
+این پوشش با یک عدد جادویی ۴ بایتی شروع می‌شود تا به شناسایی محتوای موجود در دیسک یا در etcd به عنوان Protobuf کمک کند (برخلاف JSON). داده‌های عدد جادویی ۴ بایتی با یک پیام پوشش رمزگذاری شده Protobuf دنبال می‌شوند که رمزگذاری و نوع شیء اصلی را توصیف می‌کند. در پیام پوشش Protobuf، داده‌های شیء داخلی با استفاده از فیلد `raw` از Unknown ثبت می‌شوند (برای جزئیات بیشتر به [IDL](#protobuf-encoding-idl) مراجعه کنید).
 
-For example:
 
-1. List all of the pods on a cluster in Protobuf format.
+به عنوان مثال:
+
+
+1. تمام پادهای (pods) موجود در یک کلاستر را در قالب Protobuf فهرست کنید.
 
    ```
    GET /api/v1/pods
@@ -251,8 +208,8 @@ For example:
    … JSON encoded collection of Pods (PodList object)
    ```
 
-1. Create a pod by sending Protobuf encoded data to the server, but request a response
-   in JSON.
+1. با ارسال داده‌های رمزگذاری شده Protobuf به سرور، یک پاد ایجاد کنید، اما پاسخ را در قالب JSON درخواست کنید.
+
 
    ```
    POST /api/v1/namespaces/test/pods
@@ -272,19 +229,17 @@ For example:
    }
    ```
 
-You can use both techniques together and use Kubernetes' Protobuf encoding to interact with any API that
-supports it, for both reads and writes. Only some API resource types are [compatible](#protobuf-encoding-compatibility)
-with Protobuf.
+شما می‌توانید هر دو تکنیک را با هم استفاده کنید و از کدگذاری Protobuf کوبرنتیز برای تعامل با هر API که از آن پشتیبانی می‌کند، چه برای خواندن و چه برای نوشتن، استفاده کنید. فقط برخی از انواع منابع API با Protobuf سازگار هستند (#protobuf-encoding-compatibility).
 
 <a id="protobuf-encoding-idl" />
 
-The wrapper format is:
+قالب بسته‌بندی به صورت زیر است:
 
 ```
-A four byte magic number prefix:
+یک پیشوند عدد جادویی چهار بایتی:
   Bytes 0-3: "k8s\x00" [0x6b, 0x38, 0x73, 0x00]
 
-An encoded Protobuf message with the following IDL:
+یک پیام Protobuf کدگذاری شده با IDL زیر:
   message Unknown {
     // typeMeta should have the string values for "kind" and "apiVersion" as set on the JSON object
     optional TypeMeta typeMeta = 1;
@@ -309,23 +264,14 @@ An encoded Protobuf message with the following IDL:
 ```
 
 {{< note >}}
-Clients that receive a response in `application/vnd.kubernetes.protobuf` that does
-not match the expected prefix should reject the response, as future versions may need
-to alter the serialization format in an incompatible way and will do so by changing
-the prefix.
+کلاینت‌هایی که پاسخی در `application/vnd.kubernetes.protobuf` دریافت می‌کنند که با پیشوند مورد انتظار مطابقت ندارد، باید پاسخ را رد کنند، زیرا نسخه‌های آینده ممکن است نیاز به تغییر قالب سریال‌سازی به روشی ناسازگار داشته باشند و این کار را با تغییر پیشوند انجام خواهند داد.
 {{< /note >}}
 
 #### Compatibility with Kubernetes Protobuf {#protobuf-encoding-compatibility}
 
-Not all API resource types support Kubernetes' Protobuf encoding; specifically, Protobuf isn't
-available for resources that are defined as
-{{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinitions" >}}
-or are served via the
-{{< glossary_tooltip text="aggregation layer" term_id="aggregation-layer" >}}.
+همه انواع منابع API از کدگذاری Protobuf کوبرنتیز پشتیبانی نمی‌کنند؛ به طور خاص، Protobuf برای منابعی که به صورت {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinitions" >}} تعریف شده‌اند یا از طریق {{< glossary_tooltip text="aggregation layer" term_id="aggregation-layer" >}} ارائه می‌شوند، در دسترس نیست.
 
-As a client, if you might need to work with extension types you should specify multiple
-content types in the request `Accept` header to support fallback to JSON.
-For example:
+به عنوان یک کلاینت، اگر نیاز به کار با انواع افزونه‌ها دارید، باید چندین نوع محتوا را در هدر درخواست `accept` مشخص کنید تا از JSON پشتیبانی شود. برای مثال:
 
 ```
 Accept: application/vnd.kubernetes.protobuf, application/json
@@ -335,57 +281,31 @@ Accept: application/vnd.kubernetes.protobuf, application/json
 
 {{< feature-state feature_gate_name="CBORServingAndStorage" >}}
 
-With the `CBORServingAndStorage` [feature gate](/docs/reference/command-line-tools-reference/feature-gates/)
-enabled, request and response bodies for all built-in resource types and all resources defined by a
-{{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} may be encoded to the
-[CBOR](https://www.rfc-editor.org/rfc/rfc8949) binary data format. CBOR is also supported at the
-{{< glossary_tooltip text="aggregation layer" term_id="aggregation-layer" >}} if it is enabled in
-individual aggregated API servers.
+با فعال بودن `CBORServingAndStorage` [feature gate](/docs/reference/command-line-tools-reference/feature-gates/)، بدنه‌های درخواست و پاسخ برای همه انواع منابع داخلی و همه منابع تعریف شده توسط یک {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} می‌توانند به فرمت داده دودویی [CBOR](https://www.rfc-editor.org/rfc/rfc8949)) کدگذاری شوند. CBOR همچنین در {{< glossary_tooltip text="aggregation layer" term_id="aggregation-layer" >}} پشتیبانی می‌شود، اگر در سرورهای API تجمیع شده جداگانه فعال باشد.
 
-Clients should indicate the IANA media type `application/cbor` in the `Content-Type` HTTP request
-header when the request body contains a single CBOR
-[encoded data item](https://www.rfc-editor.org/rfc/rfc8949.html#section-1.2-4.2), and in the `Accept` HTTP request
-header when prepared to accept a CBOR encoded data item in the response. API servers will use
-`application/cbor` in the `Content-Type` HTTP response header when the response body contains a
-CBOR-encoded object.
+کلاینت‌ها باید نوع رسانه IANA `application/cbor` را در سربرگ درخواست HTTP `Content-Type` مشخص کنند، زمانی که بدنه درخواست شامل یک آیتم داده کدگذاری شده CBOR [encoded data item](https://www.rfc-editor.org/rfc/rfc8949.html#section-1.2-4.2) باشد، و در سربرگ درخواست HTTP `Accept`، زمانی که آماده پذیرش یک آیتم داده کدگذاری شده CBOR در پاسخ هستند. سرورهای API از `application/cbor` در سربرگ پاسخ HTTP `Content-Type` استفاده می‌کنند، زمانی که بدنه پاسخ شامل یک شیء کدگذاری شده CBOR باشد.
 
-If an API server encodes its response to a [watch request](#efficient-detection-of-changes) using
-CBOR, the response body will be a [CBOR Sequence](https://www.rfc-editor.org/rfc/rfc8742) and the
-`Content-Type` HTTP response header will use the IANA media type `application/cbor-seq`. Each entry
-of the sequence (if any) is a single CBOR-encoded watch event.
+اگر یک سرور API پاسخ خود به یک [watch request](#efficient-detection-of-changes) را با استفاده از CBOR کدگذاری کند، `Content-Type` یک [CBOR Sequence](https://www.rfc-editor.org/rfc/rfc8742) خواهد بود و هدر پاسخ HTTP از نوع رسانه IANA `application/cbor-seq` استفاده خواهد کرد. هر ورودی از این توالی (در صورت وجود) یک رویداد watch کدگذاری شده توسط CBOR است.
 
-In addition to the existing `application/apply-patch+yaml` media type for YAML-encoded
-[server-side apply configurations](#patch-and-apply), API servers that enable CBOR will accept the
-`application/apply-patch+cbor` media type for CBOR-encoded server-side apply configurations. There
-is no supported CBOR equivalent for `application/json-patch+json` or `application/merge-patch+json`,
-or `application/strategic-merge-patch+json`.
+
+علاوه بر نوع رسانه‌ی موجود `application/apply-patch+yaml` برای YAML-encoded
+[server-side apply configurations](#patch-and-apply)، سرورهای API که CBOR را فعال می‌کنند، نوع رسانه‌ی `application/apply-patch+cbor` را برای پیکربندی‌های CBOR-encoded CBOR می‌پذیرند. هیچ معادل CBOR پشتیبانی‌شده‌ای برای `application/json-patch+json` یا `application/merge-patch+json` یا `application/strategic-merge-patch+json` وجود ندارد.
 
 ## Efficient detection of changes
 
-The Kubernetes API allows clients to make an initial request for an object or a
-collection, and then to track changes since that initial request: a **watch**. Clients
-can send a **list** or a **get** and then make a follow-up **watch** request.
+رابط برنامه‌نویسی کاربردی Kubernetes به کلاینت‌ها اجازه می‌دهد تا یک درخواست اولیه برای یک شیء یا یک مجموعه ارسال کنند و سپس تغییرات را از زمان درخواست اولیه پیگیری کنند: یک **watch**. کلاینت‌ها می‌توانند یک **list** یا **get** ارسال کنند و سپس یک درخواست **watch** پیگیری ارسال کنند.
 
-To make this change tracking possible, every Kubernetes object has a `resourceVersion`
-field representing the version of that resource as stored in the underlying persistence
-layer. When retrieving a collection of resources (either namespace or cluster scoped),
-the response from the API server contains a `resourceVersion` value. The client can
-use that `resourceVersion` to initiate a **watch** against the API server.
+برای امکان‌پذیر کردن این ردیابی تغییرات، هر شیء Kubernetes یک فیلد `resourceVersion` دارد که نشان‌دهنده نسخه آن منبع ذخیره شده در لایه پایداری زیرین است. هنگام بازیابی مجموعه‌ای از منابع (اعم از فضای نام یا محدوده خوشه‌ای)، پاسخ از سرور API حاوی یک مقدار `resourceVersion` است. کلاینت می‌تواند از آن `resourceVersion` برای شروع یک **watch** در برابر سرور API استفاده کند.
 
-When you send a **watch** request, the API server responds with a stream of
-changes. These changes itemize the outcome of operations (such as **create**, **delete**,
-and **update**) that occurred after the `resourceVersion` you specified as a parameter
-to the **watch** request. The overall **watch** mechanism allows a client to fetch
-the current state and then subscribe to subsequent changes, without missing any events.
 
-If a client **watch** is disconnected then that client can start a new **watch** from
-the last returned `resourceVersion`; the client could also perform a fresh **get** /
-**list** request and begin again. See [Resource Version Semantics](#resource-versions)
-for more detail.
 
-For example:
+وقتی یک درخواست **watch** ارسال می‌کنید، سرور API با جریانی از تغییرات پاسخ می‌دهد. این تغییرات، نتیجه عملیات‌هایی (مانند **create**، **delete** و **update**) را که پس از `resourceVersion` که به عنوان پارامتر به درخواست **watch** مشخص کرده‌اید، رخ داده‌اند، به صورت جزء به جزء مشخص می‌کنند. مکانیسم کلی **watch** به کلاینت اجازه می‌دهد تا وضعیت فعلی را دریافت کرده و سپس در تغییرات بعدی مشترک شود، بدون اینکه هیچ رویدادی را از دست بدهد.
 
-1. List all of the pods in a given namespace.
+اگر اتصال یک کلاینت **watch** قطع شود، آن کلاینت می‌تواند یک **watch** جدید را از آخرین `resourceVersion` برگردانده شده شروع کند؛ کلاینت همچنین می‌تواند یک درخواست **get** / **list** جدید انجام دهد و دوباره شروع کند. برای جزئیات بیشتر به [Resource Version Semantics](#resource-versions) مراجعه کنید.
+
+به عنوان مثال:
+
+1. تمام پادهای (pods) موجود در یک فضای نام مشخص را فهرست کنید.
 
    ```http
    GET /api/v1/namespaces/test/pods
@@ -401,10 +321,8 @@ For example:
    }
    ```
 
-2. Starting from resource version 10245, receive notifications of any API operations
-   (such as **create**, **delete**, **patch** or **update**) that affect Pods in the
-   _test_ namespace. Each change notification is a JSON document. The HTTP response body
-   (served as `application/json`) consists a series of JSON documents.
+2. با شروع از نسخه منبع ۱۰۲۴۵، اعلان‌هایی از هرگونه عملیات API (مانند **create**، **delete**، **patch** یا **update**) که بر پادها در فضای نام _test_ تأثیر می‌گذارند، دریافت کنید. 
+(به صورت `application/json` ارائه می‌شود) شامل مجموعه‌ای از اسناد JSON است.
 
    ```http
    GET /api/v1/namespaces/test/pods?watch=1&resourceVersion=10245
@@ -424,24 +342,17 @@ For example:
    ...
    ```
 
-A given Kubernetes server will only preserve a historical record of changes for a
-limited time. Clusters using etcd 3 preserve changes in the last 5 minutes by default.
-When the requested **watch** operations fail because the historical version of that
-resource is not available, clients must handle the case by recognizing the status code
-`410 Gone`, clearing their local cache, performing a new **get** or **list** operation,
-and starting the **watch** from the `resourceVersion` that was returned.
+یک سرور Kubernetes مشخص فقط یک رکورد تاریخی از تغییرات را برای مدت زمان محدودی حفظ می‌کند. کلاسترها  که از etcd 3 استفاده می‌کنند، به طور پیش‌فرض تغییرات 5 دقیقه گذشته را حفظ می‌کنند.
+هنگامی که عملیات درخواستی **watch** به دلیل در دسترس نبودن نسخه تاریخی آن منبع با شکست مواجه می‌شود، کلاینت‌ها باید با شناسایی کد وضعیت `410 Gone`، پاک کردن حافظه پنهان محلی خود، انجام یک عملیات **get** یا **list** جدید، و شروع **watch** از `resourceVersion` که بازگردانده شده است، این مورد را مدیریت کنند.
 
-For subscribing to collections, Kubernetes client libraries typically offer some form
-of standard tool for this **list**-then-**watch** logic. (In the Go client library,
-this is called a `Reflector` and is located in the `k8s.io/client-go/tools/cache` package.)
+
+برای عضویت در مجموعه‌ها، کتابخانه‌های کلاینت Kubernetes معمولاً نوعی ابزار استاندارد برای این منطق **list**-سپس-**watch** ارائه می‌دهند. (در کتابخانه کلاینت Go، این ابزار `Reflector` نامیده می‌شود و در بسته `k8s.io/client-go/tools/cache` قرار دارد.)
+
 
 ### Watch bookmarks {#watch-bookmarks}
 
-To mitigate the impact of short history window, the Kubernetes API provides a watch
-event named `BOOKMARK`. It is a special kind of event to mark that all changes up
-to a given `resourceVersion` the client is requesting have already been sent. The
-document representing the `BOOKMARK` event is of the type requested by the request,
-but only includes a `.metadata.resourceVersion` field. For example:
+برای کاهش تأثیر پنجره تاریخچه کوتاه، API کوبرنتیز یک رویداد watch به نام `BOOKMARK` ارائه می‌دهد. این نوع خاصی از رویداد است که نشان می‌دهد همه تغییرات تا `resourceVersion` داده شده که کلاینت درخواست می‌کند، قبلاً ارسال شده‌اند. سندی که رویداد `BOOKMARK` را نشان می‌دهد، از نوع درخواست شده توسط درخواست است، اما فقط شامل یک فیلد `.metadata.resourceVersion` است. به عنوان مثال:
+
 
 ```http
 GET /api/v1/namespaces/test/pods?watch=1&resourceVersion=10245&allowWatchBookmarks=true
@@ -461,43 +372,31 @@ Content-Type: application/json
 }
 ```
 
-As a client, you can request `BOOKMARK` events by setting the
-`allowWatchBookmarks=true` query parameter to a **watch** request, but you shouldn't
-assume bookmarks are returned at any specific interval, nor can clients assume that
-the API server will send any `BOOKMARK` event even when requested.
+به عنوان یک کلاینت، می‌توانید رویدادهای `BOOKMARK` را با تنظیم پارامتر کوئری `allowWatchBookmarks=true` به یک درخواست **watch** درخواست کنید، اما نباید فرض کنید که بوکمارک‌ها در هر بازه زمانی خاصی بازگردانده می‌شوند، و کلاینت‌ها نیز نمی‌توانند فرض کنند که سرور API حتی در صورت درخواست، هر رویداد `BOOKMARK` را ارسال خواهد کرد.
+
 
 ## Streaming lists
 
 {{< feature-state feature_gate_name="WatchList" >}}
 
-On large clusters, retrieving the collection of some resource types may result in
-a significant increase of resource usage (primarily RAM) on the control plane.
-To alleviate the impact and simplify the user experience of the **list** + **watch**
-pattern, Kubernetes v1.32 promotes to beta the feature that allows requesting the initial state
-(previously requested via the **list** request) as part of the **watch** request.
+در کلاستر های  بزرگ، بازیابی مجموعه‌ای از برخی از انواع منابع ممکن است منجر به افزایش قابل توجه استفاده از منابع (عمدتاً RAM) در control plane. شود.
+برای کاهش تأثیر و ساده‌سازی تجربه کاربری الگوی **list** + **watch**، Kubernetes نسخه ۱.۳۲ ویژگی‌ای را که امکان درخواست وضعیت اولیه
+(که قبلاً از طریق درخواست **list** درخواست می‌شد) را به عنوان بخشی از درخواست **watch** فراهم می‌کند، به نسخه بتا ارتقا می‌دهد.
 
-On the client-side the initial state can be requested by specifying `sendInitialEvents=true` as query string parameter
-in a **watch** request. If set, the API server starts the watch stream with synthetic init
-events (of type `ADDED`) to build the whole state of all existing objects followed by a
-[`BOOKMARK` event](/docs/reference/using-api/api-concepts/#watch-bookmarks)
-(if requested via `allowWatchBookmarks=true` option). The bookmark event includes the resource version
-to which is synced. After sending the bookmark event, the API server continues as for any other **watch**
-request.
 
-When you set `sendInitialEvents=true` in the query string, Kubernetes also requires that you set
-`resourceVersionMatch` to `NotOlderThan` value.
-If you provided `resourceVersion` in the query string without providing a value or don't provide
-it at all, this is interpreted as a request for _consistent read_;
-the bookmark event is sent when the state is synced at least to the moment of a consistent read
-from when the request started to be processed. If you specify `resourceVersion` (in the query string),
-the bookmark event is sent when the state is synced at least to the provided resource version.
+در سمت کلاینت، می‌توان با تعیین `sendInitialEvents=true` به عنوان پارامتر رشته پرس‌وجو در یک درخواست **watch**، وضعیت اولیه را درخواست کرد. در صورت تنظیم، سرور API، جریان watch را با رویدادهای init مصنوعی (از نوع `ADDED`) برای ساخت کل وضعیت همه اشیاء موجود و به دنبال آن یک رویداد `[`BOOKMARK`](/docs/reference/using-api/api-concepts/#watch-bookmarks)` (در صورت درخواست از طریق گزینه `allowWatchBookmarks=true`) آغاز می‌کند. رویداد bookmark شامل نسخه منبعی است که با آن همگام‌سازی شده است. پس از ارسال رویداد bookmark، سرور API مانند هر درخواست **watch** دیگری ادامه می‌دهد.
+
+
+وقتی در رشته پرس‌وجو مقدار `sendInitialEvents=true` را تنظیم می‌کنید، Kubernetes همچنین از شما می‌خواهد که مقدار `resourceVersionMatch` را روی `NotOlderThan` تنظیم کنید.
+اگر `resourceVersion` را در رشته پرس‌وجو بدون ارائه مقداری ارائه دهید یا اصلاً آن را ارائه ندهید، این به عنوان درخواستی برای _consistent read_ تفسیر می‌شود.
+رویداد bookmark زمانی ارسال می‌شود که state حداقل تا لحظه شروع خواندن مداوم از زمانی که درخواست شروع به پردازش می‌کند، همگام‌سازی شود. اگر `resourceVersion` را (در رشته پرس‌وجو) مشخص کنید،
+رویداد bookmark زمانی ارسال می‌شود که state حداقل با نسخه منبع ارائه شده همگام‌سازی شود.
 
 ### Example {#example-streaming-lists}
 
-An example: you want to watch a collection of Pods. For that collection, the current resource version
-is 10245 and there are two pods: `foo` and `bar`. Then sending the following request (explicitly requesting
-_consistent read_ by setting empty resource version using `resourceVersion=`) could result
-in the following sequence of events:
+یک مثال: شما می‌خواهید مجموعه‌ای از پادها را زیر نظر بگیرید. برای آن مجموعه، نسخه فعلی منبع 10245 است و دو پاد وجود دارد: `foo` و `bar`. سپس ارسال درخواست زیر (که به صراحت درخواست _consistent read_ با تنظیم نسخه خالی منبع با استفاده از `resourceVersion=` را می‌دهد) می‌تواند منجر به توالی رویدادهای زیر شود:
+
+در توالی رویدادهای زیر:
 
 ```http
 GET /api/v1/namespaces/test/pods?watch=1&sendInitialEvents=true&allowWatchBookmarks=true&resourceVersion=&resourceVersionMatch=NotOlderThan
@@ -526,19 +425,17 @@ Content-Type: application/json
 
 {{< feature-state feature_gate_name="APIResponseCompression" >}}
 
-`APIResponseCompression` is an option that allows the API server to compress the responses for **get**
-and **list** requests, reducing the network bandwidth and improving the performance of large-scale clusters.
-It is enabled by default since Kubernetes 1.16 and it can be disabled by including
-`APIResponseCompression=false` in the `--feature-gates` flag on the API server.
 
-API response compression can significantly reduce the size of the response, especially for large resources or
-[collections](/docs/reference/using-api/api-concepts/#collections).
-For example, a **list** request for pods can return hundreds of kilobytes or even megabytes of data,
-depending on the number of pods and their attributes. By compressing the response, the network bandwidth
-can be saved and the latency can be reduced.
+`APIResponseCompression` گزینه‌ای است که به سرور API اجازه می‌دهد پاسخ‌ها را برای درخواست‌های **get** و **list** فشرده کند، پهنای باند شبکه را کاهش دهد و عملکرد کلاستر های  بزرگ را بهبود بخشد
+این قابلیت به طور پیش‌فرض از Kubernetes 1.16 فعال شده است و می‌توان آن را با قرار دادن `APIResponseCompression=false` در فلگ `--feature-gates` در سرور API غیرفعال کرد.
 
-To verify if `APIResponseCompression` is working, you can send a **get** or **list** request to the
-API server with an `Accept-Encoding` header, and check the response size and headers. For example:
+
+
+فشرده‌سازی پاسخ API می‌تواند به طور قابل توجهی اندازه پاسخ را کاهش دهد، به خصوص برای منابع بزرگ یا [collections](/docs/reference/using-api/api-concepts/#collections).
+به عنوان مثال، یک درخواست **list** برای پادها می‌تواند صدها کیلوبایت یا حتی مگابایت داده را برگرداند، بسته به تعداد پادها و ویژگی‌های آنها. با فشرده‌سازی پاسخ، می‌توان پهنای باند شبکه را ذخیره کرد و تأخیر را کاهش داد.
+
+
+برای تأیید اینکه آیا `APIResponseCompression` کار می‌کند، می‌توانید یک درخواست **get** یا **list** به سرور API با هدر `Accept-Encoding` ارسال کنید و اندازه و هدرهای پاسخ را بررسی کنید. برای مثال:
 
 ```http
 GET /api/v1/pods
