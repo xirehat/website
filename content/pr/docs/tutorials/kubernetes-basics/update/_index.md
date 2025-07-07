@@ -1,4 +1,4 @@
 ---
-title: Update Your App
+title: برنامه خود را به روز کنید
 weight: 60
 ---

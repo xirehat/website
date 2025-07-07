@@ -1,5 +1,5 @@
 ---
-title: Learn Kubernetes Basics
+title: اصول اولیه Kubernetes را بیاموزید
 main_menu: true
 no_list: true
 weight: 20
@@ -7,33 +7,36 @@ content_type: concept
 card:
   name: tutorials
   weight: 20
-  title: Walkthrough the basics
+  title: اصول اولیه را مرور کنید
 ---
 
 ## {{% heading "objectives" %}}
 
-This tutorial provides a walkthrough of the basics of the Kubernetes cluster orchestration
-system. Each module contains some background information on major Kubernetes features
-and concepts, and a tutorial for you to follow along.
 
-Using the tutorials, you can learn to:
 
-* Deploy a containerized application on a cluster.
-* Scale the deployment.
-* Update the containerized application with a new software version.
-* Debug the containerized application.
+این آموزش، مروری بر اصول اولیه Kubernetes cluster orchestrationارائه می‌دهد. هر ماژول شامل اطلاعات پیش‌زمینه‌ای در مورد ویژگی‌ها و مفاهیم اصلی Kubernetes و یک آموزش برای دنبال کردن شما است.
 
-## What can Kubernetes do for you?
 
-With modern web services, users expect applications to be available 24/7, and developers
-expect to deploy new versions of those applications several times a day. Containerization
-helps package software to serve these goals, enabling applications to be released and updated
-without downtime. Kubernetes helps you make sure those containerized applications run where
-and when you want, and helps them find the resources and tools they need to work. Kubernetes
-is a production-ready, open source platform designed with Google's accumulated experience in
-container orchestration, combined with best-of-breed ideas from the community.
+با استفاده از این آموزش‌ها، می‌توانید موارد زیر را یاد بگیرید:
 
-## Kubernetes Basics Modules
+* یک برنامه کانتینری شده را روی یک کلاستر مستقر کنید.
+
+* استقرار را مقیاس‌بندی کنید.
+
+* برنامه کانتینری شده را با یک نسخه نرم‌افزاری جدید به‌روزرسانی کنید.
+
+* برنامه کانتینری شده را اشکال‌زدایی کنید.
+
+
+
+## کوبرنتیز چه کاری می‌تواند برای شما انجام دهد؟
+
+
+با سرویس‌های وب مدرن، کاربران انتظار دارند که برنامه‌ها به صورت ۲۴ ساعته و ۷ روز هفته در دسترس باشند و توسعه‌دهندگان انتظار دارند نسخه‌های جدیدی از آن برنامه‌ها را چندین بار در روز مستقر کنند. کانتینرسازی به بسته‌بندی نرم‌افزار برای دستیابی به این اهداف کمک می‌کند و امکان انتشار و به‌روزرسانی برنامه‌ها را بدون از کارافتادگی فراهم می‌کند. کوبرنتیز به شما کمک می‌کند تا مطمئن شوید که برنامه‌های کانتینرسازی شده در هر کجا و هر زمان که می‌خواهید اجرا می‌شوند و به آنها کمک می‌کند تا منابع و ابزارهای مورد نیاز برای کار را پیدا کنند. کوبرنتیز یک پلتفرم متن‌باز آماده برای تولید است که با تجربه انباشته گوگل در زمینه هماهنگی کانتینرها، همراه با بهترین ایده‌های جامعه طراحی شده است.
+
+
+
+## ماژول‌های مبانی Kubernetes
 
 <!-- css code to preserve original format -->
 <link rel="stylesheet" href="/css/style_tutorials.css">

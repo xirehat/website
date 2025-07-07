@@ -1,76 +1,76 @@
 ---
-title: Exposing an External IP Address to Access an Application in a Cluster
-content_type: tutorial
+title: افشای یک آدرس IP خارجی برای دسترسی به یک برنامه در یک کلاستر
+content_type: آموزش
 weight: 10
 ---
 
 <!-- overview -->
 
-This page shows how to create a Kubernetes Service object that exposes an
-external IP address.
+این صفحه نحوه ایجاد یک شیء سرویس Kubernetes را نشان می‌دهد که یک آدرس IP خارجی را در معرض نمایش قرار می‌دهد.
+
 
 ## {{% heading "prerequisites" %}}
 
-* Install [kubectl](/docs/tasks/tools/).
-* Use a cloud provider like Google Kubernetes Engine or Amazon Web Services to
-  create a Kubernetes cluster. This tutorial creates an
-  [external load balancer](/docs/tasks/access-application-cluster/create-external-load-balancer/),
-  which requires a cloud provider.
-* Configure `kubectl` to communicate with your Kubernetes API server. For instructions, see the
-  documentation for your cloud provider.
+
+
+
+*  نصب [kubectl](/docs/tasks/tools/).
+* از یک ارائه‌دهنده ابری مانند Google Kubernetes Engine یا Amazon Web Services برای ایجاد یک کلاستر Kubernetes استفاده کنید. این آموزش یک [external load balancer](/docs/tasks/access-application-cluster/create-external-load-balancer/) ایجاد می‌کند که به یک ارائه‌دهنده ابری نیاز دارد.
+* `kubectl` را برای ارتباط با سرور Kubernetes API خود پیکربندی کنید. برای دستورالعمل‌ها، به مستندات ارائه‌دهنده ابری خود مراجعه کنید.
 
 ## {{% heading "objectives" %}}
 
-* Run five instances of a Hello World application.
-* Create a Service object that exposes an external IP address.
-* Use the Service object to access the running application.
+* پنج نمونه از برنامه Hello World را اجرا کنید.
+* یک شیء سرویس ایجاد کنید که یک آدرس IP خارجی را در معرض نمایش قرار دهد.
+* از شیء سرویس برای دسترسی به برنامه در حال اجرا استفاده کنید.
 
 <!-- lessoncontent -->
 
-## Creating a service for an application running in five pods
+## ایجاد یک سرویس برای اجرای یک برنامه در پنج پاد
 
-1. Run a Hello World application in your cluster:
+1. یک برنامه Hello World را در کلاستر خود اجرا کنید:
+
 
    {{% code_sample file="service/load-balancer-example.yaml" %}}
 
    ```shell
    kubectl apply -f https://k8s.io/examples/service/load-balancer-example.yaml
    ```
-   The preceding command creates a
+  دستور قبلی یک ایجاد می‌کند
    {{< glossary_tooltip text="Deployment" term_id="deployment" >}}
-   and an associated
+   و مرتبط
    {{< glossary_tooltip term_id="replica-set" text="ReplicaSet" >}}.
-   The ReplicaSet has five
+   ReplicaSet پنج مورد دارد
    {{< glossary_tooltip text="Pods" term_id="pod" >}}
-   each of which runs the Hello World application.
+   که هر کدام برنامه Hello World را اجرا می‌کنند.
 
-1. Display information about the Deployment:
+1. نمایش اطلاعات مربوط به استقرار
 
    ```shell
    kubectl get deployments hello-world
    kubectl describe deployments hello-world
    ```
 
-1. Display information about your ReplicaSet objects:
+1. نمایش اطلاعات مربوط به اشیاء ReplicaSet شما:
 
    ```shell
    kubectl get replicasets
    kubectl describe replicasets
    ```
 
-1. Create a Service object that exposes the deployment:
+1. یک شیء سرویس ایجاد کنید که استقرار را در معرض نمایش قرار دهد:
 
    ```shell
    kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
    ```
 
-1. Display information about the Service:
+1. نمایش اطلاعات مربوط به سرویس:
 
    ```shell
    kubectl get services my-service
    ```
 
-   The output is similar to:
+   خروجی مشابه زیر است:
 
    ```console
    NAME         TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)    AGE
@@ -79,23 +79,26 @@ external IP address.
 
    {{< note >}}
 
-   The `type=LoadBalancer` service is backed by external cloud providers, which is not covered in this example, please refer to [this page](/docs/concepts/services-networking/service/#loadbalancer) for the details.
+   سرویس `type=LoadBalancer` توسط ارائه دهندگان ابری خارجی پشتیبانی می‌شود که در این مثال پوشش داده نشده است، لطفاً برای جزئیات بیشتر به [this page](/docs/concepts/services-networking/service/#loadbalancer) مراجعه کنید.
 
    {{< /note >}}
 
    {{< note >}}
 
-   If the external IP address is shown as \<pending\>, wait for a minute and enter the same command again.
+   اگر آدرس IP خارجی به صورت \<pending\> نشان داده شد، یک دقیقه صبر کنید و دوباره همان دستور را وارد کنید.
+
+
 
    {{< /note >}}
 
-1. Display detailed information about the Service:
+1. نمایش اطلاعات دقیق در مورد سرویس:
 
    ```shell
    kubectl describe services my-service
    ```
 
-   The output is similar to:
+  خروجی مشابه زیر است:
+
 
    ```console
    Name:           my-service
@@ -112,22 +115,18 @@ external IP address.
    Session Affinity:   None
    Events:         <none>
    ```
+   آدرس IP خارجی (`LoadBalancer Ingress`) که توسط سرویس شما در معرض نمایش قرار می‌گیرد را یادداشت کنید. در این مثال، آدرس IP خارجی 104.198.205.71 است.
+همچنین مقدار `Port` و `NodePort` را یادداشت کنید. در این مثال، `Port` برابر با 8080 و `NodePort` برابر با 32377 است.
 
-   Make a note of the external IP address (`LoadBalancer Ingress`) exposed by
-   your service. In this example, the external IP address is 104.198.205.71.
-   Also note the value of `Port` and `NodePort`. In this example, the `Port`
-   is 8080 and the `NodePort` is 32377.
-
-1. In the preceding output, you can see that the service has several endpoints:
-   10.0.0.6:8080,10.0.1.6:8080,10.0.1.7:8080 + 2 more. These are internal
-   addresses of the pods that are running the Hello World application. To
-   verify these are pod addresses, enter this command:
+1. در خروجی قبلی، می‌توانید ببینید که سرویس چندین نقطه پایانی دارد:
+10.0.0.6:8080،10.0.1.6:8080،10.0.1.7:8080 + ۲ مورد دیگر. اینها آدرس‌های داخلی پادهایی هستند که برنامه Hello World را اجرا می‌کنند. برای تأیید اینکه اینها آدرس‌های پاد هستند، این دستور را وارد کنید:
 
    ```shell
    kubectl get pods --output=wide
    ```
 
-   The output is similar to:
+   خروجی مشابه زیر است:
+
 
    ```console
    NAME                         ...  IP         NODE
@@ -138,20 +137,16 @@ external IP address.
    hello-world-2895499144-segjf ...  10.0.2.5   gke-cluster-1-default-pool-e0b8d269-cpuc
    ```
 
-1. Use the external IP address (`LoadBalancer Ingress`) to access the Hello
-   World application:
+1. از آدرس IP خارجی (`LoadBalancer Ingress`) برای دسترسی به برنامه Hello World استفاده کنید:
 
    ```shell
    curl http://<external-ip>:<port>
    ```
 
-   where `<external-ip>` is the external IP address (`LoadBalancer Ingress`)
-   of your Service, and `<port>` is the value of `Port` in your Service
-   description.
-   If you are using minikube, typing `minikube service my-service` will
-   automatically open the Hello World application in a browser.
+   که در آن `<external-ip>` آدرس IP خارجی (`LoadBalancer Ingress`) سرویس شما است و `<port>` مقدار `Port` در توضیحات سرویس شما است.
+اگر از minikube استفاده می‌کنید، تایپ `minikube service my-service` به طور خودکار برنامه Hello World را در مرورگر باز می‌کند.
 
-   The response to a successful request is a hello message:
+  پاسخ به یک درخواست موفق، یک پیام سلام است:
 
    ```shell
    Hello, world!
@@ -161,14 +156,13 @@ external IP address.
 
 ## {{% heading "cleanup" %}}
 
-To delete the Service, enter this command:
+برای حذف سرویس، این دستور را وارد کنید:
 
 ```shell
 kubectl delete services my-service
 ```
 
-To delete the Deployment, the ReplicaSet, and the Pods that are running
-the Hello World application, enter this command:
+برای حذف Deployment، ReplicaSet و Podهایی که برنامه Hello World را اجرا می‌کنند، این دستور را وارد کنید
 
 ```shell
 kubectl delete deployment hello-world

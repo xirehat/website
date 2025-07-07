@@ -1,36 +1,34 @@
 ---
-title: "Example: Deploying PHP Guestbook application with Redis"
+title: "مثال: استقرار برنامه PHP Guestbook با Redis"
 reviewers:
 - ahmetb
 - jimangel
-content_type: tutorial
+content_type: آموزش
 weight: 20
 card:
-  name: tutorials
+  name: آموزش
   weight: 30
-  title: "Stateless Example: PHP Guestbook with Redis"
+  title: "مثال: استقرار برنامه PHP Guestbook با Redis"
 min-kubernetes-server-version: v1.14
 source: https://cloud.google.com/kubernetes-engine/docs/tutorials/guestbook
 ---
 
 <!-- overview -->
-This tutorial shows you how to build and deploy a simple _(not production
-ready)_, multi-tier web application using Kubernetes and
-[Docker](https://www.docker.com/). This example consists of the following
-components:
+این آموزش به شما نشان می‌دهد که چگونه یک برنامه وب چندلایه ساده _(نه آماده تولید)_ را با استفاده از Kubernetes و [Docker](https://www.docker.com/). بسازید و مستقر کنید. این مثال شامل اجزای زیر است:
 
-* A single-instance [Redis](https://www.redis.io/) to store guestbook entries
-* Multiple web frontend instances
 
-## {{% heading "objectives" %}}
+* یک نمونه واحد [Redis](https://www.redis.io/) برای ذخیره ورودی‌های دفتر مهمان
+* چندین نمونه رابط کاربری وب
 
-* Start up a Redis leader.
-* Start up two Redis followers.
-* Start up the guestbook frontend.
-* Expose and view the Frontend Service.
-* Clean up.
+## {{% heading "اهداف" %}}
 
-## {{% heading "prerequisites" %}}
+* یک لیدر Redis راه‌اندازی کنید.
+* دو دنبال‌کننده‌ی Redis راه‌اندازی کنید.
+* رابط کاربریguestbook را راه‌اندازی کنید.
+* سرویس Frontend را نمایش داده و مشاهده کنید.
+* پاک کن
+
+## {{% heading "پیش نیازها" %}}
 
 {{< include "task-tutorial-prereqs.md" >}}
 
@@ -38,18 +36,19 @@ components:
 
 <!-- lessoncontent -->
 
-## Start up the Redis Database
+## راه اندازی پایگاه داده Redis
 
-The guestbook application uses Redis to store its data.
+برنامه‌ی guestbook از Redis برای ذخیره‌ی داده‌های خود استفاده می‌کند.
 
-### Creating the Redis Deployment
+### ایجاد  Redis Deployment
 
-The manifest file, included below, specifies a Deployment controller that runs a single replica Redis Pod.
+فایل مانیفست، که در زیر آمده است، یک کنترلر Deployment را مشخص می‌کند که یک Redis Pod کپی شده را اجرا می‌کند.
+
 
 {{% code_sample file="application/guestbook/redis-leader-deployment.yaml" %}}
 
-1. Launch a terminal window in the directory you downloaded the manifest files.
-1. Apply the Redis Deployment from the `redis-leader-deployment.yaml` file:
+1. یک پنجره ترمینال را در دایرکتوری که فایل‌های مانیفست را دانلود کرده‌اید، اجرا کنید.
+1. Redis Deployment را از فایل `redis-leader-deployment.yaml` اعمال کنید:
 
    <!---
    for local testing of the content via relative file path
@@ -60,35 +59,32 @@ The manifest file, included below, specifies a Deployment controller that runs a
    kubectl apply -f https://k8s.io/examples/application/guestbook/redis-leader-deployment.yaml
    ```
 
-1. Query the list of Pods to verify that the Redis Pod is running:
+1. برای تأیید اجرای Redis Pod، لیست Podها را جستجو کنید:
 
    ```shell
    kubectl get pods
    ```
 
-   The response should be similar to this:
+   پاسخ باید مشابه این باشد:
 
    ```
    NAME                           READY   STATUS    RESTARTS   AGE
    redis-leader-fb76b4755-xjr2n   1/1     Running   0          13s
    ```
 
-1. Run the following command to view the logs from the Redis leader Pod:
+1. برای مشاهده گزارش‌ها از Redis leader Pod، دستور زیر را اجرا کنید:
 
    ```shell
    kubectl logs -f deployment/redis-leader
    ```
 
-### Creating the Redis leader Service
+### ایجاد سرویس رهبر Redis
 
-The guestbook application needs to communicate to the Redis to write its data.
-You need to apply a [Service](/docs/concepts/services-networking/service/) to
-proxy the traffic to the Redis Pod. A Service defines a policy to access the
-Pods.
+برنامه‌ی Guestbook برای نوشتن داده‌هایش باید با Redis ارتباط برقرار کند. شما باید یک [Service](/docs/concepts/services-networking/service/) را برای پراکسی کردن ترافیک به Redis Pod اعمال کنید. یک سرویس، سیاستی را برای دسترسی به Podها تعریف می‌کند.
 
 {{% code_sample file="application/guestbook/redis-leader-service.yaml" %}}
 
-1. Apply the Redis Service from the following `redis-leader-service.yaml` file:
+1. سرویس Redis را از فایل `redis-leader-service.yaml` زیر اعمال کنید:
 
    <!---
    for local testing of the content via relative file path
@@ -99,13 +95,13 @@ Pods.
    kubectl apply -f https://k8s.io/examples/application/guestbook/redis-leader-service.yaml
    ```
 
-1. Query the list of Services to verify that the Redis Service is running:
+1. برای تأیید اجرای سرویس Redis، لیست سرویس‌ها را بررسی کنید:
 
    ```shell
    kubectl get service
    ```
 
-   The response should be similar to this:
+   پاسخ باید مشابه این باشد:
 
    ```
    NAME           TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
@@ -114,19 +110,16 @@ Pods.
    ```
 
 {{< note >}}
-This manifest file creates a Service named `redis-leader` with a set of labels
-that match the labels previously defined, so the Service routes network
-traffic to the Redis Pod.
+این فایل مانیفست، سرویسی به نام `redis-leader` با مجموعه‌ای از برچسب‌ها که با برچسب‌های قبلاً تعریف شده مطابقت دارند، ایجاد می‌کند، بنابراین سرویس، ترافیک شبکه را به Redis Pod هدایت می‌کند.
 {{< /note >}}
 
-### Set up Redis followers
+### دنبال‌کنندگان Redis را تنظیم کنید
 
-Although the Redis leader is a single Pod, you can make it highly available
-and meet traffic demands by adding a few Redis followers, or replicas.
+اگرچه رهبر Redis یک Pod واحد است، اما می‌توانید با اضافه کردن چند دنبال‌کننده یا کپی Redis، آن را در دسترس قرار دهید و نیازهای ترافیکی را برآورده کنید.
 
 {{% code_sample file="application/guestbook/redis-follower-deployment.yaml" %}}
 
-1. Apply the Redis Deployment from the following `redis-follower-deployment.yaml` file:
+1. Redis Deployment را از فایل `redis-follower-deployment.yaml` زیر اعمال کنید:
 
    <!---
    for local testing of the content via relative file path
@@ -137,13 +130,13 @@ and meet traffic demands by adding a few Redis followers, or replicas.
    kubectl apply -f https://k8s.io/examples/application/guestbook/redis-follower-deployment.yaml
    ```
 
-1. Verify that the two Redis follower replicas are running by querying the list of Pods:
+1.   مطمین شوید که  از لیست Podها، تأیید کنید که دو کپی دنبال‌کننده Redis در حال اجرا هستند:
 
    ```shell
    kubectl get pods
    ```
 
-   The response should be similar to this:
+   پاسخ باید مشابه این باشد:
 
    ```
    NAME                             READY   STATUS    RESTARTS   AGE
@@ -152,16 +145,13 @@ and meet traffic demands by adding a few Redis followers, or replicas.
    redis-leader-fb76b4755-xjr2n     1/1     Running   0          11m
    ```
 
-### Creating the Redis follower service
+### ایجاد سرویس دنبال‌کننده Redis
 
-The guestbook application needs to communicate with the Redis followers to
-read data. To make the Redis followers discoverable, you must set up another
-[Service](/docs/concepts/services-networking/service/).
+برنامه‌ی Guestbook برای خواندن داده‌ها نیاز به برقراری ارتباط با دنبال‌کنندگان Redis دارد. برای اینکه دنبال‌کنندگان Redis قابل شناسایی باشند، باید یک سرویس دیگر (/docs/concepts/services-networking/service/) راه‌اندازی کنید.
 
 {{% code_sample file="application/guestbook/redis-follower-service.yaml" %}}
 
-1. Apply the Redis Service from the following `redis-follower-service.yaml` file:
-
+1. سرویس Redis را از فایل `redis-follower-service.yaml` زیر اعمال کنید:
    <!---
    for local testing of the content via relative file path
    kubectl apply -f ./content/en/examples/application/guestbook/redis-follower-service.yaml
@@ -171,13 +161,13 @@ read data. To make the Redis followers discoverable, you must set up another
    kubectl apply -f https://k8s.io/examples/application/guestbook/redis-follower-service.yaml
    ```
 
-1. Query the list of Services to verify that the Redis Service is running:
+1. برای تأیید اجرای سرویس Redis، لیست سرویس‌ها را بررسی کنید:
 
    ```shell
    kubectl get service
    ```
 
-   The response should be similar to this:
+   پاسخ باید مشابه این باشد:
 
    ```
    NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
@@ -187,27 +177,22 @@ read data. To make the Redis followers discoverable, you must set up another
    ```
 
 {{< note >}}
-This manifest file creates a Service named `redis-follower` with a set of
-labels that match the labels previously defined, so the Service routes network
-traffic to the Redis Pod.
+این فایل مانیفست، سرویسی به نام `redis-follower` با مجموعه‌ای از برچسب‌ها که با برچسب‌های قبلاً تعریف شده مطابقت دارند، ایجاد می‌کند، بنابراین سرویس، ترافیک شبکه را به Redis Pod هدایت می‌کند.
 {{< /note >}}
 
-## Set up and Expose the Guestbook Frontend
+## راه‌اندازی و نمایش فرانت‌اند دفتر مهمان
 
-Now that you have the Redis storage of your guestbook up and running, start
-the guestbook web servers. Like the Redis followers, the frontend is deployed
-using a Kubernetes Deployment.
+اکنون که فضای ذخیره‌سازی Redis مربوط به guestbook خود را راه‌اندازی و اجرا کرده‌اید، سرورهای وب guestbook را راه‌اندازی کنید. مانند دنبال‌کنندگان Redis، frontend با استفاده از Kubernetes Deployment مستقر شده است.
 
-The guestbook app uses a PHP frontend. It is configured to communicate with
-either the Redis follower or leader Services, depending on whether the request
-is a read or a write. The frontend exposes a JSON interface, and serves a
-jQuery-Ajax-based UX.
 
-### Creating the Guestbook Frontend Deployment
+برنامه‌ی guestbook از یک رابط کاربری PHP استفاده می‌کند. این برنامه طوری پیکربندی شده است که بسته به اینکه درخواست خواندن یا نوشتن باشد، با سرویس‌های دنبال‌کننده یا رهبر Redis ارتباط برقرار کند. رابط کاربری یک رابط JSON را ارائه می‌دهد و یک رابط کاربری مبتنی بر jQuery-Ajax را ارائه می‌دهد.
+
+
+### ایجاد  Guestbook Frontend Deployment:
 
 {{% code_sample file="application/guestbook/frontend-deployment.yaml" %}}
 
-1. Apply the frontend Deployment from the `frontend-deployment.yaml` file:
+1. افزونه frontend Deployment را از فایل `frontend-deployment.yaml` اعمال کنید:
 
    <!---
    for local testing of the content via relative file path
@@ -218,7 +203,7 @@ jQuery-Ajax-based UX.
    kubectl apply -f https://k8s.io/examples/application/guestbook/frontend-deployment.yaml
    ```
 
-1. Query the list of Pods to verify that the three frontend replicas are running:
+1. برای تأیید اینکه سه کپی frontend در حال اجرا هستند، لیست Podها را جستجو کنید:
 
    ```shell
    kubectl get pods -l app=guestbook -l tier=frontend
@@ -233,29 +218,19 @@ jQuery-Ajax-based UX.
    frontend-85595f5bf9-zchwc   1/1     Running   0          47s
    ```
 
-### Creating the Frontend Service
+### ایجاد سرویس Frontend
 
-The `Redis` Services you applied is only accessible within the Kubernetes
-cluster because the default type for a Service is
-[ClusterIP](/docs/concepts/services-networking/service/#publishing-services-service-types).
-`ClusterIP` provides a single IP address for the set of Pods the Service is
-pointing to. This IP address is accessible only within the cluster.
+سرویس‌های `Redis` که شما اعمال کرده‌اید، فقط در داخل کلاستر Kubernetes قابل دسترسی هستند، زیرا نوع پیش‌فرض برای یک سرویس، [ClusterIP](/docs/concepts/services-networking/service/#publishing-services-service-types) است. `ClusterIP` یک آدرس IP واحد برای مجموعه پادهایی که سرویس به آنها اشاره می‌کند، ارائه می‌دهد. این آدرس IP فقط در داخل کلاستر قابل دسترسی است.
 
-If you want guests to be able to access your guestbook, you must configure the
-frontend Service to be externally visible, so a client can request the Service
-from outside the Kubernetes cluster. However a Kubernetes user can use
-`kubectl port-forward` to access the service even though it uses a
-`ClusterIP`.
+اگر می‌خواهید مهمانان بتوانند به guestbook شما دسترسی داشته باشند، باید سرویس frontend را طوری پیکربندی کنید که از خارج قابل مشاهده باشد، بنابراین یک کلاینت می‌تواند سرویس را از خارج از خوشه Kubernetes درخواست کند. با این حال، یک کاربر Kubernetes می‌تواند از `kubectl port-forward` برای دسترسی به سرویس استفاده کند، حتی اگر از `ClusterIP` استفاده کند.
 
 {{< note >}}
-Some cloud providers, like Google Compute Engine or Google Kubernetes Engine,
-support external load balancers. If your cloud provider supports load
-balancers and you want to use it, uncomment `type: LoadBalancer`.
+برخی از ارائه‌دهندگان خدمات ابری، مانند Google Compute Engine یا Google Kubernetes Engine، از متعادل‌کننده‌های بار خارجی پشتیبانی می‌کنند. اگر ارائه‌دهنده خدمات ابری شما از متعادل‌کننده‌های بار پشتیبانی می‌کند و شما می‌خواهید از آن استفاده کنید، عبارت `type: LoadBalancer` را از حالت کامنت خارج کنید.
 {{< /note >}}
 
 {{% code_sample file="application/guestbook/frontend-service.yaml" %}}
 
-1. Apply the frontend Service from the `frontend-service.yaml` file:
+1. سرویس frontend را از فایل `frontend-service.yaml` اعمال کنید:
 
    <!---
    for local testing of the content via relative file path
@@ -266,13 +241,12 @@ balancers and you want to use it, uncomment `type: LoadBalancer`.
    kubectl apply -f https://k8s.io/examples/application/guestbook/frontend-service.yaml
    ```
 
-1. Query the list of Services to verify that the frontend Service is running:
-
+1. برای تأیید اجرای سرویس frontend، لیست سرویس‌ها را بررسی کنید:
    ```shell
    kubectl get services
    ```
 
-   The response should be similar to this:
+   پاسخ باید مشابه این باشد:
 
    ```
    NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
@@ -282,9 +256,9 @@ balancers and you want to use it, uncomment `type: LoadBalancer`.
    redis-leader     ClusterIP   10.103.78.24    <none>        6379/TCP   11m
    ```
 
-### Viewing the Frontend Service via `kubectl port-forward`
+### مشاهده سرویس Frontend از طریق `kubectl port-forward`
 
-1. Run the following command to forward port `8080` on your local machine to port `80` on the service.
+1. دستور زیر را برای ارسال پورت `8080` روی دستگاه محلی خود به پورت `80` روی سرویس اجرا کنید.
 
    ```shell
    kubectl port-forward svc/frontend 8080:80
@@ -297,52 +271,50 @@ balancers and you want to use it, uncomment `type: LoadBalancer`.
    Forwarding from [::1]:8080 -> 80
    ```
 
-1. load the page [http://localhost:8080](http://localhost:8080) in your browser to view your guestbook.
+1. برای مشاهده‌ی guestbook، صفحه‌ی [http://localhost:8080](http://localhost:8080) را در مرورگر خود بارگذاری کنید.
 
-### Viewing the Frontend Service via `LoadBalancer`
+### مشاهده سرویس Frontend از طریق `LoadBalancer`
 
-If you deployed the `frontend-service.yaml` manifest with type: `LoadBalancer`
-you need to find the IP address to view your Guestbook.
+اگر فایل مانیفست `frontend-service.yaml` را با نوع `LoadBalancer` پیاده‌سازی کرده‌اید، برای مشاهده Guestbook خود باید آدرس IP را پیدا کنید.
 
-1. Run the following command to get the IP address for the frontend Service.
+1. دستور زیر را برای دریافت آدرس IP سرویس frontend اجرا کنید.
 
    ```shell
    kubectl get service frontend
    ```
 
-   The response should be similar to this:
+   پاسخ باید مشابه این باشد:
 
    ```
    NAME       TYPE           CLUSTER-IP      EXTERNAL-IP        PORT(S)        AGE
    frontend   LoadBalancer   10.51.242.136   109.197.92.229     80:32372/TCP   1m
    ```
 
-1. Copy the external IP address, and load the page in your browser to view your guestbook.
+1. آدرس IP خارجی را کپی کنید و صفحه را در مرورگر خود بارگذاری کنید تا دفترچه مهمان خود را مشاهده کنید.
 
 {{< note >}}
-Try adding some guestbook entries by typing in a message, and clicking Submit.
-The message you typed appears in the frontend. This message indicates that
-data is successfully added to Redis through the Services you created earlier.
+با تایپ کردن یک پیام و کلیک روی ارسال، سعی کنید چند ورودی به دفتر مهمان اضافه کنید.
+پیامی که تایپ کردید در قسمت کاربری نمایش داده می‌شود. این پیام نشان می‌دهد که
+داده‌ها با موفقیت از طریق سرویس‌هایی که قبلاً ایجاد کرده‌اید به Redis اضافه شده‌اند.
 {{< /note >}}
 
-## Scale the Web Frontend
+## مقیاس‌بندی ظاهر وب
 
-You can scale up or down as needed because your servers are defined as a
-Service that uses a Deployment controller.
+شما می‌توانید در صورت نیاز، مقیاس را افزایش یا کاهش دهید، زیرا سرورهای شما به عنوان سرویسی تعریف می‌شوند که از یک کنترل‌کننده‌ی استقرار (Deployment controller) استفاده می‌کند.
 
-1. Run the following command to scale up the number of frontend Pods:
+1. برای افزایش تعداد Pod های frontend، دستور زیر را اجرا کنید:
 
    ```shell
    kubectl scale deployment frontend --replicas=5
    ```
 
-1. Query the list of Pods to verify the number of frontend Pods running:
+1. برای تأیید تعداد پادهای frontend در حال اجرا، لیست پادها را جستجو کنید.:
 
    ```shell
    kubectl get pods
    ```
 
-   The response should look similar to this:
+   پاسخ باید شبیه به این باشد:
 
    ```
    NAME                             READY   STATUS    RESTARTS   AGE
@@ -356,19 +328,19 @@ Service that uses a Deployment controller.
    redis-leader-fb76b4755-xjr2n     1/1     Running   0          108m
    ```
 
-1. Run the following command to scale down the number of frontend Pods:
+1. برای کاهش تعداد پادهای فرانت‌اند، دستور زیر را اجرا کنید:
 
    ```shell
    kubectl scale deployment frontend --replicas=2
    ```
 
-1. Query the list of Pods to verify the number of frontend Pods running:
+1. برای تأیید تعداد پادهای فرانت‌اند در حال اجرا، لیست پادها را جستجو کنید:
 
    ```shell
    kubectl get pods
    ```
 
-   The response should look similar to this:
+   پاسخ او باید چیزی شبیه به این باشد:
 
    ```
    NAME                             READY   STATUS    RESTARTS   AGE
@@ -379,12 +351,11 @@ Service that uses a Deployment controller.
    redis-leader-fb76b4755-xjr2n     1/1     Running   0          109m
    ```
 
-## {{% heading "cleanup" %}}
+## {{% heading "پاکسازی" %}}
 
-Deleting the Deployments and Services also deletes any running Pods. Use
-labels to delete multiple resources with one command.
+حذف Deployments و Services، تمام Pod های در حال اجرا را نیز حذف می‌کند. از برچسب‌ها برای حذف چندین منبع با یک دستور استفاده کنید.
 
-1. Run the following commands to delete all Pods, Deployments, and Services.
+1. برای حذف همه Podها، Deployments و سرویس‌ها، دستورات زیر را اجرا کنید.
 
    ```shell
    kubectl delete deployment -l app=redis
@@ -393,7 +364,7 @@ labels to delete multiple resources with one command.
    kubectl delete service frontend
    ```
 
-   The response should look similar to this:
+   پاسخ باید شبیه به این باشد:
 
    ```
    deployment.apps "redis-follower" deleted
@@ -402,22 +373,21 @@ labels to delete multiple resources with one command.
    service "frontend" deleted
    ```
 
-1. Query the list of Pods to verify that no Pods are running:
+1. لیست Podها را بررسی کنید تا مطمئن شوید هیچ Podای در حال اجرا نیست:
 
    ```shell
    kubectl get pods
    ```
 
-   The response should look similar to this:
+   پاسخ باید شبیه به این باشد:
 
    ```
    No resources found in default namespace.
    ```
 
-## {{% heading "whatsnext" %}}
+## {{% heading "بعدی چیست؟" %}}
 
-* Complete the [Kubernetes Basics](/docs/tutorials/kubernetes-basics/) Interactive Tutorials
-* Use Kubernetes to create a blog using [Persistent Volumes for MySQL and Wordpress](/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/#visit-your-new-wordpress-blog)
-* Read more about [connecting applications with services](/docs/tutorials/services/connect-applications-service/)
-* Read more about [using labels effectively](/docs/concepts/overview/working-with-objects/labels/#using-labels-effectively)
-
+* آموزش‌های تعاملی [Kubernetes Basics](/docs/tutorials/kubernetes-basics/) را تکمیل کنید
+* از Kubernetes برای ایجاد یک وبلاگ با استفاده از [Persistent Volumes for MySQL and Wordpress](/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/#visit-your-new-wordpress-blog) استفاده کنید
+* درباره [connecting applications with services](/docs/tutorials/services/connect-applications-service/) بیشتر بخوانید
+* درباره [using labels effectively](/docs/concepts/overview/working-with-objects/labels/#using-labels-effectively) بیشتر بخوانید

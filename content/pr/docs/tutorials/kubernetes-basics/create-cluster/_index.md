@@ -1,7 +1,6 @@
 ---
-title: Create a Cluster
+title: ایجاد یک کلاستر
 weight: 10
 ---
 
-Learn about Kubernetes {{< glossary_tooltip text="cluster" term_id="cluster" length="all" >}} and create a simple cluster using Minikube.
-
+درباره Kubernetes {{< glossary_tooltip text="cluster" term_id="cluster" length="all" >}} اطلاعات کسب کنید و با استفاده از Minikube یک کلاستر ساده ایجاد کنید.

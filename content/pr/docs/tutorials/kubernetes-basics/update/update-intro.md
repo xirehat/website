@@ -1,34 +1,27 @@
 ---
-title: Performing a Rolling Update
+title: انجام یک به‌روزرسانی رو به بالا
 weight: 10
 ---
 
 ## {{% heading "objectives" %}}
 
-Perform a rolling update using kubectl.
+با استفاده از kubectl یک به‌روزرسانی غلتان انجام دهید.
 
-## Updating an application
+## به‌روزرسانی یک برنامه
+
 
 {{% alert %}}
-_Rolling updates allow Deployments' update to take place with zero downtime by
-incrementally updating Pods instances with new ones._
+_به‌ Rolling updates با به‌روزرسانی تدریجی نمونه‌های Pods با موارد جدید، امکان به‌روزرسانی Deployments را بدون هیچ‌گونه قطعی فراهم می‌کند.._
 {{% /alert %}}
 
-Users expect applications to be available all the time, and developers are expected
-to deploy new versions of them several times a day. In Kubernetes this is done with
-rolling updates. A **rolling update** allows a Deployment update to take place with
-zero downtime. It does this by incrementally replacing the current Pods with new ones.
-The new Pods are scheduled on Nodes with available resources, and Kubernetes waits
-for those new Pods to start before removing the old Pods.
+کاربران انتظار دارند که برنامه‌ها همیشه در دسترس باشند و از توسعه‌دهندگان انتظار می‌رود که نسخه‌های جدید آنها را چندین بار در روز مستقر کنند. در Kubernetes این کار با «به‌روزرسانی‌های غلتان» انجام می‌شود. **rolling updates** اجازه می‌دهد تا به‌روزرسانی استقرار بدون هیچ گونه خرابی انجام شود. این کار با جایگزینی تدریجی پادهای فعلی با پادهای جدید انجام می‌شود. پادهای جدید روی گره‌هایی با منابع موجود برنامه‌ریزی می‌شوند و Kubernetes قبل از حذف پادهای قدیمی، منتظر شروع به کار پادهای جدید می‌ماند.
 
-In the previous module we scaled our application to run multiple instances. This
-is a requirement for performing updates without affecting application availability.
-By default, the maximum number of Pods that can be unavailable during the update
-and the maximum number of new Pods that can be created, is one. Both options can
-be configured to either numbers or percentages (of Pods). In Kubernetes, updates are
-versioned and any Deployment update can be reverted to a previous (stable) version.
+در ماژول قبلی، برنامه خود را برای اجرای چندین نمونه مقیاس‌بندی کردیم. این یک الزام برای انجام به‌روزرسانی‌ها بدون تأثیر بر در دسترس بودن برنامه است.
+به طور پیش‌فرض، حداکثر تعداد پادهایی که می‌توانند در طول به‌روزرسانی در دسترس نباشند
+و حداکثر تعداد پادهای جدیدی که می‌توانند ایجاد شوند، یکی است. هر دو گزینه را می‌توان به تعداد یا درصد (از پادها) پیکربندی کرد. در Kubernetes، به‌روزرسانی‌ها
+نسخه‌بندی می‌شوند و هرگونه به‌روزرسانی Deployment را می‌توان به نسخه قبلی (پایدار) برگرداند.
 
-## Rolling updates overview
+## Rolling updates نمای کلی
 
 <!-- animation -->
 <div class="col-md-8">
@@ -51,160 +44,154 @@ versioned and any Deployment update can be reverted to a previous (stable) versi
 </div>
 
 {{% alert %}}
-_If a Deployment is exposed publicly, the Service will load-balance the traffic
-only to available Pods during the update._
+_اگر یک Deployment به صورت عمومی در معرض دید عموم قرار گیرد، سرویس در طول به‌روزرسانی، ترافیک را فقط به Podهای موجود متعادل می‌کند.._
 {{% /alert %}}
 
-Similar to application Scaling, if a Deployment is exposed publicly, the Service
-will load-balance the traffic only to available Pods during the update. An available
-Pod is an instance that is available to the users of the application.
+مشابه مقیاس‌پذیری برنامه، اگر یک Deployment به صورت عمومی در معرض دید عموم قرار گیرد، سرویس در طول به‌روزرسانی، ترافیک را فقط به Podهای موجود متعادل می‌کند. Pod موجود، نمونه‌ای است که برای کاربران برنامه در دسترس است.
 
-Rolling updates allow the following actions:
+Rolling update اقدامات زیر را امکان‌پذیر می‌کنند:
 
-* Promote an application from one environment to another (via container image updates)
-* Rollback to previous versions
-* Continuous Integration and Continuous Delivery of applications with zero downtime
+* انتقال یک برنامه از یک محیط به محیط دیگر (از طریق به‌روزرسانی‌هایcontainer image)
+* بازگشت به نسخه‌های قبلی
+* ادغام مداوم و تحویل مداوم برنامه‌ها با عدم خرابی
 
-In the following interactive tutorial, we'll update our application to a new version,
-and also perform a rollback.
 
-### Update the version of the app
+در آموزش تعاملی زیر، برنامه خود را به نسخه جدید به‌روزرسانی می‌کنیم و همچنین یک بازگشت به نسخه قبل انجام می‌دهیم.
 
-To list your Deployments, run the `get deployments` subcommand:
+
+### نسخه برنامه را به‌روزرسانی کنید
+
+برای فهرست کردن Deployment های خود، زیردستور `get deployments` را اجرا کنید:
 
 ```shell
 kubectl get deployments
 ```
 
-To list the running Pods, run the `get pods` subcommand:
+برای فهرست کردن پادهای در حال اجرا، دستور فرعی `get pods` را اجرا کنید:
+
 
 ```shell
 kubectl get pods
 ```
-
-To view the current image version of the app, run the `describe pods` subcommand
-and look for the `Image` field:
+برای مشاهده نسخه image فعلی برنامه، زیردستور `describe pods` را اجرا کنید و به دنبال فیلد `Image` بگردید:
 
 ```shell
 kubectl describe pods
 ```
-
-To update the image of the application to version 2, use the `set image` subcommand,
-followed by the deployment name and the new image version:
+برای به‌روزرسانی image برنامه به نسخه ۲، از زیردستور `set image` استفاده کنید و به دنبال آن نام استقرار و نسخه جدید image را بنویسید:
 
 ```shell
 kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=docker.io/jocatalin/kubernetes-bootcamp:v2
 ```
-
-The command notified the Deployment to use a different image for your app and initiated
-a rolling update. Check the status of the new Pods, and view the old one terminating
-with the `get pods` subcommand:
+این دستور به Deployment اطلاع داد که از یک image متفاوت برای برنامه شما استفاده کند و یک به‌روزرسانی مداوم را آغاز کرد. وضعیت Podهای جدید را بررسی کنید و با استفاده از زیردستور `get pods`، پایان Podهای قدیمی را مشاهده کنید:
 
 ```shell
 kubectl get pods
 ```
 
-### Verify an update
+### یک به‌روزرسانی را تأیید کنید
 
-First, check that the service is running, as you might have deleted it in previous
-tutorial step, run `describe services/kubernetes-bootcamp`. If it's missing,
-you can create it again with:
+ابتدا، بررسی کنید که سرویس در حال اجرا باشد، زیرا ممکن است آن را در مرحله آموزش قبلی حذف کرده باشید، دستور `describe services/kubernetes-bootcamp` را اجرا کنید. اگر از دست رفته است، می‌توانید دوباره آن را با دستور زیر ایجاد کنید:
+
 
 ```shell
 kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
 ```
 
-Create an environment variable called `NODE_PORT` that has the value of the Node
-port assigned:
+یک متغیر محیطی به نام `NODE_PORT` ایجاد کنید که مقدار پورت گره را داشته باشد:
 
 ```shell
 export NODE_PORT="$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}')"
 echo "NODE_PORT=$NODE_PORT"
 ```
 
-Next, do a `curl` to the exposed IP and port:
+در مرحله بعد، یک `curl` به IP و پورتِ در معرضِ دسترسی انجام دهید:
 
 ```shell
 curl http://"$(minikube ip):$NODE_PORT"
 ```
 
-Every time you run the `curl` command, you will hit a different Pod. Notice that
-all Pods are now running the latest version (`v2`).
+هر بار که دستور `curl` را اجرا می‌کنید، به یک Pod متفاوت برخورد خواهید کرد. توجه داشته باشید که اکنون همه Podها آخرین نسخه (`v2`) را اجرا می‌کنند.
 
-You can also confirm the update by running the `rollout status` subcommand:
+همچنین می‌توانید با اجرای زیردستور `rollout status` به‌روزرسانی را تأیید کنید:
 
 ```shell
 kubectl rollout status deployments/kubernetes-bootcamp
 ```
 
-To view the current image version of the app, run the describe pods subcommand:
+برای مشاهده نسخه تصویر فعلی برنامه، زیردستور describe pods را اجرا کنید:
 
 ```shell
 kubectl describe pods
 ```
 
-In the `Image` field of the output, verify that you are running the latest image
-version (`v2`).
+در فیلد `Image` خروجی، تأیید کنید که از آخرین نسخه Image (`v2`) استفاده می‌کنید.
 
-### Roll back an update
 
-Let’s perform another update, and try to deploy an image tagged with `v10`:
+### یک به‌روزرسانی را برگردانید
+
+بیایید یک به‌روزرسانی دیگر انجام دهیم و سعی کنیم image با برچسب `v10` را مستقر کنیم:
+
 
 ```shell
 kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=gcr.io/google-samples/kubernetes-bootcamp:v10
 ```
 
-Use `get deployments` to see the status of the deployment:
+برای مشاهده وضعیت استقرار از دستور `get deployments` استفاده کنید:
 
 ```shell
 kubectl get deployments
 ```
 
-Notice that the output doesn't list the desired number of available Pods. Run the
-`get pods` subcommand to list all Pods:
+توجه داشته باشید که خروجی تعداد دلخواه Pod های موجود را فهرست نمی‌کند. برای فهرست کردن همه Pod ها، زیردستور `get pods` را اجرا کنید:
+
 
 ```shell
 kubectl get pods
 ```
 
-Notice that some of the Pods have a status of `ImagePullBackOff`.
+توجه کنید که برخی از پادها وضعیت  دارند
+`ImagePullBackOff`.
 
-To get more insight into the problem, run the `describe pods` subcommand:
+برای درک بیشتر مشکل، زیردستور `describe pods` را اجرا کنید:
+
 
 ```shell
 kubectl describe pods
 ```
 
-In the `Events` section of the output for the affected Pods, notice that the `v10`
-image version did not exist in the repository.
+در بخش `Events` در خروجی مربوط به پادهای آسیب‌دیده، توجه کنید که نسخه `v10` ایمیج در مخزن وجود ندارد.
 
-To roll back the deployment to your last working version, use the `rollout undo`
-subcommand:
+
+
+برای بازگرداندن آخرین نسخه فعال به حالت اولیه، از زیردستور rollout undo استفاده کنید:
 
 ```shell
 kubectl rollout undo deployments/kubernetes-bootcamp
 ```
+دستور `rollout undo`، استقرار را به حالت شناخته شده قبلی (`v2` از تصویر) برمی‌گرداند. به‌روزرسانی‌ها نسخه‌بندی می‌شوند و می‌توانید به هر حالت شناخته شده قبلی از استقرار برگردید.
 
-The `rollout undo` command reverts the deployment to the previous known state
-(`v2` of the image). Updates are versioned and you can revert to any previously
-known state of a Deployment.
+از زیردستور `get pods` برای فهرست کردن مجدد Podها استفاده کنید:
 
-Use the `get pods` subcommand to list the Pods again:
+دستور `rollout undo`، استقرار را به حالت شناخته شده قبلی (`v2` از image) برمی‌گرداند. به‌روزرسانی‌ها نسخه‌بندی می‌شوند و می‌توانید به هر حالت شناخته شده قبلی از استقرار برگردید.
+
+از زیردستور `get pods` برای فهرست کردن مجدد Podها استفاده کنید:
+
 
 ```shell
 kubectl get pods
 ```
 
-To check the image deployed on the running Pods, use the `describe pods` subcommand:
+برای بررسی ایمیج مستقر شده روی پادهای در حال اجرا، از زیردستور `describe pods` استفاده کنید:
+
 
 ```shell
 kubectl describe pods
 ```
 
-The Deployment is once again using a stable version of the app (`v2`). The rollback
-was successful.
+استقرار دوباره از نسخه پایدار برنامه (`v2`) استفاده می‌کند. بازگشت به نسخه قبلی با موفقیت انجام شد.
 
-Remember to clean up your local cluster.
+به یاد داشته باشید که cluster محلی خود را تمیز کنید.
 
 ```shell
 kubectl delete deployments/kubernetes-bootcamp services/kubernetes-bootcamp
@@ -212,4 +199,4 @@ kubectl delete deployments/kubernetes-bootcamp services/kubernetes-bootcamp
 
 ## {{% heading "whatsnext" %}}
 
-* Learn more about [Deployments](/docs/concepts/workloads/controllers/deployment/).
+* درباره [Deployments](/docs/concepts/workloads/controllers/deployment/). بیشتر بدانید.

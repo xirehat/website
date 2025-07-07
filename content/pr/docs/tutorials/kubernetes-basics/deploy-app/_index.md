@@ -1,4 +1,4 @@
 ---
-title: Deploy an App
+title: راه اندازی برتامه
 weight: 20
 ---
