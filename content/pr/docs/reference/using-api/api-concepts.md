@@ -447,46 +447,29 @@ content-encoding: gzip
 ...
 ```
 
-The `content-encoding` header indicates that the response is compressed with `gzip`.
+هدر `content-encoding` نشان می‌دهد که پاسخ با «gzip» فشرده شده است.
 
 ## Retrieving large results sets in chunks
 
 {{< feature-state feature_gate_name="APIListChunking" >}}
 
-On large clusters, retrieving the collection of some resource types may result in
-very large responses that can impact the server and client. For instance, a cluster
-may have tens of thousands of Pods, each of which is equivalent to roughly 2 KiB of
-encoded JSON. Retrieving all pods across all namespaces may result in a very large
-response (10-20MB) and consume a large amount of server resources.
+در خوشه‌های بزرگ، بازیابی مجموعه‌ای از برخی از انواع منابع ممکن است منجر به پاسخ‌های بسیار بزرگی شود که می‌تواند سرور و کلاینت را تحت تأثیر قرار دهد. به عنوان مثال، یک کلاستر  ممکن است ده‌ها هزار Pod داشته باشد که هر کدام معادل تقریباً 2 کیلوبایت JSON کدگذاری شده هستند. بازیابی همه Podها در تمام فضاهای نام ممکن است منجر به پاسخ بسیار بزرگی (10-20 مگابایت) شود و مقدار زیادی از منابع سرور را مصرف کند.
 
-The Kubernetes API server supports the ability to break a single large collection request
-into many smaller chunks while preserving the consistency of the total request. Each
-chunk can be returned sequentially which reduces both the total size of the request and
-allows user-oriented clients to display results incrementally to improve responsiveness.
+سرور Kubernetes API از قابلیت تقسیم یک درخواست جمع‌آوری بزرگ به بخش‌های کوچک‌تر پشتیبانی می‌کند، در حالی که ثبات کل درخواست حفظ می‌شود. هر بخش می‌تواند به صورت متوالی برگردانده شود که هم اندازه کل درخواست را کاهش می‌دهد و هم به کلاینت‌های کاربرمحور اجازه می‌دهد تا نتایج را به صورت تدریجی نمایش دهند تا پاسخگویی بهبود یابد.
 
-You can request that the API server handles a **list** by serving single collection
-using pages (which Kubernetes calls _chunks_). To retrieve a single collection in
-chunks, two query parameters `limit` and `continue` are supported on requests against
-collections, and a response field `continue` is returned from all **list** operations
-in the collection's `metadata` field. A client should specify the maximum results they
-wish to receive in each chunk with `limit` and the server will return up to `limit`
-resources in the result and include a `continue` value if there are more resources
-in the collection.
+شما می‌توانید از سرور API بخواهید که با ارائه یک مجموعه واحد با استفاده از صفحات (که Kubernetes آن را _chunks_ می‌نامد) یک **list** را مدیریت کند. برای بازیابی یک مجموعه واحد در تکه‌ها، دو پارامتر پرس‌وجو `limit` و `continue` در درخواست‌های مربوط به مجموعه‌ها پشتیبانی می‌شوند و یک فیلد پاسخ `continue` از تمام عملیات **list** در فیلد `metadata` مجموعه بازگردانده می‌شود. یک کلاینت باید حداکثر نتایجی را که مایل به دریافت در هر تکه است با `limit` مشخص کند و سرور تا منابع `limit` را در نتیجه برمی‌گرداند و در صورت وجود منابع بیشتر در مجموعه، مقدار `continue` را نیز لحاظ می‌کند.
 
-As an API client, you can then pass this `continue` value to the API server on the
-next request, to instruct the server to return the next page (_chunk_) of results. By
-continuing until the server returns an empty `continue` value, you can retrieve the
-entire collection.
 
-Like a **watch** operation, a `continue` token will expire after a short amount
-of time (by default 5 minutes) and return a `410 Gone` if more results cannot be
-returned. In this case, the client will need to start from the beginning or omit the
-`limit` parameter.
+به عنوان یک کلاینت API، می‌توانید این مقدار `continue` را در درخواست بعدی به سرور API ارسال کنید تا به سرور دستور دهید صفحه بعدی (_chunk_) از نتایج را برگرداند. با ادامه دادن تا زمانی که سرور مقدار خالی `continue` را برگرداند، می‌توانید کل مجموعه را بازیابی کنید.
 
-For example, if there are 1,253 pods on the cluster and you want to receive chunks
-of 500 pods at a time, request those chunks as follows:
+مانند یک عملیات **watch**، توکن `continue` پس از مدت زمان کوتاهی (به طور پیش‌فرض ۵ دقیقه) منقضی می‌شود و در صورت عدم امکان بازگشت نتایج بیشتر، خطای `۴۱۰ Gone` را برمی‌گرداند. در این حالت، کلاینت باید از ابتدا شروع کند یا پارامتر `limit` را حذف کند.
 
-1. List all of the pods on a cluster, retrieving up to 500 pods each time.
+
+برای مثال، اگر ۱۲۵۳ پاد روی کلاستر وجود دارد و شما می‌خواهید تکه‌هایی از ۵۰۰ پاد را همزمان دریافت کنید، آن تکه‌ها را به صورت زیر درخواست کنید:
+
+
+1. تمام پادهای یک کلاستر را فهرست کنید و هر بار تا ۵۰۰ پاد بازیابی کنید.
+
 
    ```http
    GET /api/v1/pods?limit=500
@@ -507,7 +490,7 @@ of 500 pods at a time, request those chunks as follows:
    }
    ```
 
-1. Continue the previous call, retrieving the next set of 500 pods.
+1. تماس قبلی را ادامه دهید و مجموعه بعدی ۵۰۰ پاد را بازیابی کنید.
 
    ```http
    GET /api/v1/pods?limit=500&continue=ENCODED_CONTINUE_TOKEN
@@ -528,7 +511,7 @@ of 500 pods at a time, request those chunks as follows:
    }
    ```
 
-1. Continue the previous call, retrieving the last 253 pods.
+1. تماس قبلی را ادامه دهید و مجموعه بعدی 253 پاد را بازیابی کنید.
 
    ```http
    GET /api/v1/pods?limit=500&continue=ENCODED_CONTINUE_TOKEN_2
@@ -548,35 +531,18 @@ of 500 pods at a time, request those chunks as follows:
    }
    ```
 
-Notice that the `resourceVersion` of the collection remains constant across each request,
-indicating the server is showing you a consistent snapshot of the pods. Pods that
-are created, updated, or deleted after version `10245` would not be shown unless
-you make a separate **list** request without the `continue` token. This allows you
-to break large requests into smaller chunks and then perform a **watch** operation
-on the full set without missing any updates.
+توجه داشته باشید که `resourceVersion` (resourceVersion) مجموعه در هر درخواست ثابت می‌ماند، که نشان می‌دهد سرور یک تصویر لحظه‌ای ثابت از پادها (pods) به شما نشان می‌دهد. پادهایی که پس از نسخه `10245` ایجاد، به‌روزرسانی یا حذف می‌شوند، نمایش داده نمی‌شوند، مگر اینکه `یک درخواست **list** جداگانه بدون توکن `continue` ارسال کنید. این به شما امکان می‌دهد `درخواست‌های بزرگ را به بخش‌های کوچک‌تر تقسیم کنید و سپس عملیات **watch** را روی کل مجموعه انجام دهید، بدون اینکه هیچ به‌روزرسانی از دست برود.
 
-`remainingItemCount` is the number of subsequent items in the collection that are not
-included in this response. If the **list** request contained label or field
-{{< glossary_tooltip text="selectors" term_id="selector">}} then the number of
-remaining items is unknown and the API server does not include a `remainingItemCount`
-field in its response.
-If the **list** is complete (either because it is not chunking, or because this is the
-last chunk), then there are no more remaining items and the API server does not include a
-`remainingItemCount` field in its response. The intended use of the `remainingItemCount`
-is estimating the size of a collection.
+
+«remainingItemCount» تعداد اقلام بعدی در مجموعه است که در این پاسخ لحاظ نشده‌اند. اگر درخواست **list** شامل برچسب یا فیلد {{< glossary_tooltip text="selectors" term_id="selector">}} باشد، تعداد اقلام باقی‌مانده ناشناخته است و سرور API فیلد `remainingItemCount` را در پاسخ خود لحاظ نمی‌کند. اگر **list** کامل باشد (یا به این دلیل که قطعه‌بندی نشده است، یا به این دلیل که این آخرین قطعه است)، دیگر اقلام باقی‌مانده وجود ندارد و سرور API فیلد `remainingItemCount` را در پاسخ خود لحاظ نمی‌کند. کاربرد مورد نظر `remainingItemCount` تخمین اندازه یک مجموعه است.
+
 
 ## Collections
 
-In Kubernetes terminology, the response you get from a **list** is
-a _collection_. However, Kubernetes defines concrete kinds for
-collections of different types of resource. Collections have a kind
-named for the resource kind, with `List` appended.
+در اصطلاحات کوبرنتیز، پاسخی که از یک **list** دریافت می‌کنید، یک _مجموعه_ است. با این حال، کوبرنتیز انواع مشخصی را برای مجموعه‌هایی از انواع مختلف منابع تعریف می‌کند. مجموعه‌ها دارای نوعی هستند که برای نوع منبع نامگذاری شده و `List` به آن اضافه شده است.
+وقتی از API برای یک نوع خاص پرس و جو می‌کنید، تمام مواردی که توسط آن پرس و جو برگردانده می‌شوند، از آن نوع هستند. به عنوان مثال، وقتی خدمات را **list** می‌کنید، پاسخ مجموعه دارای `kind` است که روی [`ServiceList`](/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceList); تنظیم شده است.
+هر مورد در آن مجموعه نشان دهنده یک سرویس واحد است. به عنوان مثال:
 
-When you query the API for a particular type, all items returned by that query are
-of that type. For example, when you **list** Services, the collection response
-has `kind` set to
-[`ServiceList`](/docs/reference/kubernetes-api/service-resources/service-v1/#ServiceList);
-each item in that collection represents a single Service. For example:
 
 ```http
 GET /api/v1/services
@@ -601,16 +567,11 @@ GET /api/v1/services
 ...
 ```
 
-There are dozens of collection types (such as `PodList`, `ServiceList`,
-and `NodeList`) defined in the Kubernetes API.
-You can get more information about each collection type from the
-[Kubernetes API](/docs/reference/kubernetes-api/) documentation.
+ده‌ها نوع مجموعه (مانند `PodList`، `ServiceList` و `NodeList`) در API کوبرنتیز تعریف شده‌اند. می‌توانید اطلاعات بیشتری در مورد هر نوع مجموعه را از مستندات [Kubernetes API](/docs/reference/kubernetes-api/) دریافت کنید.
 
-Some tools, such as `kubectl`, represent the Kubernetes collection
-mechanism slightly differently from the Kubernetes API itself.
-Because the output of `kubectl` might include the response from
-multiple **list** operations at the API level, `kubectl` represents
-a list of items using `kind: List`. For example:
+
+برخی ابزارها، مانند `kubectl`، مکانیسم جمع‌آوری Kubernetes را کمی متفاوت از خود API Kubernetes نشان می‌دهند. از آنجا که خروجی `kubectl` ممکن است شامل پاسخ چندین عملیات **list** در سطح API باشد، `kubectl` لیستی از اقلام را با استفاده از `kind: List` نشان می‌دهد. به عنوان مثال:
+
 
 ```shell
 kubectl get services -A -o yaml
@@ -648,32 +609,19 @@ items:
 ```
 
 {{< note >}}
-Keep in mind that the Kubernetes API does not have a `kind` named `List`.
-
-`kind: List` is a client-side, internal implementation detail for processing
-collections that might be of different kinds of object. Avoid depending on
-`kind: List` in automation or other code.
+ه خاطر داشته باشید که API کوبرنتیز `kind` به نام `List` ندارد.
+ یک جزئیات پیاده‌سازی داخلی سمت کلاینت برای پردازش مجموعه‌هایی است که ممکن است از انواع `List:kind` مختلف شیء باشند. از وابستگی به `List:kind` در اتوماسیون یا سایر کدها خودداری کنید.
 {{< /note >}}
 
 ## Receiving resources as Tables
 
-When you run `kubectl get`, the default output format is a simple tabular
-representation of one or more instances of a particular resource type. In the past,
-clients were required to reproduce the tabular and describe output implemented in
-`kubectl` to perform simple lists of objects.
-A few limitations of that approach include non-trivial logic when dealing with
-certain objects. Additionally, types provided by API aggregation or third party
-resources are not known at compile time. This means that generic implementations
-had to be in place for types unrecognized by a client.
 
-In order to avoid potential limitations as described above, clients may request
-the Table representation of objects, delegating specific details of printing to the
-server. The Kubernetes API implements standard HTTP content type negotiation: passing
-an `Accept` header containing a value of `application/json;as=Table;g=meta.k8s.io;v=v1`
-with a `GET` call will request that the server return objects in the Table content
-type.
+وقتی `kubectl get` را اجرا می‌کنید، قالب خروجی پیش‌فرض، یک نمایش جدولی ساده از یک یا چند نمونه از یک نوع منبع خاص است. در گذشته، کلاینت‌ها برای انجام لیست‌های ساده از اشیاء، ملزم به بازتولید جدول و توصیف خروجی پیاده‌سازی شده در `kubectl` بودند. چند محدودیت این رویکرد شامل منطق غیر بدیهی هنگام برخورد با اشیاء خاص است. علاوه بر این، انواع ارائه شده توسط تجمیع API یا منابع شخص ثالث در زمان کامپایل شناخته شده نیستند. این بدان معناست که پیاده‌سازی‌های عمومی باید برای انواعی که توسط کلاینت شناخته نمی‌شوند، وجود داشته باشد.
 
-For example, list all of the pods on a cluster in the Table format.
+برای جلوگیری از محدودیت‌های احتمالی که در بالا توضیح داده شد، کلاینت‌ها می‌توانند نمایش جدولی اشیاء را درخواست کنند و جزئیات خاص چاپ را به سرور واگذار کنند. API کوبرنتیز مذاکره نوع محتوای استاندارد HTTP را پیاده‌سازی می‌کند: ارسال یک هدر `Accept` حاوی مقدار `application/json;as=Table;g=meta.k8s.io;v=v1` با فراخوانی `GET` از سرور درخواست می‌کند که اشیاء را در نوع محتوای جدول برگرداند.
+
+
+برای مثال، تمام پادهای (pods) موجود در یک کلاستر را در قالب جدول فهرست کنید.
 
 ```http
 GET /api/v1/pods
@@ -691,10 +639,7 @@ Content-Type: application/json
     ]
 }
 ```
-
-For API resource types that do not have a custom Table definition known to the control
-plane, the API server returns a default Table response that consists of the resource's
-`name` and `creationTimestamp` fields.
+برای انواع منابع API که تعریف جدول سفارشی شناخته‌شده‌ای برای صفحه کنترل ندارند، سرور API یک پاسخ جدول پیش‌فرض را برمی‌گرداند که شامل فیلدهای `name` و `creationTimestamp` منبع است.
 
 ```http
 GET /apis/crd.example.com/v1alpha1/namespaces/default/resources
@@ -722,22 +667,18 @@ Content-Type: application/json
 }
 ```
 
-Not all API resource types support a Table response; for example, a
-{{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinitions" >}}
-might not define field-to-table mappings, and an APIService that
-[extends the core Kubernetes API](/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/)
-might not serve Table responses at all. If you are implementing a client that
-uses the Table information and must work against all resource types, including
-extensions, you should make requests that specify multiple content types in the
-`Accept` header. For example:
+همه انواع منابع API از پاسخ جدول پشتیبانی نمی‌کنند؛ برای مثال، یک {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinitions" >}}
+ممکن است نگاشت‌های فیلد به جدول را تعریف نکند، و یک APIService که [extends the core Kubernetes API](/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/)
+ممکن است اصلاً پاسخ‌های جدول را ارائه ندهد. اگر در حال پیاده‌سازی کلاینتی هستید که از اطلاعات جدول استفاده می‌کند و باید با همه انواع منابع، از جمله افزونه‌ها، کار کند، باید درخواست‌هایی ارسال کنید که چندین نوع محتوا را در هدر `Accept` مشخص کنند. برای مثال:
 
 ```
 Accept: application/json;as=Table;g=meta.k8s.io;v=v1, application/json
 ```
 
-## Resource deletion
+## حذف منابع
 
-When you **delete** a resource this takes place in two phases.
+وقتی منبعی را **delete** می‌کنید، این کار در دو مرحله انجام می‌شود.
+
 
 1. _finalization_
 1. removal
@@ -753,158 +694,114 @@ When you **delete** a resource this takes place in two phases.
 }
 ```
 
-When a client first sends a **delete** to request the removal of a resource,
-the `.metadata.deletionTimestamp` is set to the current time.
-Once the `.metadata.deletionTimestamp` is set, external controllers that act on finalizers
-may start performing their cleanup work at any time, in any order.
+وقتی یک کلاینت برای اولین بار یک **delete** برای درخواست حذف یک منبع ارسال می‌کند، `.metadata.deletionTimestamp` روی زمان فعلی تنظیم می‌شود.
+پس از تنظیم `.metadata.deletionTimestamp`، کنترل‌کننده‌های خارجی که روی finalizerها عمل می‌کنند، می‌توانند کار پاکسازی خود را در هر زمان و به هر ترتیبی شروع کنند.
 
-Order is **not** enforced between finalizers because it would introduce significant
-risk of stuck `.metadata.finalizers`.
+ترتیب بین نهایی‌کننده‌ها **not** نمی‌شود زیرا خطر قابل توجهی از گیر کردن `.metadata.finalizers` ایجاد می‌کند.
 
-The `.metadata.finalizers` field is shared: any actor with permission can reorder it.
-If the finalizer list were processed in order, then this might lead to a situation
-in which the component responsible for the first finalizer in the list is
-waiting for some signal (field value, external system, or other) produced by a
-component responsible for a finalizer later in the list, resulting in a deadlock.
+فیلد `.metadata.finalizers` مشترک است: هر عاملی که مجوز داشته باشد می‌تواند آن را دوباره مرتب کند.
+اگر لیست نهایی‌ساز به ترتیب پردازش شود، این ممکن است منجر به وضعیتی شود که در آن مؤلفه مسئول اولین نهایی‌ساز در لیست
+منتظر سیگنالی (مقدار فیلد، سیستم خارجی یا موارد دیگر) تولید شده توسط مؤلفه مسئول نهایی‌ساز در مراحل بعدی لیست باشد و در نتیجه بن‌بست ایجاد شود.
 
-Without enforced ordering, finalizers are free to order amongst themselves and are
-not vulnerable to ordering changes in the list.
+بدون ترتیب اجباری، نهایی‌سازها می‌توانند آزادانه بین خودشان مرتب شوند و در برابر تغییرات ترتیب در لیست آسیب‌پذیر نیستند.
 
-Once the last finalizer is removed, the resource is actually removed from etcd.
+پس از حذف آخرین نهایی‌ساز، منبع در واقع از etcd حذف می‌شود.
 
-### Force deletion
+### حذف اجباری
 
 {{< feature-state feature_gate_name="AllowUnsafeMalformedObjectDeletion" >}}
 
 {{< caution >}}
-This may break the workload associated with the resource being force deleted, if it
-relies on the normal deletion flow, so cluster breaking consequences may apply.
+این امر ممکن است حجم کاری مرتبط با حذف اجباری منبع را مختل کند، اگر به جریان حذف عادی متکی باشد، بنابراین ممکن است عواقبی از جمله خرابی کلاستر  اعمال شود.
 {{< /caution >}}
 
-By enabling the delete option `ignoreStoreReadErrorWithClusterBreakingPotential`, the
-user can perform an unsafe force **delete** operation of an undecryptable/corrupt
-resource. This option is behind an ALPHA feature gate, and it is disabled by
-default. In order to use this option, the cluster operator must enable the feature by
-setting the command line option `--feature-gates=AllowUnsafeMalformedObjectDeletion=true`.
+
+با فعال کردن گزینه حذف `ignoreStoreReadErrorWithClusterBreakingPotential`، کاربر می‌تواند عملیات **delete** ناامن یک منبع رمزگشایی نشده/خراب را انجام دهد. این گزینه پشت یک دروازه ویژگی ALPHA قرار دارد و به طور پیش‌فرض غیرفعال است. برای استفاده از این گزینه، اپراتور خوشه باید با تنظیم گزینه خط فرمان `--feature-gates=AllowUnsafeMalformedObjectDeletion=true`، این ویژگی را فعال کند.
 
 {{< note >}}
-The user performing the force **delete** operation must have the privileges to do both
-the **delete** and **unsafe-delete-ignore-read-errors** verbs on the given resource.
+کاربری که عملیات **delete** اجباری را انجام می‌دهد، باید مجوزهای لازم برای انجام هر دو فعل **delete** و خطاهای  **unsafe-delete-ignore-read-errors** را روی منبع داده شده داشته باشد.
 {{< /note >}}
 
-A resource is considered corrupt if it can not be successfully retrieved from the
-storage due to:
+یک منبع در صورتی خراب تلقی می‌شود که به دلایل زیر نتوان آن را با موفقیت از حافظه بازیابی کرد:
 
-- transformation error (for example: decryption failure), or
-- the object failed to decode.
+- خطای تبدیل (برای مثال: خطای رمزگشایی)، یا
+- شیء در رمزگشایی ناموفق بود.
 
-The API server first attempts a normal deletion, and if it fails with
-a _corrupt resource_ error then it triggers the force delete. A force **delete** operation
-is unsafe because it ignores finalizer constraints, and skips precondition checks.
+سرور API ابتدا یک حذف معمولی را امتحان می‌کند و اگر با خطای _corrupt resource_ شکست بخورد، حذف اجباری را آغاز می‌کند. عملیات **delete** ناامن است زیرا محدودیت‌های finalizer را نادیده می‌گیرد و بررسی‌های پیش‌شرط را نادیده می‌گیرد.
 
-The default value for this option is `false`, this maintains backward compatibility.
-For a **delete** request with `ignoreStoreReadErrorWithClusterBreakingPotential`
-set to `true`, the fields `dryRun`, `gracePeriodSeconds`, `orphanDependents`,
-`preconditions`, and `propagationPolicy` must be left unset.
+
+مقدار پیش‌فرض برای این گزینه `false` است، این امر سازگاری با نسخه‌های قبلی را حفظ می‌کند.
+برای درخواست **delete** با `ignoreStoreReadErrorWithClusterBreakingPotential` که روی `true` تنظیم شده باشد، فیلدهای `dryRun`، `gracePeriodSeconds`، `orphanDependents`، `preconditions` و `propagationPolicy` باید بدون تنظیم باقی بمانند.
 
 {{< note >}}
-If the user issues a **delete** request with `ignoreStoreReadErrorWithClusterBreakingPotential`
-set to `true` on an otherwise readable resource, the API server aborts the request with an error.
+اگر کاربر یک درخواست **delete** با مقدار `ignoreStoreReadErrorWithClusterBreakingPotential` روی `true` در یک منبع قابل خواندن دیگر ارسال کند، سرور API درخواست را با خطا لغو می‌کند.
 {{< /note >}}
 
 ## Single resource API
 
-The Kubernetes API verbs **get**, **create**, **update**, **patch**,
-**delete** and **proxy** support single resources only.
-These verbs with single resource support have no support for submitting multiple
-resources together in an ordered or unordered list or transaction.
+افعال API Kubernetes مانند **get**، **create**، **update**، **patch**، **delete** و **proxy** فقط از منابع تکی پشتیبانی می‌کنند. این افعال با پشتیبانی از یک منبع، از ارسال چندین منبع با هم در یک لیست یا تراکنش مرتب یا نامرتب پشتیبانی نمی‌کنند.
 
-When clients (including kubectl) act on a set of resources, the client makes a series
-of single-resource API requests, then aggregates the responses if needed.
 
-By contrast, the Kubernetes API verbs **list** and **watch** allow getting multiple
-resources, and **deletecollection** allows deleting multiple resources.
+وقتی کلاینت‌ها (از جمله kubectl) روی مجموعه‌ای از منابع عمل می‌کنند، کلاینت مجموعه‌ای از درخواست‌های API تک‌منبعی را ارسال می‌کند و سپس در صورت نیاز، پاسخ‌ها را تجمیع می‌کند.
 
-## Field validation
 
-Kubernetes always validates the type of fields. For example, if a field in the
-API is defined as a number, you cannot set the field to a text value. If a field
-is defined as an array of strings, you can only provide an array. Some fields
-allow you to omit them, other fields are required. Omitting a required field
-from an API request is an error.
+در مقابل، افعال **list** و **watch** در API کوبرنتیز امکان دریافت چندین منبع را فراهم می‌کنند و **deletecollection** امکان حذف چندین منبع را فراهم می‌کند.
 
-If you make a request with an extra field, one that the cluster's control plane
-does not recognize, then the behavior of the API server is more complicated.
+## اعتبار سنجی میدانی
 
-By default, the API server drops fields that it does not recognize
-from an input that it receives (for example, the JSON body of a `PUT` request).
 
-There are two situations where the API server drops fields that you supplied in
-an HTTP request.
+Kubernetes همیشه نوع فیلدها را اعتبارسنجی می‌کند. برای مثال، اگر فیلدی در API به عنوان عدد تعریف شده باشد، نمی‌توانید مقدار فیلد را به متن تغییر دهید. اگر فیلدی به عنوان آرایه‌ای از رشته‌ها تعریف شده باشد، فقط می‌توانید یک آرایه ارائه دهید. برخی از فیلدها به شما اجازه می‌دهند آنها را حذف کنید، برخی دیگر الزامی هستند. حذف یک فیلد الزامی از درخواست API یک خطا محسوب می‌شود.
 
-These situations are:
 
-1. The field is unrecognized because it is not in the resource's OpenAPI schema. (One
-   exception to this is for {{< glossary_tooltip term_id="CustomResourceDefinition" text="CRDs" >}}
-   that explicitly choose not to prune unknown fields via `x-kubernetes-preserve-unknown-fields`).
-1. The field is duplicated in the object.
+اگر درخواستی با فیلد اضافی ارسال کنید، فیلدی که صفحه کنترل کلاستر آن را تشخیص نمی‌دهد، رفتار سرور API پیچیده‌تر می‌شود.
 
-### Validation for unrecognized or duplicate fields {#setting-the-field-validation-level}
+به طور پیش‌فرض، سرور API فیلدهایی را که از ورودی دریافتی تشخیص نمی‌دهد (مثلاً بدنه JSON یک درخواست `PUT`) حذف می‌کند.
+
+دو حالت وجود دارد که سرور API فیلدهایی را که شما در یک درخواست HTTP ارائه کرده‌اید، حذف می‌کند.
+
+این موقعیت ها عبارتند از:
+
+
+1. این فیلد به دلیل اینکه در طرح OpenAPI منبع نیست، شناسایی نشده است. (یک استثنا برای این مورد، {{< glossary_tooltip term_id="CustomResourceDefinition" text="CRDs" >}} است که صریحاً تصمیم می‌گیرند فیلدهای ناشناخته را از طریق `x-kubernetes-preserve-unknown-fields` حذف نکنند.)
+
+1. فیلد در شیء کپی شده است.
+
+### اعتبارسنجی برای فیلدهای ناشناخته یا تکراری {#setting-the-field-validation-level}
 
 {{< feature-state feature_gate_name="ServerSideFieldValidation" >}}
 
-From 1.25 onward, unrecognized or duplicate fields in an object are detected via
-validation on the server when you use HTTP verbs that can submit data (`POST`, `PUT`, and `PATCH`).
-Possible levels of validation are `Ignore`, `Warn` (default), and `Strict`.
+از نسخه ۱.۲۵ به بعد، فیلدهای ناشناخته یا تکراری در یک شیء، از طریق اعتبارسنجی در سرور، هنگام استفاده از افعال HTTP که می‌توانند داده‌ها را ارسال کنند (`POST`، `PUT` و `PATCH`)، شناسایی می‌شوند. سطوح اعتبارسنجی ممکن عبارتند از `Ignore`، `Warn` (پیش‌فرض) و `Strict`.
 
-`Ignore`
-: The API server succeeds in handling the request as it would without the erroneous fields
-  being set, dropping all unknown and duplicate fields and giving no indication it
-  has done so.
+
+  `Ignore`
+: سرور API در مدیریت درخواست، همانطور که بدون تنظیم فیلدهای اشتباه انجام می‌داد، موفق می‌شود، تمام فیلدهای ناشناخته و تکراری را حذف می‌کند و هیچ نشانه‌ای از انجام این کار ارائه نمی‌دهد.
 
 `Warn`
-: (Default) The API server succeeds in handling the request, and reports a
-  warning to the client. The warning is sent using the `Warning:` response header,
-  adding one warning item for each unknown or duplicate field. For more
-  information about warnings and the Kubernetes API, see the blog article
+  : (پیش‌فرض) سرور API در مدیریت درخواست موفق می‌شود و یک هشدار به کلاینت گزارش می‌دهد. این هشدار با استفاده از هدر پاسخ `Warning:` ارسال می‌شود و برای هر فیلد ناشناخته یا تکراری، یک مورد هشدار اضافه می‌کند. برای اطلاعات بیشتر در مورد هشدارها و API Kubernetes، به مقاله وبلاگ مراجعه کنید.
   [Warning: Helpful Warnings Ahead](/blog/2020/09/03/warnings/).
 
 `Strict`
-: The API server rejects the request with a 400 Bad Request error when it
-  detects any unknown or duplicate fields. The response message from the API
-  server specifies all the unknown or duplicate fields that the API server has
-  detected.
+سرور API در صورت تشخیص هرگونه فیلد ناشناخته یا تکراری، درخواست را با خطای 400 Bad Request رد می‌کند. پیام پاسخ از سرور API، تمام فیلدهای ناشناخته یا تکراری که سرور API شناسایی کرده است را مشخص می‌کند.
 
-The field validation level is set by the `fieldValidation` query parameter.
+پارامتر پرس‌وجوی `fieldValidation` تنظیم می‌شود.
 
 {{< note >}}
-If you submit a request that specifies an unrecognized field, and that is also invalid for
-a different reason (for example, the request provides a string value where the API expects
-an integer for a known field), then the API server responds with a 400 Bad Request error, but will
-not provide any information on unknown or duplicate fields (only which fatal
-error it encountered first).
+اگر درخواستی ارسال کنید که یک فیلد ناشناخته را مشخص می‌کند، و آن فیلد نیز به دلیل دیگری نامعتبر است (برای مثال، درخواست یک مقدار رشته‌ای ارائه می‌دهد در حالی که API برای یک فیلد شناخته شده انتظار یک عدد صحیح دارد)، سرور API با خطای 400 درخواست بد پاسخ می‌دهد، اما هیچ اطلاعاتی در مورد فیلدهای ناشناخته یا تکراری ارائه نمی‌دهد (فقط اینکه کدام خطای مهلک ابتدا با آن مواجه شده است).
 
-You always receive an error response in this case, no matter what field validation level you requested.
+در این حالت، صرف نظر از سطح اعتبارسنجی فیلدی که درخواست کرده‌اید، همیشه یک پاسخ خطا دریافت خواهید کرد.
 {{< /note >}}
 
-Tools that submit requests to the server (such as `kubectl`), might set their own
-defaults that are different from the `Warn` validation level that the API server uses
-by default.
+ابزارهایی که درخواست‌ها را به سرور ارسال می‌کنند (مانند `kubectl`)، ممکن است پیش‌فرض‌های خود را تنظیم کنند که با سطح اعتبارسنجی `Warn` که سرور API به طور پیش‌فرض از آن استفاده می‌کند، متفاوت است.
 
-The `kubectl` tool uses the `--validate` flag to set the level of field
-validation. It accepts the values `ignore`, `warn`, and `strict` while
-also accepting the values `true` (equivalent to `strict`) and `false`
-(equivalent to `ignore`). The default validation setting for kubectl is
-`--validate=true`, which means strict server-side field validation.
+بزار `kubectl` از پرچم `--validate` برای تنظیم سطح اعتبارسنجی فیلد استفاده می‌کند. این ابزار مقادیر `ignore`، `warn` و `strict` را می‌پذیرد و در عین حال مقادیر `true` (معادل `strict`) و `false` (معادل `ignore`) را نیز می‌پذیرد. تنظیم اعتبارسنجی پیش‌فرض برای kubectl، `--validate=true` است که به معنای اعتبارسنجی دقیق فیلد در سمت سرور است.
 
-When kubectl cannot connect to an API server with field validation (API servers
-prior to Kubernetes 1.27), it will fall back to using client-side validation.
-Client-side validation will be removed entirely in a future version of kubectl.
+وقتی kubectl نتواند با اعتبارسنجی فیلد به یک سرور API متصل شود (سرورهای API قبل از Kubernetes 1.27)، به استفاده از اعتبارسنجی سمت کلاینت روی می‌آورد. اعتبارسنجی سمت کلاینت در نسخه بعدی kubectl به طور کامل حذف خواهد شد.
+
 
 {{< note >}}
 
-Prior to Kubernetes 1.25, `kubectl --validate` was used to toggle client-side validation on or off as
-a boolean flag.
+قبل از Kubernetes 1.25، از `kubectl --validate` برای فعال یا غیرفعال کردن اعتبارسنجی سمت کلاینت به عنوان یک پرچم بولین استفاده می‌شد.
+
 
 {{< /note >}}
 
@@ -912,49 +809,29 @@ a boolean flag.
 
 {{< feature-state feature_gate_name="DryRun" >}}
 
-When you use HTTP verbs that can modify resources (`POST`, `PUT`, `PATCH`, and
-`DELETE`), you can submit your request in a _dry run_ mode. Dry run mode helps to
-evaluate a request through the typical request stages (admission chain, validation,
-merge conflicts) up until persisting objects to storage. The response body for the
-request is as close as possible to a non-dry-run response. Kubernetes guarantees that
-dry-run requests will not be persisted in storage or have any other side effects.
+وقتی از افعال HTTP که می‌توانند منابع را تغییر دهند (`POST`، `PUT`، `PATCH` و `DELETE`) استفاده می‌کنید، می‌توانید درخواست خود را در حالت _dry run_ ارسال کنید. حالت dry run به ارزیابی یک درخواست از طریق مراحل معمول درخواست (زنجیره پذیرش، اعتبارسنجی، ادغام تداخل‌ها) تا زمان ذخیره اشیاء در حافظه کمک می‌کند. بدنه پاسخ برای درخواست تا حد امکان شبیه به یک پاسخ غیر-dry run است. Kubernetes تضمین می‌کند که درخواست‌های-dry run در حافظه ذخیره نمی‌شوند یا عوارض جانبی دیگری ندارند.
 
-### Make a dry-run request
+### ساخت درخواست Dry-run
 
-Dry-run is triggered by setting the `dryRun` query parameter. This parameter is a
-string, working as an enum, and the only accepted values are:
+اجرای خشک (Dry-run) با تنظیم پارامتر پرس و جوی `dryRun` آغاز می‌شود. این پارامتر یک رشته است که به عنوان یک enum عمل می‌کند و تنها مقادیر پذیرفته شده عبارتند از:
 
 [no value set]
-: Allow side effects. You request this with a query string such as `?dryRun`
-  or `?dryRun&pretty=true`. The response is the final object that would have been
-  persisted, or an error if the request could not be fulfilled.
+: اجازه دادن به عوارض جانبی. شما این را با یک رشته پرس و جو مانند `?dryRun` یا `?dryRun&pretty=true` درخواست می‌کنید. پاسخ، شیء نهایی است که باید ذخیره می‌شد، یا اگر درخواست انجام نمی‌شد، یک خطا.
 
 `All`
-: Every stage runs as normal, except for the final storage stage where side effects
-  are prevented.
+هر مرحله طبق روال عادی پیش می‌رود، به جز مرحله ذخیره‌سازی نهایی که از عوارض جانبی جلوگیری می‌شود
 
-When you set `?dryRun=All`, any relevant
-{{< glossary_tooltip text="admission controllers" term_id="admission-controller" >}}
-are run, validating admission controllers check the request post-mutation, merge is
-performed on `PATCH`, fields are defaulted, and schema validation occurs. The changes
-are not persisted to the underlying storage, but the final object which would have
-been persisted is still returned to the user, along with the normal status code.
+وقتی `?dryRun=All` را تنظیم می‌کنید، هرگونه {{< glossary_tooltip text="admission controllers" term_id="admission-controller" >}}
+اجرا می‌شوند، کنترل‌کننده‌های اعتبارسنجی پذیرش، درخواست را پس از جهش بررسی می‌کنند، ادغام روی `PATCH` انجام می‌شود، فیلدها پیش‌فرض می‌شوند و اعتبارسنجی طرحواره رخ می‌دهد. تغییرات در حافظه اصلی ذخیره نمی‌شوند، اما شیء نهایی که باید ذخیره می‌شد، همچنان به همراه کد وضعیت عادی به کاربر بازگردانده می‌شود.
 
-If the non-dry-run version of a request would trigger an admission controller that has
-side effects, the request will be failed rather than risk an unwanted side effect. All
-built in admission control plugins support dry-run. Additionally, admission webhooks can
-declare in their
-[configuration object](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#validatingwebhook-v1-admissionregistration-k8s-io)
-that they do not have side effects, by setting their `sideEffects` field to `None`.
+اگر نسخه غیر dry-run یک درخواست، یک کنترل‌کننده پذیرش را که دارای عوارض جانبی است، فعال کند، درخواست به جای ریسک یک عارضه جانبی ناخواسته، با شکست مواجه خواهد شد. همه افزونه‌های کنترل پذیرش داخلی از dry-run پشتیبانی می‌کنند. علاوه بر این، وب‌هوک‌های پذیرش می‌توانند در [configuration object](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#validatingwebhook-v1-admissionregistration-k8s-io) خود اعلام کنند که عوارض جانبی ندارند، با تنظیم فیلد `sideEffects` خود به `None`.
+
 
 {{< note >}}
-If a webhook actually does have side effects, then the `sideEffects` field should be
-set to "NoneOnDryRun". That change is appropriate provided that the webhook is also
-be modified to understand the `DryRun` field in AdmissionReview, and to prevent side
-effects on any request marked as dry runs.
+اگر یک وب‌هوک واقعاً عوارض جانبی داشته باشد، باید فیلد `sideEffects` روی "NoneOnDryRun" تنظیم شود. این تغییر مناسب است به شرطی که وب‌هوک نیز طوری اصلاح شود که فیلد `DryRun` در AdmissionReview را درک کند و از عوارض جانبی روی هر درخواستی که به عنوان dry run علامت‌گذاری شده است، جلوگیری کند.
 {{< /note >}}
 
-Here is an example dry-run request that uses `?dryRun=All`:
+در اینجا یک مثال از درخواست dry-run که از `?dryRun=All` استفاده می‌کند، آورده شده است:
 
 ```http
 POST /api/v1/namespaces/test/pods?dryRun=All
@@ -962,33 +839,29 @@ Content-Type: application/json
 Accept: application/json
 ```
 
-The response would look the same as for non-dry-run request, but the values of some
-generated fields may differ.
+پاسخ مشابه درخواست بدون اجرای خشک خواهد بود، اما مقادیر برخی از فیلدهای تولید شده ممکن است متفاوت باشد.
+
 
 ### Generated values
 
-Some values of an object are typically generated before the object is persisted. It
-is important not to rely upon the values of these fields set by a dry-run request,
-since these values will likely be different in dry-run mode from when the real
-request is made. Some of these fields are:
+برخی از مقادیر یک شیء معمولاً قبل از ذخیره شدن شیء تولید می‌شوند. مهم است که به مقادیر این فیلدها که توسط یک درخواست اجرای آزمایشی تعیین می‌شوند، تکیه نکنید، زیرا این مقادیر احتمالاً در حالت اجرای آزمایشی با زمانی که درخواست واقعی ارائه می‌شود، متفاوت خواهند بود. برخی از این فیلدها عبارتند از:
 
-* `name`: if `generateName` is set, `name` will have a unique random name
-* `creationTimestamp` / `deletionTimestamp`: records the time of creation/deletion
-* `UID`: [uniquely identifies](/docs/concepts/overview/working-with-objects/names/#uids)
-  the object and is randomly generated (non-deterministic)
-* `resourceVersion`: tracks the persisted version of the object
-* Any field set by a mutating admission controller
-* For the `Service` resource: Ports or IP addresses that the kube-apiserver assigns to Service objects
 
-### Dry-run authorization
+* `name`: اگر `generateName` تنظیم شده باشد، `name` یک نام تصادفی منحصر به فرد خواهد داشت.
+* `creationTimestamp` / `deletionTimestamp`: زمان ایجاد/حذف را ثبت می‌کند.
+* `UID`:  [uniquely identifies](/docs/concepts/overview/working-with-objects/names/#uids)
+شیء و به طور تصادفی تولید می‌شود (غیر قطعی)
+* `resourceVersion`: نسخه پایدار شیء را ردیابی می‌کند.
+* هر فیلدی که توسط یک کنترل‌کننده پذیرش جهش‌یافته تنظیم شده باشد.
+* برای منبع `Service`: پورت‌ها یا آدرس‌های IP که kube-apiserver به اشیاء سرویس اختصاص می‌دهد.
 
-Authorization for dry-run and non-dry-run requests is identical. Thus, to make
-a dry-run request, you must be authorized to make the non-dry-run request.
 
-For example, to run a dry-run **patch** for a Deployment, you must be authorized
-to perform that **patch**. Here is an example of a rule for Kubernetes
-{{< glossary_tooltip text="RBAC" term_id="rbac">}} that allows patching
-Deployments:
+### Dry-run مجوز
+
+مجوز برای درخواست‌های dry-run و non-dry-run یکسان است. بنابراین، برای ارسال یک درخواست dry-run، باید مجاز به ارسال درخواست non-dry-run باشید.
+
+به عنوان مثال، برای اجرای dry-run **patch** برای یک Deployment، باید مجاز به انجام آن **patch** باشید. در اینجا مثالی از یک قانون برای Kubernetes  {{< glossary_tooltip text="RBAC" term_id="rbac">}}آورده شده است که امکان patching را فراهم می‌کند.
+
 
 ```yaml
 rules:
@@ -997,182 +870,140 @@ rules:
   verbs: ["patch"]
 ```
 
-See [Authorization Overview](/docs/reference/access-authn-authz/authorization/).
+لینک ببینید  [Authorization Overview](/docs/reference/access-authn-authz/authorization/).
 
-## Updates to existing resources {#patch-and-apply}
+## به‌روزرسانی منابع موجود {#patch-and-apply}
 
-Kubernetes provides several ways to update existing objects.
-You can read [choosing an update mechanism](#update-mechanism-choose) to
-learn about which approach might be best for your use case.
+Kubernetes روش‌های مختلفی برای به‌روزرسانی اشیاء موجود ارائه می‌دهد.
+می‌توانید [choosing an update mechanism](#update-mechanism-choose) را مطالعه کنید تا بدانید کدام رویکرد ممکن است برای مورد استفاده شما بهترین باشد. 
 
-You can overwrite (**update**) an existing resource - for example, a ConfigMap -
-using an HTTP PUT. For a PUT request, it is the client's responsibility to specify
-the `resourceVersion` (taking this from the object being updated). Kubernetes uses
-that `resourceVersion` information so that the API server can detect lost updates
-and reject requests made by a client that is out of date with the cluster.
-In the event that the resource has changed (the `resourceVersion` the client
-provided is stale), the API server returns a `409 Conflict` error response.
 
-Instead of sending a PUT request, the client can send an instruction to the API
-server to **patch** an existing resource. A **patch** is typically appropriate
-if the change that the client wants to make isn't conditional on the existing data.
-Clients that need effective detection of lost updates should consider
-making their request conditional on the existing `resourceVersion` (either HTTP PUT or HTTP PATCH),
-and then handle any retries that are needed in case there is a conflict.
+شما می‌توانید یک منبع موجود - مثلاً یک ConfigMap - را با استفاده از HTTP PUT بازنویسی (**update**) کنید. برای یک درخواست PUT، وظیفه کلاینت است که «نسخه منبع» `resourceVersion` را مشخص کند (این را از شیء در حال به‌روزرسانی می‌گیرد). Kubernetes از اطلاعات `resourceVersion` استفاده می‌کند تا سرور API بتواند به‌روزرسانی‌های از دست رفته را تشخیص دهد و درخواست‌های ارسالی توسط کلاینتی که با کلاستر قدیمی است را رد کند. در صورتی که منبع تغییر کرده باشد (نسخه منبعی که کلاینت ارائه می‌دهد قدیمی باشد)، سرور API پاسخ خطای `409 Conflict`  را برمی‌گرداند.
 
-The Kubernetes API supports four different PATCH operations, determined by their
-corresponding HTTP `Content-Type` header:
+به جای ارسال درخواست PUT، کلاینت می‌تواند دستورالعملی را به سرور API ارسال کند تا یک منبع موجود را **patch** کند. یک **patch** معمولاً در صورتی مناسب است که تغییری که کلاینت می‌خواهد ایجاد کند، مشروط به داده‌های موجود نباشد.
+کلاینت‌هایی که نیاز به تشخیص مؤثر به‌روزرسانی‌های از دست رفته دارند، باید در نظر داشته باشند که درخواست خود را مشروط به `resourceVersion` موجود (یا HTTP PUT یا HTTP PATCH) کنند،
+و سپس هرگونه تلاش مجددی را که در صورت وجود تداخل لازم است، مدیریت کنند.
 
-`application/apply-patch+yaml`
-: Server Side Apply YAML (a Kubernetes-specific extension, based on YAML).
-  All JSON documents are valid YAML, so you can also submit JSON using this
-  media type. See [Server Side Apply serialization](/docs/reference/using-api/server-side-apply/#serialization)
-  for more details.
-  To Kubernetes, this is a **create** operation if the object does not exist,
-  or a **patch** operation if the object already exists.
+رابط برنامه‌نویسی کاربردی Kubernetes از چهار عملیات مختلف PATCH پشتیبانی می‌کند که توسط هدر HTTP `Content-Type` مربوط به آنها تعیین می‌شوند:
+
+
+  `application/apply-patch+yaml`
+: Server Side Apply YAML (یک افزونه مخصوص Kubernetes، مبتنی بر YAML).
+تمام اسناد JSON، YAML معتبر هستند، بنابراین می‌توانید JSON را با استفاده از این نوع رسانه نیز ارسال کنید. برای جزئیات بیشتر به [Server Side Apply serialization](/docs/reference/using-api/server-side-apply/#serialization) مراجعه کنید.
+برای Kubernetes، این یک عملیات **create** است اگر شیء وجود نداشته باشد، یا یک عملیات **patch** است اگر شیء از قبل وجود داشته باشد.
 
 `application/json-patch+json`
-: JSON Patch, as defined in [RFC6902](https://tools.ietf.org/html/rfc6902).
-  A JSON patch is a sequence of operations that are executed on the resource;
-  for example `{"op": "add", "path": "/a/b/c", "value": [ "foo", "bar" ]}`.
-  To Kubernetes, this is a **patch** operation.
+: JSON Patch، همانطور که در [RFC6902](https://tools.ietf.org/html/rfc6902) تعریف شده است.
+یک JSON patch دنباله ای از عملیات است که روی منبع اجرا می شوند؛ برای مثال `{"op": "add", "path": "/a/b/c", "value": [ "foo", "bar" ]}`.
+برای Kubernetes، این یک عملیات **patch** است.
   
-  A **patch** using `application/json-patch+json` can include conditions to
-  validate consistency, allowing the operation to fail if those conditions
-  are not met (for example, to avoid a lost update).
+یک **patch** با استفاده از `application/json-patch+json` می‌تواند شامل شرایطی برای اعتبارسنجی سازگاری باشد و در صورت عدم رعایت آن شرایط، عملیات با شکست مواجه شود (برای مثال، برای جلوگیری از از دست رفتن به‌روزرسانی).
 
 `application/merge-patch+json`
-: JSON Merge Patch, as defined in [RFC7386](https://tools.ietf.org/html/rfc7386).
-  A JSON Merge Patch is essentially a partial representation of the resource.
-  The submitted JSON is combined with the current resource to create a new one,
-  then the new one is saved.
-  To Kubernetes, this is a **patch** operation.
+: JSON Merge Patch، همانطور که در [RFC7386](https://tools.ietf.org/html/rfc7386) تعریف شده است.
+یک JSON Merge Patch اساساً نمایش جزئی از منبع است.
+JSON ارسالی با منبع فعلی ترکیب می‌شود تا یک منبع جدید ایجاد شود،
+سپس منبع جدید ذخیره می‌شود.
+
+برای Kubernetes، این یک عملیات **patch** است.
 
 `application/strategic-merge-patch+json`
-: Strategic Merge Patch (a Kubernetes-specific extension based on JSON).
-  Strategic Merge Patch is a custom implementation of JSON Merge Patch.
-  You can only use Strategic Merge Patch with built-in APIs, or with aggregated
-  API servers that have special support for it. You cannot use
-  `application/strategic-merge-patch+json` with any API
-  defined using a {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}.
+: Strategic Merge Patch (یک افزونه مخصوص Kubernetes مبتنی بر JSON).
+Strategic Merge Patch یک پیاده‌سازی سفارشی از JSON Merge Patch است.
+شما فقط می‌توانید از Strategic Merge Patch با APIهای داخلی یا با سرورهای API تجمیعی که پشتیبانی ویژه‌ای از آن دارند استفاده کنید. شما نمی‌توانید از
+`application/strategic-merge-patch+json` با هر API
+تعریف شده با استفاده از {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} استفاده کنید.
   
   {{< note >}}
-  The Kubernetes _server side apply_ mechanism has superseded Strategic Merge
+  مکانیزم _server side apply_ در Kubernetes جایگزین Strategic Merge شده است.
   Patch.
   {{< /note >}}
 
-Kubernetes' [Server Side Apply](/docs/reference/using-api/server-side-apply/)
-feature allows the control plane to track managed fields for newly created objects.
-Server Side Apply provides a clear pattern for managing field conflicts,
-offers server-side **apply** and **update** operations, and replaces the
-client-side functionality of `kubectl apply`.
-
+ویژگی [Server Side Apply](/docs/reference/using-api/server-side-apply/) در Kubernetes به صفحه کنترل اجازه می‌دهد تا فیلدهای مدیریت‌شده برای اشیاء تازه ایجاد شده را ردیابی کند.
+Server Side Apply الگوی روشنی برای مدیریت تداخل فیلدها ارائه می‌دهد، عملیات **apply** و **update** سمت سرور را ارائه می‌دهد و جایگزین عملکرد سمت کلاینت `kubectl apply` می‌شود.
 For Server-Side Apply, Kubernetes treats the request as a **create** if the object
 does not yet exist, and a **patch** otherwise. For other requests that use PATCH
 at the HTTP level, the logical Kubernetes operation is always **patch**.
 
-See [Server Side Apply](/docs/reference/using-api/server-side-apply/) for more details.
 
-### Choosing an update mechanism {#update-mechanism-choose}
+برای جزئیات بیشتر به [Server Side Apply](/docs/reference/using-api/server-side-apply/) مراجعه کنید.
 
-#### HTTP PUT to replace existing resource {#update-mechanism-update}
+### انتخاب یک مکانیزم به‌روزرسانی {#update-mechanism-choose}
 
-The **update** (HTTP `PUT`) operation is simple to implement and flexible,
-but has drawbacks:
+#### HTTP PUT برای جایگزینی منبع موجود {#update-mechanism-update}
 
-* You need to handle conflicts where the `resourceVersion` of the object changes
-  between your client reading it and trying to write it back. Kubernetes always
-  detects the conflict, but you as the client author need to implement retries.
-* You might accidentally drop fields if you decode an object locally (for example,
-  using client-go, you could receive fields that your client does not know how to
-  handle - and then drop them as part of your update.
-* If there's a lot of contention on the object (even on a field, or set of fields,
-  that you're not trying to edit), you might have trouble sending the update.
-  The problem is worse for larger objects and for objects with many fields.
+عملیات **update** (HTTP `PUT`) پیاده‌سازی ساده و انعطاف‌پذیری دارد، اما دارای معایبی است:
 
-#### HTTP PATCH using JSON Patch {#update-mechanism-json-patch}
+* شما باید تداخل‌هایی را که در آن‌ها `resourceVersion` شیء بین خواندن آن توسط کلاینت و تلاش برای نوشتن مجدد آن تغییر می‌کند، مدیریت کنید. کوبرنتیز همیشه تداخل را تشخیص می‌دهد، اما شما به عنوان نویسنده کلاینت باید تلاش‌های مجدد را پیاده‌سازی کنید.
+* اگر یک شیء را به صورت محلی رمزگشایی کنید، ممکن است به طور تصادفی فیلدهایی را حذف کنید (برای مثال، با استفاده از client-go، می‌توانید فیلدهایی را دریافت کنید که کلاینت شما نمی‌داند چگونه با آنها برخورد کند - و سپس آنها را به عنوان بخشی از به‌روزرسانی خود حذف کنید).
+* اگر اختلاف زیادی روی شیء وجود داشته باشد (حتی روی یک فیلد یا مجموعه‌ای از فیلدها که قصد ویرایش آنها را ندارید)، ممکن است در ارسال به‌روزرسانی با مشکل مواجه شوید. این مشکل برای اشیاء بزرگتر و اشیاء با فیلدهای زیاد، بدتر است.
 
-A **patch** update is helpful, because:
 
-* As you're only sending differences, you have less data to send in the `PATCH`
-  request.
-* You can make changes that rely on existing values, such as copying the
-  value of a particular field into an annotation.
-* Unlike with an **update** (HTTP `PUT`), making your change can happen right away
-  even if there are frequent changes to unrelated fields): you usually would
-  not need to retry.
-  * You might still need to specify the `resourceVersion` (to match an existing object)
-    if you want to be extra careful to avoid lost updates
-  * It's still good practice to write in some retry logic in case of errors.
-* You can use test conditions to careful craft specific update conditions.
-  For example, you can increment a counter without reading it if the existing
-  value matches what you expect. You can do this with no lost update risk,
-  even if the object has changed in other ways since you last wrote to it.
-  (If the test condition fails, you can fall back to reading the current value
-  and then write back the changed number).
+#### وصله HTTP با استفاده از وصله JSON {#update-mechanism-json-patch}
 
-However:
+به‌روزرسانی **patch** مفید است، زیرا:
 
-* You need more local (client) logic to build the patch; it helps a lot if you have
-  a library implementation of JSON Patch, or even for making a JSON Patch specifically against Kubernetes.
-* As the author of client software, you need to be careful when building the patch
-  (the HTTP request body) not to drop fields (the order of operations matters).
+* از آنجایی که فقط تفاوت‌ها را ارسال می‌کنید، داده‌های کمتری برای ارسال در درخواست `PATCH` دارید.
+* شما می‌توانید تغییراتی ایجاد کنید که به مقادیر موجود متکی هستند، مانند کپی کردن مقدار یک فیلد خاص در یک حاشیه‌نویسی.
 
-#### HTTP PATCH using Server-Side Apply {#update-mechanism-server-side-apply}
 
-Server-Side Apply has some clear benefits:
+* برخلاف **update** (HTTP `PUT`)، اعمال تغییر می‌تواند بلافاصله انجام شود
+حتی اگر تغییرات مکرری در فیلدهای نامرتبط وجود داشته باشد): معمولاً نیازی به تلاش مجدد نخواهید داشت.
+* اگر می‌خواهید برای جلوگیری از گم شدن به‌روزرسانی‌ها، احتیاط بیشتری داشته باشید، ممکن است هنوز لازم باشد `resourceVersion` را مشخص کنید (برای مطابقت با یک شیء موجود).
+* هنوز هم نوشتن منطق تلاش مجدد برای مواقع بروز خطا، تمرین خوبی است.
+* شما می‌توانید از شرایط آزمایشی برای ایجاد دقیق شرایط به‌روزرسانی خاص استفاده کنید.
+برای مثال، می‌توانید یک شمارنده را بدون خواندن آن افزایش دهید اگر مقدار موجود با آنچه انتظار دارید مطابقت داشته باشد. می‌توانید این کار را بدون خطر از دست دادن به‌روزرسانی انجام دهید،
+حتی اگر شیء از آخرین باری که در آن نوشتید به روش‌های دیگری تغییر کرده باشد.
+(اگر شرایط آزمایشی با شکست مواجه شد، می‌توانید به خواندن مقدار فعلی برگردید
+و سپس عدد تغییر یافته را بنویسید).
 
-* A single round trip: it rarely requires making a `GET` request first.
-  * and you can still detect conflicts for unexpected changes
-  * you have the option to force override a conflict, if appropriate
-* Client implementations are easy to make.
-* You get an atomic create-or-update operation without extra effort
-  (similar to `UPSERT` in some SQL dialects).
+با این حال:
 
-However:
 
-* Server-Side Apply does not work at all for field changes that depend on a current value of the object.
-* You can only apply updates to objects. Some resources in the Kubernetes HTTP API are
-  not objects (they do not have a `.metadata` field), and Server-Side Apply
-  is only relevant for Kubernetes objects.
+* برای ساخت پچ به منطق محلی (کلاینت) بیشتری نیاز دارید؛ اگر پیاده‌سازی کتابخانه‌ای از JSON Patch داشته باشید، یا حتی برای ساخت یک JSON Patch مخصوصاً برای Kubernetes، خیلی مفید خواهد بود.
 
+* به عنوان نویسنده نرم‌افزار کلاینت، هنگام ساخت پچ (بدنه درخواست HTTP) باید مراقب باشید که فیلدها را حذف نکنید (ترتیب عملیات مهم است).
+
+#### وصله HTTP با استفاده از اعمال سمت سرور {#update-mechanism-server-side-apply}
+
+Server-Side Apply مزایای واضحی دارد:
+
+
+* یک رفت و برگشت: به ندرت پیش می‌آید که ابتدا نیاز به ارسال یک درخواست `GET` باشد.  * and you can still detect conflicts for unexpected changes
+* در صورت لزوم، می‌توانید یک تداخل را به زور لغو کنید
+* پیاده‌سازی‌های کلاینت به راحتی انجام می‌شوند.
+* شما یک عملیات ایجاد یا به‌روزرسانی اتمی را بدون تلاش اضافی دریافت می‌کنید (شبیه به `UPSERT` در برخی از نسخه‌های SQL).
+
+
+با این حال:
+
+* تابع Server-Side Apply برای تغییرات فیلدهایی که به مقدار فعلی شیء وابسته هستند، به هیچ وجه کار نمی‌کند.
+* شما فقط می‌توانید به‌روزرسانی‌ها را روی اشیاء اعمال کنید. برخی از منابع در Kubernetes HTTP API شیء نیستند (آنها فیلد `.metadata` ندارند) و Server-Side Apply فقط برای اشیاء Kubernetes مرتبط است.
 ## Resource versions
 
-Resource versions are strings that identify the server's internal version of an
-object. Resource versions can be used by clients to determine when objects have
-changed, or to express data consistency requirements when getting, listing and
-watching resources. Resource versions must be treated as opaque by clients and passed
-unmodified back to the server.
+نسخه‌های منابع رشته‌هایی هستند که نسخه داخلی یک شیء را در سرور مشخص می‌کنند. نسخه‌های منابع می‌توانند توسط کلاینت‌ها برای تعیین زمان تغییر اشیاء یا بیان الزامات سازگاری داده‌ها هنگام دریافت، فهرست‌بندی و مشاهده منابع استفاده شوند. نسخه‌های منابع باید توسط کلاینت‌ها به عنوان مبهم در نظر گرفته شوند و بدون تغییر به سرور بازگردانده شوند.
 
-You must not assume resource versions are numeric or collatable. API clients may
-only compare two resource versions for equality (this means that you must not compare
-resource versions for greater-than or less-than relationships).
 
-### `resourceVersion` fields in metadata {#resourceversion-in-metadata}
+شما نباید فرض کنید که نسخه‌های منابع عددی یا قابل مقایسه هستند. کلاینت‌های API فقط می‌توانند دو نسخه منبع را برای برابری مقایسه کنند (این بدان معناست که شما نباید نسخه‌های منابع را برای روابط بزرگتر یا کوچکتر مقایسه کنید).
 
-Clients find resource versions in resources, including the resources from the response
-stream for a **watch**, or when using **list** to enumerate resources.
+### `resourceVersion`فیلدها در فراداده {#resourceversion-in-metadata}
 
-[v1.meta/ObjectMeta](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#objectmeta-v1-meta) -
-The `metadata.resourceVersion` of a resource instance identifies the resource version the instance was last modified at.
+کلاینت‌ها نسخه‌های منبع را در منابع پیدا می‌کنند، از جمله منابع موجود در جریان پاسخ برای **watch**، یا هنگام استفاده از **list** برای شمارش منابع.
 
-[v1.meta/ListMeta](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#listmeta-v1-meta) -
-The `metadata.resourceVersion` of a resource collection (the response to a **list**) identifies the
-resource version at which the collection was constructed.
+[v1.meta/ObjectMeta](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#objectmeta-v1-meta) - `metadata.resourceVersion` یک نمونه منبع، نسخه منبعی را که نمونه آخرین بار در آن تغییر یافته است، مشخص می‌کند.
 
-### `resourceVersion` parameters in query strings {#the-resourceversion-parameter}
+[v1.meta/ListMeta](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#listmeta-v1-meta) - `metadata.resourceVersion` یک مجموعه منبع (پاسخ به یک **list**) نسخه منبعی را که مجموعه در آن ساخته شده است، مشخص می‌کند.
 
-The **get**, **list**, and **watch** operations support the `resourceVersion` parameter.
-From version v1.19, Kubernetes API servers also support the `resourceVersionMatch`
-parameter on _list_ requests.
+### `resourceVersion` پارامترها در رشته‌های پرس‌وجو {#the-resourceversion-parameter}
 
-The API server interprets the `resourceVersion` parameter differently depending
-on the operation you request, and on the value of `resourceVersion`. If you set
-`resourceVersionMatch` then this also affects the way matching happens.
+عملیات‌های **get**، **list** و **watch** از پارامتر `resourceVersion` پشتیبانی می‌کنند.
+از نسخه v1.19، سرورهای Kubernetes API همچنین از پارامتر `resourceVersionMatch` در درخواست‌های _list_ پشتیبانی می‌کنند.
 
-### Semantics for **get** and **list**
+سرور API بسته به عملیاتی که درخواست می‌کنید و مقدار `resourceVersion`، پارامتر `resourceVersion` را به طور متفاوتی تفسیر می‌کند. اگر `resourceVersionMatch` را تنظیم کنید، این امر بر نحوه‌ی تطبیق نیز تأثیر می‌گذارد.
 
-For **get** and **list**, the semantics of `resourceVersion` are:
+### معناشناسی برای **get** and **list**
+
+برای **get** و **list**، معانی `resourceVersion` به صورت زیر است:
 
 **get:**
 
@@ -1182,25 +1013,19 @@ For **get** and **list**, the semantics of `resourceVersion` are:
 
 **list:**
 
-From version v1.19, Kubernetes API servers support the `resourceVersionMatch` parameter
-on _list_ requests. If you set both `resourceVersion` and `resourceVersionMatch`, the
-`resourceVersionMatch` parameter determines how the API server interprets
-`resourceVersion`.
+از نسخه v1.19، سرورهای API Kubernetes از پارامتر `resourceVersionMatch` در درخواست‌های _list_ پشتیبانی می‌کنند. اگر هر دو `resourceVersion` و `resourceVersionMatch` را تنظیم کنید، پارامتر `resourceVersionMatch` نحوه تفسیر `resourceVersion` توسط سرور API را تعیین می‌کند.
 
-You should always set the `resourceVersionMatch` parameter when setting
-`resourceVersion` on a **list** request. However, be prepared to handle the case
-where the API server that responds is unaware of `resourceVersionMatch`
-and ignores it.
 
-Unless you have strong consistency requirements, using `resourceVersionMatch=NotOlderThan` and
-a known `resourceVersion` is preferable since it can achieve better performance and scalability
-of your cluster than leaving `resourceVersion` and `resourceVersionMatch` unset, which requires
-quorum read to be served.
+شما همیشه باید هنگام تنظیم `resourceVersion` روی یک درخواست **list**، پارامتر `resourceVersionMatch` را تنظیم کنید. با این حال، آماده باشید تا مواردی را که سرور API که پاسخ می‌دهد از `resourceVersionMatch` بی‌اطلاع است و آن را نادیده می‌گیرد، مدیریت کنید.
 
-Setting the `resourceVersionMatch` parameter without setting `resourceVersion` is not valid.
 
-This table explains the behavior of **list** requests with various combinations of
-`resourceVersion` and `resourceVersionMatch`:
+مگر اینکه الزامات سازگاری قوی داشته باشید، استفاده از `resourceVersionMatch=NotOlderThan` و یک `resourceVersion` شناخته شده ترجیح داده می‌شود زیرا می‌تواند عملکرد و مقیاس‌پذیری بهتری را برای خوشه شما نسبت به عدم تنظیم `resourceVersion` و `resourceVersionMatch` که مستلزم ارائه حد نصاب خواندن است، به ارمغان بیاورد.
+
+
+تنظیم پارامتر `resourceVersionMatch` بدون تنظیم `resourceVersion` معتبر نیست.
+
+این جدول رفتار درخواست‌های **list** با ترکیب‌های مختلف `resourceVersion` و `resourceVersionMatch` را توضیح می‌دهد:
+
 
 {{< table caption="resourceVersionMatch and paging parameters for list" >}}
 
@@ -1217,80 +1042,61 @@ This table explains the behavior of **list** requests with various combinations 
 {{< /table >}}
 
 {{< note >}}
-If your cluster's API server does not honor the `resourceVersionMatch` parameter,
-the behavior is the same as if you did not set it.
+اگر سرور API کلاستر شما پارامتر `resourceVersionMatch` را رعایت نکند، رفتار آن مشابه حالتی است که آن را تنظیم نکرده باشید.
 {{< /note >}}
 
-The meaning of the **get** and **list** semantics are:
+معنای معانی **get** و **list** به شرح زیر است:
+
 
 Any
-: Return data at any resource version. The newest available resource version is preferred,
-  but strong consistency is not required; data at any resource version may be served. It is possible
-  for the request to return data at a much older resource version that the client has previously
-  observed, particularly in high availability configurations, due to partitions or stale
-  caches. Clients that cannot tolerate this should not use this semantic.
-  Always served from _watch cache_, improving performance and reducing etcd load.
+: داده‌ها را در هر نسخه منبعی برگردانید. جدیدترین نسخه منبع موجود ترجیح داده می‌شود، اما سازگاری قوی لازم نیست؛ داده‌ها در هر نسخه منبعی ممکن است ارائه شوند. این امکان وجود دارد که درخواست، داده‌ها را در نسخه منبعی بسیار قدیمی‌تر که کلاینت قبلاً مشاهده کرده است، به‌ویژه در پیکربندی‌های با دسترسی بالا، به دلیل پارتیشن‌ها یا حافظه‌های پنهان قدیمی، بازگرداند. کلاینت‌هایی که نمی‌توانند این را تحمل کنند، نباید از این مفهوم استفاده کنند.
+همیشه از _watch cache_ ارائه می‌شود، که باعث بهبود عملکرد و کاهش بار etcd می‌شود.
 
-Most recent
-: Return data at the most recent resource version. The returned data must be
-  consistent (in detail: served from etcd via a quorum read).
-  For etcd v3.4.31+ and v3.5.13+, Kubernetes {{< skew currentVersion >}} serves “most recent” reads from the _watch cache_:
-  an internal, in-memory store within the API server that caches and mirrors the state of data
-  persisted into etcd. Kubernetes requests progress notification to maintain cache consistency against
-  the etcd persistence layer. Kubernetes v1.28 through to v1.30 also supported this
-  feature, although as Alpha it was not recommended for production nor enabled by default until the v1.31 release.
+جدیدترین
+: داده‌ها را در جدیدترین نسخه منبع برگردانید. داده‌های برگشتی باید
+سازگار باشند (به طور مفصل: از طریق یک خواندن حد نصاب از etcd ارائه می‌شوند).
+برای etcd نسخه‌های ۳.۴.۳۱+ و ۳.۵.۱۳+، Kubernetes {{< skew currentVersion >}} "جدیدترین" خواندن‌ها را از _watch cache_ ارائه می‌دهد:
+یک حافظه داخلی در حافظه در سرور API که وضعیت داده‌های
+ذخیره شده در etcd را ذخیره و منعکس می‌کند. Kubernetes برای حفظ سازگاری حافظه پنهان در برابر
+لایه ماندگاری etcd، درخواست اعلان پیشرفت می‌کند. Kubernetes نسخه‌های ۱.۲۸ تا ۱.۳۰ نیز از این ویژگی
+پشتیبانی می‌کرد، اگرچه به عنوان آلفا برای تولید توصیه نمی‌شد و تا زمان انتشار v1.31 به طور پیش‌فرض فعال نبود.
 
-Not older than
-: Return data at least as new as the provided `resourceVersion`. The newest
-  available data is preferred, but any data not older than the provided `resourceVersion` may be
-  served. For **list** requests to servers that honor the `resourceVersionMatch` parameter, this
-  guarantees that the collection's `.metadata.resourceVersion` is not older than the requested
-  `resourceVersion`, but does not make any guarantee about the `.metadata.resourceVersion` of any
-  of the items in that collection.
-  Always served from _watch cache_, improving performance and reducing etcd load.
+قدیمی‌تر از
+: داده‌هایی را برمی‌گرداند که حداقل به اندازه‌ی `resourceVersion` ارائه شده جدید باشند. جدیدترین داده‌های موجود ترجیح داده می‌شوند، اما هر داده‌ای که قدیمی‌تر از `resourceVersion` ارائه شده نباشد، می‌تواند ارائه شود. برای درخواست‌های **list** به سرورهایی که پارامتر `resourceVersionMatch` را رعایت می‌کنند، این پارامتر
+تضمین می‌کند که `.metadata.resourceVersion` مجموعه قدیمی‌تر از `resourceVersion` درخواستی نباشد، اما هیچ تضمینی در مورد `.metadata.resourceVersion` هیچ یک از موارد موجود در آن مجموعه ارائه نمی‌دهد.
+همیشه از _watch cache_ ارائه می‌شود و عملکرد را بهبود می‌بخشد و بار etcd را کاهش می‌دهد.
 
-Exact
-: Return data at the exact resource version provided. If the provided `resourceVersion` is
-  unavailable, the server responds with HTTP `410 Gone`. For **list** requests to servers that honor the
-  `resourceVersionMatch` parameter, this guarantees that the collection's `.metadata.resourceVersion`
-  is the same as the `resourceVersion` you requested in the query string. That guarantee does
-  not apply to the `.metadata.resourceVersion` of any items within that collection.
-  By default served from _etcd_, but with the `ListFromCacheSnapshot` feature gate enabled,
-  API server will attempt to serve the response from snapshot if available.
-  This improves performance and reduces etcd load. Cache snapshots are kept by default for 75 seconds,
-  so if the provided `resourceVersion` is unavailable, the server will fallback to etcd.
+دقیق
+: داده‌ها را دقیقاً مطابق با نسخه منبع ارائه شده برگردانید. اگر `resourceVersion` ارائه شده در دسترس نباشد، سرور با HTTP `410 Gone` پاسخ می‌دهد. برای درخواست‌های **list** به سرورهایی که پارامتر `resourceVersionMatch` را رعایت می‌کنند، این تضمین می‌کند که `.metadata.resourceVersion` مجموعه با `resourceVersion` درخواستی شما در رشته پرس و جو یکسان باشد. این تضمین برای `.metadata.resourceVersion` هیچ یک از موارد موجود در آن مجموعه اعمال نمی‌شود.
+به طور پیش‌فرض از _etcd_ ارائه می‌شود، اما با فعال بودن دروازه ویژگی `ListFromCacheSnapshot`،
+سرور API در صورت وجود، سعی می‌کند پاسخ را از snapshot ارائه دهد.
+این کار عملکرد را بهبود می‌بخشد و بار etcd را کاهش می‌دهد. snapshotهای حافظه پنهان به طور پیش‌فرض به مدت 75 ثانیه نگهداری می‌شوند،
+بنابراین اگر `resourceVersion` ارائه شده در دسترس نباشد، سرور به etcd مراجعه می‌کند.
 
-Continuation
-: Return the next page of data for a paginated list request, ensuring consistency with the exact `resourceVersion` established by the initial request in the sequence.
-  Response to **list** requests with limit include _continue token_, that encodes the  `resourceVersion` and last observed position from which to resume the list.
-  If the `resourceVersion` in the provided _continue token_ is unavailable, the server responds with HTTP `410 Gone`.
-  By default served from _etcd_, but with the `ListFromCacheSnapshot` feature gate enabled,
-  API server will attempt to serve the response from snapshot if available.
-  This improves performance and reduces etcd load. Cache snapshots are kept by default for 75 seconds,
-  so if the `resourceVersion` in provided _continue token_ is unavailable, the server will fallback to etcd.
+ادامه
+: صفحه بعدی داده‌ها را برای یک درخواست لیست صفحه‌بندی شده برگردانید، و از سازگاری با `resourceVersion` دقیق تعیین شده توسط درخواست اولیه در دنباله اطمینان حاصل کنید.
+پاسخ به درخواست‌های **list** با محدودیت شامل _continue token_ است که `resourceVersion` و آخرین موقعیت مشاهده شده برای از سرگیری لیست را رمزگذاری می‌کند.
+اگر `resourceVersion` در _continue token_ ارائه شده در دسترس نباشد، سرور با HTTP `410 Gone` پاسخ می‌دهد.
+به طور پیش‌فرض از _etcd_ ارائه می‌شود، اما با فعال بودن دروازه ویژگی `ListFromCacheSnapshot`، سرور API در صورت وجود، سعی می‌کند پاسخ را از snapshot ارائه دهد.
+این کار عملکرد را بهبود می‌بخشد و بار etcd را کاهش می‌دهد. snapshotهای حافظه پنهان به طور پیش‌فرض به مدت 75 ثانیه نگهداری می‌شوند،
+بنابراین اگر `resourceVersion` در _continue token_ ارائه شده در دسترس نباشد، سرور به etcd مراجعه می‌کند.
 
 {{< note >}}
-When you **list** resources and receive a collection response, the response includes the
+وقتی منابع را **list** می‌کنید و یک پاسخ از مجموعه دریافت می‌کنید، پاسخ شامل
 [list metadata](/docs/reference/generated/kubernetes-api/v{{<skew currentVersion >}}/#listmeta-v1-meta)
-of the collection as well as
+آن مجموعه و همچنین
 [object metadata](/docs/reference/generated/kubernetes-api/v{{<skew currentVersion >}}/#objectmeta-v1-meta)
-for each item in that collection. For individual objects found within a collection response,
-`.metadata.resourceVersion` tracks when that object was last updated, and not how up-to-date
-the object is when served.
+برای هر مورد در آن مجموعه می‌شود. برای اشیاء منفردی که در پاسخ یک مجموعه یافت می‌شوند،
+`.metadata.resourceVersion` آخرین زمان به‌روزرسانی آن شیء را ردیابی می‌کند، و نه میزان به‌روز بودن شیء هنگام ارائه.
 {{< /note >}}
 
-When using `resourceVersionMatch=NotOlderThan` and limit is set, clients must
-handle HTTP `410 Gone` responses. For example, the client might retry with a
-newer `resourceVersion` or fall back to `resourceVersion=""`.
+هنگام استفاده از `resourceVersionMatch=NotOlderThan` و تنظیم محدودیت، کلاینت‌ها باید پاسخ‌های HTTP `410 Gone` را مدیریت کنند. برای مثال، کلاینت ممکن است با `resourceVersion` جدیدتر دوباره امتحان کند یا به `resourceVersion=""` برگردد.
 
-When using `resourceVersionMatch=Exact` and `limit` is unset, clients must
-verify that the collection's `.metadata.resourceVersion` matches
-the requested `resourceVersion`, and handle the case where it does not. For
-example, the client might fall back to a request with `limit` set.
+هنگام استفاده از `resourceVersionMatch=Exact` و تنظیم نبودن `limit`، کلاینت‌ها باید تأیید کنند که `.metadata.resourceVersion` مجموعه با `resourceVersion` درخواستی مطابقت دارد و در صورت عدم تطابق، آن را مدیریت کنند. به عنوان مثال، کلاینت ممکن است به درخواستی با `limit` تنظیم شده، بازگردد.
 
-### Semantics for **watch**
+### معناشناسی برای **watch**
 
-For **watch**, the semantics of resource version are:
+برای **watch**، معانی نسخه منبع عبارتند از:
 
 **watch:**
 
