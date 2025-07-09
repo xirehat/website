@@ -1108,69 +1108,45 @@ Any
 
 {{< /table >}}
 
-The meaning of those **watch** semantics are:
 
-Get State and Start at Any
-: Start a **watch** at any resource version; the most recent resource version
-  available is preferred, but not required. Any starting resource version is
-  allowed. It is possible for the **watch** to start at a much older resource
-  version that the client has previously observed, particularly in high availability
-  configurations, due to partitions or stale caches. Clients that cannot tolerate
-  this apparent rewinding should not start a **watch** with this semantic. To
-  establish initial state, the **watch** begins with synthetic "Added" events for
-  all resource instances that exist at the starting resource version. All following
-  watch events are for all changes that occurred after the resource version the
-  **watch** started at.
+معنی آن معانی **watch** عبارتند از:
+
+دریافت وضعیت و شروع در هر
+: شروع **watch** در هر نسخه منبع؛ جدیدترین نسخه منبع موجود ترجیح داده می‌شود، اما الزامی نیست. هر نسخه منبع شروع مجاز است. ممکن است **watch** از نسخه منبع بسیار قدیمی‌تری که کلاینت قبلاً مشاهده کرده است، به ویژه در پیکربندی‌های با دسترسی بالا، به دلیل پارتیشن‌ها یا حافظه‌های پنهان قدیمی، شروع شود. کلاینت‌هایی که نمی‌توانند این به عقب برگرداندن آشکار را تحمل کنند، نباید **watch** را با این معنا شروع کنند. برای ایجاد وضعیت اولیه، **watch** با رویدادهای مصنوعی "اضافه شده" برای تمام نمونه‌های منبعی که در نسخه منبع شروع وجود دارند، شروع می‌شود. تمام رویدادهای watch زیر برای تمام تغییراتی هستند که پس از نسخه منبعی که **watch** از آن شروع شده است، رخ داده‌اند.
 
   {{< caution >}}
-  **watches** initialized this way may return arbitrarily stale
-  data. Please review this semantic before using it, and favor the other semantics
-  where possible.
+**watches** که به این روش مقداردهی اولیه می‌شود، ممکن است داده‌های دلخواه و قدیمی را برگرداند. لطفاً قبل از استفاده از این روش معنایی، آن را بررسی کنید و در صورت امکان از روش‌های معنایی دیگر استفاده کنید.
   {{< /caution >}}
 
-Get State and Start at Most Recent
-: Start a **watch** at the most recent resource version, which must be consistent
-  (in detail: served from etcd via a quorum read). To establish initial state,
-  the **watch** begins with synthetic "Added" events of all resources instances
-  that exist at the starting resource version. All following watch events are for
-  all changes that occurred after the resource version the **watch** started at.
+دریافت وضعیت و شروع از جدیدترین
+: یک **watch** را در جدیدترین نسخه منبع شروع کنید، که باید سازگار باشد
+(به طور مفصل: از طریق خواندن حد نصاب از etcd سرویس داده می‌شود). برای ایجاد وضعیت اولیه، **watch** با رویدادهای مصنوعی "Added" از تمام نمونه‌های منابعی که در نسخه منبع اولیه وجود دارند، آغاز می‌شود. تمام رویدادهای watch زیر برای تمام تغییراتی هستند که پس از نسخه منبعی که **watch** از آن شروع شده است، رخ داده‌اند.
 
-Start at Exact
-: Start a **watch** at an exact resource version. The watch events are for all changes
-  after the provided resource version. Unlike "Get State and Start at Most Recent"
-  and "Get State and Start at Any", the **watch** is not started with synthetic
-  "Added" events for the provided resource version. The client is assumed to already
-  have the initial state at the starting resource version since the client provided
-  the resource version.
+شروع از دقیق
+: یک **watch** را در یک resourceVersion دقیق شروع کنید. رویدادهای watch برای همه تغییرات
+پس از resourceVersion  ارائه شده هستند. برخلاف «دریافت وضعیت و شروع در جدیدترین»
+و «دریافت وضعیت و شروع در هر موردی»، **watch** با رویدادهای مصنوعی
+«اضافه شده» برای resourceVersion ارائه شده شروع نمی‌شود. فرض بر این است که کلاینت از قبل
+وضعیت اولیه را در نسخه منبع شروع دارد زیرا کلاینت
 
-### "410 Gone" responses
+نسخه منبع را ارائه کرده است.
 
-Servers are not required to serve all older resource versions and may return a HTTP
-`410 (Gone)` status code if a client requests a `resourceVersion` older than the
-server has retained. Clients must be able to tolerate `410 (Gone)` responses. See
-[Efficient detection of changes](#efficient-detection-of-changes) for details on
-how to handle `410 (Gone)` responses when watching resources.
+### "410 Gone" پاسخ 
 
-If you request a `resourceVersion` outside the applicable limit then, depending
-on whether a request is served from cache or not, the API server may reply with a
-`410 Gone` HTTP response.
+سرورها ملزم به ارائه تمام نسخه‌های قدیمی‌تر منابع نیستند و ممکن است در صورت درخواست یک کلاینت برای `resourceVersion` قدیمی‌تر از نسخه‌ای که سرور نگه داشته است، کد وضعیت HTTP `410 (Gone)` را برگردانند. کلاینت‌ها باید بتوانند پاسخ‌های `410 (Gone)` را تحمل کنند. برای جزئیات بیشتر در مورد نحوه مدیریت پاسخ‌های  `410 (Gone)` هنگام مشاهده منابع، به [Efficient detection of changes](#efficient-detection-of-changes) مراجعه کنید.
 
-### Unavailable resource versions
 
-Servers are not required to serve unrecognized resource versions. If you request
-**list** or **get** for a resource version that the API server does not recognize,
-then the API server may either:
+اگر درخواست «نسخه منبع» `resourceVersion` را خارج از محدوده‌ی مجاز ارائه دهید، بسته به اینکه درخواست از حافظه‌ی پنهان (cache) ارائه شده باشد یا خیر، ممکن است سرور API با یک پاسخ HTTP با کد `410 Gone` پاسخ دهد.
 
-* wait briefly for the resource version to become available, then timeout with a
-  `504 (Gateway Timeout)` if the provided resource versions does not become available
-  in a reasonable amount of time;
-* respond with a `Retry-After` response header indicating how many seconds a client
-  should wait before retrying the request.
+###  در دسترس نبودن  resource versions
 
-If you request a resource version that an API server does not recognize, the
-kube-apiserver additionally identifies its error responses with a message
-`Too large resource version`.
+سرورها ملزم به ارائه نسخه‌های ناشناخته منابع نیستند. اگر شما **list** یا **get** نسخه‌ای از منابع را درخواست کنید که سرور API آن را نمی‌شناسد، سرور API ممکن است یکی از موارد زیر را انجام دهد:
 
-If you make a **watch** request for an unrecognized resource version, the API server
-may wait indefinitely (until the request timeout) for the resource version to become
-available.
+* کمی صبر کنید تا نسخه منبع در دسترس قرار گیرد، سپس اگر نسخه‌های منبع ارائه شده در مدت زمان معقولی در دسترس قرار نگرفتند، با خطای `504 (Gateway Timeout)` تایم اوت کنید.
+
+* با یک هدر پاسخ  `Retry-After` پاسخ دهید که نشان می‌دهد کلاینت چند ثانیه باید قبل از تلاش مجدد درخواست منتظر بماند.
+
+
+اگر نسخه‌ای از منبع را درخواست کنید که یک سرور API آن را تشخیص ندهد، kube-apiserver علاوه بر این، پاسخ‌های خطای خود را با پیامی با عنوان `Too large resource version` مشخص می‌کند.
+
+اگر درخواست **watch** برای یک نسخه منبع ناشناخته ارسال کنید، سرور API ممکن است به طور نامحدود (تا زمان انقضای درخواست) منتظر بماند تا نسخه منبع در دسترس قرار گیرد.
