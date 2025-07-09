@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Allows `minReadySeconds` to be respected by
-the StatefulSet controller.
+به کنترلر StatefulSet اجازه می‌دهد تا `minReadySeconds` را رعایت کند.

@@ -1,25 +1,25 @@
 ---
-title: AdmissionWebhookMatchConditions
+title: شرایط پذیرشWebhookMatch
 content_type: feature_gate
 _build:
   list: never
   render: false
 
 stages:
-  - stage: alpha
+  - stage: آلفا
     defaultValue: false
     fromVersion: "1.27"
     toVersion: "1.27"
-  - stage: beta
+  - stage: بتا
     defaultValue: true
     fromVersion: "1.28"
     toVersion: "1.29"
-  - stage: stable
+  - stage: پایدار
     defaultValue: true
     fromVersion: "1.30"
     toVersion: "1.32"
 
 removed: true
 ---
-Enable [match conditions](/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-matchconditions)
-on mutating & validating admission webhooks.
+فعال کردن [match conditions](/docs/reference/access-authn-authz/extensible-admission-controllers/#matching-requests-matchconditions)
+برای تغییر و اعتبارسنجی وب‌هوک‌های پذیرش.

@@ -18,11 +18,4 @@ stages:
 
 removed: true
 ---
-Stops registering the Azure-File in-tree
-plugin in kubelet and volume controllers and enables shims and translation
-logic to route volume operations from the Azure-File in-tree plugin to
-AzureFile CSI plugin. Requires CSIMigration and CSIMigrationAzureFile feature
-flags  enabled and AzureFile CSI plugin installed and configured on all nodes
-in the cluster. This flag has been deprecated in favor of the
-`InTreePluginAzureFileUnregister` feature flag which prevents the registration
- of in-tree AzureFile plugin.
+ثبت افزونه درون‌شاخه‌ای Azure-File را در kubelet و کنترلرهای حجم متوقف می‌کند و shimها و منطق ترجمه را قادر می‌سازد تا عملیات حجم را از افزونه درون‌شاخه‌ای Azure-File به افزونه AzureFile CSI مسیریابی کنند. نیاز به فعال بودن پرچم‌های ویژگی CSIMigration و CSIMigrationAzureFile و نصب و پیکربندی افزونه AzureFile CSI در تمام گره‌های خوشه دارد. این پرچم به نفع پرچم ویژگی `InTreePluginAzureFileUnregister` که از ثبت افزونه درون‌شاخه‌ای AzureFile جلوگیری می‌کند، منسوخ شده است.
