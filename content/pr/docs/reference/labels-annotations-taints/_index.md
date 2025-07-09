@@ -1,1173 +1,1121 @@
 ---
-title: Well-Known Labels, Annotations and Taints
-content_type: concept
+title: برچسب‌ها، حاشیه‌نویسی‌ها و رنگ‌های شناخته‌شده
+content_type: مفهوم
 weight: 40
 no_list: true
 card:
-  name: reference
+  name: مرجع
   weight: 30
   anchors:
-  - anchor: "#labels-annotations-and-taints-used-on-api-objects"
-    title: Labels, annotations and taints
+  - anchor: "#برچسب‌ها-حاشیه‌نویسی‌ها-و-رنگ‌های-استفاده‌شده-روی-اشیاء-api"
+    title: برچسب‌ها، حاشیه‌نویسی‌ها و رنگ‌آمیزی‌ها
 ---
 
 <!-- overview -->
 
-Kubernetes reserves all labels, annotations and taints in the `kubernetes.io` and `k8s.io` namespaces.
+کوبرنتیز تمام برچسب‌ها، حاشیه‌نویسی‌ها و رنگ‌ها را در فضاهای نام `kubernetes.io` و `k8s.io` محفوظ می‌دارد.
 
-This document serves both as a reference to the values and as a coordination point for assigning values.
+
+این سند هم به عنوان مرجعی برای مقادیر و هم به عنوان نقطه هماهنگی برای تعیین مقادیر عمل می‌کند.
 
 <!-- body -->
 
-## Labels, annotations and taints used on API objects
+## برچسب‌ها، حاشیه‌نویسی‌ها و رنگ‌های استفاده‌شده در اشیاء API
 
 
 ### apf.kubernetes.io/autoupdate-spec
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `apf.kubernetes.io/autoupdate-spec: "true"`
 
-Used on: [`FlowSchema` and `PriorityLevelConfiguration` Objects](/docs/concepts/cluster-administration/flow-control/#defaults)
+مثال: `apf.kubernetes.io/autoupdate-spec: "true"`
 
-If this annotation is set to true on a FlowSchema or PriorityLevelConfiguration, the `spec` for that object
-is managed by the kube-apiserver. If the API server does not recognize an APF object, and you annotate it
-for automatic update, the API server deletes the entire object. Otherwise, the API server does not manage the
-object spec.
-For more details, read  [Maintenance of the Mandatory and Suggested Configuration Objects](/docs/concepts/cluster-administration/flow-control/#maintenance-of-the-mandatory-and-suggested-configuration-objects).
+مورد استفاده در: اشیاء [`FlowSchema` و `PriorityLevelConfiguration`](/docs/concepts/cluster-administration/flow-control/#defaults)
+
+اگر این حاشیه‌نویسی در FlowSchema یا PriorityLevelConfiguration روی true تنظیم شده باشد، `spec` آن شیء توسط kube-apiserver مدیریت می‌شود. اگر سرور API یک شیء APF را تشخیص ندهد و شما آن را برای به‌روزرسانی خودکار حاشیه‌نویسی کنید، سرور API کل شیء را حذف می‌کند. در غیر این صورت، سرور API مشخصات شیء را مدیریت نمی‌کند. برای جزئیات بیشتر، [Maintenance of the Mandatory and Suggested Configuration Objects](/docs/concepts/cluster-administration/flow-control/#maintenance-of-the-mandatory-and-suggested-configuration-objects). را مطالعه کنید.
+
 
 ### app.kubernetes.io/component
 
-Type: Label
+نوع: برچسب
 
-Example: `app.kubernetes.io/component: "database"`
 
-Used on: All Objects (typically used on [workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مثال: `app.kubernetes.io/component: "database"`
 
-The component within the application architecture.
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/) استفاده می‌شود).
 
-One of the [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+مولفه درون معماری برنامه.
+
+یکی از [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+
+
 
 ### app.kubernetes.io/created-by (deprecated)
 
-Type: Label
+نوع: برچسب
 
-Example: `app.kubernetes.io/created-by: "controller-manager"`
 
-Used on: All Objects (typically used on [workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مثال: `app.kubernetes.io/created-by: "controller-manager"`
 
-The controller/user who created this resource.
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/)).استفاده می‌شود.
+
+کنترل‌کننده/کاربری که این منبع را ایجاد کرده است.
+
+
 
 {{< note >}}
-Starting from v1.9, this label is deprecated.
+از نسخه ۱.۹ به بعد، این برچسب منسوخ شده است.
 {{< /note >}}
 
 ### app.kubernetes.io/instance
 
-Type: Label
+نوع: برچسب
 
-Example: `app.kubernetes.io/instance: "mysql-abcxyz"`
+مثال: `app.kubernetes.io/instance: "mysql-abcxyz"`
 
-Used on: All Objects (typically used on
-[workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/)). استفاده می‌شود
 
-A unique name identifying the instance of an application.
-To assign a non-unique name, use [app.kubernetes.io/name](#app-kubernetes-io-name).
+نامی منحصر به فرد که نمونه یک برنامه را مشخص می‌کند.
 
-One of the [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+برای اختصاص یک نام غیر منحصر به فرد، از [app.kubernetes.io/name](#app-kubernetes-io-name) استفاده کنید.
+
+یکی از [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+
 
 ### app.kubernetes.io/managed-by
 
-Type: Label
+نوع: برچسب
 
-Example: `app.kubernetes.io/managed-by: "helm"`
+مثال: `app.kubernetes.io/managed-by: "helm"`
 
-Used on: All Objects (typically used on
-[workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/)). استفاده می‌شود
 
-The tool being used to manage the operation of an application.
+ابزاری که برای مدیریت عملکرد یک برنامه استفاده می‌شود.
 
-One of the [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+یکی از [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+
+
 
 ### app.kubernetes.io/name
 
-Type: Label
 
-Example: `app.kubernetes.io/name: "mysql"`
+نوع: برچسب
 
-Used on: All Objects (typically used on
-[workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مثال: `app.kubernetes.io/name: "mysql"`
 
-The name of the application.
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/)). استفاده می‌شود
 
-One of the [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+نام برنامه.
+
+یکی از [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
 
 ### app.kubernetes.io/part-of
 
-Type: Label
 
-Example: `app.kubernetes.io/part-of: "wordpress"`
+نوع: برچسب
 
-Used on: All Objects (typically used on
-[workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مثال: `app.kubernetes.io/part-of: "wordpress"`
 
-The name of a higher-level application this object is part of.
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/)). استفاده می‌شود
 
-One of the [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+نام یک برنامه سطح بالاتر که این شیء بخشی از آن است.
+
+یکی از [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
 
 ### app.kubernetes.io/version
 
-Type: Label
+نوع: برچسب
 
-Example: `app.kubernetes.io/version: "5.7.21"`
+مثال: `app.kubernetes.io/version: "5.7.21"`
 
-Used on: All Objects (typically used on
-[workload resources](/docs/reference/kubernetes-api/workload-resources/)).
+مورد استفاده در: همه اشیاء (معمولاً در [workload resources](/docs/reference/kubernetes-api/workload-resources/)). استفاده می‌شود
 
-The current version of the application.
+نسخه فعلی برنامه.
 
-Common forms of values include:
+اشکال رایج مقادیر عبارتند از:
 
 - [semantic version](https://semver.org/spec/v1.0.0.html)
 - the Git [revision hash](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection#_single_revisions)
   for the source code.
 
-One of the [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
+برای کد منبع.
 
-### applyset.kubernetes.io/additional-namespaces (alpha) {#applyset-kubernetes-io-additional-namespaces}
+یکی از [recommended labels](/docs/concepts/overview/working-with-objects/common-labels/#labels).
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `applyset.kubernetes.io/additional-namespaces: "namespace1,namespace2"`
 
-Used on: Objects being used as ApplySet parents.
 
-Use of this annotation is Alpha.
-For Kubernetes version {{< skew currentVersion >}}, you can use this annotation on Secrets,
-ConfigMaps, or custom resources if the
+مثال: `applyset.kubernetes.io/additional-namespaces: "namespace1,namespace2"`
+
+مورد استفاده در: اشیاء به عنوان والدین ApplySet.
+استفاده از این حاشیه‌نویسی Alpha است.
+برای نسخه Kubernetes {{< skew currentVersion >}}، می‌توانید از این حاشیه‌نویسی روی Secrets، ConfigMaps یا منابع سفارشی استفاده کنید، اگر
 {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}
-defining them has the `applyset.kubernetes.io/is-parent-type` label.
+تعریف آنها دارای برچسب `applyset.kubernetes.io/is-parent-type` باشد.
 
-Part of the specification used to implement
-[ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-This annotation is applied to the parent object used to track an ApplySet to extend the scope of
-the ApplySet beyond the parent object's own namespace (if any).
-The value is a comma-separated list of the names of namespaces other than the parent's namespace
-in which objects are found.
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی [هرس مبتنی بر ApplySet در kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
+
+این حاشیه‌نویسی به شیء والد مورد استفاده برای ردیابی یک ApplySet اعمال می‌شود تا دامنه ApplySet را فراتر از فضای نام خود شیء والد (در صورت وجود) گسترش دهد.
+
+مقدار، فهرستی از نام‌های فضاهای نام غیر از فضای نام والد است که اشیاء در آن یافت می‌شوند و با کاما از هم جدا شده‌اند.
 
 ### applyset.kubernetes.io/contains-group-kinds (alpha) {#applyset-kubernetes-io-contains-group-kinds}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `applyset.kubernetes.io/contains-group-kinds: "certificates.cert-manager.io,configmaps,deployments.apps,secrets,services"`
+مورد استفاده در: اشیاء مورد استفاده به عنوان والدین ApplySet.
 
-Used on: Objects being used as ApplySet parents.
+مورد استفاده در: اشیاء به عنوان والدین ApplySet.
 
-Use of this annotation is Alpha.
-For Kubernetes version {{< skew currentVersion >}}, you can use this annotation on Secrets, ConfigMaps,
-or custom resources if the CustomResourceDefinition
-defining them has the `applyset.kubernetes.io/is-parent-type` label.
+مورد استفاده از این حاشیه‌نویسی Alpha است.
 
-Part of the specification used to implement
-[ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-This annotation is applied to the parent object used to track an ApplySet to optimize listing of
-ApplySet member objects. It is optional in the ApplySet specification, as tools can perform discovery
-or use a different optimization. However, as of Kubernetes version {{< skew currentVersion >}},
-it is required by kubectl. When present, the value of this annotation must be a comma separated list
-of the group-kinds, in the fully-qualified name format, i.e. `<resource>.<group>`.
+برای نسخه Kubernetes {{< skew currentVersion >}}، می‌توانید از این حاشیه‌نویسی روی Secrets، ConfigMaps یا منابع سفارشی استفاده کنید، اگر CustomResourceDefinition که آنها را تعریف می‌کند، دارای برچسب `applyset.kubernetes.io/is-parent-type` باشد.
+
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی [هرس مبتنی بر ApplySet در kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
+
+این حاشیه‌نویسی به شیء والد مورد استفاده برای ردیابی یک ApplySet جهت بهینه‌سازی فهرست اشیاء عضو ApplySet اعمال می‌شود. این مورد در مشخصات ApplySet اختیاری است، زیرا ابزارها می‌توانند عملیات کشف را انجام دهند یا از بهینه‌سازی متفاوتی استفاده کنند. با این حال، از نسخه Kubernetes {{< skew currentVersion >}}،
+
+توسط kubectl الزامی است. در صورت وجود، مقدار این حاشیه‌نویسی باید لیستی از انواع گروه باشد که با کاما از هم جدا شده‌اند، در قالب نام کاملاً واجد شرایط، یعنی`<resource>.<group>`.
 
 ### applyset.kubernetes.io/contains-group-resources (deprecated) {#applyset-kubernetes-io-contains-group-resources}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `applyset.kubernetes.io/contains-group-resources: "certificates.cert-manager.io,configmaps,deployments.apps,secrets,services"`
 
-Used on: Objects being used as ApplySet parents.
+مثال: `applyset.kubernetes.io/contains-group-resources: "certificates.cert-manager.io,configmaps,deployments.apps,secrets,services"`
 
-For Kubernetes version {{< skew currentVersion >}}, you can use this annotation on Secrets, ConfigMaps,
-or custom resources if the CustomResourceDefinition
-defining them has the `applyset.kubernetes.io/is-parent-type` label.
 
-Part of the specification used to implement
-[ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-This annotation is applied to the parent object used to track an ApplySet to optimize listing of
-ApplySet member objects. It is optional in the ApplySet specification, as tools can perform discovery
-or use a different optimization. However, in Kubernetes version {{< skew currentVersion >}},
-it is required by kubectl. When present, the value of this annotation must be a comma separated list
-of the group-kinds, in the fully-qualified name format, i.e. `<resource>.<group>`.
+مورد استفاده در: اشیاء مورد استفاده به عنوان والدین ApplySet.
 
+برای نسخه Kubernetes {{< skew currentVersion >}}، می‌توانید از این حاشیه‌نویسی روی Secrets، ConfigMaps یا منابع سفارشی استفاده کنید، اگر CustomResourceDefinition که آنها را تعریف می‌کند، دارای برچسب `applyset.kubernetes.io/is-parent-type` باشد.
+
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی [هرس مبتنی بر ApplySet در kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
+این حاشیه‌نویسی به شیء والد مورد استفاده برای ردیابی یک ApplySet جهت بهینه‌سازی فهرست اشیاء عضو ApplySet اعمال می‌شود. این مورد در مشخصات ApplySet اختیاری است، زیرا ابزارها می‌توانند عملیات کشف را انجام دهند یا از بهینه‌سازی متفاوتی استفاده کنند. با این حال، در نسخه Kubernetes {{< skew currentVersion >}}،
+توسط kubectl الزامی است. در صورت وجود، مقدار این حاشیه‌نویسی باید لیستی از انواع گروه باشد که با کاما از هم جدا شده‌اند، در قالب نام کاملاً واجد شرایط، یعنی`<resource>.<group>`.
 {{< note >}}
-This annotation is currently deprecated and replaced by [`applyset.kubernetes.io/contains-group-kinds`](#applyset-kubernetes-io-contains-group-kinds),
-support for this will be removed in applyset beta or GA.
+این حاشیه‌نویسی در حال حاضر منسوخ شده و با [`applyset.kubernetes.io/contains-group-kinds`](#applyset-kubernetes-io-contains-group-kinds) جایگزین شده است، پشتیبانی از این مورد در نسخه بتا یا عمومی applyset حذف خواهد شد.
 {{< /note >}}
 
 ### applyset.kubernetes.io/id (alpha) {#applyset-kubernetes-io-id}
 
-Type: Label
+نوع: برچسب
 
-Example: `applyset.kubernetes.io/id: "applyset-0eFHV8ySqp7XoShsGvyWFQD3s96yqwHmzc4e0HR1dsY-v1"`
 
-Used on: Objects being used as ApplySet parents.
 
-Use of this label is Alpha.
-For Kubernetes version {{< skew currentVersion >}}, you can use this label on Secrets, ConfigMaps,
-or custom resources if the CustomResourceDefinition
-defining them has the `applyset.kubernetes.io/is-parent-type` label.
+مثال: `applyset.kubernetes.io/id: "applyset-0eFHV8ySqp7XoShsGvyWFQD3s96yqwHmzc4e0HR1dsY-v1"`
 
-Part of the specification used to implement
-[ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-This label is what makes an object an ApplySet parent object.
-Its value is the unique ID of the ApplySet, which is derived from the identity of the parent
-object itself. This ID **must** be the base64 encoding (using the URL safe encoding of RFC4648) of
-the hash of the group-kind-name-namespace of the object it is on, in the form:
+مورد استفاده در: اشیاء به عنوان والدین ApplySet.
+
+مورد استفاده از این برچسب Alpha است.
+
+برای نسخه Kubernetes {{< skew currentVersion >}}، می‌توانید از این برچسب روی Secrets، ConfigMaps یا منابع سفارشی استفاده کنید، اگر CustomResourceDefinition که آنها را تعریف می‌کند، دارای برچسب `applyset.kubernetes.io/is-parent-type` باشد.
+
+
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی [ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
+این برچسب چیزی است که یک شیء را به شیء والد ApplySet تبدیل می‌کند.
+مقدار آن، شناسه منحصر به فرد ApplySet است که از هویت خود شیء والد مشتق شده است. این شناسه **باید** کدگذاری base64 (با استفاده از کدگذاری امن URL از RFC4648) از هش group-kind-name-namespace شیء که روی آن قرار دارد، به شکل زیر باشد:
 `<base64(sha256(<name>.<namespace>.<kind>.<group>))>`.
-There is no relation between the value of this label and object UID.
+هیچ ارتباطی بین مقدار این برچسب و UID شیء وجود ندارد.
+
 
 ### applyset.kubernetes.io/is-parent-type (alpha) {#applyset-kubernetes-io-is-parent-type}
 
-Type: Label
+نوع: برچسب
 
-Example: `applyset.kubernetes.io/is-parent-type: "true"`
+مثال: `applyset.kubernetes.io/is-parent-type: "true"`
 
-Used on: Custom Resource Definition (CRD)
+مورد استفاده در: تعریف منابع سفارشی (CRD)
 
-Use of this label is Alpha.
-Part of the specification used to implement
+مورد استفاده از این برچسب Alpha است.
+
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی
 [ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-You can set this label on a CustomResourceDefinition (CRD) to identify the custom resource type it
-defines (not the CRD itself) as an allowed parent for an ApplySet.
-The only permitted value for this label is `"true"`; if you want to mark a CRD as
-not being a valid parent for ApplySets, omit this label.
+
+شما می‌توانید این برچسب را روی یک CustomResourceDefinition (CRD) تنظیم کنید تا نوع منبع سفارشی که تعریف می‌کند (نه خود CRD) به عنوان والد مجاز برای یک ApplySet شناسایی شود.
+
+تنها مقدار مجاز برای این برچسب `"true"` است؛ اگر می‌خواهید یک CRD را به عنوان والد معتبر برای ApplySets علامت‌گذاری کنید، این برچسب را حذف کنید.
+
 
 ### applyset.kubernetes.io/part-of (alpha) {#applyset-kubernetes-io-part-of}
 
-Type: Label
+نوع: برچسب
 
-Example: `applyset.kubernetes.io/part-of: "applyset-0eFHV8ySqp7XoShsGvyWFQD3s96yqwHmzc4e0HR1dsY-v1"`
+مثال: `applyset.kubernetes.io/part-of: "applyset-0eFHV8ySqp7XoShsGvyWFQD3s96yqwHmzc4e0HR1dsY-v1"`
 
-Used on: All objects.
+مورد استفاده در: همه اشیاء.
 
-Use of this label is Alpha.
-Part of the specification used to implement
+مورد استفاده از این برچسب Alpha است.
+
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی
 [ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-This label is what makes an object a member of an ApplySet.
-The value of the label **must** match the value of the `applyset.kubernetes.io/id`
-label on the parent object.
+
+این برچسب چیزی است که یک شیء را به عضوی از ApplySet تبدیل می‌کند.
+
+مقدار برچسب **باید** با مقدار برچسب `applyset.kubernetes.io/id` روی شیء والد مطابقت داشته باشد.
+
 
 ### applyset.kubernetes.io/tooling (alpha) {#applyset-kubernetes-io-tooling}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `applyset.kubernetes.io/tooling: "kubectl/v{{< skew currentVersion >}}"`
+مثال: `applyset.kubernetes.io/tooling: "kubectl/v{{< skew currentVersion >}}"`
 
-Used on: Objects being used as ApplySet parents.
+مورد استفاده در: اشیاء مورد استفاده به عنوان والدین ApplySet.
 
-Use of this annotation is Alpha.
-For Kubernetes version {{< skew currentVersion >}}, you can use this annotation on Secrets,
-ConfigMaps, or custom resources if the CustomResourceDefinitiondefining them has the
-`applyset.kubernetes.io/is-parent-type` label.
+مورد استفاده از این حاشیه‌نویسی Alpha است.
 
-Part of the specification used to implement
-[ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune).
-This annotation is applied to the parent object used to track an ApplySet to indicate which
-tooling manages that ApplySet. Tooling should refuse to mutate ApplySets belonging to other tools.
-The value must be in the format `<toolname>/<semver>`.
+برای نسخه Kubernetes {{< skew currentVersion >}}، می‌توانید از این حاشیه‌نویسی روی Secrets، ConfigMaps یا منابع سفارشی استفاده کنید، اگر CustomResourceDefinition که آنها را تعریف می‌کند، دارای برچسب `applyset.kubernetes.io/is-parent-type` باشد.
 
+بخشی از مشخصات مورد استفاده برای پیاده‌سازی 
+[ApplySet-based pruning in kubectl](/docs/tasks/manage-kubernetes-objects/declarative-config/#alternative-kubectl-apply-f-directory-prune). این حاشیه‌نویسی به شیء والد مورد استفاده برای ردیابی یک ApplySet اعمال می‌شود تا نشان دهد کدام ابزار، آن ApplySet را مدیریت می‌کند. ابزارسازی باید از تغییر ApplySetهای متعلق به ابزارهای دیگر خودداری کند. مقدار باید در قالب `<toolname>/<semver>` باشد.
 ### apps.kubernetes.io/pod-index (beta) {#apps-kubernetes.io-pod-index}
 
-Type: Label
+نوع: برچسب
 
-Example: `apps.kubernetes.io/pod-index: "0"`
+مثال: `apps.kubernetes.io/pod-index: "0"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-When a StatefulSet controller creates a Pod for the StatefulSet, it sets this label on that Pod. 
-The value of the label is the ordinal index of the pod being created.
+وقتی یک کنترلر StatefulSet یک پاد برای StatefulSet ایجاد می‌کند، این برچسب را روی آن پاد تنظیم می‌کند.
 
-See [Pod Index Label](/docs/concepts/workloads/controllers/statefulset/#pod-index-label)
-in the StatefulSet topic for more details.
-Note the [PodIndexLabel](/docs/reference/command-line-tools-reference/feature-gates/)
-feature gate must be enabled for this label to be added to pods.
+مقدار برچسب، اندیس ترتیبی پاد در حال ایجاد است.
+
+برای جزئیات بیشتر به [Pod Index Label](/docs/concepts/workloads/controllers/statefulset/#pod-index-label) در مبحث StatefulSet مراجعه کنید.
+
+به [PodIndexLabel](/docs/reference/command-line-tools-reference/feature-gates/) توجه داشته باشید.
+
+برای اضافه شدن این برچسب به پادها، باید گیت ویژگی فعال باشد.
 
 ### resource.kubernetes.io/pod-claim-name
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `resource.kubernetes.io/pod-claim-name: "my-pod-claim"`
+مثال: `resource.kubernetes.io/pod-claim-name: "my-pod-claim"`
 
-Used on: ResourceClaim
+مورد استفاده در: ResourceClaim
 
-This annotation is assigned to generated ResourceClaims. 
-Its value corresponds to the name of the resource claim in the `.spec` of any Pod(s) for which the ResourceClaim was created.
-This annotation is an internal implementation detail of [dynamic resource allocation](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/).
-You should not need to read or modify the value of this annotation.
+این حاشیه‌نویسی به ResourceClaims تولید شده اختصاص داده می‌شود.
+
+مقدار آن با نام ادعای منبع در `.spec` هر Pod(هایی) که ResourceClaim برای آنها ایجاد شده است، مطابقت دارد.
+
+این حاشیه‌نویسی، جزئیات پیاده‌سازی داخلی [dynamic resource allocation](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/). است
+
+شما نیازی به خواندن یا تغییر مقدار این حاشیه‌نویسی ندارید.
+
 
 ### cluster-autoscaler.kubernetes.io/safe-to-evict
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `cluster-autoscaler.kubernetes.io/safe-to-evict: "true"`
+مثال: `cluster-autoscaler.kubernetes.io/safe-to-evict: "true"`
 
-Used on: Pod
+مورد استفاده در: Pod
 
-When this annotation is set to `"true"`, the cluster autoscaler is allowed to evict a Pod
-even if other rules would normally prevent that.
-The cluster autoscaler never evicts Pods that have this annotation explicitly set to
-`"false"`; you could set that on an important Pod that you want to keep running.
-If this annotation is not set then the cluster autoscaler follows its Pod-level behavior.
+وقتی این حاشیه‌نویسی روی `"true"` تنظیم شود، مقیاس‌پذیر خودکار کلاستر اجازه دارد یک Pod را حذف کند
+حتی اگر سایر قوانین معمولاً از این کار جلوگیری کنند.
+مقیاس‌پذیر خودکار کلاستر هرگز Podهایی را که این حاشیه‌نویسی به صراحت روی `"false"` تنظیم شده است، حذف نمی‌کند. می‌توانید آن را روی یک Pod مهم که می‌خواهید به اجرا ادامه دهد، تنظیم کنید.
 
 ### config.kubernetes.io/local-config
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `config.kubernetes.io/local-config: "true"`
+مثال: `config.kubernetes.io/local-config: "true"`
 
-Used on: All objects
+مورد استفاده در: همه اشیاء
 
-This annotation is used in manifests to mark an object as local configuration that
-should not be submitted to the Kubernetes API.
+این حاشیه‌نویسی در مانیفست‌ها برای علامت‌گذاری یک شیء به عنوان پیکربندی محلی که نباید به API Kubernetes ارسال شود، استفاده می‌شود.
 
-A value of `"true"` for this annotation declares that the object is only consumed by
-client-side tooling and should not be submitted to the API server.
+مقدار `"true"` برای این حاشیه‌نویسی اعلام می‌کند که شیء فقط توسط ابزارهای سمت کلاینت مصرف می‌شود و نباید به سرور API ارسال شود.
 
-A value of `"false"` can be used to declare that the object should be submitted to
-the API server even when it would otherwise be assumed to be local.
+مقدار `"false"` می‌تواند برای اعلام اینکه شیء باید به سرور API ارسال شود، حتی زمانی که در غیر این صورت محلی فرض می‌شود، استفاده شود.
 
-This annotation is part of the Kubernetes Resource Model (KRM) Functions Specification,
-which is used by Kustomize and similar third-party tools.
-For example, Kustomize removes objects with this annotation from its final build output.
+این حاشیه‌نویسی بخشی از مشخصات توابع Kubernetes Resource Model (KRM) است که توسط Kustomize و ابزارهای شخص ثالث مشابه استفاده می‌شود.
+
+به عنوان مثال، Kustomize اشیاء دارای این حاشیه‌نویسی را از خروجی ساخت نهایی خود حذف می‌کند.
 
 
 ### container.apparmor.security.beta.kubernetes.io/* (deprecated) {#container-apparmor-security-beta-kubernetes-io}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `container.apparmor.security.beta.kubernetes.io/my-container: my-custom-profile`
+مثال: `container.apparmor.security.beta.kubernetes.io/my-container: my-custom-profile`
 
-Used on: Pods
+مورد استفاده در: Pods
 
-This annotation allows you to specify the AppArmor security profile for a container within a
-Kubernetes pod. As of Kubernetes v1.30, this should be set with the `appArmorProfile` field instead.
-To learn more, see the [AppArmor](/docs/tutorials/security/apparmor/) tutorial.
-The tutorial illustrates using AppArmor to restrict a container's abilities and access.
+این حاشیه‌نویسی به شما امکان می‌دهد تا پروفایل امنیتی AppArmor را برای یک کانتینر درون یک Pod Kubernetes مشخص کنید. از Kubernetes نسخه ۱.۳۰، این باید با فیلد `appArmorProfile` تنظیم شود.
 
-The profile specified dictates the set of rules and restrictions that the containerized process must
-adhere to. This helps enforce security policies and isolation for your containers.
+برای کسب اطلاعات بیشتر، به آموزش [AppArmor](/docs/tutorials/security/apparmor/) مراجعه کنید.
+
+این آموزش استفاده از AppArmor را برای محدود کردن توانایی‌ها و دسترسی‌های یک کانتینر نشان می‌دهد.
+
+پروفایل مشخص شده، مجموعه‌ای از قوانین و محدودیت‌هایی را که فرآیند کانتینر شده باید رعایت کند، تعیین می‌کند. این به اجرای سیاست‌های امنیتی و جداسازی کانتینرهای شما کمک می‌کند.
 
 ### internal.config.kubernetes.io/* (reserved prefix) {#internal.config.kubernetes.io-reserved-wildcard}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: All objects
+مورد استفاده در: همه اشیاء
 
-This prefix is reserved for internal use by tools that act as orchestrators in accordance
-with the Kubernetes Resource Model (KRM) Functions Specification.
-Annotations with this prefix are internal to the orchestration process and are not persisted to
-the manifests on the filesystem. In other words, the orchestrator tool should set these
-annotations when reading files from the local filesystem and remove them when writing the output
-of functions back to the filesystem.
+این پیشوند برای استفاده داخلی توسط ابزارهایی که به عنوان هماهنگ‌کننده مطابق با مشخصات توابع Kubernetes Resource Model (KRM) عمل می‌کنند، رزرو شده است.
 
-A KRM function **must not** modify annotations with this prefix, unless otherwise specified for a
-given annotation. This enables orchestrator tools to add additional internal annotations, without
-requiring changes to existing functions.
+حاشیه‌نویسی‌های با این پیشوند برای فرآیند هماهنگ‌سازی داخلی هستند و در مانیفست‌های سیستم فایل ذخیره نمی‌شوند. به عبارت دیگر، ابزار هماهنگ‌کننده باید این حاشیه‌نویسی‌ها را هنگام خواندن فایل‌ها از سیستم فایل محلی تنظیم کند و هنگام نوشتن خروجی توابع به سیستم فایل، آنها را حذف کند.
+
+یک تابع KRM **نباید** حاشیه‌نویسی‌های دارای این پیشوند را تغییر دهد، مگر اینکه برای یک حاشیه‌نویسی مشخص شده، طور دیگری مشخص شده باشد. این امر به ابزارهای هماهنگ‌کننده امکان می‌دهد حاشیه‌نویسی‌های داخلی اضافی را بدون نیاز به تغییر در توابع موجود اضافه کنند.
 
 ### internal.config.kubernetes.io/path
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `internal.config.kubernetes.io/path: "relative/file/path.yaml"`
+مثال: `internal.config.kubernetes.io/path: "relative/file/path.yaml"`
 
-Used on: All objects
+مورد استفاده در: همه اشیاء
 
-This annotation records the slash-delimited, OS-agnostic, relative path to the manifest file the
-object was loaded from. The path is relative to a fixed location on the filesystem, determined by
-the orchestrator tool.
+این حاشیه‌نویسی، مسیر نسبی فایل مانیفست که شیء از آن بارگذاری شده است را با جداکننده اسلش، مستقل از سیستم‌عامل و با فاصله مشخص ثبت می‌کند. این مسیر نسبت به یک مکان ثابت در سیستم فایل است که توسط ابزار هماهنگ‌کننده تعیین می‌شود.
 
-This annotation is part of the Kubernetes Resource Model (KRM) Functions Specification, which is
-used by Kustomize and similar third-party tools.
+این حاشیه‌نویسی بخشی از مشخصات توابع Kubernetes Resource Model (KRM) است که توسط Kustomize و ابزارهای شخص ثالث مشابه استفاده می‌شود.
 
-A KRM Function **should not** modify this annotation on input objects unless it is modifying the
-referenced files. A KRM Function **may** include this annotation on objects it generates.
-
+یک تابع KRM **نباید** این حاشیه‌نویسی را روی اشیاء ورودی تغییر دهد، مگر اینکه فایل‌های ارجاع‌شده را تغییر دهد. یک تابع KRM **ممکن است** این حاشیه‌نویسی را روی اشیاء تولید شده خود نیز شامل کند.
 ### internal.config.kubernetes.io/index
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `internal.config.kubernetes.io/index: "2"`
+مثال: `internal.config.kubernetes.io/index: "2"`
 
-Used on: All objects
+مورد استفاده در: همه اشیاء
 
-This annotation records the zero-indexed position of the YAML document that contains the object
-within the manifest file the object was loaded from. Note that YAML documents are separated by
-three dashes (`---`) and can each contain one object. When this annotation is not specified, a
-value of 0 is implied.
+این حاشیه‌نویسی، موقعیت صفر-ایندکس‌شده سند YAML حاوی شیء را در فایل مانیفستی که شیء از آن بارگذاری شده است، ثبت می‌کند. توجه داشته باشید که اسناد YAML با سه خط تیره (`---`) از هم جدا می‌شوند و هر کدام می‌توانند شامل یک شیء باشند. وقتی این حاشیه‌نویسی مشخص نشده باشد، مقدار 0 به طور ضمنی در نظر گرفته می‌شود.
 
-This annotation is part of the Kubernetes Resource Model (KRM) Functions Specification,
-which is used by Kustomize and similar third-party tools.
+این حاشیه‌نویسی بخشی از مشخصات توابع Kubernetes Resource Model (KRM) است که توسط Kustomize و ابزارهای شخص ثالث مشابه استفاده می‌شود.
 
-A KRM Function **should not** modify this annotation on input objects unless it is modifying the
-referenced files. A KRM Function **may** include this annotation on objects it generates.
+یک تابع KRM **نباید** این حاشیه‌نویسی را روی اشیاء ورودی تغییر دهد، مگر اینکه فایل‌های ارجاع‌شده را تغییر دهد. یک تابع KRM **ممکن است** این حاشیه‌نویسی را روی اشیاء تولید شده خود نیز شامل کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/bind-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/bind-result: '{"DefaultBinder":"success"}'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/bind-result: '{"DefaultBinder":"success"}'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of bind scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی اتصال را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/filter-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: 
+مثال:
 
 ```yaml
 kube-scheduler-simulator.sigs.k8s.io/filter-result: >-
       {"node-282x7":{"AzureDiskLimits":"passed","EBSLimits":"passed","GCEPDLimits":"passed","InterPodAffinity":"passed","NodeAffinity":"passed","NodeName":"passed","NodePorts":"passed","NodeResourcesFit":"passed","NodeUnschedulable":"passed","NodeVolumeLimits":"passed","PodTopologySpread":"passed","TaintToleration":"passed","VolumeBinding":"passed","VolumeRestrictions":"passed","VolumeZone":"passed"},"node-gp9t4":{"AzureDiskLimits":"passed","EBSLimits":"passed","GCEPDLimits":"passed","InterPodAffinity":"passed","NodeAffinity":"passed","NodeName":"passed","NodePorts":"passed","NodeResourcesFit":"passed","NodeUnschedulable":"passed","NodeVolumeLimits":"passed","PodTopologySpread":"passed","TaintToleration":"passed","VolumeBinding":"passed","VolumeRestrictions":"passed","VolumeZone":"passed"}}
 ```
 
-Used on: Pod
+ورد استفاده در: پاد
 
-This annotation records the result of filter scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی فیلتر را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/finalscore-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: 
+مثال:
 
 ```yaml
 kube-scheduler-simulator.sigs.k8s.io/finalscore-result: >-
       {"node-282x7":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"200","TaintToleration":"300","VolumeBinding":"0"},"node-gp9t4":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"200","TaintToleration":"300","VolumeBinding":"0"}}
 ```
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the final scores that the scheduler calculates from the scores from score scheduler plugins,
-used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی، نمرات نهایی را که زمان‌بند از نمرات افزونه‌های زمان‌بند نمره محاسبه می‌کند، ثبت می‌کند.
 
+مورد استفاده توسط https://sigs.k8s.io/kube-scheduler-simulator.
 ### kube-scheduler-simulator.sigs.k8s.io/permit-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/permit-result: '{"CustomPermitPlugin":"success"}'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/permit-result: '{"CustomPermitPlugin":"success"}'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of permit scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی مجوز را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند
 
 ### kube-scheduler-simulator.sigs.k8s.io/permit-result-timeout
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/permit-result-timeout: '{"CustomPermitPlugin":"10s"}'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/permit-result-timeout: '{"CustomPermitPlugin":"10s"}'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the timeouts returned from permit scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی، زمان‌های انقضای بازگشتی از افزونه‌های زمان‌بندی مجوز را ثبت می‌کند که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود.
 
 ### kube-scheduler-simulator.sigs.k8s.io/postfilter-result
 
 Type: Annotation
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/postfilter-result: '{"DefaultPreemption":"success"}'`
+نوع: حاشیه‌نویسی
 
-Used on: Pod
+مثال: `kube-scheduler-simulator.sigs.k8s.io/postfilter-result: '{"DefaultPreemption":"success"}'`
 
-This annotation records the result of postfilter scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+مورد استفاده در: پاد
+
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی postfilter را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/prebind-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/prebind-result: '{"VolumeBinding":"success"}'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/prebind-result: '{"VolumeBinding":"success"}'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of prebind scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی پیش‌اتصال را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/prefilter-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/prebind-result: '{"NodeAffinity":"[\"node-\a"]"}'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/prebind-result: '{"VolumeBinding":"success"}'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the PreFilter result of prefilter scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی پیش‌اتصال را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/prefilter-result-status
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: 
+
+مثال:
 
 ```yaml
 kube-scheduler-simulator.sigs.k8s.io/prefilter-result-status: >-
       {"InterPodAffinity":"success","NodeAffinity":"success","NodePorts":"success","NodeResourcesFit":"success","PodTopologySpread":"success","VolumeBinding":"success","VolumeRestrictions":"success"}
 ```
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of prefilter scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی پیش‌فیلتر را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/prescore-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: 
+مثال:
 
 ```yaml
     kube-scheduler-simulator.sigs.k8s.io/prescore-result: >-
       {"InterPodAffinity":"success","NodeAffinity":"success","NodeNumber":"success","PodTopologySpread":"success","TaintToleration":"success"}
 ```
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of prefilter scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی پیش‌فیلتر را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/reserve-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/reserve-result: '{"VolumeBinding":"success"}'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/reserve-result: '{"VolumeBinding":"success"}'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of reserve scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه‌ی افزونه‌های زمان‌بندی رزرو را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/result-history
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/result-history: '[]'`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/result-history: '[]'`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records all the past scheduling results from scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی تمام نتایج برنامه‌ریزی گذشته از افزونه‌های زمان‌بندی را که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود، ثبت می‌کند.
 
 ### kube-scheduler-simulator.sigs.k8s.io/score-result
 
-Type: Annotation
+نوع: حاشیه‌نویسی
+
 
 ```yaml
     kube-scheduler-simulator.sigs.k8s.io/score-result: >-
       {"node-282x7":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"0","TaintToleration":"0","VolumeBinding":"0"},"node-gp9t4":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"0","TaintToleration":"0","VolumeBinding":"0"}}
 ```
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the result of score scheduler plugins, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی نتیجه افزونه‌های زمان‌بندی امتیاز را ثبت می‌کند که توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود.
 
 ### kube-scheduler-simulator.sigs.k8s.io/selected-node
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kube-scheduler-simulator.sigs.k8s.io/selected-node: node-282x7`
+مثال: `kube-scheduler-simulator.sigs.k8s.io/selected-node: node-282x7`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation records the node that is selected by the scheduling cycle, used by https://sigs.k8s.io/kube-scheduler-simulator.
+این حاشیه‌نویسی، گره‌ای را که توسط چرخه زمان‌بندی انتخاب می‌شود، ثبت می‌کند و توسط https://sigs.k8s.io/kube-scheduler-simulator استفاده می‌شود.
 
 ### kubernetes.io/arch
 
-Type: Label
+نوع: برچسب
 
-Example: `kubernetes.io/arch: "amd64"`
+مثال: `kubernetes.io/arch: "amd64"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The Kubelet populates this with `runtime.GOARCH` as defined by Go.
-This can be handy if you are mixing ARM and x86 nodes.
+Kubelet این را با `runtime.GOARCH` مطابق تعریف Go پر می‌کند.
+
+این می‌تواند در صورتی که گره‌های ARM و x86 را با هم ترکیب می‌کنید، مفید باشد.
 
 ### kubernetes.io/os
 
-Type: Label
+نوع: برچسب
 
-Example: `kubernetes.io/os: "linux"`
+مثال: `kubernetes.io/os: "linux"`
 
-Used on: Node, Pod
+مورد استفاده در: Node، Pod
 
-For nodes, the kubelet populates this with `runtime.GOOS` as defined by Go. This can be handy if you are
-mixing operating systems in your cluster (for example: mixing Linux and Windows nodes).
+برای گره‌ها، kubelet این را با `runtime.GOOS` مطابق تعریف Go پر می‌کند. این می‌تواند در صورتی که در حال ترکیب سیستم‌های عامل در کلاستر خود هستید (مثلاً: ترکیب گره‌های لینوکس و ویندوز) مفید باشد.
 
-You can also set this label on a Pod. Kubernetes allows you to set any value for this label;
-if you use this label, you should nevertheless set it to the Go `runtime.GOOS` string for the operating
-system that this Pod actually works with.
+همچنین می‌توانید این برچسب را روی یک Pod تنظیم کنید. Kubernetes به شما امکان می‌دهد هر مقداری را برای این برچسب تنظیم کنید. اگر از این برچسب استفاده می‌کنید، با این وجود باید آن را روی رشته Go `runtime.GOOS` برای سیستم عاملی که این Pod در واقع با آن کار می‌کند، تنظیم کنید.
 
-When the `kubernetes.io/os` label value for a Pod does not match the label value on a Node,
-the kubelet on the node will not admit the Pod. However, this is not taken into account by
-the kube-scheduler. Alternatively, the kubelet refuses to run a Pod where you have specified a Pod OS, if
-this isn't the same as the operating system for the node where that kubelet is running. Just
-look for [Pods OS](/docs/concepts/workloads/pods/#pod-os) for more details.
+هنگامی که مقدار برچسب `kubernetes.io/os` برای یک Pod با مقدار برچسب روی یک Node مطابقت نداشته باشد، kubelet روی گره، Pod را نمی‌پذیرد. با این حال، kube-scheduler این موضوع را در نظر نمی‌گیرد. از طرف دیگر، kubelet از اجرای Pod که در آن یک Pod OS مشخص کرده‌اید، خودداری می‌کند، اگر این سیستم عامل با سیستم عامل گره‌ای که kubelet در آن اجرا می‌شود، یکسان نباشد. برای جزئیات بیشتر، فقط به دنبال [Pods OS](/docs/concepts/workloads/pods/#pod-os) باشید.
 
 ### kubernetes.io/metadata.name
 
-Type: Label
+نوع: برچسب
 
-Example: `kubernetes.io/metadata.name: "mynamespace"`
+مثال: `kubernetes.io/metadata.name: "mynamespace"`
 
-Used on: Namespaces
+مورد استفاده در: فضاهای نام
 
-The Kubernetes API server (part of the {{< glossary_tooltip text="control plane" term_id="control-plane" >}})
-sets this label on all namespaces. The label value is set
-to the name of the namespace. You can't change this label's value.
+سرور Kubernetes API (بخشی از {{< glossary_tooltip text="control plane" term_id="control-plane" >}})
+این برچسب را روی همه فضاهای نام تنظیم می‌کند. مقدار برچسب
+روی نام فضای نام تنظیم می‌شود. شما نمی‌توانید مقدار این برچسب را تغییر دهید.
 
-This is useful if you want to target a specific namespace with a label
-{{< glossary_tooltip text="selector" term_id="selector" >}}.
+این در صورتی مفید است که بخواهید یک فضای نام خاص را با برچسب
+{{< glossary_tooltip text="selector" term_id="selector" >}} هدف قرار دهید.
 
 ### kubernetes.io/limit-ranger
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/limit-ranger: "LimitRanger plugin set: cpu, memory request for container nginx; cpu, memory limit for container nginx"`
+مثال: `kubernetes.io/limit-ranger: "مجموعه افزونه LimitRanger: پردازنده، درخواست حافظه برای کانتینر nginx؛ پردازنده، محدودیت حافظه برای کانتینر nginx"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-Kubernetes by default doesn't provide any resource limit, that means unless you explicitly define
-limits, your container can consume unlimited CPU and memory.
-You can define a default request or default limit for pods. You do this by creating a LimitRange
-in the relevant namespace. Pods deployed after you define a LimitRange will have these limits
-applied to them.
-The annotation `kubernetes.io/limit-ranger` records that resource defaults were specified for the Pod,
-and they were applied successfully.
-For more details, read about [LimitRanges](/docs/concepts/policy/limit-range).
+کوبرنتس به طور پیش‌فرض هیچ محدودیتی برای منابع ارائه نمی‌دهد، به این معنی که مگر اینکه صریحاً محدودیت‌ها را تعریف کنید، کانتینر شما می‌تواند CPU و حافظه نامحدودی مصرف کند.
+
+شما می‌توانید یک درخواست پیش‌فرض یا محدودیت پیش‌فرض برای پادها تعریف کنید. این کار را با ایجاد یک LimitRange در فضای نام مربوطه انجام می‌دهید. پادهایی که پس از تعریف LimitRange مستقر می‌شوند، این محدودیت‌ها را خواهند داشت.
+
+حاشیه‌نویسی `kubernetes.io/limit-ranger` ثبت می‌کند که پیش‌فرض‌های منابع برای پاد مشخص شده‌اند و با موفقیت اعمال شده‌اند.
+
+برای جزئیات بیشتر، درباره [LimitRanges](/docs/concepts/policy/limit-range) بخوانید.
 
 ### kubernetes.io/config.hash
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/config.hash: "df7cc47f8477b6b1226d7d23a904867b"`
+مثال: `kubernetes.io/config.hash: "df7cc47f8477b6b1226d7d23a904867b"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-When the kubelet creates a static Pod based on a given manifest, it attaches this annotation
-to the static Pod. The value of the annotation is the UID of the Pod.
-Note that the kubelet also sets the `.spec.nodeName` to the current node name as if the Pod
-was scheduled to the node.
+هنگامی که kubelet یک پاد استاتیک بر اساس یک مانیفست داده شده ایجاد می‌کند، این حاشیه‌نویسی را به پاد استاتیک متصل می‌کند. مقدار حاشیه‌نویسی، شناسه کاربری (UID) پاد است.
+
+توجه داشته باشید که kubelet همچنین `.spec.nodeName` را روی نام گره فعلی تنظیم می‌کند، گویی پاد
+
+برای گره برنامه‌ریزی شده است.
 
 ### kubernetes.io/config.mirror
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/config.mirror: "df7cc47f8477b6b1226d7d23a904867b"`
+مثال: `kubernetes.io/config.mirror: "df7cc47f8477b6b1226d7d23a904867b"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-For a static Pod created by the kubelet on a node, a {{< glossary_tooltip text="mirror Pod" term_id="mirror-pod" >}}
-is created on the API server. The kubelet adds an annotation to indicate that this Pod is
-actually a mirror Pod. The annotation value is copied from the [`kubernetes.io/config.hash`](#kubernetes-io-config-hash)
-annotation, which is the UID of the Pod.
+برای یک پاد استاتیک که توسط kubelet روی یک گره ایجاد شده است، یک {{< glossary_tooltip text="mirror Pod" term_id="mirror-pod" >}}
+در سرور API ایجاد می‌شود. kubelet یک حاشیه‌نویسی اضافه می‌کند تا نشان دهد که این پاد
+در واقع یک پاد آینه‌ای است. مقدار حاشیه‌نویسی از حاشیه‌نویسی [`kubernetes.io/config.hash`](#kubernetes-io-config-hash)
+کپی می‌شود که UID پاد است.
 
-When updating a Pod with this annotation set, the annotation cannot be changed or removed.
-If a Pod doesn't have this annotation, it cannot be added during a Pod update.
+هنگام به‌روزرسانی یک پاد با این مجموعه حاشیه‌نویسی، حاشیه‌نویسی قابل تغییر یا حذف نیست. اگر یک Pod این حاشیه‌نویسی را نداشته باشد، نمی‌توان آن را در طول به‌روزرسانی Pod اضافه کرد.
 
 ### kubernetes.io/config.source
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/config.source: "file"`
+مثال: `kubernetes.io/config.source: "file"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation is added by the kubelet to indicate where the Pod comes from.
-For static Pods, the annotation value could be one of `file` or `http` depending
-on where the Pod manifest is located. For a Pod created on the API server and then
-scheduled to the current node, the annotation value is `api`.
+این حاشیه‌نویسی توسط kubelet اضافه می‌شود تا نشان دهد پاد از کجا می‌آید.
 
+برای پادهای استاتیک، مقدار حاشیه‌نویسی می‌تواند یکی از `file` یا `http` باشد، بسته به اینکه مانیفست پاد در کجا قرار دارد. برای پادی که در سرور API ایجاد شده و سپس در گره فعلی زمان‌بندی شده است، مقدار حاشیه‌نویسی `api` است.
 ### kubernetes.io/config.seen
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/config.seen: "2023-10-27T04:04:56.011314488Z"`
+مثال: `kubernetes.io/config.seen: "2023-10-27T04:04:56.011314488Z"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-When the kubelet sees a Pod for the first time, it may add this annotation to
-the Pod with a value of current timestamp in the RFC3339 format.
+وقتی kubelet برای اولین بار یک پاد را می‌بیند، ممکن است این حاشیه‌نویسی را با مقداری از برچسب زمانی فعلی در قالب RFC3339 به پاد اضافه کند.
 
 ### addonmanager.kubernetes.io/mode
 
-Type: Label
+نوع: برچسب
 
-Example: `addonmanager.kubernetes.io/mode: "Reconcile"`
+مثال: `addonmanager.kubernetes.io/mode: "Reconcile"`
 
-Used on: All objects
+مورد استفاده در: همه اشیاء
 
-To specify how an add-on should be managed, you can use the `addonmanager.kubernetes.io/mode` label.
-This label can have one of three values: `Reconcile`, `EnsureExists`, or `Ignore`.
+برای مشخص کردن نحوه مدیریت یک افزونه، می‌توانید از برچسب `addonmanager.kubernetes.io/mode` استفاده کنید.
 
-- `Reconcile`: Addon resources will be periodically reconciled with the expected state.
-  If there are any differences, the add-on manager will recreate, reconfigure or delete
-  the resources as needed. This is the default mode if no label is specified.
-- `EnsureExists`: Addon resources will be checked for existence only but will not be modified
-  after creation. The add-on manager will create or re-create the resources when there is
-  no instance of the resource with that name.
-- `Ignore`: Addon resources will be ignored. This mode is useful for add-ons that are not
-  compatible with the add-on manager or that are managed by another controller.
+این برچسب می‌تواند یکی از سه مقدار زیر را داشته باشد: `Reconcile`، `EnsureExists` یا `Ignore`.
 
-For more details, see [Addon-manager](https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/addon-manager/README.md).
+- `Reconcile`: منابع افزونه به صورت دوره‌ای با وضعیت مورد انتظار تطبیق داده می‌شوند.
+
+در صورت وجود هرگونه اختلاف، مدیر افزونه منابع را در صورت نیاز دوباره ایجاد، پیکربندی یا حذف می‌کند. این حالت پیش‌فرض است اگر هیچ برچسبی مشخص نشده باشد.
+
+- `EnsureExists`: منابع افزونه فقط از نظر وجود بررسی می‌شوند اما پس از ایجاد تغییر نمی‌کنند. مدیر افزونه منابع را زمانی که هیچ نمونه‌ای از منبع با آن نام وجود نداشته باشد، ایجاد یا دوباره ایجاد می‌کند.
+
+- `Ignore`: منابع افزونه نادیده گرفته می‌شوند. این حالت برای افزونه‌هایی که با مدیر افزونه سازگار نیستند یا توسط کنترل‌کننده دیگری مدیریت می‌شوند، مفید است.
+
+برای جزئیات بیشتر، به [Addon-manager](https://github.com/kubernetes/kubernetes/blob/master/cluster/addons/addon-manager/README.md) مراجعه کنید.
 
 ### beta.kubernetes.io/arch (deprecated)
 
-Type: Label
+نوع: برچسب
 
-This label has been deprecated. Please use [`kubernetes.io/arch`](#kubernetes-io-arch) instead.
+این برچسب منسوخ شده است. لطفاً به جای آن از [`kubernetes.io/arch`](#kubernetes-io-arch) استفاده کنید.
 
-### beta.kubernetes.io/os (deprecated)
+### beta.kubernetes.io/os (منسوخ شده)
 
-Type: Label
+نوع: برچسب
 
-This label has been deprecated. Please use [`kubernetes.io/os`](#kubernetes-io-os) instead.
+این برچسب منسوخ شده است. لطفاً به جای آن از [`kubernetes.io/os`](#kubernetes-io-os) استفاده کنید.
 
 ### kube-aggregator.kubernetes.io/automanaged {#kube-aggregator-kubernetesio-automanaged}
 
-Type: Label
+نوع: برچسب
 
-Example: `kube-aggregator.kubernetes.io/automanaged: "onstart"`
+مثال: `kube-aggregator.kubernetes.io/automanaged: "onstart"`
 
-Used on: APIService
+مورد استفاده در: APIService
 
-The `kube-apiserver` sets this label on any APIService object that the API server
-has created automatically. The label marks how the control plane should manage that
-APIService. You should not add, modify, or remove this label by yourself.
+`kube-apiserver` این برچسب را روی هر شیء APIService که سرور API به طور خودکار ایجاد کرده است، تنظیم می‌کند. این برچسب نحوه مدیریت آن APIService توسط صفحه کنترل را مشخص می‌کند. شما نباید خودتان این برچسب را اضافه، اصلاح یا حذف کنید.
 
 {{< note >}}
-Automanaged APIService objects are deleted by kube-apiserver when it has no built-in
-or custom resource API corresponding to the API group/version of the APIService.
+اشیاء APIService مدیریت‌شده خودکار توسط kube-apiserver حذف می‌شوند زمانی که هیچ API منبع داخلی یا سفارشی مربوط به گروه/نسخه APIService نداشته باشد.
 {{< /note >}}
 
-There are two possible values:
+دو مقدار ممکن وجود دارد:
 
-- `onstart`: The APIService should be reconciled when an API server starts up, but not otherwise.
-- `true`: The API server should reconcile this APIService continuously.
+- `onstart`: APIService باید هنگام راه‌اندازی یک سرور API تطبیق داده شود، اما در غیر این صورت خیر.
+- `true`: سرور API باید این APIService را به طور مداوم تطبیق دهد.
 
 ### service.alpha.kubernetes.io/tolerate-unready-endpoints (deprecated)
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: StatefulSet
+مورد استفاده در: StatefulSet
 
-This annotation on a Service denotes if the Endpoints controller should go ahead and create
-Endpoints for unready Pods. Endpoints of these Services retain their DNS records and continue
-receiving traffic for the Service from the moment the kubelet starts all containers in the pod
-and marks it _Running_, til the kubelet stops all containers and deletes the pod from
-the API server.
+این حاشیه‌نویسی در یک سرویس نشان می‌دهد که آیا کنترل‌کننده نقاط پایانی باید اقدام به ایجاد نقاط پایانی برای پادهای آماده‌نشده کند یا خیر. نقاط پایانی این سرویس‌ها رکوردهای DNS خود را حفظ می‌کنند و از لحظه‌ای که kubelet تمام کانتینرهای موجود در پاد را شروع می‌کند و آن را _Running_ علامت‌گذاری می‌کند، تا زمانی که kubelet تمام کانتینرها را متوقف کرده و پاد را از سرور API حذف کند، به دریافت ترافیک برای سرویس ادامه می‌دهند.
 
 ### autoscaling.alpha.kubernetes.io/behavior (deprecated) {#autoscaling-alpha-kubernetes-io-behavior}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: HorizontalPodAutoscaler
+مورد استفاده در: HorizontalPodAutoscaler
 
-This annotation was used to configure the scaling behavior for a HorizontalPodAutoscaler (HPA) in earlier Kubernetes versions.
-It allowed you to specify how the HPA should scale pods up or down, including setting stabilization windows and scaling policies.
-Setting this annotation has no effect in any supported release of Kubernetes.
+این حاشیه‌نویسی برای پیکربندی رفتار مقیاس‌بندی برای HorizontalPodAutoscaler (HPA) در نسخه‌های قبلی Kubernetes استفاده می‌شد.
+
+این به شما امکان می‌داد مشخص کنید که HPA چگونه باید پادها را به بالا یا پایین مقیاس‌بندی کند، از جمله تنظیم پنجره‌های تثبیت و سیاست‌های مقیاس‌بندی.
+
+تنظیم این حاشیه‌نویسی در هیچ یک از نسخه‌های پشتیبانی‌شده Kubernetes تأثیری ندارد.
 
 ### kubernetes.io/hostname {#kubernetesiohostname}
 
-Type: Label
+نوع: برچسب
 
-Example: `kubernetes.io/hostname: "ip-172-20-114-199.ec2.internal"`
+مثال: `kubernetes.io/hostname: "ip-172-20-114-199.ec2.internal"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The Kubelet populates this label with the hostname of the node. Note that the hostname
-can be changed from the "actual" hostname by passing the `--hostname-override` flag to
-the `kubelet`.
+Kubelet این برچسب را با نام میزبان گره پر می‌کند. توجه داشته باشید که نام میزبان
+را می‌توان با ارسال پرچم `--hostname-override` به `kubelet` از نام میزبان "واقعی" تغییر داد.
 
-This label is also used as part of the topology hierarchy.
-See [topology.kubernetes.io/zone](#topologykubernetesiozone) for more information.
+این برچسب همچنین به عنوان بخشی از سلسله مراتب توپولوژی استفاده می‌شود.
+
+برای اطلاعات بیشتر به [topology.kubernetes.io/zone](#topologykubernetesiozone) مراجعه کنید.
 
 ### kubernetes.io/change-cause {#change-cause}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/change-cause: "kubectl edit --record deployment foo"`
+مثال: `kubernetes.io/change-cause: "kubectl edit --record deployment foo"`
 
-Used on: All Objects
+مورد استفاده در: همه اشیاء
 
-This annotation is a best guess at why something was changed.
+این حاشیه‌نویسی بهترین حدس در مورد دلیل تغییر چیزی است.
 
-It is populated when adding `--record` to a `kubectl` command that may change an object.
+هنگام اضافه کردن `--record` به دستور `kubectl` که ممکن است یک شیء را تغییر دهد، مقداردهی می‌شود.
 
 ### kubernetes.io/description {#description}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/description: "Description of K8s object."`
+مثال: `kubernetes.io/description: "توضیحات شیء K8s."`
 
-Used on: All Objects
+مورد استفاده در: همه اشیاء
 
-This annotation is used for describing specific behaviour of given object.
+این حاشیه‌نویسی برای توصیف رفتار خاص شیء مورد نظر استفاده می‌شود.
 
 ### kubernetes.io/enforce-mountable-secrets (deprecated) {#enforce-mountable-secrets}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/enforce-mountable-secrets: "true"`
+مثال: `kubernetes.io/enforce-mountable-secrets: "true"`
 
-Used on: ServiceAccount
+مورد استفاده در: ServiceAccount
 
 {{< note >}}
-`kubernetes.io/enforce-mountable-secrets` is deprecated since Kubernetes v1.32. Use separate namespaces to isolate access to mounted secrets.
+`kubernetes.io/enforce-mountable-secrets` از Kubernetes نسخه ۱.۳۲ منسوخ شده است. برای جداسازی دسترسی به secretهای mount شده، از namespaceهای جداگانه استفاده کنید.
 {{< /note >}}
 
-The value for this annotation must be **true** to take effect.
-When you set this annotation  to "true", Kubernetes enforces the following rules for
-Pods running as this ServiceAccount:
+مقدار این حاشیه‌نویسی باید **true** باشد تا اعمال شود.
+وقتی این حاشیه‌نویسی را روی «true» تنظیم می‌کنید، Kubernetes قوانین زیر را برای
+Podهایی که به عنوان این ServiceAccount اجرا می‌شوند، اعمال می‌کند:
 
-1. Secrets mounted as volumes must be listed in the ServiceAccount's `secrets` field.
-1. Secrets referenced in `envFrom` for containers (including sidecar containers and init containers)
-   must also be listed in the ServiceAccount's secrets field.
-   If any container in a Pod references a Secret not listed in the ServiceAccount's `secrets` field
-   (and even if the reference is marked as `optional`), then the Pod will fail to start,
-   and an error indicating the non-compliant secret reference will be generated.
-1. Secrets referenced in a Pod's `imagePullSecrets` must be present in the
-   ServiceAccount's `imagePullSecrets` field, the Pod will fail to start,
-   and an error indicating the non-compliant image pull secret reference will be generated.
+۱. اسراری که به عنوان ولوم‌ها (volumes) نصب شده‌اند باید در فیلد «اسرار» (secrets) سرویس‌اکانت (ServiceAccount) فهرست شوند.
 
-When you create or update a Pod, these rules are checked. If a Pod doesn't follow them, it won't start and you'll see an error message.
-If a Pod is already running and you change the `kubernetes.io/enforce-mountable-secrets` annotation
-to true, or you edit the associated ServiceAccount to remove the reference to a Secret
-that the Pod is already using, the Pod continues to run.
+۱. اسراری که در «envFrom» برای کانتینرها (شامل کانتینرهای سایدکار و کانتینرهای init) به آنها اشاره شده است، باید در فیلد اسرار سرویس‌اکانت نیز فهرست شوند.
+
+اگر هر کانتینری در یک پاد به رازی اشاره کند که در فیلد «اسرار» سرویس‌اکانت فهرست نشده باشد (و حتی اگر این مرجع به عنوان «اختیاری» علامت‌گذاری شده باشد)، پاد شروع به کار نخواهد کرد، و خطایی مبنی بر عدم انطباق مرجع اسرار ایجاد خواهد شد.
+
+۱. اسراری که در «imagePullSecrets» یک پاد به آنها اشاره شده است، باید در فیلد «imagePullSecrets» سرویس‌اکانت وجود داشته باشند، پاد شروع به کار نخواهد کرد، و خطایی مبنی بر عدم انطباق مرجع اسرار کشیدن تصویر ایجاد خواهد شد.
+
+وقتی یک پاد ایجاد یا به‌روزرسانی می‌کنید، این قوانین بررسی می‌شوند. اگر پاد از آنها پیروی نکند، شروع به کار نمی‌کند و یک پیام خطا مشاهده خواهید کرد.
+
+اگر یک پاد از قبل در حال اجرا باشد و حاشیه‌نویسی `kubernetes.io/enforce-mountable-secrets` را به true تغییر دهید، یا ServiceAccount مرتبط را ویرایش کنید تا ارجاع به یک راز که پاد از قبل از آن استفاده می‌کند را حذف کنید، پاد به اجرای خود ادامه می‌دهد.
 
 ### node.kubernetes.io/exclude-from-external-load-balancers
 
-Type: Label
+نوع: برچسب
 
-Example: `node.kubernetes.io/exclude-from-external-load-balancers`
+مثال: `node.kubernetes.io/exclude-from-external-load-balancers`
 
-Used on: Node
+مورد استفاده در: Node
 
-You can add labels to particular worker nodes to exclude them from the list of backend servers used by external load balancers.
-The following command can be used to exclude a worker node from the list of backend servers in a
-backend set:
+شما می‌توانید به گره‌های کارگر خاص برچسب اضافه کنید تا آنها را از لیست سرورهای backend مورد استفاده توسط متعادل‌کننده‌های بار خارجی حذف کنید.
+
+دستور زیر را می‌توان برای حذف یک گره کارگر از لیست سرورهای backend در یک مجموعه backend استفاده کرد:
 
 ```shell
 kubectl label nodes <node-name> node.kubernetes.io/exclude-from-external-load-balancers=true
 ```
 
 ### controller.kubernetes.io/pod-deletion-cost {#pod-deletion-cost}
+نوع: حاشیه‌نویسی
 
-Type: Annotation
+مثال: `controller.kubernetes.io/pod-deletion-cost: "10"`
 
-Example: `controller.kubernetes.io/pod-deletion-cost: "10"`
+مورد استفاده در: Pod
 
-Used on: Pod
+این حاشیه‌نویسی برای تنظیم [Pod Deletion Cost](/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost) استفاده می‌شود که به کاربران اجازه می‌دهد تا ترتیب کوچک‌سازی ReplicaSet را تحت تأثیر قرار دهند.
 
-This annotation is used to set [Pod Deletion Cost](/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost)
-which allows users to influence ReplicaSet downscaling order.
-The annotation value parses into an `int32` type.
+مقدار حاشیه‌نویسی به یک نوع `int32` تجزیه می‌شود.
 
 ### cluster-autoscaler.kubernetes.io/enable-ds-eviction
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `cluster-autoscaler.kubernetes.io/enable-ds-eviction: "true"`
+مثال: `cluster-autoscaler.kubernetes.io/enable-ds-eviction: "true"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation controls whether a DaemonSet pod should be evicted by a ClusterAutoscaler.
-This annotation needs to be specified on DaemonSet pods in a DaemonSet manifest.
-When this annotation is set to `"true"`, the ClusterAutoscaler is allowed to evict
-a DaemonSet Pod, even if other rules would normally prevent that.
-To disallow the ClusterAutoscaler from evicting DaemonSet pods,
-you can set this annotation to `"false"` for important DaemonSet pods.
-If this annotation is not set, then the ClusterAutoscaler follows its overall behavior
-(i.e evict the DaemonSets based on its configuration).
+این حاشیه‌نویسی کنترل می‌کند که آیا یک پاد DaemonSet باید توسط یک ClusterAutoscaler حذف شود یا خیر.
+
+این حاشیه‌نویسی باید در پادهای DaemonSet در مانیفست DaemonSet مشخص شود.
+
+وقتی این حاشیه‌نویسی روی `"true"` تنظیم شود، ClusterAutoscaler مجاز است یک پاد DaemonSet را حذف کند، حتی اگر سایر قوانین معمولاً مانع از این کار شوند.
+
+برای اینکه ClusterAutoscaler نتواند پادهای DaemonSet را حذف کند، می‌توانید این حاشیه‌نویسی را برای پادهای مهم DaemonSet روی `"false"` تنظیم کنید. اگر این حاشیه‌نویسی تنظیم نشده باشد، ClusterAutoscaler از رفتار کلی خود پیروی می‌کند (یعنی DaemonSets را بر اساس پیکربندی خود حذف می‌کند).
 
 {{< note >}}
-This annotation only impacts DaemonSet Pods.
+این حاشیه‌نویسی فقط روی پادهای DaemonSet تأثیر می‌گذارد.
 {{< /note >}}
 
 ### kubernetes.io/ingress-bandwidth
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/ingress-bandwidth: 10M`
+مثال: `kubernetes.io/ingress-bandwidth: 10M`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-You can apply quality-of-service traffic shaping to a pod and effectively limit its available
-bandwidth. Ingress traffic to a Pod is handled by shaping queued packets to effectively
-handle data. To limit the bandwidth on a Pod, write an object definition JSON file and specify
-the data traffic speed using `kubernetes.io/ingress-bandwidth` annotation. The unit used for
-specifying ingress rate is bits per second, as a
-[Quantity](/docs/reference/kubernetes-api/common-definitions/quantity/).
-For example, `10M` means 10 megabits per second.
+شما می‌توانید شکل‌دهی ترافیک با کیفیت سرویس را به یک پاد اعمال کنید و پهنای باند موجود آن را به طور مؤثر محدود کنید. ترافیک ورودی به یک پاد با شکل‌دهی بسته‌های صف‌بندی شده برای مدیریت مؤثر داده‌ها مدیریت می‌شود. برای محدود کردن پهنای باند در یک پاد، یک فایل JSON با تعریف شیء بنویسید و سرعت ترافیک داده را با استفاده از حاشیه‌نویسی `kubernetes.io/ingress-bandwidth` مشخص کنید. واحد مورد استفاده برای تعیین نرخ ورودی، بیت در ثانیه است، به عنوان [مقدار](/docs/reference/kubernetes-api/common-definitions/quantity/). به عنوان مثال، `10M` به معنی 10 مگابیت در ثانیه است.
 
 {{< note >}}
-Ingress traffic shaping annotation is an experimental feature.
-If you want to enable traffic shaping support, you must add the `bandwidth` plugin to your CNI
-configuration file (default `/etc/cni/net.d`) and ensure that the binary is included in your CNI
-bin dir (default `/opt/cni/bin`).
+حاشیه‌نویسی شکل‌دهی ترافیک ورودی یک ویژگی آزمایشی است. اگر می‌خواهید پشتیبانی از شکل‌دهی ترافیک را فعال کنید، باید افزونه `bandwidth` را به فایل پیکربندی CNI خود (پیش‌فرض `/etc/cni/net.d`) اضافه کنید و مطمئن شوید که فایل باینری در پوشه CNI bin شما (پیش‌فرض `/opt/cni/bin`) گنجانده شده است.
+hashiernevisi sheklde
 {{< /note >}}
 
 ### kubernetes.io/egress-bandwidth
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/egress-bandwidth: 10M`
+مثال: `kubernetes.io/egress-bandwidth: 10M`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-Egress traffic from a Pod is handled by policing, which simply drops packets in excess of the
-configured rate. The limits you place on a Pod do not affect the bandwidth of other Pods.
-To limit the bandwidth on a Pod, write an object definition JSON file and specify the data traffic
-speed using `kubernetes.io/egress-bandwidth` annotation. The unit used for specifying egress rate
-is bits per second, as a [Quantity](/docs/reference/kubernetes-api/common-definitions/quantity/).
-For example, `10M` means 10 megabits per second.
+ترافیک خروجی از یک پاد توسط پلیس کنترل می‌شود، که به سادگی بسته‌های اضافی از نرخ پیکربندی شده را حذف می‌کند. محدودیت‌هایی که روی یک پاد اعمال می‌کنید، بر پهنای باند سایر پادها تأثیری ندارد.
+
+برای محدود کردن پهنای باند روی یک پاد، یک فایل JSON تعریف شیء بنویسید و سرعت ترافیک داده را با استفاده از حاشیه‌نویسی `kubernetes.io/egress-bandwidth` مشخص کنید. واحد مورد استفاده برای تعیین نرخ خروجی، بیت در ثانیه است، به عنوان [مقدار](/docs/reference/kubernetes-api/common-definitions/quantity/).
+
+به عنوان مثال، `10M` به معنی 10 مگابیت در ثانیه است.
 
 {{< note >}}
-Egress traffic shaping annotation is an experimental feature.
-If you want to enable traffic shaping support, you must add the `bandwidth` plugin to your CNI
-configuration file (default `/etc/cni/net.d`) and ensure that the binary is included in your CNI
-bin dir (default `/opt/cni/bin`).
+حاشیه‌نویسی شکل‌دهی ترافیک خروجی یک ویژگی آزمایشی است. اگر می‌خواهید پشتیبانی از شکل‌دهی ترافیک را فعال کنید، باید افزونه‌ی `bandwidth` را به فایل پیکربندی CNI خود (پیش‌فرض `/etc/cni/net.d`) اضافه کنید و مطمئن شوید که فایل باینری در پوشه‌ی CNI bin شما (پیش‌فرض `/opt/cni/bin`) قرار دارد.
 {{< /note >}}
 
 ### beta.kubernetes.io/instance-type (deprecated)
 
-Type: Label
+نوع: برچسب
+
 
 {{< note >}}
-Starting in v1.17, this label is deprecated in favor of
-[node.kubernetes.io/instance-type](#nodekubernetesioinstance-type).
+از نسخه ۱.۱۷ به بعد، این برچسب منسوخ شده و به جای آن از ‎[node.kubernetes.io/instance-type](#nodekubernetesioinstance-type)‎ استفاده می‌شود.
 {{< /note >}}
 
 ### node.kubernetes.io/instance-type {#nodekubernetesioinstance-type}
 
-Type: Label
+نوع: برچسب
 
-Example: `node.kubernetes.io/instance-type: "m3.medium"`
+مثال: `node.kubernetes.io/instance-type: "m3.medium"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The Kubelet populates this with the instance type as defined by the cloud provider.
-This will be set only if you are using a cloud provider. This setting is handy
-if you want to target certain workloads to certain instance types, but typically you want
-to rely on the Kubernetes scheduler to perform resource-based scheduling.
-You should aim to schedule based on properties rather than on instance types
-(for example: require a GPU, instead of requiring a `g2.2xlarge`).
+Kubelet این را با نوع نمونه‌ای که توسط ارائه‌دهنده ابر تعریف شده است، پر می‌کند.
+
+این فقط در صورتی تنظیم می‌شود که از یک ارائه‌دهنده ابر استفاده کنید. این تنظیم مفید است
+
+اگر می‌خواهید بارهای کاری خاصی را به انواع نمونه خاصی اختصاص دهید، اما معمولاً می‌خواهید
+
+برای انجام برنامه‌ریزی مبتنی بر منابع به زمان‌بند Kubernetes تکیه کنید.
+
+شما باید برنامه‌ریزی را بر اساس ویژگی‌ها انجام دهید نه بر اساس انواع نمونه
+
+(برای مثال: به جای نیاز به یک `g2.2xlarge`، به یک GPU نیاز دارید).
 
 ### failure-domain.beta.kubernetes.io/region (deprecated) {#failure-domainbetakubernetesioregion}
 
-Type: Label
+نوع: برچسب
 
 {{< note >}}
-Starting in v1.17, this label is deprecated in favor of
-[topology.kubernetes.io/region](#topologykubernetesioregion).
+از نسخه ۱.۱۷ به بعد، این برچسب به نفع ‎[topology.kubernetes.io/region](#topologykubernetesioregion)‎ منسوخ شده است.
 {{< /note >}}
 
 ### failure-domain.beta.kubernetes.io/zone (deprecated) {#failure-domainbetakubernetesiozone}
 
-Type: Label
+نوع: برچسب
 
 {{< note >}}
-Starting in v1.17, this label is deprecated in favor of
-[topology.kubernetes.io/zone](#topologykubernetesiozone).
+از نسخه ۱.۱۷ به بعد، این برچسب به نفع برچسب [topology.kubernetes.io/zone](#topologykubernetesiozone) منسوخ شده است.
 {{< /note >}}
 
 ### pv.kubernetes.io/bind-completed {#pv-kubernetesiobind-completed}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
+مثال: `pv.kubernetes.io/bind-completed: "yes"`
 
-Example: `pv.kubernetes.io/bind-completed: "yes"`
+مورد استفاده در: PersistentVolumeClaim
 
-Used on: PersistentVolumeClaim
+هنگامی که این حاشیه‌نویسی روی یک PersistentVolumeClaim (PVC) تنظیم می‌شود، نشان می‌دهد که چرخه عمر PVC از تنظیمات اتصال اولیه عبور کرده است. در صورت وجود، این اطلاعات نحوه تفسیر وضعیت اشیاء PVC توسط صفحه کنترل را تغییر می‌دهد.
 
-When this annotation is set on a PersistentVolumeClaim (PVC), that indicates that the lifecycle
-of the PVC has passed through initial binding setup. When present, that information changes
-how the control plane interprets the state of PVC objects.
-The value of this annotation does not matter to Kubernetes.
+مقدار این حاشیه‌نویسی برای Kubernetes اهمیتی ندارد.
 
 ### pv.kubernetes.io/bound-by-controller {#pv-kubernetesioboundby-controller}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `pv.kubernetes.io/bound-by-controller: "yes"`
+مثال: `pv.kubernetes.io/bound-by-controller: "yes"`
 
-Used on: PersistentVolume, PersistentVolumeClaim
+مورد استفاده در: PersistentVolume، PersistentVolumeClaim
 
-If this annotation is set on a PersistentVolume or PersistentVolumeClaim, it indicates that a
-storage binding (PersistentVolume → PersistentVolumeClaim, or PersistentVolumeClaim → PersistentVolume)
-was installed by the {{< glossary_tooltip text="controller" term_id="controller" >}}.
-If the annotation isn't set, and there is a storage binding in place, the absence of that
-annotation means that the binding was done manually.
-The value of this annotation does not matter.
+اگر این حاشیه‌نویسی روی یک PersistentVolume یا PersistentVolumeClaim تنظیم شده باشد، نشان می‌دهد که یک اتصال ذخیره‌سازی (PersistentVolume → PersistentVolumeClaim، یا PersistentVolumeClaim → PersistentVolume) توسط {{< glossary_tooltip text="controller" term_id="controller" >}} نصب شده است.
+
+اگر حاشیه‌نویسی تنظیم نشده باشد و یک اتصال ذخیره‌سازی وجود داشته باشد، عدم وجود آن حاشیه‌نویسی به این معنی است که اتصال به صورت دستی انجام شده است.
+
+مقدار این حاشیه‌نویسی مهم نیست.
 
 ### pv.kubernetes.io/provisioned-by {#pv-kubernetesiodynamically-provisioned}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `pv.kubernetes.io/provisioned-by: "kubernetes.io/rbd"`
+مثال: `pv.kubernetes.io/provisioned-by: "kubernetes.io/rbd"`
 
-Used on: PersistentVolume
+مورد استفاده در: PersistentVolume
 
-This annotation is added to a PersistentVolume(PV) that has been dynamically provisioned by Kubernetes.
-Its value is the name of volume plugin that created the volume. It serves both users (to show where a PV
-comes from) and Kubernetes (to recognize dynamically provisioned PVs in its decisions).
+این حاشیه‌نویسی به PersistentVolume(PV) که به صورت پویا توسط Kubernetes فراهم شده است، اضافه می‌شود.
+
+مقدار آن نام افزونه volume است که volume را ایجاد کرده است. این annotation هم برای کاربران (برای نشان دادن اینکه یک PV از کجا می‌آید) و هم برای Kubernetes (برای تشخیص PVهای فراهم شده به صورت پویا در تصمیماتش) کاربرد دارد.
 
 ### pv.kubernetes.io/migrated-to {#pv-kubernetesio-migratedto}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `pv.kubernetes.io/migrated-to: pd.csi.storage.gke.io`
+مثال: `pv.kubernetes.io/migrated-to: pd.csi.storage.gke.io`
 
-Used on: PersistentVolume, PersistentVolumeClaim
+مورد استفاده در: PersistentVolume، PersistentVolumeClaim
 
-It is added to a PersistentVolume(PV) and PersistentVolumeClaim(PVC) that is supposed to be
-dynamically provisioned/deleted by its corresponding CSI driver through the `CSIMigration` feature gate.
-When this annotation is set, the Kubernetes components will "stand-down" and the
-`external-provisioner` will act on the objects.
+این به PersistentVolume(PV) و PersistentVolumeClaim(PVC) اضافه می‌شود که قرار است توسط درایور CSI مربوطه از طریق دروازه ویژگی `CSIMigration` به صورت پویا تهیه/حذف شوند.
+
+هنگامی که این حاشیه‌نویسی تنظیم می‌شود، اجزای Kubernetes "خاموش" می‌شوند و `external-provisioner` روی اشیاء عمل می‌کند.
 
 ### statefulset.kubernetes.io/pod-name {#statefulsetkubernetesiopod-name}
 
-Type: Label
+نوع: برچسب
 
-Example: `statefulset.kubernetes.io/pod-name: "mystatefulset-7"`
+مثال: `statefulset.kubernetes.io/pod-name: "mystatefulset-7"`
 
-Used on: Pod
+مورد استفاده در: Pod
 
-When a StatefulSet controller creates a Pod for the StatefulSet, the control plane
-sets this label on that Pod. The value of the label is the name of the Pod being created.
+هنگامی که یک کنترلر StatefulSet یک Pod برای StatefulSet ایجاد می‌کند، صفحه کنترل
+این برچسب را روی آن Pod تنظیم می‌کند. مقدار برچسب، نام Pod در حال ایجاد است.
 
-See [Pod Name Label](/docs/concepts/workloads/controllers/statefulset/#pod-name-label)
+برای جزئیات بیشتر به [برچسب نام Pod](/docs/concepts/workloads/controllers/statefulset/#pod-name-label) در موضوع StatefulSet مراجعه کنید.
 in the StatefulSet topic for more details.
 
 ### scheduler.alpha.kubernetes.io/node-selector {#schedulerkubernetesnode-selector}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `scheduler.alpha.kubernetes.io/node-selector: "name-of-node-selector"`
+مثال: `scheduler.alpha.kubernetes.io/node-selector: "name-of-node-selector"`
 
-Used on: Namespace
+مورد استفاده در: فضای نام
 
-The [PodNodeSelector](/docs/reference/access-authn-authz/admission-controllers/#podnodeselector)
-uses this annotation key to assign node selectors to pods in namespaces.
+[PodNodeSelector](/docs/reference/access-authn-authz/admission-controllers/#podnodeselector)
+
+از این کلید حاشیه‌نویسی برای اختصاص انتخابگرهای گره به پادها در فضاهای نام استفاده می‌کند.
 
 ### topology.kubernetes.io/region {#topologykubernetesioregion}
 
-Type: Label
+نوع: برچسب
 
-Example: `topology.kubernetes.io/region: "us-east-1"`
+مثال: `topology.kubernetes.io/region: "us-east-1"`
 
-Used on: Node, PersistentVolume
+مورد استفاده در: Node، PersistentVolume
 
-See [topology.kubernetes.io/zone](#topologykubernetesiozone).
+به [topology.kubernetes.io/zone](#topologykubernetesiozone) مراجعه کنید.
 
 ### topology.kubernetes.io/zone {#topologykubernetesiozone}
 
-Type: Label
+نوع: برچسب
 
-Example: `topology.kubernetes.io/zone: "us-east-1c"`
+مثال: `topology.kubernetes.io/zone: "us-east-1c"`
 
-Used on: Node, PersistentVolume
+مورد استفاده در: Node، PersistentVolume
 
-**On Node**: The `kubelet` or the external `cloud-controller-manager` populates this
-with the information from the cloud provider. This will be set only if you are using
-a cloud provider. However, you can consider setting this on nodes if it makes sense
-in your topology.
+**در Node**: `kubelet` یا `cloud-controller-manager` خارجی این را با اطلاعات ارائه دهنده ابر پر می‌کند. این فقط در صورتی تنظیم می‌شود که از یک ارائه دهنده ابر استفاده کنید. با این حال، اگر در توپولوژی شما منطقی باشد، می‌توانید تنظیم این را روی گره‌ها در نظر بگیرید.
 
-**On PersistentVolume**: topology-aware volume provisioners will automatically set
-node affinity constraints on a `PersistentVolume`.
+**در PersistentVolume**: ارائه دهندگان حجم آگاه از توپولوژی به طور خودکار محدودیت‌های وابستگی گره را روی `PersistentVolume` تنظیم می‌کنند.
 
-A zone represents a logical failure domain. It is common for Kubernetes clusters to
-span multiple zones for increased availability. While the exact definition of a zone
-is left to infrastructure implementations, common properties of a zone include
-very low network latency within a zone, no-cost network traffic within a zone, and
-failure independence from other zones.
-For example, nodes within a zone might share a network switch, but nodes in different
-zones should not.
+یک منطقه نشان دهنده یک دامنه خرابی منطقی است. برای خوشه‌های Kubernetes معمول است که برای افزایش دسترسی، چندین منطقه را در بر بگیرند. در حالی که تعریف دقیق یک منطقه به پیاده‌سازی‌های زیرساختی واگذار شده است، ویژگی‌های مشترک یک منطقه شامل موارد زیر است: تأخیر بسیار کم شبکه در یک منطقه، ترافیک شبکه بدون هزینه در یک منطقه و استقلال از خرابی از سایر مناطق. به عنوان مثال، گره‌های درون یک منطقه ممکن است یک سوئیچ شبکه را به اشتراک بگذارند، اما گره‌های مناطق مختلف نباید این کار را انجام دهند.
 
-A region represents a larger domain, made up of one or more zones.
-It is uncommon for Kubernetes clusters to span multiple regions,
-While the exact definition of a zone or region is left to infrastructure implementations,
-common properties of a region include higher network latency between them than within them,
-non-zero cost for network traffic between them, and failure independence from other zones or regions.
-For example, nodes within a region might share power infrastructure (e.g. a UPS or generator),
-but nodes in different regions typically would not.
+یک منطقه نشان دهنده یک دامنه بزرگتر است که از یک یا چند منطقه تشکیل شده است.
 
-Kubernetes makes a few assumptions about the structure of zones and regions:
+برای خوشه‌های Kubernetes غیرمعمول است که چندین منطقه را در بر بگیرند.
 
-1. regions and zones are hierarchical: zones are strict subsets of regions and
-   no zone can be in 2 regions
-2. zone names are unique across regions; for example region "africa-east-1" might be comprised
-   of zones "africa-east-1a" and "africa-east-1b"
+در حالی که تعریف دقیق یک منطقه یا منطقه به پیاده‌سازی زیرساخت‌ها واگذار شده است،
 
-It should be safe to assume that topology labels do not change.
-Even though labels are strictly mutable, consumers of them can assume that a given node
-is not going to be moved between zones without being destroyed and recreated.
+ویژگی‌های مشترک یک منطقه شامل تأخیر شبکه بالاتر بین آنها نسبت به درون آنها،
 
-Kubernetes can use this information in various ways.
-For example, the scheduler automatically tries to spread the Pods in a ReplicaSet across nodes
-in a single-zone cluster (to reduce the impact of node failures, see
-[kubernetes.io/hostname](#kubernetesiohostname)).
-With multiple-zone clusters, this spreading behavior also applies to zones (to reduce the impact of zone failures).
-This is achieved via _SelectorSpreadPriority_.
+هزینه غیر صفر برای ترافیک شبکه بین آنها و عدم وابستگی به سایر مناطق یا مناطق در صورت خرابی است.
 
-_SelectorSpreadPriority_ is a best effort placement. If the zones in your cluster are
-heterogeneous (for example: different numbers of nodes, different types of nodes, or different pod
-resource requirements), this placement might prevent equal spreading of your Pods across zones.
-If desired, you can use homogeneous zones (same number and types of nodes) to reduce the probability
-of unequal spreading.
+به عنوان مثال، گره‌های درون یک منطقه ممکن است زیرساخت برق (مثلاً یک UPS یا ژنراتور) را به اشتراک بگذارند،
 
-The scheduler (through the _VolumeZonePredicate_ predicate) also will ensure that Pods,
-that claim a given volume, are only placed into the same zone as that volume.
-Volumes cannot be attached across zones.
+اما گره‌های مناطق مختلف معمولاً این کار را نمی‌کنند.
 
-If `PersistentVolumeLabel` does not support automatic labeling of your PersistentVolumes,
-you should consider adding the labels manually (or adding support for `PersistentVolumeLabel`).
-With `PersistentVolumeLabel`, the scheduler prevents Pods from mounting volumes in a different zone.
-If your infrastructure doesn't have this constraint, you don't need to add the zone labels to the volumes at all.
+Kubernetes چند فرض در مورد ساختار مناطق و مناطق در نظر می‌گیرد:
 
-### volume.beta.kubernetes.io/storage-provisioner (deprecated)
 
-Type: Annotation
 
-Example: `volume.beta.kubernetes.io/storage-provisioner: "k8s.io/minikube-hostpath"`
+1. مناطق و زون‌ها سلسله مراتبی هستند: زون‌ها زیرمجموعه‌های دقیقی از مناطق هستند و هیچ منطقه‌ای نمی‌تواند در 2 منطقه باشد
 
-Used on: PersistentVolumeClaim
+2. نام مناطق در مناطق مختلف منحصر به فرد است؛ برای مثال، منطقه "africa-east-1" ممکن است از مناطق "africa-east-1a" و "africa-east-1b" تشکیل شده باشد.
 
-This annotation has been deprecated since v1.23.
-See [volume.kubernetes.io/storage-provisioner](#volume-kubernetes-io-storage-provisioner).
 
-### volume.beta.kubernetes.io/storage-class (deprecated)
+می‌توان با اطمینان فرض کرد که برچسب‌های توپولوژی تغییر نمی‌کنند.
+اگرچه برچسب‌ها کاملاً قابل تغییر هستند، مصرف‌کنندگان آنها می‌توانند فرض کنند که یک گره مشخص
+بدون تخریب و ایجاد مجدد، بین مناطق جابجا نمی‌شود.
 
-Type: Annotation
 
-Example: `volume.beta.kubernetes.io/storage-class: "example-class"`
+Kubernetes می‌تواند از این اطلاعات به روش‌های مختلفی استفاده کند.
 
-Used on: PersistentVolume, PersistentVolumeClaim
+برای مثال، زمانبند به طور خودکار سعی می‌کند Podها را در یک ReplicaSet در بین گره‌ها
 
-This annotation can be used for PersistentVolume(PV) or PersistentVolumeClaim(PVC)
-to specify the name of [StorageClass](/docs/concepts/storage/storage-classes/).
-When both the `storageClassName` attribute and the `volume.beta.kubernetes.io/storage-class`
-annotation are specified, the annotation `volume.beta.kubernetes.io/storage-class`
-takes precedence over the `storageClassName` attribute.
+در یک خوشه تک منطقه‌ای پخش کند (برای کاهش تأثیر خرابی گره‌ها، به [kubernetes.io/hostname](#kubernetesiohostname) مراجعه کنید).
 
-This annotation has been deprecated. Instead, set the
-[`storageClassName` field](/docs/concepts/storage/persistent-volumes/#class)
-for the PersistentVolumeClaim or PersistentVolume.
+با خوشه‌های چند منطقه‌ای، این رفتار پخش برای مناطق نیز اعمال می‌شود (برای کاهش تأثیر خرابی منطقه).
 
-### volume.beta.kubernetes.io/mount-options (deprecated) {#mount-options}
+این امر از طریق _SelectorSpreadPriority_ حاصل می‌شود.
 
-Type: Annotation
 
-Example : `volume.beta.kubernetes.io/mount-options: "ro,soft"`
 
-Used on: PersistentVolume
+_SelectorSpreadPriority_ یک جایگذاری با بهترین تلاش است. اگر مناطق موجود در خوشه شما ناهمگن باشند (به عنوان مثال: تعداد گره‌های مختلف، انواع گره‌های مختلف یا نیازهای منابع مختلف pod)، این جایگذاری ممکن است از توزیع برابر podهای شما در مناطق جلوگیری کند. در صورت تمایل، می‌توانید از مناطق همگن (تعداد و نوع گره‌های یکسان) برای کاهش احتمال توزیع نابرابر استفاده کنید.
 
-A Kubernetes administrator can specify additional
-[mount options](/docs/concepts/storage/persistent-volumes/#mount-options)
-for when a PersistentVolume is mounted on a node.
+
+
+زمانبند (از طریق گزاره _VolumeZonePredicate_) همچنین تضمین می‌کند که پادهایی که یک حجم مشخص را در اختیار دارند، فقط در همان منطقه با آن حجم قرار گیرند. حجم‌ها را نمی‌توان بین مناطق مختلف متصل کرد.
+
+
+اگر `PersistentVolumeLabel` از برچسب‌گذاری خودکار PersistentVolumeهای شما پشتیبانی نمی‌کند، باید اضافه کردن برچسب‌ها را به صورت دستی (یا اضافه کردن پشتیبانی از `PersistentVolumeLabel`) در نظر بگیرید.
+با `PersistentVolumeLabel`، زمان‌بندی از نصب Podها در یک منطقه متفاوت جلوگیری می‌کند.
+اگر زیرساخت شما این محدودیت را ندارد، اصلاً نیازی به اضافه کردن برچسب‌های منطقه به Volumeها ندارید.
+
+### volume.beta.kubernetes.io/storage-provisioner (منسوخ شده)
+
+نوع: حاشیه‌نویسی
+
+
+مثال: `volume.beta.kubernetes.io/storage-provisioner: "k8s.io/minikube-hostpath"`
+
+مورد استفاده در: PersistentVolumeClaim
+
+این حاشیه‌نویسی از نسخه ۱.۲۳ منسوخ شده است. به [volume.kubernetes.io/storage-provisioner](#volume-kubernetes-io-storage-provisioner) مراجعه کنید.
+
+### volume.beta.kubernetes.io/storage-class (منسوخ شده)
+
+نوع: حاشیه‌نویسی
+
+مثال: `volume.beta.kubernetes.io/storage-class: "example-class"`
+
+مورد استفاده در: PersistentVolume، PersistentVolumeClaim
+
+این حاشیه‌نویسی می‌تواند برای PersistentVolume(PV) یا PersistentVolumeClaim(PVC) استفاده شود تا نام [StorageClass](/docs/concepts/storage/storage-classes/) مشخص شود.
+هنگامی که هم ویژگی `storageClassName` و هم حاشیه‌نویسی `volume.beta.kubernetes.io/storage-class` مشخص شده باشند، حاشیه‌نویسی `volume.beta.kubernetes.io/storage-class` بر ویژگی `storageClassName` اولویت دارد.
+
+این حاشیه‌نویسی منسوخ شده است. در عوض، فیلد [`storageClassName`](/docs/concepts/storage/persistent-volumes/#class) را برای PersistentVolumeClaim یا PersistentVolume تنظیم کنید.
+
+### volume.beta.kubernetes.io/mount-options (منسوخ شده) {#mount-options}
+
+نوع: حاشیه‌نویسی
+
+مثال : `volume.beta.kubernetes.io/mount-options: "ro,soft"`
+
+ مورد استفاده در: PersistentVolume
+
+یک مدیر Kubernetes می‌تواند گزینه‌های اضافی [mount options](/docs/concepts/storage/persistent-volumes/#mount-options) را برای زمانی که یک PersistentVolume روی یک گره mount می‌شود، مشخص کند.
+
 
 ### volume.kubernetes.io/storage-provisioner  {#volume-kubernetes-io-storage-provisioner}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
 Used on: PersistentVolumeClaim
 
@@ -1177,221 +1125,210 @@ for this PVC.
 
 ### volume.kubernetes.io/selected-node
 
-Type: Annotation
 
-Used on: PersistentVolumeClaim
 
-This annotation is added to a PVC that is triggered by a scheduler to be
-dynamically provisioned. Its value is the name of the selected node.
+مورد استفاده در: PersistentVolumeClaim
+
+این حاشیه‌نویسی به یک PVC اضافه می‌شود که توسط یک زمانبند فعال می‌شود تا به صورت پویا آماده‌سازی شود. مقدار آن نام گره انتخاب شده است.
+
 
 ### volumes.kubernetes.io/controller-managed-attach-detach
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: Node
+مورد استفاده در: گره
 
-If a node has the annotation `volumes.kubernetes.io/controller-managed-attach-detach`,
-its storage attach and detach operations are being managed by the _volume attach/detach_
-{{< glossary_tooltip text="controller" term_id="controller" >}}.
 
-The value of the annotation isn't important.
+اگر یک گره دارای حاشیه‌نویسی `volumes.kubernetes.io/controller-managed-attach-detach` باشد، عملیات اتصال و جدا کردن حافظه آن توسط _volume attach/detach_ مدیریت می‌شود. {{< glossary_tooltip text="controller" term_id="controller" >}}
+
+ارزش حاشیه‌نویسی مهم نیست.
 
 ### node.kubernetes.io/windows-build {#nodekubernetesiowindows-build}
 
-Type: Label
+نوع: برچسب
 
-Example: `node.kubernetes.io/windows-build: "10.0.17763"`
+مثال :`node.kubernetes.io/windows-build: "10.0.17763"`
 
-Used on: Node
+مورد استفاده در: Node
 
-When the kubelet is running on Microsoft Windows, it automatically labels its Node
-to record the version of Windows Server in use.
+وقتی kubelet روی مایکروسافت ویندوز اجرا می‌شود، به‌طور خودکار گره خود را برچسب‌گذاری می‌کند تا نسخه ویندوز سرور مورد استفاده را ثبت کند.
 
-The label's value is in the format "MajorVersion.MinorVersion.BuildNumber".
+
+مقدار برچسب در قالب "MajorVersion.MinorVersion.BuildNumber" است.
 
 ### storage.alpha.kubernetes.io/migrated-plugins {#storagealphakubernetesiomigrated-plugins}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example:`storage.alpha.kubernetes.io/migrated-plugins: "kubernetes.io/cinder"`
 
-Used on: CSINode (an extension API)
+مثال:`storage.alpha.kubernetes.io/migrated-plugins: "kubernetes.io/cinder"`
 
-This annotation is automatically added for the CSINode object that maps to a node that
-installs CSIDriver. This annotation shows the in-tree plugin name of the migrated plugin. Its
-value depends on your cluster's in-tree cloud provider storage type.
 
-For example, if the in-tree cloud provider storage type is `CSIMigrationvSphere`, the CSINodes instance for the node should be updated with:
+مورد استفاده در: CSINode (یک رابط برنامه‌نویسی API افزونه)
+این حاشیه‌نویسی به طور خودکار برای شیء CSINode که به گره‌ای که CSIDriver را نصب می‌کند، نگاشت می‌شود، اضافه می‌شود. این حاشیه‌نویسی نام افزونه درون‌درختی افزونه منتقل شده را نشان می‌دهد. مقدار آن به نوع ذخیره‌سازی ارائه‌دهنده ابر درون‌درختی خوشه شما بستگی دارد.
+
+برای مثال، اگر نوع ذخیره‌سازی ارائه‌دهنده ابر درون‌شاخه‌ای «CSIMigrationvSphere» باشد، نمونه CSINodes برای گره باید با این موارد به‌روزرسانی شود:
 `storage.alpha.kubernetes.io/migrated-plugins: "kubernetes.io/vsphere-volume"`
 
 ### service.kubernetes.io/headless {#servicekubernetesioheadless}
 
-Type: Label
+نوع: برچسب
 
-Example: `service.kubernetes.io/headless: ""`
 
-Used on: Endpoints
+مثال: `service.kubernetes.io/headless: ""`
 
-The control plane adds this label to an Endpoints object when the owning Service is headless.
-To learn more, read [Headless Services](/docs/concepts/services-networking/service/#headless-services).
+مورد استفاده در: Endpoints
 
-### service.kubernetes.io/topology-aware-hints (deprecated) {#servicekubernetesiotopology-aware-hints}
+صفحه کنترل این برچسب را به شیء Endpoints اضافه می‌کند وقتی که سرویس مالک Headless باشد.
 
-Example: `service.kubernetes.io/topology-aware-hints: "Auto"`
+برای کسب اطلاعات بیشتر، [Headless Services](/docs/concepts/services-networking/service/#headless-services) را مطالعه کنید.
 
-Used on: Service
+### service.kubernetes.io/topology-aware-hints (منسوخ شده) {#servicekubernetesiotopology-aware-hints}
 
-This annotation was used for enabling _topology aware hints_ on Services. Topology aware
-hints have since been renamed: the concept is now called
-[topology aware routing](/docs/concepts/services-networking/topology-aware-routing/).
-Setting the annotation to `Auto`, on a Service, configured the Kubernetes control plane to
-add topology hints on EndpointSlices associated with that Service. You can also explicitly
-set the annotation to `Disabled`.
+مثال: `service.kubernetes.io/topology-aware-hints: "Auto"`
 
-If you are running a version of Kubernetes older than {{< skew currentVersion >}},
-check the documentation for that Kubernetes version to see how topology aware routing
-works in that release.
+مورد استفاده در: سرویس
 
-There are no other valid values for this annotation. If you don't want topology aware hints
-for a Service, don't add this annotation.
+
+این حاشیه‌نویسی برای فعال کردن _topology aware hints_ روی سرویس‌ها استفاده می‌شد. Topology aware hints از آن زمان تغییر نام داده است: این مفهوم اکنون [topology aware routing](/docs/concepts/services-networking/topology-aware-routing/) نامیده می‌شود.
+تنظیم حاشیه‌نویسی روی `Auto`، روی یک سرویس، صفحه کنترل Kubernetes را پیکربندی کرد تا نکات توپولوژی را روی EndpointSlices مرتبط با آن سرویس اضافه کند. همچنین می‌توانید به صراحت حاشیه‌نویسی را روی `Disabled` تنظیم کنید.
+
+اگر نسخه‌ای از Kubernetes قدیمی‌تر از {{< skew currentVersion >}} را اجرا می‌کنید، مستندات آن نسخه Kubernetes را بررسی کنید تا ببینید مسیریابی آگاه از توپولوژی در آن نسخه چگونه کار می‌کند.
+
+هیچ مقدار معتبر دیگری برای این حاشیه‌نویسی وجود ندارد. اگر نمی‌خواهید نکات مربوط به توپولوژی برای یک سرویس وجود داشته باشد، این حاشیه‌نویسی را اضافه نکنید.
 
 ### service.kubernetes.io/topology-mode
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `service.kubernetes.io/topology-mode: Auto`
 
-Used on: Service
+مثال: `service.kubernetes.io/topology-mode: Auto`
 
-This annotation provides a way to define how Services handle network topology;
-for example, you can configure a Service so that Kubernetes prefers keeping traffic between
-a client and server within a single topology zone.
-In some cases this can help reduce costs or improve network performance.
 
-See [Topology Aware Routing](/docs/concepts/services-networking/topology-aware-routing/)
-for more details.
+مورد استفاده در: Service
+
+این حاشیه‌نویسی روشی برای تعریف نحوه مدیریت توپولوژی شبکه توسط سرویس‌ها ارائه می‌دهد؛ برای مثال، می‌توانید یک سرویس را طوری پیکربندی کنید که Kubernetes ترجیح دهد ترافیک بین
+کلاینت و سرور را در یک منطقه توپولوژی واحد نگه دارد.
+در برخی موارد، این می‌تواند به کاهش هزینه‌ها یا بهبود عملکرد شبکه کمک کند.
+
+
+برای جزئیات بیشتر به [Topology Aware Routing](/docs/concepts/services-networking/topology-aware-routing/) مراجعه کنید.
 
 ### kubernetes.io/service-name {#kubernetesioservice-name}
 
-Type: Label
+نوع: برچسب
 
-Example: `kubernetes.io/service-name: "my-website"`
 
-Used on: EndpointSlice
+مثال: `kubernetes.io/service-name: "my-website"`
 
-Kubernetes associates [EndpointSlices](/docs/concepts/services-networking/endpoint-slices/) with
-[Services](/docs/concepts/services-networking/service/) using this label.
+مورد استفاده در: EndpointSlice
 
-This label records the {{< glossary_tooltip term_id="name" text="name">}} of the
-Service that the EndpointSlice is backing. All EndpointSlices should have this label set to
-the name of their associated Service.
+Kubernetes با استفاده از این برچسب، [EndpointSlices](/docs/concepts/services-networking/endpoint-slices/) را با [Services](/docs/concepts/services-networking/service/) مرتبط می‌کند.
+
+این برچسب {{< glossary_tooltip term_id="name" text="name">}} از سرویسی را که EndpointSlice از آن پشتیبانی می‌کند، ثبت می‌کند. همه EndpointSliceها باید این برچسب را روی نام سرویس مرتبط خود تنظیم کنند.
 
 ### kubernetes.io/service-account.name
 
-Type: Annotation
+نوع: Annotation
 
-Example: `kubernetes.io/service-account.name: "sa-name"`
+مثال: `kubernetes.io/service-account.name: "sa-name"`
 
-Used on: Secret
+مورد استفاده در: راز
 
-This annotation records the {{< glossary_tooltip term_id="name" text="name">}} of the
-ServiceAccount that the token (stored in the Secret of type `kubernetes.io/service-account-token`)
-represents.
+این حاشیه‌نویسی {{< glossary_tooltip term_id="name" text="name">}} از حساب سرویسی را ثبت می‌کند که توکن (ذخیره شده در راز از نوع `kubernetes.io/service-account-token`) نشان دهنده آن است.
 
 ### kubernetes.io/service-account.uid
 
-Type: Annotation
+نوع: Annotation
 
-Example: `kubernetes.io/service-account.uid: da68f9c6-9d26-11e7-b84e-002dc52800da`
+مثال: `kubernetes.io/service-account.uid: da68f9c6-9d26-11e7-b84e-002dc52800da`
 
 Used on: Secret
 
-This annotation records the {{< glossary_tooltip term_id="uid" text="unique ID" >}} of the
-ServiceAccount that the token (stored in the Secret of type `kubernetes.io/service-account-token`)
-represents.
+مورد استفاده در: Secret
+
+این حاشیه‌نویسی {{< glossary_tooltip term_id="uid" text="unique ID" >}} از حساب سرویسی که توکن (ذخیره شده در راز از نوع `kubernetes.io/service-account-token`) نشان می‌دهد را ثبت می‌کند.
 
 ### kubernetes.io/legacy-token-last-used
 
 Type: Label
 
-Example: `kubernetes.io/legacy-token-last-used: 2022-10-24`
+نوع: Label
 
-Used on: Secret
+مثال: `kubernetes.io/legacy-token-last-used: 2022-10-24`
 
-The control plane only adds this label to Secrets that have the type
-`kubernetes.io/service-account-token`.
-The value of this label records the date (ISO 8601 format, UTC time zone) when the control plane
-last saw a request where the client authenticated using the service account token.
+مورد استفاده در: راز
 
-If a legacy token was last used before the cluster gained the feature (added in Kubernetes v1.26),
-then the label isn't set.
+صفحه کنترل فقط این برچسب را به رازهایی اضافه می‌کند که نوع آنها `kubernetes.io/service-account-token` باشد.
+
+مقدار این برچسب، تاریخ (فرمت ISO 8601، منطقه زمانی UTC) را ثبت می‌کند که صفحه کنترل
+آخرین درخواستی را مشاهده کرده است که در آن کلاینت با استفاده از توکن حساب سرویس احراز هویت شده است.
+
+اگر یک توکن قدیمی آخرین بار قبل از اینکه کلاستر این ویژگی را دریافت کند (که در Kubernetes نسخه 1.26 اضافه شده است) استفاده شده باشد،
+
+در این صورت برچسب تنظیم نشده است.
 
 ### kubernetes.io/legacy-token-invalid-since
 
-Type: Label
 
-Example: `kubernetes.io/legacy-token-invalid-since: 2023-10-27`
+نوع: Label
 
-Used on: Secret
+مثال: `kubernetes.io/legacy-token-invalid-since: 2023-10-27`
 
-The control plane automatically adds this label to auto-generated Secrets that
-have the type `kubernetes.io/service-account-token`. This label marks the
-Secret-based token as invalid for authentication. The value of this label
-records the date (ISO 8601 format, UTC time zone) when the control plane detects
-that the auto-generated Secret has not been used for a specified duration
-(defaults to one year).
+مورد استفاده در: راز
+
+صفحه کنترل به طور خودکار این برچسب را به رازهای تولید شده خودکار که نوع `kubernetes.io/service-account-token` دارند اضافه می‌کند. این برچسب، توکن مبتنی بر راز را برای احراز هویت نامعتبر علامت‌گذاری می‌کند. مقدار این برچسب، تاریخ (فرمت ISO 8601، منطقه زمانی UTC) را ثبت می‌کند، زمانی که صفحه کنترل تشخیص می‌دهد که راز تولید شده خودکار برای مدت زمان مشخصی (به طور پیش‌فرض یک سال) استفاده نشده است.
 
 ### endpoints.kubernetes.io/managed-by (deprecated) {#endpoints-kubernetes-io-managed-by}
 
-Type: Label
+نوع: Label
 
-Example: `endpoints.kubernetes.io/managed-by: endpoint-controller`
+مثال: `endpoints.kubernetes.io/managed-by: endpoint-controller`
 
-Used on: Endpoints
+مورد استفاده در: نقاط پایانی
 
-This label is used internally to mark Endpoints objects that were created by
-Kubernetes (as opposed to Endpoints created by users or external controllers).
+این برچسب به صورت داخلی برای علامت‌گذاری اشیاء نقاط پایانی که توسط Kubernetes ایجاد شده‌اند (برخلاف نقاط پایانی ایجاد شده توسط کاربران یا کنترل‌کننده‌های خارجی) استفاده می‌شود.
 
 {{< note >}}
-The [Endpoints](/docs/reference/kubernetes-api/service-resources/endpoints-v1/)
-API is deprecated in favor of
-[EndpointSlice](/docs/reference/kubernetes-api/service-resources/endpoint-slice-v1/).
+API [Endpoints](/docs/reference/kubernetes-api/service-resources/endpoints-v1/) به نفع [EndpointSlice](/docs/reference/kubernetes-api/service-resources/endpoint-slice-v1/) منسوخ شده است.
 {{< /note >}}
 
 ### endpointslice.kubernetes.io/managed-by {#endpointslicekubernetesiomanaged-by}
 
-Type: Label
+نوع: Label
 
-Example: `endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io`
+مثال: `endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io`
 
-Used on: EndpointSlices
+مورد استفاده در: EndpointSlices
 
-The label is used to indicate the controller or entity that manages the EndpointSlice. This label
-aims to enable different EndpointSlice objects to be managed by different controllers or entities
-within the same cluster. The value `endpointslice-controller.k8s.io` indicates an
-EndpointSlice object that was created automatically by Kubernetes for a Service with a
-{{< glossary_tooltip text="selectors" term_id="selector" >}}.
+این برچسب برای نشان دادن کنترل‌کننده یا موجودیتی که EndpointSlice را مدیریت می‌کند، استفاده می‌شود. هدف این برچسب
+فعال کردن مدیریت اشیاء EndpointSlice مختلف توسط کنترل‌کننده‌ها یا موجودیت‌های مختلف در یک خوشه است. مقدار `endpointslice-controller.k8s.io` نشان دهنده یک شیء EndpointSlice است که به طور خودکار توسط Kubernetes برای یک سرویس با {{< glossary_tooltip text="selectors" term_id="selector" >}} ایجاد شده است.
 
 ### endpointslice.kubernetes.io/skip-mirror {#endpointslicekubernetesioskip-mirror}
 
-Type: Label
 
-Example: `endpointslice.kubernetes.io/skip-mirror: "true"`
+نوع: Label
 
-Used on: Endpoints
+مثال: `endpointslice.kubernetes.io/skip-mirror: "true"`
 
-The label can be set to `"true"` on an Endpoints resource to indicate that the
-EndpointSliceMirroring controller should not mirror this resource with EndpointSlices.
+مورد استفاده در: نقاط پایانی
+
+این برچسب را می‌توان روی یک منبع Endpoints روی `"true"` تنظیم کرد تا نشان دهد که کنترلر EndpointSliceMirroring نباید این منبع را با EndpointSlices منعکس کند.
+
+
 
 ### service.kubernetes.io/service-proxy-name {#servicekubernetesioservice-proxy-name}
 
-Type: Label
 
-Example: `service.kubernetes.io/service-proxy-name: "foo-bar"`
 
-Used on: Service
+نوع: Label
 
-The kube-proxy has this label for custom proxy, which delegates service control to custom proxy.
+مثال: `service.kubernetes.io/service-proxy-name: "foo-bar"`
+
+مورد استفاده در: سرویس
+
+kube-proxy این برچسب را برای پروکسی سفارشی دارد که کنترل سرویس را به پروکسی سفارشی واگذار می‌کند.
+
 
 ### experimental.windows.kubernetes.io/isolation-type (deprecated) {#experimental-windows-kubernetes-io-isolation-type}
 
