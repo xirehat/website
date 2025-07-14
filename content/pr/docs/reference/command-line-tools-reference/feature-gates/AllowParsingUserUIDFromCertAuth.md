@@ -11,6 +11,5 @@ stages:
     fromVersion: "1.33"
 
 ---
-When this feature is enabled, the subject name attribute `1.3.6.1.4.1.57683.2`
-in an X.509 certificate will be parsed as the user UID during certificate authentication.
 
+وقتی این ویژگی فعال باشد، ویژگی نام موضوع `1.3.6.1.4.1.57683.2` در گواهی X.509 به عنوان شناسه کاربری کاربر در طول احراز هویت گواهی تجزیه می‌شود.

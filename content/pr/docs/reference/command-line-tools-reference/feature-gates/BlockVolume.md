@@ -4,7 +4,7 @@ title: BlockVolume
 content_type: feature_gate
 
 _build:
-  list: never
+  list: هرگز
   render: false
 
 stages:
@@ -23,6 +23,5 @@ stages:
 
 removed: true
 ---
-Enable the definition and consumption of raw block devices in Pods.
-See [Raw Block Volume Support](/docs/concepts/storage/persistent-volumes/#raw-block-volume-support)
-for more details.
+تعریف و مصرف دستگاه‌های بلوک خام را در Pods فعال کنید.
+برای جزئیات بیشتر به [Raw Block Volume Support](/docs/concepts/storage/persistent-volumes/#raw-block-volume-support) مراجعه کنید.
