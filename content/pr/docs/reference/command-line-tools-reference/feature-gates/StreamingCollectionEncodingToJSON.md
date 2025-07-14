@@ -11,4 +11,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Allow the API server JSON encoder to encode collections item by item, instead of all at once.
+به رمزگذار JSON سرور API اجازه دهید مجموعه‌ها را به صورت آیتم به آیتم، به جای همه به طور همزمان، رمزگذاری کند.

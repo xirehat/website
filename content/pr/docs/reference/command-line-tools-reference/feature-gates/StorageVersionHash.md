@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.15"
 ---
-Allow API servers to expose the storage version hash in the
-discovery.
+به سرورهای API اجازه دهید تا هش نسخه ذخیره‌سازی را در فرآیند کشف افشا کنند.

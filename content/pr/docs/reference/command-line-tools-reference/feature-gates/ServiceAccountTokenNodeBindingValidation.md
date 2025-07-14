@@ -18,5 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Controls whether the apiserver will validate a Node reference in service account tokens.
-
+کنترل می‌کند که آیا apiserver یک ارجاع Node را در توکن‌های حساب سرویس اعتبارسنجی می‌کند یا خیر.

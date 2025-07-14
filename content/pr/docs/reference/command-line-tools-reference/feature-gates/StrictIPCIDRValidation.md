@@ -10,14 +10,7 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Use stricter validation for fields containing IP addresses and CIDR values.
-
-In particular, with this feature gate enabled, octets within IPv4 addresses are
-not allowed to have any leading `0`s, and IPv4-mapped IPv6 values (e.g.
-`::ffff:192.168.0.1`) are forbidden. These sorts of values can potentially cause
-security problems when different components interpret the same string as
-referring to different IP addresses (as in CVE-2021-29923).
-
-This tightening applies only to fields in build-in API kinds, and not to
-custom resource kinds, values in Kubernetes configuration files, or
-command-line arguments.
+از اعتبارسنجی سختگیرانه‌تری برای فیلدهای حاوی آدرس‌های IP و مقادیر CIDR استفاده کنید.
+به طور خاص، با فعال شدن این دروازه ویژگی، اکتت‌های درون آدرس‌های IPv4 مجاز به داشتن هیچ `0` اولیه نیستند و مقادیر IPv6 نگاشت شده با IPv4 (به عنوان مثال
+`::ffff:192.168.0.1`) ممنوع هستند. این نوع مقادیر می‌توانند به طور بالقوه باعث مشکلات امنیتی شوند، زمانی که اجزای مختلف رشته یکسانی را به عنوان اشاره به آدرس‌های IP مختلف تفسیر می‌کنند (مانند CVE-2021-29923).
+این سخت‌گیری فقط برای فیلدهای موجود در انواع API داخلی اعمال می‌شود و شامل انواع منابع سفارشی، مقادیر موجود در فایل‌های پیکربندی Kubernetes یا آرگومان‌های خط فرمان نمی‌شود.

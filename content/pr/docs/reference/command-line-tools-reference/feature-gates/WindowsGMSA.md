@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enables passing of GMSA credential specs from pods to container runtimes.
+انتقال مشخصات اعتبارنامه GMSA را از پادها به زمان‌های اجرای کانتینر فعال می‌کند.

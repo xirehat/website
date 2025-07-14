@@ -23,6 +23,5 @@ stages:
 
 removed: true
 ---
-Enables the `loadBalancerClass` field on Services. See
-[Specifying class of load balancer implementation](/docs/concepts/services-networking/service/#load-balancer-class)
-for more details.
+فیلد `loadBalancerClass` را در سرویس‌ها فعال می‌کند. برای جزئیات بیشتر به [Specifying class of load balancer implementation](/docs/concepts/services-networking/service/#load-balancer-class)
+ مراجعه کنید.

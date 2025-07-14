@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Allow a [TTL controller](/docs/concepts/workloads/controllers/ttlafterfinished/)
-to clean up resources after they finish execution.
+به یک [controller TTL](/docs/concepts/workloads/controllers/ttlafterfinished/) اجازه دهید تا منابع را پس از اتمام اجرا پاکسازی کند.

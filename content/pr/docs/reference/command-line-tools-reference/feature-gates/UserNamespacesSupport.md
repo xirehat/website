@@ -19,4 +19,5 @@ stages:
     fromVersion: "1.33"
 
 ---
-Enable user namespace support for Pods.
+پشتیبانی از فضای نیم اسپیس را برای پادها فعال کنید.
+

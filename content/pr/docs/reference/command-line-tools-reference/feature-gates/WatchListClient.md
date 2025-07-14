@@ -10,8 +10,7 @@ stages:
     defaultValue: false
     fromVersion: "1.30"
 ---
-Allows an API client to request a stream of data rather than fetching a full list. 
-This functionality is available in `client-go` and requires the 
-[WatchList](/docs/reference/command-line-tools-reference/feature-gates/) 
-feature to be enabled on the server. 
-If the `WatchList` is not supported on the server, the client will seamlessly fall back to a standard list request.
+به یک کلاینت API اجازه می‌دهد تا به جای دریافت یک لیست کامل، جریانی از داده‌ها را درخواست کند.
+این قابلیت در `client-go` موجود است و نیاز به فعال بودن ویژگی 
+[WatchList](/docs/reference/command-line-tools-reference/feature-gates/) در سرور دارد.
+اگر `WatchList` در سرور پشتیبانی نشود، کلاینت به طور یکپارچه به یک درخواست لیست استاندارد برمی‌گردد.

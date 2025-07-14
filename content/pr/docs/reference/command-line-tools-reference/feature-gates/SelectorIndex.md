@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Allows label and field based indexes in API server watch cache to accelerate
-list operations.
+به ایندکس‌های مبتنی بر برچسب و فیلد در کشِ watch سرور API اجازه می‌دهد تا عملیات لیست را تسریع کنند.

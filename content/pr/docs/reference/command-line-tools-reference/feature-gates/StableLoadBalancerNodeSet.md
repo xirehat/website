@@ -17,5 +17,4 @@ stages:
 
 removed: true
 ---
-Enables less load balancer re-configurations by
-the service controller (KCCM) as an effect of changing node state.
+امکان پیکربندی مجدد متعادل‌کننده بار کمتر توسط کنترل‌کننده سرویس (KCCM) را به عنوان تأثیری از تغییر وضعیت گره فراهم می‌کند.

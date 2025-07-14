@@ -18,5 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Enable kubelets to determine the size limit for
-memory-backed volumes (mainly `emptyDir` volumes).
+فعال کردن kubelets برای تعیین محدودیت اندازه برای volume های دارای حافظه (عمدتاً volume های `emptyDir`)).

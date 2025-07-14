@@ -21,4 +21,4 @@ stages:
 
 removed: true
 ---
-Enables support for Windows HostProcess containers.
+پشتیبانی از کانتینرهای Windows HostProcess را فعال می‌کند.

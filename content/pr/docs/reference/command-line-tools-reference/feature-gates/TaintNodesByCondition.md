@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable automatic tainting nodes based on
-[node conditions](/docs/concepts/architecture/nodes/#condition).
+فعال کردن گره‌های آلوده‌سازی خودکار بر اساس [ node conditions](/docs/concepts/architecture/nodes/#condition).

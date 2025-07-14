@@ -21,6 +21,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Allows usage of the optional `spec.trafficDistribution` field in Services. The
-field offers a way to express preferences for how traffic is distributed to
-Service endpoints.
+امکان استفاده از فیلد اختیاری `spec.trafficDistribution` در سرویس‌ها را فراهم می‌کند. این فیلد روشی برای بیان ترجیحات نحوه توزیع ترافیک به نقاط پایانی سرویس ارائه می‌دهد.

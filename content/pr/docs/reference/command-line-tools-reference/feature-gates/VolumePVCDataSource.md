@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable support for specifying an existing PVC as a DataSource.
+پشتیبانی از مشخص کردن یک PVC موجود به عنوان منبع داده را فعال کنید.

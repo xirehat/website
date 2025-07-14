@@ -15,11 +15,6 @@ stages:
     fromVersion: "1.33"
 
 ---
-Speeds up container startup by allowing kubelet to mount volumes
-for a Pod directly with the correct SELinux label instead of changing each file on the volumes
-recursively.
-It widens the performance improvements behind the `SELinuxMountReadWriteOncePod`
-feature gate by extending the implementation to all volumes.
-
-Enabling the `SELinuxMount` feature gate requires the feature gates `SELinuxMountReadWriteOncePod`
-and `SELinuxChangePolicy` to be enabled.
+با اجازه دادن به kubelet برای مانت کردن مستقیم ولوم‌ها برای یک Pod با برچسب صحیح SELinux به جای تغییر بازگشتی هر فایل روی ولوم‌ها، سرعت راه‌اندازی کانتینر را افزایش می‌دهد.
+با گسترش پیاده‌سازی به تمام ولوم‌ها، بهبود عملکرد پشت گیت ویژگی `SELinuxMountReadWriteOncePod` را گسترش می‌دهد.
+فعال کردن گیت ویژگی `SELinuxMount` مستلزم فعال بودن گیت‌های ویژگی `SELinuxMountReadWriteOncePod` و `SELinuxChangePolicy` است.

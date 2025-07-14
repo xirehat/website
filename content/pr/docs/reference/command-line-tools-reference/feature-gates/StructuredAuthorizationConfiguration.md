@@ -18,6 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Enable structured authorization configuration, so that cluster administrators
-can specify more than one [authorization webhook](/docs/reference/access-authn-authz/webhook/)
-in the API server handler chain.
+پیکربندی مجوز ساختاریافته را فعال کنید، به طوری که مدیران خوشه بتوانند بیش از یک [authorization webhook](/docs/reference/access-authn-authz/webhook/) را در زنجیره کنترل‌کننده سرور API مشخص کنند.

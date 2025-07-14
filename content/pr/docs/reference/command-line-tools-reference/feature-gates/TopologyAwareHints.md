@@ -23,7 +23,5 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Enables topology aware routing based on topology hints
-in EndpointSlices. See [Topology Aware
-Hints](/docs/concepts/services-networking/topology-aware-routing/) for more
-details.
+مسیریابی آگاه از توپولوژی را بر اساس نکات توپولوژی در EndpointSlices فعال می‌کند. برای جزئیات بیشتر به [Topology Aware
+Hints](/docs/concepts/services-networking/topology-aware-routing/) مراجعه کنید.

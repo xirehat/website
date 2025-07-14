@@ -21,4 +21,4 @@ stages:
 
 removed: true
 ---
-Enable [ValidatingAdmissionPolicy](/docs/reference/access-authn-authz/validating-admission-policy/) support for CEL validations be used in Admission Control.
+پشتیبانی از اعتبارسنجی‌های CEL که در کنترل پذیرش استفاده می‌شوند را در [ValidatingAdmissionPolicy](/docs/reference/access-authn-authz/validating-admission-policy/) فعال کنید.

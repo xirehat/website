@@ -19,7 +19,5 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Allow setting the `restartPolicy` of an init container to
-`Always` so that the container becomes a sidecar container (restartable init containers).
-See [Sidecar containers and restartPolicy](/docs/concepts/workloads/pods/sidecar-containers/)
-for more details.
+اجازه دهید `restartPolicy` یک کانتینر init را روی `Always` تنظیم کنیم تا کانتینر به یک کانتینر sidecar (کانتینرهای init قابل راه‌اندازی مجدد) تبدیل شود.
+برای جزئیات بیشتر به [Sidecar containers and restartPolicy](/docs/concepts/workloads/pods/sidecar-containers/) مراجعه کنید.

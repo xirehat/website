@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable the allocation and consumption of pre-allocated
-[huge pages](/docs/tasks/manage-hugepages/scheduling-hugepages/).
+فعال کردن تخصیص و مصرف صفحات از پیش تخصیص‌یافته [huge pages](/docs/tasks/manage-hugepages/scheduling-hugepages/).

@@ -10,5 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.29"
 ---
-Enables images to be pulled based on the [runtime class](/docs/concepts/containers/runtime-class/)
-of the pods that reference them.
+امکان دریافت تصاویر بر اساس [runtime class](/docs/concepts/containers/runtime-class/) پادهایی که به آنها ارجاع می‌دهند را فراهم می‌کند.

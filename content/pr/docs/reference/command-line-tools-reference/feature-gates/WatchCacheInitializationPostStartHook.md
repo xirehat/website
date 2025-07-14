@@ -12,4 +12,4 @@ stages:
     fromVersion: "1.31"
 
 ---
-Enables post-start-hook for watchcache initialization to be part of readyz (with timeout).
+فعال کردن post-start-hook برای مقداردهی اولیه watchcache به عنوان بخشی از readyz (با timeout).

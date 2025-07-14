@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the exclusion of nodes from load balancers created by a cloud provider.
-A node is eligible for exclusion if labelled with "`node.kubernetes.io/exclude-from-external-load-balancers`".
+فعال کردن امکان حذف گره‌ها از متعادل‌کننده‌های بار ایجاد شده توسط یک ارائه‌دهنده ابری. یک گره در صورتی واجد شرایط حذف است که با برچسب "`node.kubernetes.io/exclude-from-external-load-balancers`" مشخص شده باشد.

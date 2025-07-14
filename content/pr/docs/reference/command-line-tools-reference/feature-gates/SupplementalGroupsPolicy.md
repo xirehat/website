@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enables support for fine-grained SupplementalGroups control.
-For more details, see [Configure fine-grained SupplementalGroups control for a Pod](/content/en/docs/tasks/configure-pod-container/security-context/#supplementalgroupspolicy).
+پشتیبانی از کنترل دقیق SupplementalGroups را فعال می‌کند. برای جزئیات بیشتر، به [Configure fine-grained SupplementalGroups control for a Pod](/content/en/docs/tasks/configure-pod-container/security-context/#supplementalgroupspolicy). مراجعه کنید.

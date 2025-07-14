@@ -15,4 +15,4 @@ stages:
     fromVersion: "1.33"  
 
 ---
-This gate is used to restrict the audience for which the kubelet can request a service account token for. 
+این دروازه برای محدود کردن مخاطبانی که kubelet می‌تواند برای آنها درخواست توکن حساب سرویس کند، استفاده می‌شود.

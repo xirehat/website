@@ -15,6 +15,6 @@ stages:
     fromVersion: "1.33"
 
 ---
-Allows the API server watch cache to create a watch on a dedicated RPC.
-This prevents watch cache from being starved by other watches.
+به کش watch سرور API اجازه می‌دهد تا یک watch روی یک RPC اختصاصی ایجاد کند.
+این کار از کمبود کش watch توسط watch های دیگر جلوگیری می‌کند.
 

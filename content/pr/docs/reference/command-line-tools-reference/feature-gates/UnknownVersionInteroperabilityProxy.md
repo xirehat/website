@@ -10,6 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.28"
 ---
-Proxy resource requests to the correct peer kube-apiserver when
-multiple kube-apiservers exist at varied versions.
-See [Mixed version proxy](/docs/concepts/architecture/mixed-version-proxy/) for more information.
+درخواست‌های منابع پروکسی به سرور kube-apiser صحیح، زمانی که چندین سرور kube-apiser با نسخه‌های مختلف وجود دارد. برای اطلاعات بیشتر به [Mixed version proxy](/docs/concepts/architecture/mixed-version-proxy/) مراجعه کنید.

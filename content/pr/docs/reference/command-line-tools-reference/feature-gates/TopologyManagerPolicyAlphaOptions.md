@@ -10,7 +10,7 @@ stages:
     defaultValue: false
     fromVersion: "1.26"
 ---
-Allow fine-tuning of topology manager policies,
-experimental, Alpha-quality options.
-This feature gate guards *a group* of topology manager options whose quality level is alpha.
-This feature gate will never graduate to beta or stable.
+امکان تنظیم دقیق سیاست‌های مدیریت توپولوژی،
+آزمایشی، گزینه‌های آلفا-کیفیت.
+این دروازه ویژگی از *گروهی* از گزینه‌های مدیریت توپولوژی که سطح کیفیت آنها آلفا است، محافظت می‌کند.
+این دروازه ویژگی هرگز به مرحله بتا یا پایدار ارتقا پیدا نمی‌کند.

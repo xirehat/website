@@ -10,6 +10,5 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Allow using systemd watchdog to monitor the health status of kubelet.
-See [Kubelet Systemd Watchdog](/docs/reference/node/systemd-watchdog/)
-for more details.
+اجازه استفاده از systemd watchdog برای نظارت بر وضعیت سلامت kubelet.
+برای جزئیات بیشتر به [Kubelet Systemd Watchdog](/docs/reference/node/systemd-watchdog/) مراجعه کنید.

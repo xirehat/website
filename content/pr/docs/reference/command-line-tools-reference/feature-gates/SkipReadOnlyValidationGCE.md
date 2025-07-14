@@ -17,4 +17,4 @@ stages:
 
 removed: true
 ---
-Skip validation that GCE PersistentDisk volumes are in read-only mode.
+از اعتبارسنجی اینکه حجم‌های GCE PersistentDisk در حالت فقط خواندنی هستند، صرف نظر کنید.

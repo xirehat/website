@@ -27,6 +27,4 @@ stages:
 
 removed: true
 ---
-Instructs the API server to intercept (and follow) redirects from the
-backend (kubelet) for streaming requests. Examples of streaming requests include the `exec`,
-`attach` and `port-forward` requests.
+به سرور API دستور می‌دهد تا ریدایرکت‌ها را از backend (kubelet) برای درخواست‌های استریمینگ رهگیری (و دنبال) کند. نمونه‌هایی از درخواست‌های استریمینگ شامل درخواست‌های `exec`، `attach` و `port-forward` می‌شود.

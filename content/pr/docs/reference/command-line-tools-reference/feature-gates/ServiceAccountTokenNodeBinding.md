@@ -19,4 +19,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Controls whether the API server allows binding service account tokens to Node objects.
+کنترل می‌کند که آیا سرور API اجازه اتصال توکن‌های حساب سرویس به اشیاء Node را می‌دهد یا خیر

@@ -15,4 +15,4 @@ stages:
 
 removed: true
 ---
-Allow mounting a subpath of a volume in a container.
+اجازه می‌دهد یک زیرمسیر از یک حجم را در یک کانتینر نصب کنید.

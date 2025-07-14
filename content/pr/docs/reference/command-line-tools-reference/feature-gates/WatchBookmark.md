@@ -21,4 +21,4 @@ stages:
 
 removed: true
 ---
-Enable support for watch bookmark events.
+پشتیبانی از رویدادهای نشانک‌گذاری‌شده‌ی ساعت را فعال کنید.

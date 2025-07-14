@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable volume snapshot data source support.
+پشتیبانی از منبع داده‌ی اسنپ‌شات حجمی را فعال کنید.

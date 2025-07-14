@@ -19,8 +19,6 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Allows the use of the optional `.spec.persistentVolumeClaimRetentionPolicy` field, 
-providing control over the deletion of PVCs in a StatefulSet's lifecycle.
-See
-[PersistentVolumeClaim retention](/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention)
-for more details.
+اجازه استفاده از فیلد اختیاری `.spec.persistentVolumeClaimRetentionPolicy` را می‌دهد، که کنترل حذف PVCها را در چرخه حیات StatefulSet فراهم می‌کند.
+
+برای جزئیات بیشتر به [PersistentVolumeClaim retention](/docs/concepts/workloads/controllers/statefulset/#persistentvolumeclaim-retention) مراجعه کنید.

@@ -18,5 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Enable [fine-tuning](/docs/tasks/administer-cluster/topology-manager/#topology-manager-policy-options)
-of topology manager policies.
+فعال کردن [fine-tuning](/docs/tasks/administer-cluster/topology-manager/#topology-manager-policy-options) از سیاست‌های مدیریت توپولوژی.

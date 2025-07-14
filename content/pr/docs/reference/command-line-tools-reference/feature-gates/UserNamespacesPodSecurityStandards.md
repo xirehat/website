@@ -10,6 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.29"
 ---
-Enable Pod Security Standards policies relaxation for pods
-that run with namespaces. You must set the value of this feature gate consistently across all nodes in
-your cluster, and you must also enable `UserNamespacesSupport` to use this feature.
+فعال کردن سیاست‌های استانداردهای امنیتی پاد برای پادهایی که با فضاهای نام اجرا می‌شوند. شما باید مقدار این دروازه ویژگی را به طور مداوم در تمام گره‌های خوشه خود تنظیم کنید، و همچنین باید `UserNamespacesSupport` را برای استفاده از این ویژگی فعال کنید.

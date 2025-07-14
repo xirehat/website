@@ -13,6 +13,4 @@ stages:
 
 removed: true
 ---
-Enable support for prioritizing nodes in different
-topologies based on available PV capacity.
-This feature is renamed to `StorageCapacityScoring` in v1.33.
+پشتیبانی از اولویت‌بندی گره‌ها در توپولوژی‌های مختلف بر اساس ظرفیت PV موجود را فعال کنید. این ویژگی در نسخه ۱.۳۳ به `StorageCapacityScoring` تغییر نام داده است.

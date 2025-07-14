@@ -21,4 +21,4 @@ stages:
 
 removed: true
 ---
-Enables the `internalTrafficPolicy` field on Services
+فیلد `internalTrafficPolicy`  را در سرویس‌ها فعال می‌کند.

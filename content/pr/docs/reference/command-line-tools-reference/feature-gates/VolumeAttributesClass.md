@@ -14,6 +14,5 @@ stages:
     defaultValue: false
     fromVersion: "1.31"
 ---
-Enable support for VolumeAttributesClasses.
-See [Volume Attributes Classes](/docs/concepts/storage/volume-attributes-classes/)
-for more information.
+پشتیبانی از VolumeAttributesClasses را فعال کنید.
+برای اطلاعات بیشتر به [Volume Attributes Classes](/docs/concepts/storage/volume-attributes-classes/) مراجعه کنید.

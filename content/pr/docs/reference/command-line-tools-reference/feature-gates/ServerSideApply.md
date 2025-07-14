@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Enables the [Sever Side Apply (SSA)](/docs/reference/using-api/server-side-apply/)
-feature on the API Server.
+ویژگی [Sever Side Apply (SSA)](/docs/reference/using-api/server-side-apply/) را در سرور API فعال می‌کند.

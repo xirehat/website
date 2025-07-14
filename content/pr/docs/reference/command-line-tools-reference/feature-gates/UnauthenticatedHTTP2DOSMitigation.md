@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.29" 
 ---
-Enables HTTP/2 Denial of Service (DoS) mitigations for unauthenticated clients.
-Kubernetes v1.28.0 through v1.28.2 do not include this feature gate.
+کاهش حملات انکار سرویس (DoS) HTTP/2 را برای کلاینت‌های احراز هویت نشده فعال می‌کند. Kubernetes نسخه‌های ۱.۲۸.۰ تا ۱.۲۸.۲ شامل این ویژگی نمی‌شوند.

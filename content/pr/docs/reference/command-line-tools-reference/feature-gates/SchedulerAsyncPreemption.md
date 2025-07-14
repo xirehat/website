@@ -15,6 +15,5 @@ stages:
     fromVersion: "1.33"
 ---
 
-Enable running some expensive operations within the scheduler, associated with
-[preemption](/docs/concepts/scheduling-eviction/pod-priority-preemption/), asynchronously.
-Asynchronous processing of preemption improves overall Pod scheduling latency.
+اجرای برخی عملیات پرهزینه را در زمان‌بند، مرتبط با [preemption](/docs/concepts/scheduling-eviction/pod-priority-preemption/)، به صورت غیرهمزمان، فعال کنید.
+پردازش غیرهمزمان preemption، تأخیر کلی زمان‌بندی Pod را بهبود می‌بخشد.

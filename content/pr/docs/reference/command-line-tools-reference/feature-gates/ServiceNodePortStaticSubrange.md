@@ -21,6 +21,4 @@ stages:
 
 removed: true  
 ---
-Enables the use of different port allocation
-strategies for NodePort Services. For more details, see
-[reserve NodePort ranges to avoid collisions](/docs/concepts/services-networking/service/#avoid-nodeport-collisions).
+استفاده از استراتژی‌های مختلف تخصیص پورت را برای سرویس‌های NodePort فعال می‌کند. برای جزئیات بیشتر، به [reserve NodePort ranges to avoid collisions](/docs/concepts/services-networking/service/#avoid-nodeport-collisions). مراجعه کنید.

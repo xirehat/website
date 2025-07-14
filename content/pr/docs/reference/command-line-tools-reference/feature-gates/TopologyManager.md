@@ -21,6 +21,4 @@ stages:
 
 removed: true
 ---
-Enable a mechanism to coordinate fine-grained hardware resource
-assignments for different components in Kubernetes. See
-[Control Topology Management Policies on a node](/docs/tasks/administer-cluster/topology-manager/).
+فعال کردن مکانیزمی برای هماهنگی تخصیص منابع سخت‌افزاری دقیق برای اجزای مختلف در Kubernetes. به [Control Topology Management Policies on a node](/docs/tasks/administer-cluster/topology-manager/).مراجعه کنید.

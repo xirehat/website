@@ -12,6 +12,4 @@ stages:
     fromVersion: "1.32"
 ---
 
-Add CPU and Memory Affinity support to Windows nodes with [CPUManager](/docs/tasks/administer-cluster/cpu-management-policies/#windows-support),
-[MemoryManager](/docs/tasks/administer-cluster/memory-manager/#windows-support)
-and topology manager.
+پشتیبانی از CPU و Memory Affinity را با استفاده از [CPUManager](/docs/tasks/administer-cluster/cpu-management-policies/#windows-support)، [MemoryManager](/docs/tasks/administer-cluster/memory-manager/#windows-support) و مدیریت توپولوژی به گره‌های ویندوز اضافه کنید.

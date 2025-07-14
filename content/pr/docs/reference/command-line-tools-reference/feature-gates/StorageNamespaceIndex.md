@@ -17,6 +17,5 @@ stages:
 
 
 ---
-Enables a namespace indexer for namespace scoped resources
-in API server cache to accelerate list operations.
+یک شاخص‌گذار فضای نام را برای منابع دارای محدوده فضای نام در حافظه پنهان سرور API فعال می‌کند تا عملیات فهرست‌بندی را تسریع بخشد.
 

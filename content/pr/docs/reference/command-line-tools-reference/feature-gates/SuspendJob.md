@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable support to suspend and resume Jobs. For more details, see
- [the Jobs docs](/docs/concepts/workloads/controllers/job/).
+پشتیبانی از تعلیق و از سرگیری کارها را فعال کنید. برای جزئیات بیشتر، به [the Jobs docs ](/docs/concepts/workloads/controllers/job/) مراجعه کنید.

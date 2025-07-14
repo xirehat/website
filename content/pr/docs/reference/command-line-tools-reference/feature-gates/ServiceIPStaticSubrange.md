@@ -21,9 +21,4 @@ stages:
 
 removed: true  
 ---
-Enables a strategy for Services ClusterIP allocations, whereby the
-ClusterIP range is subdivided. Dynamic allocated ClusterIP addresses will be allocated preferently
-from the upper range allowing users to assign static ClusterIPs from the lower range with a low
-risk of collision. See
-[Avoiding collisions](/docs/reference/networking/virtual-ips/#avoiding-collisions)
-for more details.
+یک استراتژی برای تخصیص IP کلاستر سرویس‌ها فعال می‌کند، که به موجب آن محدوده IP کلاستر تقسیم می‌شود. آدرس‌های IP کلاستر پویا ترجیحاً از محدوده بالایی تخصیص داده می‌شوند و به کاربران اجازه می‌دهند IPهای کلاستر استاتیک را از محدوده پایینی با ریسک کم تصادم اختصاص دهند. برای جزئیات بیشتر به [Avoiding collisions](/docs/reference/networking/virtual-ips/#avoiding-collisions) مراجعه کنید.

@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enables the _SCTP_ `protocol` value in Pod, Service, Endpoints, EndpointSlice,
-and NetworkPolicy definitions.
+مقدار _SCTP_ `protocol` را در تعاریف Pod، Service، Endpoints، EndpointSlice و NetworkPolicy فعال می‌کند.

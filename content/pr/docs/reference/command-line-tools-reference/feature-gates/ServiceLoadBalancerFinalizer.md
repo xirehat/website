@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable finalizer protection for Service load balancers.
+فعال کردن محافظت نهایی برای متعادل‌کننده‌های بار سرویس.

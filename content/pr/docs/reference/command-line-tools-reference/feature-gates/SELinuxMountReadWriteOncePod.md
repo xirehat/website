@@ -18,6 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.28"
 ---
-Speeds up container startup by allowing kubelet to mount volumes
-for a Pod directly with the correct SELinux label instead of changing each file on the volumes
-recursively. The initial implementation focused on ReadWriteOncePod volumes.
+با اجازه دادن به kubelet برای نصب مستقیم volumeها برای یک Pod با برچسب صحیح SELinux به جای تغییر بازگشتی هر فایل روی volumeها، سرعت راه‌اندازی کانتینر را افزایش می‌دهد. پیاده‌سازی اولیه بر روی volumeهای ReadWriteOncePod متمرکز بود.

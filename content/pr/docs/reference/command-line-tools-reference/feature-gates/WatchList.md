@@ -18,4 +18,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enable support for [streaming initial state of objects in watch requests](/docs/reference/using-api/api-concepts/#streaming-lists).
+پشتیبانی از [streaming initial state of objects in watch requests](/docs/reference/using-api/api-concepts/#streaming-lists). را فعال کنید.

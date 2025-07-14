@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable DaemonSet Pods to be scheduled by the default scheduler instead
-of the DaemonSet controller.
+فعال کردن زمان‌بندی پادهای DaemonSet توسط زمان‌بند پیش‌فرض به جای کنترلر DaemonSet.

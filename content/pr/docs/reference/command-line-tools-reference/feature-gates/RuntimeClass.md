@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the [RuntimeClass](/docs/concepts/containers/runtime-class/) feature for
-selecting container runtime configurations.
+ویژگی [RuntimeClass](/docs/concepts/containers/runtime-class/) را برای انتخاب پیکربندی‌های زمان اجرای کانتینر فعال کنید.

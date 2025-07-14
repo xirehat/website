@@ -23,6 +23,5 @@ stages:
 
 removed: true
 ---
-Enable the ability of setting Fully Qualified Domain Name(FQDN) as the
-hostname of a pod. See
-[Pod's `setHostnameAsFQDN` field](/docs/concepts/services-networking/dns-pod-service/#pod-sethostnameasfqdn-field).
+قابلیت تنظیم نام دامنه کاملاً واجد شرایط (FQDN) را به عنوان نام میزبان یک پاد فعال کنید. به [Pod's `setHostnameAsFQDN` field](/docs/concepts/services-networking/dns-pod-service/#pod-sethostnameasfqdn-field).
+ مراجعه کنید.

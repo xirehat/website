@@ -19,4 +19,4 @@ stages:
 
 removed: true
 ---
-Enable service to route traffic based upon the Node topology of the cluster.
+سرویس را فعال کنید تا ترافیک را بر اساس توپولوژی گره کلاستر مسیریابی کند.

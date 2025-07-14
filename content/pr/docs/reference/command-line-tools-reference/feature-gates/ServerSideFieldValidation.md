@@ -21,6 +21,4 @@ stages:
 
 removed: true
 ---
-Enables server-side field validation. This means the validation
-of resource schema is performed at the API server side rather than the client side
-(for example, the `kubectl create` or `kubectl apply` command line).
+اعتبارسنجی فیلد سمت سرور را فعال می‌کند. این به این معنی است که اعتبارسنجی طرحواره منابع در سمت سرور API به جای سمت کلاینت انجام می‌شود (برای مثال، خط فرمان `kubectl create` یا `kubectl apply`).

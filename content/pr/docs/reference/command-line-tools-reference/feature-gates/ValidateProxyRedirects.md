@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-This flag controls whether the API server should validate that redirects
-are only followed to the same host. Only used if the `StreamingProxyRedirects` flag is enabled.
+این پرچم کنترل می‌کند که آیا سرور API باید تأیید کند که تغییر مسیرها فقط به همان میزبان دنبال می‌شوند یا خیر. فقط در صورتی استفاده می‌شود که پرچم `StreamingProxyRedirects` فعال باشد.

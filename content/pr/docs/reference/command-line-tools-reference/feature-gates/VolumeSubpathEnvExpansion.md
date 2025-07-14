@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable `subPathExpr` field for expanding environment
-variables into a `subPath`.
+فیلد `subPathExpr` را برای بسط متغیرهای محیطی به یک `subPath` فعال کنید.

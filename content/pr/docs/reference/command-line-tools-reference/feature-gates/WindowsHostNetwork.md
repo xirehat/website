@@ -16,4 +16,4 @@ stages:
 
 
 ---
-Enables support for joining Windows containers to a hosts' network namespace.
+پشتیبانی از اتصال کانتینرهای ویندوز به فضای نام شبکه میزبان‌ها را فعال می‌کند.

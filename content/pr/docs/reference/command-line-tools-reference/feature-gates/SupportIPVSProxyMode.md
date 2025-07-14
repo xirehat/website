@@ -27,5 +27,4 @@ stages:
 
 removed: true
 ---
-Enable providing in-cluster service load balancing using IPVS.
-See [service proxies](/docs/reference/networking/virtual-ips/) for more details.
+فعال کردن ارائه تعادل بار سرویس درون خوشه‌ای با استفاده از IPVS. برای جزئیات بیشتر به [service proxies](/docs/reference/networking/virtual-ips/) مراجعه کنید.

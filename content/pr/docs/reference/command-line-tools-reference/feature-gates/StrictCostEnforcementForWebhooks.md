@@ -15,5 +15,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Apply strict CEL cost validation for `matchConditions` within
-admission webhooks.
+اعتبارسنجی دقیق هزینه CEL را برای `matchConditions` در وب‌هوک‌های پذیرش اعمال کنید.

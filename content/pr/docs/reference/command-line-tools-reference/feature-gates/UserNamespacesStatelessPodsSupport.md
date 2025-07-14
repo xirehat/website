@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Enable user namespace support for stateless Pods. This feature gate was superseded
-by the `UserNamespacesSupport` feature gate in the Kubernetes v1.28 release.
+پشتیبانی از فضای نام کاربر را برای پادهای بدون وضعیت فعال کنید. این ویژگی در نسخه Kubernetes نسخه ۱.۲۸ با ویژگی `UserNamespacesSupport` جایگزین شد.

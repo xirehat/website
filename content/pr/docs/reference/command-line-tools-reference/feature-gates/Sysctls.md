@@ -18,6 +18,4 @@ stages:
 
 removed: true
 ---
-Enable support for namespaced kernel parameters (sysctls) that can be set for each pod.
-See [sysctls](/docs/tasks/administer-cluster/sysctl-cluster/) for more details.
-
+پشتیبانی از پارامترهای هسته با فضای نام (sysctls) را که می‌توانند برای هر پاد تنظیم شوند، فعال کنید. برای جزئیات بیشتر به [sysctls](/docs/tasks/administer-cluster/sysctl-cluster/) مراجعه کنید.

@@ -18,5 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Controls whether JTIs (UUIDs) are embedded into generated service account tokens,
-and whether these JTIs are recorded into the Kubernetes audit log for future requests made by these tokens.
+کنترل می‌کند که آیا JTIها (UUIDها) در توکن‌های حساب سرویس تولید شده تعبیه شده‌اند یا خیر، و اینکه آیا این JTIها برای درخواست‌های آینده‌ی انجام شده توسط این توکن‌ها در گزارش حسابرسی Kubernetes ثبت می‌شوند یا خیر.

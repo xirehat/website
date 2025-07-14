@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enables the `appProtocol` field on Services and Endpoints.
+فیلد `appProtocol` را در سرویس‌ها و نقاط پایانی فعال می‌کند.

@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the support to limiting PIDs in Pods.
+پشتیبانی از محدود کردن PIDها در Podها را فعال کنید.

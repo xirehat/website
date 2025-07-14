@@ -16,4 +16,4 @@ stages:
 
 
 ---
-Enables watches without `resourceVersion` to be served from storage.
+امکان ارائه watchهای بدون `resourceVersion` از حافظه را فراهم می‌کند.

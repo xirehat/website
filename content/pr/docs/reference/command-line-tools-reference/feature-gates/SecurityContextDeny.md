@@ -12,4 +12,4 @@ stages:
     toVersion: "1.29"
 removed: true
 ---
-This gate signals that the `SecurityContextDeny` admission controller is deprecated.
+این گیت نشان می‌دهد که کنترل‌کننده‌ی پذیرش `SecurityContextDeny` منسوخ شده است.

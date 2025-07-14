@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.30"  
 ---
-Enable [structured authentication configuration](/docs/reference/access-authn-authz/authentication/#configuring-the-api-server) 
-for the API server.
+برای سرور API،[structured authentication configuration](/docs/reference/access-authn-authz/authentication/#configuring-the-api-server) را فعال کنید.

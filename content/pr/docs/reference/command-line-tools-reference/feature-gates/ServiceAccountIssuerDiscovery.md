@@ -23,7 +23,4 @@ stages:
 
 removed: true
 ---
-Enable OIDC discovery endpoints (issuer and JWKS URLs) for the
-service account issuer in the API server. See
-[Configure Service Accounts for Pods](/docs/tasks/configure-pod-container/configure-service-account/#service-account-issuer-discovery)
-for more details.
+نقاط پایانی کشف OIDC (URL های صادرکننده و JWKS) را برای صادرکننده حساب سرویس در سرور API فعال کنید. برای جزئیات بیشتر به [Configure Service Accounts for Pods](/docs/tasks/configure-pod-container/configure-service-account/#service-account-issuer-discovery) مراجعه کنید.

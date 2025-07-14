@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the `TokenRequest` endpoint on service account resources.
+نقطه پایانی `TokenRequest` را روی منابع حساب سرویس فعال کنید.

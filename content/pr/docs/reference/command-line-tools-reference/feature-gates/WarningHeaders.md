@@ -19,4 +19,4 @@ stages:
 
 removed: true
 ---
-Allow sending warning headers in API responses.
+اجازه ارسال هدرهای هشدار در پاسخ‌های API.

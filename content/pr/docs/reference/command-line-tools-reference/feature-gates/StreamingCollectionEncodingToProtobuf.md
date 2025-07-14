@@ -11,4 +11,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Allow the API server Protobuf encoder to encode collections item by item, instead of all at once.
+به رمزگذار Protobuf سرور API اجازه دهید تا مجموعه‌ها را به صورت آیتم به آیتم، به جای همه به طور همزمان، رمزگذاری کند.

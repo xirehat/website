@@ -18,8 +18,7 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Enables [the scheduler's _queueing hints_ feature](/docs/concepts/scheduling-eviction/scheduling-framework/#queueinghint),
-which benefits to reduce the useless requeueing.
-The scheduler retries scheduling pods if something changes in the cluster that could make the pod scheduled.
-Queueing hints are internal signals that allow the scheduler to filter the changes in the cluster
-that are relevant to the unscheduled pod, based on previous scheduling attempts.
+[the scheduler's _queueing hints_ feature](/docs/concepts/scheduling-eviction/scheduling-framework/#queueinghint)را فعال می‌کند،
+که به کاهش صف‌بندی‌های بی‌فایده کمک می‌کند.
+زمانبند در صورت تغییر چیزی در خوشه که می‌تواند باعث برنامه‌ریزی غلاف شود، غلاف‌های زمان‌بندی را دوباره امتحان می‌کند.
+Queuing hints سیگنال‌های داخلی هستند که به زمانبند اجازه می‌دهند تغییرات در خوشه که مربوط به غلاف زمان‌بندی نشده هستند را بر اساس تلاش‌های قبلی زمان‌بندی فیلتر کند.

@@ -19,4 +19,4 @@ stages:
 
 removed: true
 ---
-Enable control over the primary group ID set on the init processes of containers.
+کنترل بر روی شناسه گروه اصلی تنظیم‌شده روی فرآیندهای آغازین کانتینرها را فعال کنید.

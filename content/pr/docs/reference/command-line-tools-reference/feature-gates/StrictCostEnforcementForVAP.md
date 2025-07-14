@@ -15,5 +15,5 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Apply strict CEL cost validation for ValidatingAdmissionPolicies.
+اعتبارسنجی دقیق هزینه‌های CEL را برای ValidatingAdmissionPolicies اعمال کنید.
 

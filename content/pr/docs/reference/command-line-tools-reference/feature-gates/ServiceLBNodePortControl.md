@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enables the `allocateLoadBalancerNodePorts` field on Services.
+فیلد `allocateLoadBalancerNodePorts` را در سرویس‌ها فعال می‌کند.

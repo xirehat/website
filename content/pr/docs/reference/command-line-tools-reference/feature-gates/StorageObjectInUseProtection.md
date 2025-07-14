@@ -19,5 +19,4 @@ stages:
 
 removed: true   
 ---
-Postpone the deletion of PersistentVolume or
-PersistentVolumeClaim objects if they are still being used.
+اگر هنوز از اشیاء PersistentVolume یا PersistentVolumeClaim استفاده می‌شود، حذف آنها را به تعویق بیندازید.
