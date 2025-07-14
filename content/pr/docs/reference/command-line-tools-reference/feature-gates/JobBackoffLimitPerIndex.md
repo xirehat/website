@@ -20,5 +20,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Allows specifying the maximal number of pod
-retries per index in Indexed jobs.
+امکان تعیین حداکثر تعداد تلاش‌های مجدد پاد به ازای هر شاخص در کارهای شاخص‌گذاری شده را فراهم می‌کند.

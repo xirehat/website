@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.24"
 ---
-Enables the kubelet to check Pod priorities
-when shutting down a node gracefully.
+به kubelet این امکان را می‌دهد که هنگام خاموش کردن صحیح یک گره، اولویت‌های Pod را بررسی کند.

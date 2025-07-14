@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Allows for marking individual Secrets and ConfigMaps as
-immutable for better safety and performance.
+امکان علامت‌گذاری Secrets و ConfigMapsهای مجزا به عنوان تغییرناپذیر برای ایمنی و عملکرد بهتر را فراهم می‌کند.

@@ -21,6 +21,4 @@ stages:
 
 removed: true  
 ---
-If supported by the CSI driver, delegates the
-role of applying `fsGroup` from a Pod's `securityContext` to the driver by
-passing `fsGroup` through the NodeStageVolume and NodePublishVolume CSI calls.
+در صورت پشتیبانی توسط درایور CSI، نقش اعمال `fsGroup` از `securityContext` یک Pod را با عبور `fsGroup` از طریق NodeStageVolume و NodePublishVolume CSI c به درایور واگذار می‌کند.alls.

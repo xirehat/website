@@ -23,10 +23,4 @@ stages:
 
 removed: true
 ---
-Enables shims and translation logic to route volume
-operations from the Cinder in-tree plugin to Cinder CSI plugin. Supports
-falling back to in-tree Cinder plugin for mount operations to nodes that have
-the feature disabled or that do not have Cinder CSI plugin installed and
-configured. Does not support falling back for provision operations, for those
-the CSI plugin must be installed and configured. Requires CSIMigration
-feature flag enabled.
+شیم‌ها و منطق ترجمه را برای مسیریابی عملیات حجم از افزونه درون‌درختی Cinder به افزونه Cinder CSI فعال می‌کند. از بازگشت به افزونه درون‌درختی Cinder برای عملیات mount به گره‌هایی که این ویژگی غیرفعال است یا افزونه Cinder CSI نصب و پیکربندی نشده است، پشتیبانی می‌کند. از بازگشت به عملیات آماده‌سازی پشتیبانی نمی‌کند، برای این موارد افزونه CSI باید نصب و پیکربندی شود. نیاز به فعال بودن پرچم ویژگی CSIMigration دارد.

@@ -20,5 +20,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enable the kube-proxy to handle terminating
-endpoints when `ExternalTrafficPolicy=Local`.
+kube-proxy را فعال کنید تا وقتی `ExternalTrafficPolicy=Local` است، نقاط پایانی خاتمه‌یافته را مدیریت کند.

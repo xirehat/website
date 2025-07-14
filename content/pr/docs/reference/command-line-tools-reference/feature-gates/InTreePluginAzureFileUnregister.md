@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Stops registering the azurefile in-tree plugin in kubelet
-and volume controllers.
+ثبت افزونه‌ی درون‌شاخه‌ای azurefile را در kubelet و volume controllers متوقف می‌کند.

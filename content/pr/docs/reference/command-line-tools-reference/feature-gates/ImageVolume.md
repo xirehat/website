@@ -14,5 +14,5 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Allow using the [`image`](/docs/concepts/storage/volumes/) volume source in a Pod.
-This volume source lets you mount a container image as a read-only volume.
+اجازه استفاده از منبع والیوم [`image`](/docs/concepts/storage/volumes/) را در یک Pod بدهید.
+این منبع والیوم به شما امکان می‌دهد یک ایمیج کانتینر را به عنوان یک والیوم فقط خواندنی مانت کنید.

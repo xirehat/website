@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.24"
 ---
-Enables populating "enum" fields of OpenAPI schemas in the
-spec returned from the API server.
+پر کردن فیلدهای "enum" از طرحواره‌های OpenAPI را در مشخصات برگردانده شده از سرور API فعال می‌کند.

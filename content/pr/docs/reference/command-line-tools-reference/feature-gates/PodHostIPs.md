@@ -21,5 +21,5 @@ stages:
 removed: true
 
 ---
-Enable the `status.hostIPs` field for pods and the {{< glossary_tooltip term_id="downward-api" text="downward API" >}}.
-The field lets you expose host IP addresses to workloads.
+فیلد `status.hostIPs` را برای پادها و {{< glossary_tooltip term_id="downward-api" text="downward API" >}} فعال کنید.
+این فیلد به شما امکان می‌دهد آدرس‌های IP میزبان را در معرض بارهای کاری قرار دهید.

@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Allows for storage-originated bookmark (progress
-notify) events to be delivered to the users. This is only applied to watch operations.
+اجازه می‌دهد رویدادهای نشانه‌گذاری (اعلان پیشرفت) که از حافظه ایجاد شده‌اند، به کاربران تحویل داده شوند. این فقط برای عملیات‌های نظارتی اعمال می‌شود.

@@ -1,20 +1,20 @@
 ---
-title: شرایط پذیرشWebhookMatch
+title:webhookMatch
 content_type: feature_gate
 _build:
   list: never
   render: false
 
 stages:
-  - stage: آلفا
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.27"
     toVersion: "1.27"
-  - stage: بتا
+  - stage: beta
     defaultValue: true
     fromVersion: "1.28"
     toVersion: "1.29"
-  - stage: پایدار
+  - stage: stable
     defaultValue: true
     fromVersion: "1.30"
     toVersion: "1.32"

@@ -10,4 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.32"
 ---
-Enable fetching specific log streams (either stdout or stderr) from a container's log streams, using the Pod API.
+با استفاده از Pod API، دریافت جریان‌های لاگ خاص (چه stdout و چه stderr) از جریان‌های لاگ یک کانتینر را فعال کنید.

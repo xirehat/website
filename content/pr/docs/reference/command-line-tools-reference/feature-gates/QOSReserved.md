@@ -10,6 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.11"
 ---
-Allows resource reservations at the QoS level preventing pods
-at lower QoS levels from bursting into resources requested at higher QoS levels
-(memory only for now).
+امکان رزرو منابع در سطح QoS را فراهم می‌کند و از هجوم پادها (Pods) در سطوح پایین‌تر QoS به منابع درخواست‌شده در سطوح بالاتر QoS جلوگیری می‌کند (فعلاً فقط حافظه).

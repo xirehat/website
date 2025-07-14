@@ -10,5 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables setting a [tolerance threshold](/docs/tasks/run-application/horizontal-pod-autoscale.md#tolerance)
-for HorizontalPodAutoscaler metrics.
+تنظیم یک [tolerance threshold](/docs/tasks/run-application/horizontal-pod-autoscale.md#tolerance) را برای معیارهای HorizontalPodAutoscaler فعال می‌کند.

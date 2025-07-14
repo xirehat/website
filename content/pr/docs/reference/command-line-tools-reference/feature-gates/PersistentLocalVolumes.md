@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the usage of `local` volume type in Pods.
-Pod affinity has to be specified if requesting a `local` volume.
+فعال کردن استفاده از نوع volume 'local' در Pods. در صورت درخواست volume 'local'، باید وابستگی Pod مشخص شود.

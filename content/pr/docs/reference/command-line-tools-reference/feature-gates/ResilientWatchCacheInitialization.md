@@ -12,4 +12,4 @@ stages:
     fromVersion: "1.31"
 
 ---
-Enables resilient watchcache initialization to avoid controlplane overload.
+فعال‌سازی مقداردهی اولیه کش ساعت (watchcache) به صورت انعطاف‌پذیر برای جلوگیری از بارگذاری بیش از حد صفحه کنترل.

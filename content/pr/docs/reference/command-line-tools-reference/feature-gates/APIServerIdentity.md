@@ -3,10 +3,11 @@ title: APIServerIdentity
 content_type: feature_gate
 _build:
   list: never
+
   render: false
 
 stages:
-  - stage: alpha
+  - stage: alpgha
     defaultValue: false
     fromVersion: "1.20"
     toVersion: "1.25"
@@ -14,4 +15,4 @@ stages:
     defaultValue: true
     fromVersion: "1.26"  
 ---
-Assign each API server an ID in a cluster, using a [Lease](/docs/concepts/architecture/leases).
+با استفاده از یک [Lease](/docs/concepts/architecture/leases)، به هر سرور API در یک کلاستر یک شناسه اختصاص دهید.

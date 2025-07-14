@@ -1,12 +1,12 @@
 ---
-title: AggregatedDiscoveryEndpoint
+title: Aggregate Discovery Endpoint
 content_type: feature_gate
 _build:
   list: never
   render: false
 
 stages:
-  - stage: alpha
+  - stage: alpgha
     defaultValue: false
     fromVersion: "1.26"
     toVersion: "1.26"
@@ -21,5 +21,6 @@ stages:
 
 removed: true
 ---
-Enable a single HTTP endpoint `/discovery/<version>` which
-supports native HTTP caching with ETags containing all APIResources known to the API server.
+
+
+یک نقطه پایانی HTTP واحد `/discovery/<version>` را فعال کنید که از ذخیره‌سازی HTTP بومی با ETag هایی که شامل تمام APIResource های شناخته شده برای سرور API هستند، پشتیبانی می‌کند.

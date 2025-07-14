@@ -10,7 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.30"
 ---
-
-Enable [MutatingAdmissionPolicy](/docs/reference/access-authn-authz/mutating-admission-policy/) support for [CEL](https://kubernetes.io/docs/reference/using-api/cel/) mutations be used in admission control.
-
-For Kubernetes v1.30 and v1.31, this feature gate existed but had no effect.
+پشتیبانی [MutatingAdmissionPolicy](/docs/reference/access-authn-authz/mutating-admission-policy/) را برای جهش‌های [CEL](https://kubernetes.io/docs/reference/using-api/cel/) که در کنترل پذیرش استفاده می‌شوند، فعال کنید.
+برای Kubernetes نسخه‌های ۱.۳۰ و ۱.۳۱، این دروازه ویژگی وجود داشت اما هیچ تاثیری نداشت.

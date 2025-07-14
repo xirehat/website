@@ -11,5 +11,5 @@ stages:
     defaultValue: false
     fromVersion: "1.30"
 ---
-Enables the check over the last synced resource version using the informer. 
+بررسی آخرین نسخه منبع همگام‌سازی شده با استفاده از اطلاع‌دهنده را فعال می‌کند.
 

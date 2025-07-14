@@ -10,7 +10,6 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables support for the [Prioritized List](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#prioritized-list)
-feature. It makes it possible to specify a prioritized list of subrequests for requests in a ResourceClaim.
+پشتیبانی از ویژگی [Prioritized List](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#prioritized-list) را فعال می‌کند. این ویژگی امکان تعیین یک لیست اولویت‌بندی‌شده از زیردرخواست‌ها را برای درخواست‌ها در یک ResourceClaim فراهم می‌کند.
 
-This feature gate has no effect unless you also enable the `DynamicResourceAllocation` feature gate.
+این ویژگی تا زمانی که ویژگی `DynamicResourceAllocation` را نیز فعال نکنید، هیچ تاثیری ندارد.

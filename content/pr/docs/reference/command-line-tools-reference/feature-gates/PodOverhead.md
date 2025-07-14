@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the [PodOverhead](/docs/concepts/scheduling-eviction/pod-overhead/)
-feature to account for pod overheads.
+ویژگی [PodOverhead](/docs/concepts/scheduling-eviction/pod-overhead/) را برای در نظر گرفتن هزینه‌های سربار pod فعال کنید.

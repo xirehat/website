@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable resource quota scope selectors.
+انتخابگرهای محدوده سهمیه منابع را فعال کنید.

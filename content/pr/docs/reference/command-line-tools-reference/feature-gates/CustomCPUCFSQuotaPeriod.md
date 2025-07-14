@@ -10,5 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.12"
 ---
-Enable nodes to change `cpuCFSQuotaPeriod` in
-[kubelet config](/docs/tasks/administer-cluster/kubelet-config-file/).
+گره‌ها را قادر سازید تا `cpuCFSQuotaPeriod` را در [kubelet config](/docs/tasks/administer-cluster/kubelet-config-file/) تغییر دهند.

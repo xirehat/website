@@ -21,5 +21,5 @@ stages:
 
 removed: true
 ---
-Enable managing request concurrency with
-prioritization and fairness at each server. (Renamed from `RequestManagement`)
+
+فعال کردن مدیریت همزمانی درخواست‌ها با اولویت‌بندی و انصاف در هر سرور. (نام قبلی از `RequestManagement` تغییر یافته است)

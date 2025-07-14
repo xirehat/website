@@ -12,5 +12,4 @@ stages:
     fromVersion: "1.31"
 
 ---
-Enable concurrent watch object decoding. This is to avoid starving the API server's
-watch cache when a conversion webhook is installed.
+فعال کردن رمزگشایی همزمان شیء watch. این کار برای جلوگیری از خالی شدن کش watch سرور API هنگام نصب webhook تبدیل است.

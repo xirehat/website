@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable the expanding of persistent volumes. See
-[Expanding Persistent Volumes Claims](/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims).
+فعال کردن قابلیت گسترش درایوهای پایدار. به [Expanding Persistent Volumes Claims](/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims).مراجعه کنید.

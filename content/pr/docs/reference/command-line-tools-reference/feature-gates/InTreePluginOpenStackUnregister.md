@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Stops registering the OpenStack cinder in-tree plugin in kubelet
-and volume controllers.
+ثبت افزونه OpenStack cinder in-tree را در kubelet و volume controllers متوقف می‌کند.

@@ -4,7 +4,7 @@ title: BlockVolume
 content_type: feature_gate
 
 _build:
-  list: هرگز
+  list: never
   render: false
 
 stages:

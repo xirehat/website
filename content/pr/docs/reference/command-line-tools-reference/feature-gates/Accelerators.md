@@ -7,18 +7,14 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpgha 
     defaultValue: false
     fromVersion: "1.6"
     toVersion: "1.10"
-  - stage: deprecated
+  - stage: depricated
     fromVersion: "1.11"
     toVersion: "1.11"
 
 removed: true
 ---
-Provided an early form of plugin to enable Nvidia GPU support when using
-Docker Engine; no longer available. See
-[Device Plugins](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/) for
-an alternative.
-
+یک افزونه اولیه برای فعال کردن پشتیبانی از پردازنده گرافیکی انویدیا هنگام استفاده از موتور داکر ارائه شد؛ دیگر در دسترس نیست. برای یک جایگزین به [Device Plugins](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/) مراجعه کنید.

@@ -17,5 +17,4 @@ stages:
 
 removed: true
 ---
-Stop auto-generation of Secret-based
-[service account tokens](/docs/concepts/security/service-accounts/#get-a-token).
+توقف تولید خودکار توکن‌های حساب کاربری مبتنی بر رمز عبور [service account tokens](/docs/concepts/security/service-accounts/#get-a-token).

@@ -16,8 +16,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enabling the defaulting user
-namespace to host. This is for containers that are using other host namespaces,
-host mounts, or containers that are privileged or using specific non-namespaced
-capabilities (e.g. `MKNODE`, `SYS_MODULE` etc.). This should only be enabled
-if user namespace remapping is enabled in the Docker daemon.
+فعال کردن فضای نام کاربری پیش‌فرض برای میزبانی. این برای کانتینرهایی است که از فضاهای نام میزبان، مانت‌های میزبان یا کانتینرهایی که دارای امتیاز هستند یا از قابلیت‌های خاص بدون فضای نام (مانند `MKNODE`، `SYS_MODULE` و غیره) استفاده می‌کنند، استفاده می‌کنند. این فقط در صورتی باید فعال شود که نگاشت مجدد فضای نام کاربر در سرویس داکر فعال باشد.

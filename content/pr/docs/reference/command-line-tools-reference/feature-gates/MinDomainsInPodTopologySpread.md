@@ -25,5 +25,4 @@ stages:
 
 removed: true
 ---
-Enable `minDomains` in
-[Pod topology spread constraints](/docs/concepts/scheduling-eviction/topology-spread-constraints/).
+فعال کردن `minDomains` در [Pod topology spread constraints](/docs/concepts/scheduling-eviction/topology-spread-constraints/).

@@ -18,5 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.31"
 ---
-Enable semi-random selection of pods to evict on controller scaledown
-based on logarithmic bucketing of pod timestamps.
+فعال کردن انتخاب نیمه‌تصادفی پادها برای حذف در زمان کاهش مقیاس کنترلر بر اساس دسته‌بندی لگاریتمی مهرهای زمانی پاد.

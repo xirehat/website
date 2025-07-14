@@ -19,5 +19,4 @@ stages:
     fromVersion: "1.31"
     
 ---
-Enable support to CDI device IDs in the
-[Device Plugin](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/) API.
+پشتیبانی از شناسه‌های دستگاه CDI را در API [Device Plugin](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/) فعال کنید.

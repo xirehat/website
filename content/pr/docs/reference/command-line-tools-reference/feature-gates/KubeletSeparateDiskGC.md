@@ -14,6 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.31"
 ---
-The split image filesystem feature enables kubelet to perform garbage collection
-of images (read-only layers) and/or containers (writeable layers) deployed on
-separate filesystems.
+ویژگی سیستم فایل تصویر تقسیم‌شده، kubelet را قادر می‌سازد تا جمع‌آوری زباله تصاویر (read-only layers) و/یا کانتینرها (writeable layers) مستقر در سیستم فایل‌های جداگانه را انجام دهد.

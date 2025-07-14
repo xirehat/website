@@ -23,5 +23,5 @@ stages:
 
 removed: true
 ---
-Enable use of the Node label `node.kubernetes.io/exclude-disruption`
-which prevents nodes from being evacuated during zone failures.
+فعال کردن استفاده از برچسب گره `node.kubernetes.io/exclude-disruption`
+که از تخلیه گره‌ها در هنگام خرابی منطقه جلوگیری می‌کند.

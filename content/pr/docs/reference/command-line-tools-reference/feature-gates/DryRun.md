@@ -21,5 +21,4 @@ stages:
 
 removed: true  
 ---
-Enable server-side [dry run](/docs/reference/using-api/api-concepts/#dry-run) requests
-so that validation, merging, and mutation can be tested without committing.
+درخواست‌های سمت سرور [dry run](/docs/reference/using-api/api-concepts/#dry-run) را فعال کنید تا اعتبارسنجی، ادغام و جهش بدون کامیت کردن قابل آزمایش باشند.

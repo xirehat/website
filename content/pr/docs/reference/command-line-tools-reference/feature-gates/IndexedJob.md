@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Allows the [Job](/docs/concepts/workloads/controllers/job/)
-controller to manage Pod completions per completion index.
+به کنترلر [Job](/docs/concepts/workloads/controllers/job/) اجازه می‌دهد تا تکمیل Pod را به ازای هر شاخص تکمیل مدیریت کند.

@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable probe-based plugin watcher utility to enable kubelet
-to discover plugins such as [CSI volume drivers](/docs/concepts/storage/volumes/#csi).
+ابزار مشاهده‌گر افزونه مبتنی بر کاوشگر را فعال کنید تا kubelet بتواند افزونه‌هایی مانند [CSI volume drivers](/docs/concepts/storage/volumes/#csi) را کشف کند.

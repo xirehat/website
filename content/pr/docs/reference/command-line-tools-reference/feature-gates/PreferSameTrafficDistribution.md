@@ -11,6 +11,4 @@ stages:
   defaultValue: false
   fromVersion: "1.33"
 ---
-Allows usage of the values `PreferSameZone` and `PreferSameNode` in
-the Service [`trafficDistribution`](/docs/reference/networking/virtual-ips/#traffic-distribution)
-field.
+اجازه استفاده از مقادیر `PreferSameZone` و `PreferSameNode` را در فیلد Service [`trafficDistribution`](/docs/reference/networking/virtual-ips/#traffic-distribution) می‌دهد.

@@ -15,6 +15,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Enables the `allocatedResources` field in the container status.
-This feature requires the `InPlacePodVerticalScaling` gate be enabled as well.
-
+فیلد `allocatedResources` را در وضعیت کانتینر فعال می‌کند. این ویژگی مستلزم فعال بودن گیت `InPlacePodVerticalScaling` نیز هست.

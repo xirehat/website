@@ -23,7 +23,4 @@ stages:
 
 removed: true  
 ---
-Enables ephemeral, inline volumes that support all features
-of normal volumes (can be provided by third-party storage vendors, storage capacity tracking,
-restore from snapshot, etc.).
-See [Ephemeral Volumes](/docs/concepts/storage/ephemeral-volumes/).
+ولوم‌های موقت و درون‌خطی را فعال می‌کند که از تمام ویژگی‌های ولوم‌های معمولی پشتیبانی می‌کنند (می‌توانند توسط فروشندگان ذخیره‌سازی شخص ثالث ارائه شوند، ردیابی ظرفیت ذخیره‌سازی، بازیابی از اسنپ‌شات و غیره). به  [Ephemeral Volumes](/docs/concepts/storage/ephemeral-volumes/) مراجعه کنید.

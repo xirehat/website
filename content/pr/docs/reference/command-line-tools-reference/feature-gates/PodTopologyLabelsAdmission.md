@@ -10,6 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables the `PodTopologyLabels` admission plugin.
-See [Pod Topology Labels](docs/reference/access-authn-authz/admission-controllers#podtopologylabels)
-for details.
+افزونه پذیرش `PodTopologyLabels` را فعال می‌کند.
+برای جزئیات بیشتر به [Pod Topology Labels](docs/reference/access-authn-authz/admission-controllers#podtopologylabels) مراجعه کنید.

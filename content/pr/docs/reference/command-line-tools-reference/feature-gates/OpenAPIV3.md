@@ -20,5 +20,5 @@ stages:
     toVersion: "1.28" 
 removed: true
 ---
-Enables the API server to publish OpenAPI v3.
+سرور API را قادر می‌سازد تا OpenAPI نسخه ۳ را منتشر کند.
 

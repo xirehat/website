@@ -14,8 +14,7 @@ stages:
     defaultValue: true
     fromVersion: "1.21"
 ---
-Enables support for graceful shutdown in kubelet.
-During a system shutdown, kubelet will attempt to detect the shutdown event
-and gracefully terminate pods running on the node. See
-[Graceful Node Shutdown](/docs/concepts/architecture/nodes/#graceful-node-shutdown)
-for more details.
+پشتیبانی از خاموش کردن با ظرافت (graceful shutdown) را در kubelet فعال می‌کند.
+در طول خاموش شدن سیستم، kubelet تلاش می‌کند تا رویداد خاموش شدن را تشخیص دهد
+و پادهای در حال اجرا روی گره را به طور با ظرافت خاتمه دهد. برای جزئیات بیشتر به
+[Graceful Node Shutdown](/docs/concepts/architecture/nodes/#graceful-node-shutdown) مراجعه کنید.

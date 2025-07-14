@@ -23,4 +23,5 @@ stages:
 
 removed: true
 ---
-Enable `preemptionPolicy` field for PriorityClass and Pod.
+فیلد `preemptionPolicy` را برای PriorityClass و Pod فعال کنید.
+

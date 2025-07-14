@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Enables the Job controller and StatefulSet controller to add the pod index as a label when creating new pods. See [Job completion mode docs](/docs/concepts/workloads/controllers/job#completion-mode) and [StatefulSet pod index label docs](/docs/concepts/workloads/controllers/statefulset/#pod-index-label) for more details.
+کنترلر Job و کنترلر StatefulSet را قادر می‌سازد تا هنگام ایجاد podهای جدید، شاخص pod را به عنوان یک برچسب اضافه کنند. برای جزئیات بیشتر به [Job completion mode docs](/docs/concepts/workloads/controllers/job#completion-mode) و [StatefulSet pod index label docs](/docs/concepts/workloads/controllers/statefulset/#pod-index-label) مراجعه کنید.

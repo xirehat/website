@@ -17,6 +17,6 @@ stages:
     fromVersion: "1.33"
 
 ---
-When enabled, the API server will replace the legacy HashMap-based _watch cache_
-with a BTree-based implementation. This replacement may bring performance improvements.
+وقتی این گزینه فعال شود، سرور API، کش watch قدیمی مبتنی بر HashMap را با پیاده‌سازی مبتنی بر BTree جایگزین خواهد کرد. این جایگزینی ممکن است بهبودهایی در عملکرد ایجاد کند.
+
 

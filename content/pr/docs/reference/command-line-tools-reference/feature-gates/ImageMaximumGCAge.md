@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.30"
 ---
-Enables the kubelet configuration field `imageMaximumGCAge`, allowing an administrator to specify the age after which an image will be garbage collected.
+فیلد پیکربندی kubelet با نام `imageMaximumGCAge` را فعال می‌کند و به مدیر سیستم اجازه می‌دهد تا سنی را که پس از آن یک تصویر جمع‌آوری زباله می‌شود، مشخص کند.

@@ -10,4 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.21"
 ---
-Enable support for CSI volume health monitoring on node.
+پشتیبانی از نظارت بر سلامت حجم CSI را روی گره فعال کنید.

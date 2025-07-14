@@ -21,4 +21,5 @@ stages:
 
 removed: true
 ---
-Allow assigning StorageClass to unbound PVCs retroactively.
+اجازه دهید StorageClass به PVC های بدون اتصال به صورت عطف به ماسبق اختصاص داده شود.
+ejazeh dehid Storag

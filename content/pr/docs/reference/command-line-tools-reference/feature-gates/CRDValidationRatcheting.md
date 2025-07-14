@@ -18,7 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enable updates to custom resources to contain
-violations of their OpenAPI schema if the offending portions of the resource
-update did not change. See [Validation Ratcheting](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-ratcheting) for more details.
-
+به‌روزرسانی‌های منابع سفارشی را فعال کنید تا در صورت عدم تغییر بخش‌های مشکل‌ساز به‌روزرسانی منبع، موارد نقض طرح OpenAPI آنها را شامل شود. برای جزئیات بیشتر به [Validation Ratcheting](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-ratcheting) مراجعه کنید.

@@ -23,9 +23,4 @@ stages:
 
 removed: true
 ---
-Configure the `kube-controller-manager` to publish a
-{{< glossary_tooltip text="ConfigMap" term_id="configmap" >}} named `kube-root-ca.crt`
-to every namespace. This ConfigMap contains a CA bundle used for verifying connections
-to the kube-apiserver. See
-[Bound Service Account Tokens](https://github.com/kubernetes/enhancements/blob/master/keps/sig-auth/1205-bound-service-account-tokens/README.md)
-for more details.
+`kube-controller-manager` را طوری پیکربندی کنید که یک {{< glossary_tooltip text="ConfigMap" term_id="configmap" >}} با نام `kube-root-ca.crt` را در هر فضای نام منتشر کند. این ConfigMap شامل یک بسته CA است که برای تأیید اتصالات به kube-apiserver استفاده می‌شود. برای جزئیات بیشتر به [Bound Service Account Tokens](https://github.com/kubernetes/enhancements/blob/master/keps/sig-auth/1205-bound-service-account-tokens/README.md) مراجعه کنید.

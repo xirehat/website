@@ -19,4 +19,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Track IP address allocations for Service cluster IPs using IPAddress objects.
+تخصیص آدرس IP را برای IP های خوشه سرویس با استفاده از اشیاء IPAddress پیگیری کنید.

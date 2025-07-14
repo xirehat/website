@@ -16,5 +16,4 @@ stages:
 removed: true  
 
 ---
-Enable the five second
-timeout on aggregated discovery calls.
+فعال کردن پنج ثانیه وقفه در فراخوانی‌های اکتشاف تجمیعی.

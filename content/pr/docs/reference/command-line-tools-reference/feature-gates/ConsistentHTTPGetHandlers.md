@@ -13,5 +13,5 @@ stages:
 
 removed: true
 ---
-Normalize HTTP get URL and Header passing for lifecycle
-handlers with probers.
+ارسال HTTP get URL و Header را برای کنترل‌کننده‌های چرخه عمر با کاوشگرها عادی‌سازی کنید.
+

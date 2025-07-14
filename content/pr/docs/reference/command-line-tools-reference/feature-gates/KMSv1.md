@@ -15,7 +15,4 @@ stages:
     fromVersion: "1.29"  
     
 ---
-Enables KMS v1 API for encryption at rest. See
-[Using a KMS Provider for data encryption](/docs/tasks/administer-cluster/kms-provider)
-for more details.
-
+API KMS v1 را برای رمزگذاری در حالت سکون فعال می‌کند. برای جزئیات بیشتر به [Using a KMS Provider for data encryption](/docs/tasks/administer-cluster/kms-provider) مراجعه کنید.

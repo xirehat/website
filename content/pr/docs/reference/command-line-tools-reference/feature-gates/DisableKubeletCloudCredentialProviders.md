@@ -21,6 +21,4 @@ stages:
 
 removed: true
 ---
-Enabling the feature gate deactivated the legacy in-tree functionality within the
-kubelet, that allowed the kubelet to to authenticate to a cloud provider container registry
-for container image pulls.
+فعال کردن دروازه ویژگی، عملکرد درون‌شاخه‌ای قدیمی را در کوبلت غیرفعال کرد، که به کوبلت اجازه می‌داد برای دریافت تصاویر کانتینر، در رجیستری کانتینر ارائه‌دهنده ابری احراز هویت شود.

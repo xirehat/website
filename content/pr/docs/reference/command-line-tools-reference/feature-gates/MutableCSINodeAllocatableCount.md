@@ -10,4 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-When this feature gate is enabled, the `CSINode.Spec.Drivers[*].Allocatable.Count` field becomes mutable, and a new field, `NodeAllocatableUpdatePeriodSeconds`, is available in the `CSIDriver` object. This allows periodic updates to a node's reported allocatable volume capacity, preventing stateful pods from becoming stuck due to outdated information that `kube-scheduler` relies on.
+وقتی این قابلیت فعال می‌شود، فیلد `CSINode.Spec.Drivers[*].Allocatable.Count` تغییرپذیر می‌شود و فیلد جدیدی به نام `NodeAllocatableUpdatePeriodSeconds` در شیء `CSIDriver` در دسترس قرار می‌گیرد. این امر امکان به‌روزرسانی‌های دوره‌ای ظرفیت حجم قابل تخصیص گزارش‌شده‌ی یک گره را فراهم می‌کند و از گیر افتادن پادهای دارای وضعیت به دلیل اطلاعات قدیمی که `kube-scheduler` به آن متکی است، جلوگیری می‌کند.

@@ -21,6 +21,5 @@ stages:
 
 removed: true
 ---
-Enable cleaning up Secret-based
-[service account tokens](/docs/concepts/security/service-accounts/#get-a-token)
-when they are not used in a specified time (default to be one year).
+فعال کردن پاکسازی توکن‌های حساب کاربری مبتنی بر راز [service account tokens](/docs/concepts/security/service-accounts/#get-a-token)
+زمانی که در یک زمان مشخص (پیش‌فرض یک سال) استفاده نمی‌شوند.

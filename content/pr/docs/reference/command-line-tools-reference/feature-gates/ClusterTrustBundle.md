@@ -14,4 +14,5 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enable ClusterTrustBundle objects and kubelet integration.
+اشیاء ClusterTrustBundle و ادغام kubelet را فعال کنید.
+

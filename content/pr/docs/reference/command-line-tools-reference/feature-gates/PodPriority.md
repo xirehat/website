@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the descheduling and preemption of Pods based on their
-[priorities](/docs/concepts/scheduling-eviction/pod-priority-preemption/).
+فعال کردن لغو زمانبندی و انحصار پادها بر اساس اولویت‌هایشان [priorities](/docs/concepts/scheduling-eviction/pod-priority-preemption/).

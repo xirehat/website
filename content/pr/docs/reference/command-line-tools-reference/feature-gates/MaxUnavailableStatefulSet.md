@@ -10,7 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.24"
 ---
-Enables setting the `maxUnavailable` field for the
-[rolling update strategy](/docs/concepts/workloads/controllers/statefulset/#rolling-updates)
-of a StatefulSet. The field specifies the maximum number of Pods
-that can be unavailable during the update.
+تنظیم فیلد `maxUnavailable` را برای [rolling update strategy](/docs/concepts/workloads/controllers/statefulset/#rolling-updates) از یک StatefulSet فعال می‌کند. این فیلد حداکثر تعداد Podهایی را که می‌توانند در طول به‌روزرسانی در دسترس نباشند، مشخص می‌کند.

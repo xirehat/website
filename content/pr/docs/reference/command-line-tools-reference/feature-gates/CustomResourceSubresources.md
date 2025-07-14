@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable `/status` and `/scale` subresources
-on resources created from [CustomResourceDefinition](/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+زیرمنابع `/status` و `/scale` را برای منابع ایجاد شده از [CustomResourceDefinition](/docs/concepts/extend-kubernetes/api-extension/custom-resources/) فعال کنید.

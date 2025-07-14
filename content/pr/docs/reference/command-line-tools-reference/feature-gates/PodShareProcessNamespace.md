@@ -23,6 +23,5 @@ stages:
 
 removed: true
 ---
-Enable the setting of `shareProcessNamespace` in a Pod for sharing
-a single process namespace between containers running in a pod.  More details can be found in
-[Share Process Namespace between Containers in a Pod](/docs/tasks/configure-pod-container/share-process-namespace/).
+تنظیم `shareProcessNamespace` را در یک Pod برای اشتراک‌گذاری یک فضای نام فرآیند واحد بین کانتینرهای در حال اجرا در یک Pod فعال کنید. جزئیات بیشتر را می‌توانید در [Share Process Namespace between Containers in a Pod](/docs/tasks/configure-pod-container/share-process-namespace/).
+ بیابید.

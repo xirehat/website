@@ -18,10 +18,5 @@ stages:
 
 removed: true
 ---
-Stops registering the GCE-PD in-tree plugin in
-kubelet and volume controllers and enables shims and translation logic to
-route volume operations from the GCE-PD in-tree plugin to PD CSI plugin.
-Requires CSIMigration and CSIMigrationGCE feature flags enabled and PD CSI
-plugin installed and configured on all nodes in the cluster. This flag has
-been deprecated in favor of the `InTreePluginGCEUnregister` feature flag which
-prevents the registration of in-tree GCE PD plugin.
+ثبت افزونه درون‌شاخه‌ای GCE-PD را در kubelet و کنترل‌کننده‌های حجم متوقف می‌کند و shimها و منطق ترجمه را برای مسیریابی عملیات حجم از افزونه درون‌شاخه‌ای GCE-PD به افزونه PD CSI فعال می‌کند.
+نیازمند فعال بودن پرچم‌های ویژگی CSIMigration و CSIMigrationGCE و نصب و پیکربندی افزونه PD CSI در تمام گره‌های خوشه است. این پرچم به نفع پرچم ویژگی `InTreePluginGCEUnregister` که از ثبت افزونه درون‌شاخه‌ای GCE PD جلوگیری می‌کند، منسوخ شده است.

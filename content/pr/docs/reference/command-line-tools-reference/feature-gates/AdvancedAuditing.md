@@ -1,12 +1,12 @@
 ---
-title: AdvancedAuditing
+title: Advanced auditing
 content_type: feature_gate
 _build:
   list: never
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: apgha 
     defaultValue: false
     fromVersion: "1.7"
     toVersion: "1.7"
@@ -21,4 +21,4 @@ stages:
 
 removed: true  
 ---
-Enable [advanced auditing](/docs/tasks/debug/debug-cluster/audit/#advanced-audit)
+فعال کردن [advanced auditing](/docs/tasks/debug/debug-cluster/audit/#advanced-audit)

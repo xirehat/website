@@ -21,6 +21,4 @@ stages:
     
 removed: true 
 ---
-Enable expression language validation in CRD
-which will validate customer resource based on validation rules written in
-the `x-kubernetes-validations` extension.
+اexpression language validation  را در CRD فعال کنید که منابع مشتری را بر اساس قوانین اعتبارسنجی نوشته شده در افزونه `x-kubernetes-validations` اعتبارسنجی می‌کند.

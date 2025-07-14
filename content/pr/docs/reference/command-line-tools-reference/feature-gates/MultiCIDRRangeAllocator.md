@@ -13,4 +13,4 @@ stages:
 
 removed: true
 ---
-Enables the MultiCIDR range allocator.
+تخصیص‌دهنده‌ی محدوده‌ی MultiCIDR را فعال می‌کند.

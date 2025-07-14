@@ -10,8 +10,7 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables support for requesting [Partitionable Devices](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#partitionable-devices)
-for DRA. This lets drivers advertise multiple devices that maps to the same resources
-of a physical device.
+پشتیبانی از درخواست [Partitionable Devices](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#partitionable-devices)
+برای DRA را فعال می‌کند. این به درایورها اجازه می‌دهد چندین دستگاه را که به منابع یکسانی از یک دستگاه فیزیکی نگاشت می‌شوند، تبلیغ کنند.
 
-This feature gate has no effect unless you also enable the `DynamicResourceAllocation` feature gate.
+این ویژگی تا زمانی که ویژگی `DynamicResourceAllocation` را نیز فعال نکنید، هیچ تاثیری ندارد.

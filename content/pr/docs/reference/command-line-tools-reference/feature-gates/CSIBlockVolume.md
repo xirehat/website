@@ -23,6 +23,5 @@ stages:
 
 removed: true
 ---
-Enable external CSI volume drivers to support block storage.
-See [`csi` raw block volume support](/docs/concepts/storage/volumes/#csi-raw-block-volume-support)
-for more details.
+درایورهای خارجی CSI volume را برای پشتیبانی از ذخیره‌سازی بلوکی فعال کنید.
+برای جزئیات بیشتر به [`csi` raw block volume support](/docs/concepts/storage/volumes/#csi-raw-block-volume-support) مراجعه کنید.

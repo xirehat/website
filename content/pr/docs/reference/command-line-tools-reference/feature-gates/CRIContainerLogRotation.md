@@ -23,9 +23,7 @@ stages:
 
 removed: true
 ---
-Enable container log rotation for CRI container runtime.
-The default max size of a log file is 10MB and the default max number of
-log files allowed for a container is 5.
-These values can be configured in the kubelet config.
-See [logging at node level](/docs/concepts/cluster-administration/logging/#logging-at-the-node-level)
-for more details.
+چرخش گزارش کانتینر را برای زمان اجرای کانتینر CRI فعال کنید.
+حداکثر اندازه پیش‌فرض یک فایل گزارش ۱۰ مگابایت و حداکثر تعداد پیش‌فرض فایل‌های گزارش مجاز برای یک کانتینر ۵ است.
+این مقادیر را می‌توان در پیکربندی kubelet پیکربندی کرد.
+برای جزئیات بیشتر به [logging at node level](/docs/concepts/cluster-administration/logging/#logging-at-the-node-level) مراجعه کنید.

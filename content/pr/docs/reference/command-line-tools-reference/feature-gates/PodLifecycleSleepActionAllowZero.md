@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enables setting zero value for the `sleep` action in [container lifecycle hooks](/docs/concepts/containers/container-lifecycle-hooks/).
+تنظیم مقدار صفر برای عمل `sleep` را در [container lifecycle hooks](/docs/concepts/containers/container-lifecycle-hooks/) فعال می‌کند.

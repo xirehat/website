@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Stops registering the azuredisk in-tree plugin in kubelet
-and volume controllers.
+ثبت افزونه‌ی درون‌برنامه‌ای azuredisk را در kubelet و volume controllers متوقف می‌کند.

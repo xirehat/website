@@ -19,6 +19,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-
-Enable the `matchLabelKeys` and `mismatchLabelKeys` fields for
-[pod (anti)affinity](/docs/concepts/scheduling-eviction/assign-pod-node/).
+فیلدهای `matchLabelKeys` و `mismatchLabelKeys` را برای [pod (anti)affinity](/docs/concepts/scheduling-eviction/assign-pod-node/). فعال کنید.

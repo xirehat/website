@@ -20,6 +20,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enable the kubelet's pod resources gRPC endpoint. See
-[Support Device Monitoring](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/606-compute-device-assignment/README.md)
-for more details.
+فعال کردن نقطه پایانی gRPC منابع پاد Kubelet. برای جزئیات بیشتر به [Support Device Monitoring](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/606-compute-device-assignment/README.md) مراجعه کنید.

@@ -10,4 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.27"
 ---
-Enable webhooks in cloud controller manager.
+وب‌هوک‌ها را در مدیریت کنترل‌کننده ابری فعال کنید.
+

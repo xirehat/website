@@ -10,4 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enable kubelet to surface Pressure Stall Information (PSI) metrics in the Summary API and Prometheus metrics.
+kubelet را فعال کنید تا معیارهای اطلاعات مربوط به واماندگی فشار (PSI) را در Summary API و معیارهای Prometheus نمایش دهد.
+

@@ -19,5 +19,5 @@ stages:
     fromVersion: "1.33"
     locked: true
 ---
-Enable use of any custom resource as the `DataSource` of a
-{{< glossary_tooltip text="PVC" term_id="persistent-volume-claim" >}}.
+
+فعال کردن استفاده از هر منبع سفارشی به عنوان `DataSource` یک {{< glossary_tooltip text="PVC" term_id="persistent-volume-claim" >}}.

@@ -21,6 +21,4 @@ stages:
 
 removed: true
 ---
-Allows you to define ports in a
-[NetworkPolicy](/docs/concepts/services-networking/network-policies/)
-rule as a range of port numbers.
+به شما امکان می‌دهد پورت‌ها را در یک قانون [NetworkPolicy](/docs/concepts/services-networking/network-policies/) به عنوان طیفی از شماره پورت‌ها تعریف کنید.

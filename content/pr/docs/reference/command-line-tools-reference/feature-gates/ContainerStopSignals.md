@@ -10,4 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables usage of the StopSignal lifecycle for containers for configuring custom stop signals using which the containers would be stopped.
+استفاده از چرخه عمر StopSignal را برای کانتینرها جهت پیکربندی سیگنال‌های توقف سفارشی که کانتینرها با استفاده از آنها متوقف می‌شوند، فعال می‌کند.

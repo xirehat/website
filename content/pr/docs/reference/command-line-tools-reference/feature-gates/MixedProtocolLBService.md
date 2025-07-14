@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Enable using different protocols in the same `LoadBalancer` type
-Service instance.
+فعال کردن استفاده از پروتکل‌های مختلف در یک نمونه سرویس از نوع `LoadBalancer`.

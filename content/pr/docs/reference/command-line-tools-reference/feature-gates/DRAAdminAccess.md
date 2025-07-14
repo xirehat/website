@@ -10,13 +10,8 @@ stages:
     defaultValue: false
     fromVersion: "1.32"
 ---
-Enables support for requesting [admin access](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#admin-access)
-in a ResourceClaim or a ResourceClaimTemplate. Admin access grants access to
-in-use devices and may enable additional permissions when making the device
-available in a container. Starting with Kubernetes v1.33, only users authorized
-to create ResourceClaim or ResourceClaimTemplate objects in namespaces labeled
-with `resource.k8s.io/admin-access: "true"` (case-sensitive) can use the
-`adminAccess` field. This ensures that non-admin users cannot misuse the
-feature. 
-
 This feature gate has no effect unless you also enable the `DynamicResourceAllocation` feature gate.
+پشتیبانی از درخواست [دسترسی ادمین](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#admin-access)
+در یک ResourceClaim یا یک ResourceClaimTemplate را فعال می‌کند. دسترسی ادمین، دسترسی به دستگاه‌های در حال استفاده را اعطا می‌کند و ممکن است هنگام در دسترس قرار دادن دستگاه در یک کانتینر، مجوزهای اضافی را فعال کند. با شروع Kubernetes v1.33، فقط کاربرانی که مجاز به ایجاد اشیاء ResourceClaim یا ResourceClaimTemplate در فضاهای نامی با برچسب `resource.k8s.io/admin-access: "true"` (حساس به حروف بزرگ و کوچک) هستند، می‌توانند از فیلد `adminAccess` استفاده کنند. این تضمین می‌کند که کاربران غیر ادمین نمی‌توانند از این ویژگی سوءاستفاده کنند.
+
+این دروازه ویژگی هیچ تاثیری ندارد مگر اینکه دروازه ویژگی `DynamicResourceAllocation` را نیز فعال کنید.

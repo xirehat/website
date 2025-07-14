@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable webhook-based conversion
-on resources created from [CustomResourceDefinition](/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+تبدیل مبتنی بر وب‌هوک را روی منابع ایجاد شده از [CustomResourceDefinition](/docs/concepts/extend-kubernetes/api-extension/custom-resources/) فعال کنید.

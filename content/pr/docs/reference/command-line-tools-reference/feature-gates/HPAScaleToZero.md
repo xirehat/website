@@ -10,5 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.16"
 ---
-Enables setting `minReplicas` to 0 for `HorizontalPodAutoscaler`
-resources when using custom or external metrics.
+تنظیم مقدار  `minReplicas` روی ۰ برای منابع `HorizontalPodAutoscaler` را هنگام استفاده از معیارهای سفارشی یا خارجی فعال می‌کند.

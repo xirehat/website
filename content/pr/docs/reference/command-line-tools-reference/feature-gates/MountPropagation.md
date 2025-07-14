@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable sharing volume mounted by one container to other containers or pods.
-For more details, please see [mount propagation](/docs/concepts/storage/volumes/#mount-propagation).
+اشتراک‌گذاری ولوم نصب‌شده توسط یک کانتینر با کانتینرها یا پادهای دیگر را فعال کنید. برای جزئیات بیشتر، لطفاً به [mount propagation](/docs/concepts/storage/volumes/#mount-propagation) مراجعه کنید.

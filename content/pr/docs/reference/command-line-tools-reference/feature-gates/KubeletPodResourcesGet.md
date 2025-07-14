@@ -10,5 +10,6 @@ stages:
     defaultValue: false
     fromVersion: "1.27"
 ---
-Enable the `Get` gRPC endpoint on kubelet's for Pod resources.
-This API augments the [resource allocation reporting](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#monitoring-device-plugin-resources).
+نقطه پایانی `Get` gRPC را روی kubelet برای منابع Pod فعال کنید.
+این API [resource allocation reporting](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#monitoring-device-plugin-resources).
+ را تقویت می‌کند.

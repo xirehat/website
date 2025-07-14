@@ -19,6 +19,5 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Enable using `nodeAffinityPolicy` and `nodeTaintsPolicy` in
-[Pod topology spread constraints](/docs/concepts/scheduling-eviction/topology-spread-constraints/)
-when calculating pod topology spread skew.
+فعال کردن استفاده از `nodeAffinityPolicy` و `nodeTaintsPolicy` در [Pod topology spread constraints](/docs/concepts/scheduling-eviction/topology-spread-constraints/)
+هنگام محاسبه انحراف گسترش توپولوژی پاد.

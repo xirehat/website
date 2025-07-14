@@ -19,5 +19,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Enables control over the type proc mounts for containers
-by setting the `procMount` field of a Pod's `securityContext`.
+با تنظیم فیلد `procMount` از `securityContext` یک Pod، کنترل بر روی نوع نصب proc برای کانتینرها را فعال می‌کند.

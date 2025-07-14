@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Enables the usage of `ReadWriteOncePod` PersistentVolume
-access mode.
+استفاده از حالت دسترسی PersistentVolume در `ReadWriteOncePod` را فعال می‌کند.

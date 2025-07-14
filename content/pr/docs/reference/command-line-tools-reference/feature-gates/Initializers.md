@@ -17,6 +17,5 @@ stages:
 
 removed: true
 ---
-Allow asynchronous coordination of object creation using the
-Initializers admission plugin.
+امکان هماهنگی ناهمزمان ایجاد شیء با استفاده از افزونه پذیرش مقداردهنده‌های اولیه.
 

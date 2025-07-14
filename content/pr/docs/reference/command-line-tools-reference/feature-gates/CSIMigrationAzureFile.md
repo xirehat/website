@@ -24,10 +24,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enables shims and translation logic to route volume
-operations from the Azure-File in-tree plugin to AzureFile CSI plugin.
-Supports falling back to in-tree AzureFile plugin for mount operations to
-nodes that have the feature disabled or that do not have AzureFile CSI plugin
-installed and configured. Does not support falling back for provision
-operations, for those the CSI plugin must be installed and configured.
-Requires CSIMigration feature flag enabled.
+shim ها  و منطق ترجمه را برای مسیریابی عملیات حجم از افزونه درون‌شاخه‌ای Azure-File به افزونه AzureFile CSI فعال می‌کند. از بازگشت به افزونه درون‌شاخه‌ای AzureFile برای عملیات mount به گره‌هایی که این ویژگی غیرفعال است یا افزونه AzureFile CSI نصب و پیکربندی نشده است، پشتیبانی می‌کند. از بازگشت به عملیات آماده‌سازی پشتیبانی نمی‌کند، برای این موارد افزونه CSI باید نصب و پیکربندی شود. نیاز به فعال بودن پرچم ویژگی CSIMigration دارد.

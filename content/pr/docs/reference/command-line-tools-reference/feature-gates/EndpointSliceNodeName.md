@@ -19,4 +19,4 @@ stages:
 
 removed: true  
 ---
-Enables EndpointSlice `nodeName` field.
+فیلد `nodeName` مربوط به EndpointSlice را فعال می‌کند.

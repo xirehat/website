@@ -10,6 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.32"
 ---
-Enable resource resizing for containers in Guaranteed pods with integer CPU requests.
-It applies only in nodes with `InPlacePodVerticalScaling` and `CPUManager` features enabled,
-and the CPUManager policy set to `static`.
+تغییر اندازه منابع را برای کانتینرها در پادهای تضمین‌شده با درخواست‌های CPU عدد صحیح فعال کنید.
+این فقط در گره‌هایی اعمال می‌شود که ویژگی‌های `InPlacePodVerticalScaling` و `CPUManager` فعال باشند و سیاست CPUManager روی `static` تنظیم شده باشد.

@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Enable kubelet exec credential providers for
-image pull credentials.
+ارائه دهندگان اعتبارنامه اجرایی kubelet را برای اعتبارنامه‌های دریافت تصویر فعال کنید.

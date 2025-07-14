@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Allow users to specify handling of pod failures based on container
-exit codes and pod conditions.
+به کاربران اجازه دهید نحوه‌ی مدیریت خرابی‌های پاد را بر اساس کدهای خروج کانتینر و شرایط پاد مشخص کنند.

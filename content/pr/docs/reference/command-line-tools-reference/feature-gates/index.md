@@ -8,46 +8,35 @@ card:
 ---
 
 <!-- overview -->
-This page contains an overview of the various feature gates an administrator
-can specify on different Kubernetes components.
+این صفحه شامل مروری بر دروازه‌های ویژگی مختلفی است که یک مدیر می‌تواند در اجزای مختلف Kubernetes مشخص کند.
 
-See [feature stages](#feature-stages) for an explanation of the stages for a feature.
-
+برای توضیح مراحل یک ویژگی، به [feature stages](#feature-stages) مراجعه کنید.
 
 <!-- body -->
 ## Overview
 
-Feature gates are a set of key=value pairs that describe Kubernetes features.
-You can turn these features on or off using the `--feature-gates` command line flag
-on each Kubernetes component.
-
-Each Kubernetes component lets you enable or disable a set of feature gates that
-are relevant to that component.
-Use `-h` flag to see a full set of feature gates for all components.
-To set feature gates for a component, such as kubelet, use the `--feature-gates`
-flag assigned to a list of feature pairs:
+دروازه‌های ویژگی مجموعه‌ای از جفت‌های key=value هستند که ویژگی‌های Kubernetes را توصیف می‌کنند.
+شما می‌توانید این ویژگی‌ها را با استفاده از پرچم خط فرمان `--feature-gates` در هر کامپوننت Kubernetes فعال یا غیرفعال کنید.
+هر کامپوننت Kubernetes به شما امکان می‌دهد مجموعه‌ای از دروازه‌های ویژگی را که مربوط به آن کامپوننت هستند فعال یا غیرفعال کنید.
+از پرچم `-h` برای مشاهده مجموعه کاملی از دروازه‌های ویژگی برای همه کامپوننت‌ها استفاده کنید.
+برای تنظیم دروازه‌های ویژگی برای یک کامپوننت، مانند kubelet، از پرچم `--feature-gates` که به لیستی از جفت‌های ویژگی اختصاص داده شده است، استفاده کنید:
 
 ```shell
 --feature-gates=...,GracefulNodeShutdown=true
 ```
 
-The following tables are a summary of the feature gates that you can set on
-different Kubernetes components.
+جداول زیر خلاصه‌ای از دروازه‌های ویژگی هستند که می‌توانید روی اجزای مختلف Kubernetes تنظیم کنید.
 
-- The "Since" column contains the Kubernetes release when a feature is introduced
-  or its release stage is changed.
-- The "Until" column, if not empty, contains the last Kubernetes release in which
-  you can still use a feature gate.
-- If a feature is in the Alpha or Beta state, you can find the feature listed
-  in the [Alpha/Beta feature gate table](#feature-gates-for-alpha-or-beta-features).
-- If a feature is stable you can find all stages for that feature listed in the
-  [Graduated/Deprecated feature gate table](#feature-gates-for-graduated-or-deprecated-features).
-- The [Graduated/Deprecated feature gate table](#feature-gates-for-graduated-or-deprecated-features)
-  also lists deprecated and withdrawn features.
+- ستون "Since" شامل انتشار Kubernetes هنگام معرفی یک ویژگی یا تغییر مرحله انتشار آن است.
+- ستون "Until" اگر خالی نباشد، شامل آخرین انتشار Kubernetes است که در آن هنوز می‌توانید از یک دروازه ویژگی استفاده کنید.
+- اگر یک ویژگی در حالت آلفا یا بتا باشد، می‌توانید ویژگی ذکر شده را در جدول [Alpha/Beta feature gate table](#feature-gates-for-alpha-or-beta-features). پیدا کنید.
+- اگر یک ویژگی پایدار است، می‌توانید تمام مراحل آن ویژگی را که در جدول  [Graduated/Deprecated feature gate table](#feature-gates-for-graduated-or-deprecated-features). ذکر شده است، پیدا کنید. - جدول [Graduated/Deprecated feature gate table](#feature-gates-for-graduated-or-deprecated-features)
+
+همچنین ویژگی‌های منسوخ‌شده و حذف‌شده را فهرست می‌کند.
+
 
 {{< note >}}
-For a reference to old feature gates that are removed, please refer to
-[feature gates removed](/docs/reference/command-line-tools-reference/feature-gates-removed/).
+برای مراجعه به دروازه‌های ویژگی قدیمی که حذف شده‌اند، لطفاً به [feature gates removed](/docs/reference/command-line-tools-reference/feature-gates-removed/). مراجعه کنید.
 {{< /note >}}
 
 <!-- Want to edit this table? See https://k8s.io/docs/contribute/new-content/new-features/#ready-for-review-feature-gates -->
@@ -64,55 +53,48 @@ For a reference to old feature gates that are removed, please refer to
 
 ### Feature stages
 
-A feature can be in *Alpha*, *Beta* or *GA* stage.
-An *Alpha* feature means:
 
-* Disabled by default.
-* Might be buggy. Enabling the feature may expose bugs.
-* Support for feature may be dropped at any time without notice.
-* The API may change in incompatible ways in a later software release without notice.
-* Recommended for use only in short-lived testing clusters, due to increased
-  risk of bugs and lack of long-term support.
+یک ویژگی می‌تواند در مرحله *Alpha*، *بتا* یا *GA* باشد.
+یک ویژگی *Alpha* به معنای:
 
-A *Beta* feature means:
 
-* Usually enabled by default. Beta API groups are
-  [disabled by default](https://github.com/kubernetes/enhancements/tree/master/keps/sig-architecture/3136-beta-apis-off-by-default).
-* The feature is well tested. Enabling the feature is considered safe.
-* Support for the overall feature will not be dropped, though details may change.
-* The schema and/or semantics of objects may change in incompatible ways in a
-  subsequent beta or stable release. When this happens, we will provide instructions
-  for migrating to the next version. This may require deleting, editing, and
-  re-creating API objects. The editing process may require some thought.
-  This may require downtime for applications that rely on the feature.
-* Recommended for only non-business-critical uses because of potential for
-  incompatible changes in subsequent releases. If you have multiple clusters
-  that can be upgraded independently, you may be able to relax this restriction.
+* به طور پیش‌فرض غیرفعال است.
+* ممکن است دارای اشکال باشد. فعال کردن این ویژگی ممکن است اشکالات را آشکار کند.
+* پشتیبانی از این ویژگی ممکن است در هر زمانی و بدون اطلاع قبلی قطع شود.
+* ممکن است API در نسخه‌های بعدی نرم‌افزار بدون اطلاع قبلی به روش‌های ناسازگار تغییر کند.
+* به دلیل افزایش خطر اشکالات و عدم پشتیبانی بلندمدت، فقط برای استفاده در خوشه‌های آزمایشی کوتاه‌مدت توصیه می‌شود.
+
+یک ویژگی *Beta* به این معنی است:
+
+* معمولاً به طور پیش‌فرض فعال است. گروه‌های API بتا [disabled by default](https://github.com/kubernetes/enhancements/tree/master/keps/sig-architecture/3136-beta-apis-off-by-default).
+* این ویژگی به خوبی آزمایش شده است. فعال کردن این ویژگی ایمن تلقی می‌شود.
+* پشتیبانی از این ویژگی به طور کلی قطع نخواهد شد، اگرچه جزئیات ممکن است تغییر کند.
+*طرحواره و/یا معنای اشیاء ممکن است در نسخه بتا یا پایدار بعدی به روش‌های ناسازگار تغییر کند. وقتی این اتفاق بیفتد، ما دستورالعمل‌هایی برای مهاجرت به نسخه بعدی ارائه خواهیم داد. این ممکن است نیاز به حذف، ویرایش و ایجاد مجدد اشیاء API داشته باشد. فرآیند ویرایش ممکن است نیاز به کمی تفکر داشته باشد. این ممکن است نیاز به زمان از کار افتادن برنامه‌هایی که به این ویژگی متکی هستند، داشته باشد.
+* به دلیل احتمال تغییرات ناسازگار در نسخه‌های بعدی، فقط برای کاربردهای غیر حیاتی تجاری توصیه می‌شود. اگر چندین کلاستر دارید که می‌توانند به طور مستقل ارتقا یابند، ممکن است بتوانید این محدودیت را کاهش دهید.
 
 {{< note >}}
-Please do try *Beta* features and give feedback on them!
-After they exit beta, it may not be practical for us to make more changes.
+لطفاً ویژگی‌های *Beta* را امتحان کنید و در مورد آنها بازخورد دهید!
+پس از خروج از نسخه بتا، ممکن است ایجاد تغییرات بیشتر برای ما عملی نباشد.
+
 {{< /note >}}
 
-A *General Availability* (GA) feature is also referred to as a *stable* feature. It means:
+یک ویژگی *General Availability* (GA) همچنین به عنوان یک ویژگی *stable* شناخته می‌شود. این به معنی:
 
-* The feature is always enabled; you cannot disable it.
-* The corresponding feature gate is no longer needed.
-* Stable versions of features will appear in released software for many subsequent versions.
+* این ویژگی همیشه فعال است؛ شما نمی‌توانید آن را غیرفعال کنید.
+* دیگر به گیت ویژگی مربوطه نیازی نیست
+* نسخه‌های پایدار ویژگی‌ها در نرم‌افزار منتشر شده برای بسیاری از نسخه‌های بعدی ظاهر خواهند شد.
 
 ## List of feature gates {#feature-gates}
 
-Each feature gate is designed for enabling/disabling a specific feature.
+هر دروازه ویژگی برای فعال/غیرفعال کردن یک ویژگی خاص طراحی شده است.
 
 <!-- Want to edit this list? See https://k8s.io/docs/contribute/new-content/new-features/#ready-for-review-feature-gates -->
 {{< feature-gate-list include="alpha,beta,ga,deprecated" >}}
 
 ## {{% heading "whatsnext" %}}
 
-* The [deprecation policy](/docs/reference/using-api/deprecation-policy/) for Kubernetes explains
-  the project's approach to removing features and components.
-* Since Kubernetes 1.24, new beta APIs are not enabled by default.  When enabling a beta
-  feature, you will also need to enable any associated API resources.
-  For example, to enable a particular resource like
-  `storage.k8s.io/v1beta1/csistoragecapacities`, set `--runtime-config=storage.k8s.io/v1beta1/csistoragecapacities`.
-  See [API Versioning](/docs/reference/using-api/#api-versioning) for more details on the command line flags.
+* [deprecation policy](/docs/reference/using-api/deprecation-policy/) برای Kubernetes، رویکرد پروژه برای حذف ویژگی‌ها و اجزا را توضیح می‌دهد.
+* از Kubernetes 1.24، APIهای بتای جدید به طور پیش‌فرض فعال نیستند. هنگام فعال کردن یک ویژگی بتا، باید منابع API مرتبط را نیز فعال کنید.
+به عنوان مثال، برای فعال کردن یک منبع خاص مانند
+`storage.k8s.io/v1beta1/csistoragecapacities`، `--runtime-config=storage.k8s.io/v1beta1/csistoragecapacities` را تنظیم کنید.
+برای جزئیات بیشتر در مورد پرچم‌های خط فرمان، به [API Versioning](/docs/reference/using-api/#api-versioning) مراجعه کنید.

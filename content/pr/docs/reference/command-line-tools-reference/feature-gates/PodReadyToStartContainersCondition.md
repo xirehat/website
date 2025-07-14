@@ -16,7 +16,5 @@ stages:
     defaultValue: true
     fromVersion: "1.29"
 ---
-Enable the kubelet to mark the [PodReadyToStartContainers](/docs/concepts/workloads/pods/pod-lifecycle/#pod-has-network) condition on pods.
-
-This feature gate was previously known as `PodHasNetworkCondition`, and the associated condition was
-named `PodHasNetwork`.
+kubelet را فعال کنید تا وضعیت [PodReadyToStartContainers](/docs/concepts/workloads/pods/pod-lifecycle/#pod-has-network) را روی podها علامت‌گذاری کند.
+این دروازه ویژگی قبلاً با نام `PodHasNetworkCondition` شناخته می‌شد و وضعیت مرتبط با آن `PodHasNetwork` نامگذاری شده بود.

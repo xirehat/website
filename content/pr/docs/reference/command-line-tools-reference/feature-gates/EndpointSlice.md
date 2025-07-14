@@ -27,5 +27,4 @@ stages:
 
 removed: true  
 ---
-Enables EndpointSlices for more scalable and extensible
- network endpoints. See [Enabling EndpointSlices](/docs/concepts/services-networking/endpoint-slices/).
+EndpointSlices را برای نقاط پایانی شبکه با مقیاس‌پذیری و قابلیت توسعه بیشتر فعال می‌کند. به [Enabling EndpointSlices](/docs/concepts/services-networking/endpoint-slices/) مراجعه کنید.

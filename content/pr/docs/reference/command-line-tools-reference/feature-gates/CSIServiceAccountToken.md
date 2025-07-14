@@ -23,6 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable CSI drivers to receive the pods' service account token
-that they mount volumes for. See
-[Token Requests](https://kubernetes-csi.github.io/docs/token-requests.html).
+درایورهای CSI را قادر سازید تا توکن حساب سرویس پادها را که برای آن والیوم‌ها را مانت می‌کنند، دریافت کنند. به [Token Requests](https://kubernetes-csi.github.io/docs/token-requests.html) مراجعه کنید.

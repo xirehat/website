@@ -10,7 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.32"
 ---
-Enable the API server to accept UIDs (user IDs) via request header authentication.
-This will also make the `kube-apiserver`'s API aggregator add UIDs via standard headers when
-forwarding requests to the servers serving the aggregated API.
-
+سرور API را قادر می‌سازد تا UIDها (شناسه‌های کاربری) را از طریق احراز هویت هدر درخواست بپذیرد.
+این امر همچنین باعث می‌شود که تجمیع‌کننده API مربوط به `kube-apiserver` هنگام ارسال درخواست‌ها به سرورهایی که API تجمیع‌شده را ارائه می‌دهند، UIDها را از طریق هدرهای استاندارد اضافه کند.

@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: BalanceAttachedNodeVolumes
 content_type: feature_gate
 
@@ -12,13 +12,11 @@ stages:
     defaultValue: false
     fromVersion: "1.11"
     toVersion: "1.21"
-  - stage: deprecated
+  - stage: depricated
     defaultValue: false
     fromVersion: "1.22"
     toVersion: "1.22"
 
 removed: true
 ---
-Include volume count on node to be considered for
-balanced resource allocation while scheduling. A node which has closer CPU,
-memory utilization, and volume count is favored by the scheduler while making decisions.
+تعداد حجم گره را برای تخصیص متوازن منابع در زمان‌بندی لحاظ کنید. گره‌ای که CPU، حافظه و تعداد حجم نزدیک‌تری دارد، در زمان تصمیم‌گیری توسط زمان‌بند ترجیح داده می‌شود.

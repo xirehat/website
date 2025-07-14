@@ -18,5 +18,4 @@ stages:
 
 removed: true
 ---
-Enables managing request concurrency with prioritization and fairness
-at each API server. Deprecated by `APIPriorityAndFairness` since 1.17.
+مدیریت همزمانی درخواست‌ها را با اولویت‌بندی و انصاف در هر سرور API فعال می‌کند. از نسخه ۱.۱۷ توسط `APIPriorityAndFairness` منسوخ شده است.

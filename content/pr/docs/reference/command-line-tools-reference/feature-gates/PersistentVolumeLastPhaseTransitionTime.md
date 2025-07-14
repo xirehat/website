@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Adds a new field to PersistentVolume
-which holds a timestamp of when the volume last transitioned its phase.
+یک فیلد جدید به PersistentVolume اضافه می‌کند که یک مهر زمانی از آخرین باری که volume فاز خود را تغییر داده است، در خود نگه می‌دارد.

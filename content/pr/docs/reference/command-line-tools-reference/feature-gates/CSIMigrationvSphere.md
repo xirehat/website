@@ -25,10 +25,4 @@ stages:
 
 removed: true
 ---
-Enables shims and translation logic to route volume operations
-from the vSphere in-tree plugin to vSphere CSI plugin. Supports falling back
-to in-tree vSphere plugin for mount operations to nodes that have the feature
-disabled or that do not have vSphere CSI plugin installed and configured.
-Does not support falling back for provision operations, for those the CSI
-plugin must be installed and configured. Requires CSIMigration feature flag
-enabled.
+شیم‌ها و منطق ترجمه را برای مسیریابی عملیات حجم از افزونه vSphere in-tree به افزونه vSphere CSI فعال می‌کند. از بازگشت به افزونه vSphere in-tree برای عملیات mount به گره‌هایی که این ویژگی غیرفعال است یا افزونه vSphere CSI نصب و پیکربندی نشده است، پشتیبانی می‌کند. از بازگشت به عملیات provision پشتیبانی نمی‌کند، برای این موارد افزونه CSI باید نصب و پیکربندی شود. نیاز به فعال بودن پرچم ویژگی CSIMigration دارد.

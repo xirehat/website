@@ -15,6 +15,4 @@ stages:
     fromVersion: "1.32"
 
 ---
-Set the scheduled job time as an
-{{< glossary_tooltip text="annotation" term_id="annotation" >}} on Jobs that were created
-on behalf of a CronJob.
+زمان کار برنامه‌ریزی‌شده را به عنوان یک {{< glossary_tooltip text="annotation" term_id="annotation" >}} برای کارهایی که از طرف یک CronJob ایجاد شده‌اند، تنظیم کنید.

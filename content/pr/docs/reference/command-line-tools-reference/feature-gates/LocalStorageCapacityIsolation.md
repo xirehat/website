@@ -23,7 +23,5 @@ stages:
 
 removed: true
 ---
-Enable the consumption of
-[local ephemeral storage](/docs/concepts/configuration/manage-resources-containers/)
-and also the `sizeLimit` property of an
-[emptyDir volume](/docs/concepts/storage/volumes/#emptydir).
+فعال کردن مصرف [local ephemeral storage](/docs/concepts/configuration/manage-resources-containers/)
+و همچنین ویژگی `sizeLimit` از یک [emptyDir volume](/docs/concepts/storage/volumes/#emptydir).

@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable expanding in-use PVCs. See
-[Resizing an in-use PersistentVolumeClaim](/docs/concepts/storage/persistent-volumes/#resizing-an-in-use-persistentvolumeclaim).
+فعال کردن گسترش PVC های در حال استفاده. به [Resizing an in-use PersistentVolumeClaim](/docs/concepts/storage/persistent-volumes/#resizing-an-in-use-persistentvolumeclaim). مراجعه کنید.

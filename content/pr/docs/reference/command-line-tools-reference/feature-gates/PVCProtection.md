@@ -18,5 +18,4 @@ stages:
 
 removed: true
 ---
-Enable the prevention of a PersistentVolumeClaim (PVC) from
-being deleted when it is still used by any Pod.
+فعال کردن جلوگیری از حذف PersistentVolumeClaim (PVC) زمانی که هنوز توسط هر Pod استفاده می‌شود.

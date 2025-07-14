@@ -23,6 +23,5 @@ stages:
 
 removed: true  
 ---
-Enable the ability to add
-{{< glossary_tooltip text="ephemeral containers" term_id="ephemeral-container" >}}
-to running Pods.
+قابلیت افزودن {{< glossary_tooltip text="ephemeral containers" term_id="ephemeral-container" >}}
+به پادهای در حال اجرا را فعال کنید.

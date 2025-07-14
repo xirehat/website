@@ -11,5 +11,5 @@ stages:
     fromVersion: "1.33"
 
 --- 
-Enables the API server to generate snapshots for the watch cache store and using them to serve LIST requests.
+سرور API را قادر می‌سازد تا اسنپ‌شات‌هایی برای حافظه پنهان watch ایجاد کند و از آنها برای ارائه درخواست‌های LIST استفاده کند.
 

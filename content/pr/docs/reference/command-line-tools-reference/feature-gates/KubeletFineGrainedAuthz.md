@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enable [fine-grained authorization](/docs/reference/access-authn-authz/kubelet-authn-authz/#fine-grained-authorization) 
-for the kubelet's HTTP(s) API.
+[fine-grained authorization](/docs/reference/access-authn-authz/kubelet-authn-authz/#fine-grained-authorization) را برای HTTP(s) API kubelet فعال کنید.

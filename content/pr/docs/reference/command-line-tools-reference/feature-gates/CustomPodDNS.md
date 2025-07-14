@@ -23,6 +23,5 @@ stages:
 
 removed: true  
 ---
-Enable customizing the DNS settings for a Pod using its `dnsConfig` property.
-Check [Pod's DNS Config](/docs/concepts/services-networking/dns-pod-service/#pod-dns-config)
-for more details.
+فعال کردن سفارشی‌سازی تنظیمات DNS برای یک پاد با استفاده از ویژگی `dnsConfig` آن.
+برای جزئیات بیشتر، [Pod's DNS Config](/docs/concepts/services-networking/dns-pod-service/#pod-dns-config) را بررسی کنید.

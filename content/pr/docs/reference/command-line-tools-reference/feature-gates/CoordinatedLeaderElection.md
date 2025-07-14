@@ -14,5 +14,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables the behaviors supporting the LeaseCandidate API, and also enables
-coordinated leader election for the Kubernetes control plane, deterministically.
+رفتارهایی را که از LeaseCandidate API پشتیبانی می‌کنند، فعال می‌کند و همچنین انتخاب هماهنگ رهبر برای صفحه کنترل Kubernetes را به صورت قطعی امکان‌پذیر می‌سازد.

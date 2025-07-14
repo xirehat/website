@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: CronJobControllerV2
 content_type: feature_gate
 
@@ -23,6 +23,4 @@ stages:
 
 removed: true  
 ---
-Use an alternative implementation of the
-{{< glossary_tooltip text="CronJob" term_id="cronjob" >}} controller. Otherwise,
-version 1 of the same controller is selected.
+از یک پیاده‌سازی جایگزین از کنترلر {{< glossary_tooltip text="CronJob" term_id="cronjob" >}} استفاده کنید. در غیر این صورت، نسخه ۱ از همان کنترلر انتخاب می‌شود.

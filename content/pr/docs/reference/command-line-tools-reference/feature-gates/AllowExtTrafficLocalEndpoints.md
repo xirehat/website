@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: AllowExtTrafficLocalEndpoints
 content_type: feature_gate
 
@@ -19,4 +19,4 @@ stages:
 
 removed: true
 ---
-Enable a service to route external requests to node local endpoints.
+فعال کردن یک سرویس برای هدایت درخواست‌های خارجی به نقاط انتهایی محلی گره.

@@ -10,4 +10,4 @@ stages:
     defaultValue: true
     fromVersion: "1.24"
 ---
-Allow fine-tuning of experimental, beta-quality logging options.
+امکان تنظیم دقیق گزینه‌های ثبت وقایع آزمایشی و با کیفیت بتا را فراهم می‌کند.

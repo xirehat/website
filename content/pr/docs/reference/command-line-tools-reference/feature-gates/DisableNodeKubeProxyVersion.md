@@ -27,4 +27,4 @@ stages:
 
 
 ---
-Disable setting the `kubeProxyVersion` field of the Node.
+غیرفعال کردن تنظیم فیلد `kubeProxyVersion` در Node.

@@ -13,12 +13,8 @@ stages:
 
 removed: true
 ---
-This feature gate controls the point at which a default value for
+این دروازه ویژگی، نقطه‌ای را کنترل می‌کند که در آن یک مقدار پیش‌فرض برای
 `.spec.containers[*].ports[*].hostPort`
-is assigned, for Pods using `hostNetwork: true`. The default since Kubernetes v1.28 is to only set a default
-value in Pods.
-
-Enabling this means a default will be assigned even to the `.spec` of an embedded
-[PodTemplate](/docs/concepts/workloads/pods/#pod-templates) (for example, in a Deployment),
-which is the way that older releases of Kubernetes worked.
-You should migrate your code so that it does not rely on the legacy behavior.
+برای Podها با استفاده از `hostNetwork: true` اختصاص داده می‌شود. پیش‌فرض از Kubernetes نسخه ۱.۲۸ این است که فقط یک مقدار پیش‌فرض در Podها تنظیم شود.
+فعال کردن این به این معنی است که یک مقدار پیش‌فرض حتی به `.spec` یک `[PodTemplate](/docs/concepts/workloads/pods/#pod-templates) تعبیه‌شده (برای مثال، در یک Deployment) اختصاص داده می‌شود، که روشی است که نسخه‌های قدیمی‌تر Kubernetes کار می‌کردند.
+شما باید کد خود را مهاجرت دهید تا به رفتار قدیمی متکی نباشد.

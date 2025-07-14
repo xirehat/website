@@ -10,11 +10,6 @@ stages:
     defaultValue: false
     fromVersion: "1.26"
 ---
-Enable support for the kubelet to receive container life cycle events from the
-{{< glossary_tooltip text="container runtime" term_id="container-runtime" >}} via
-an extension to {{<glossary_tooltip term_id="cri" text="CRI">}}.
-(PLEG is an abbreviation for “Pod lifecycle event generator”).
-For this feature to be useful, you also need to enable support for container lifecycle events
-in each container runtime running in your cluster. If the container runtime does not announce
-support for container lifecycle events then the kubelet automatically switches to the legacy
-generic PLEG mechanism, even if you have this feature gate enabled.
+پشتیبانی از kubelet را برای دریافت رویدادهای چرخه عمر کانتینر از {{< glossary_tooltip text="container runtime" term_id="container-runtime" >}} از طریق افزونه‌ای به {{<glossary_tooltip term_id="cri" text="CRI">}} فعال کنید.
+(PLEG مخفف "Pod lifecycle event generator" است).
+برای اینکه این ویژگی مفید باشد، باید پشتیبانی از رویدادهای چرخه عمر کانتینر را در هر زمان اجرای کانتینر که در خوشه شما اجرا می‌شود، فعال کنید. اگر زمان اجرای کانتینر پشتیبانی از رویدادهای چرخه عمر کانتینر را اعلام نکند، kubelet به طور خودکار به مکانیسم عمومی PLEG قدیمی تغییر می‌کند، حتی اگر این دروازه ویژگی را فعال کرده باشید.

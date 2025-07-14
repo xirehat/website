@@ -19,4 +19,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Allow running kube-proxy in [nftables mode](/docs/reference/networking/virtual-ips/#proxy-mode-nftables).
+اجازه اجرای kube-proxy را در [حالت nftables](/docs/reference/networking/virtual-ips/#proxy-mode-nftables) بدهید.

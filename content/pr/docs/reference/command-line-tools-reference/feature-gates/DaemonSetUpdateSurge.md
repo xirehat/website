@@ -22,6 +22,4 @@ stages:
 
 removed: true  
 ---
-Enables the DaemonSet workloads to maintain
-availability during update per node.
-See [Perform a Rolling Update on a DaemonSet](/docs/tasks/manage-daemon/update-daemon-set/).
+بارهای کاری DaemonSet را قادر می‌سازد تا در طول به‌روزرسانی به ازای هر گره، در دسترس بودن را حفظ کنند. به [Perform a Rolling Update on a DaemonSet](/docs/tasks/manage-daemon/update-daemon-set/).مراجعه کنید.

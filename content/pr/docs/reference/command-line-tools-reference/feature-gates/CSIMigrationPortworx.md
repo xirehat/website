@@ -22,6 +22,5 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enables shims and translation logic to route volume operations
-from the Portworx in-tree plugin to Portworx CSI plugin.
-Requires Portworx CSI driver to be installed and configured in the cluster.
+شیم‌ها و منطق ترجمه را برای مسیریابی عملیات حجمی از افزونه درون‌درختی Portworx به افزونه Portworx CSI فعال می‌کند.
+نیازمند نصب و پیکربندی درایور Portworx CSI در کلاستر است.

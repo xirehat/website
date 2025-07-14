@@ -6,8 +6,9 @@ _build:
   render: false
 
 stages:
-  - stage: deprecated
+  - stage: Depricated
     defaultValue: false
     fromVersion: "1.29"    
 ---
-Enables `.status.ingress.loadBalancer` to be set on Services of types other than `LoadBalancer`.
+
+فعال کردن تنظیم `.status.ingress.loadBalancer` روی سرویس‌هایی از نوع غیر از `LoadBalancer`.

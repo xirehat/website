@@ -17,4 +17,4 @@ stages:
 
 removed: true
 ---
-Stops registering the RBD in-tree plugin within kubelet and volume controllers.
+ثبت افزونه درون درختی RBD را در kubelet و volume controllers می‌کند.

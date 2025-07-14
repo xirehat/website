@@ -21,5 +21,4 @@ stages:
 
 removed: true  
 ---
-Enables EndpointSlice `terminating` and `serving`
- condition fields.
+فیلدهای شرط `terminating` و `serving` EndpointSlice را فعال می‌کند.

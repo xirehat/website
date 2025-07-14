@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enables the use of `PodTopologySpread` scheduling plugin to do
-[default spreading](/docs/concepts/scheduling-eviction/topology-spread-constraints/#internal-default-constraints).
+استفاده از افزونه زمان‌بندی `PodTopologySpread` را برای انجام [default spread](/docs/concepts/scheduling-eviction/topology-spread-constraints/#internal-default-constraints) فعال می‌کند.

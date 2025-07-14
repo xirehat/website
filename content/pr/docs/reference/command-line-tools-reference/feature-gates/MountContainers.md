@@ -19,4 +19,4 @@ stages:
 
 removed: true
 ---
-Enable using utility containers on host as the volume mounter.
+فعال کردن استفاده از کانتینرهای کاربردی روی میزبان به عنوان نصب‌کننده‌ی ولوم.

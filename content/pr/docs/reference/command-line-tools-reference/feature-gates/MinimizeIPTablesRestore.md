@@ -20,5 +20,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enables new performance improvement logics
-in the kube-proxy iptables mode.
+منطق‌های جدید بهبود عملکرد را در حالت iptables مربوط به kube-proxy فعال می‌کند.

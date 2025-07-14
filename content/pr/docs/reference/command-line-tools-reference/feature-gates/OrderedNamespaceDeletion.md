@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enables the pods being deleted before the rest of resources while namespace deletion.
+فعال می‌کند که پادها قبل از بقیه منابع هنگام حذف فضای نام، حذف شوند.

@@ -18,10 +18,5 @@ stages:
 
 removed: true
 ---
-Stops registering the Cinder in-tree plugin in
-kubelet and volume controllers and enables shims and translation logic to route
-volume operations from the Cinder in-tree plugin to Cinder CSI plugin.
-Requires CSIMigration and CSIMigrationOpenStack feature flags enabled and Cinder
-CSI plugin installed and configured on all nodes in the cluster. This flag has
-been deprecated in favor of the `InTreePluginOpenStackUnregister` feature flag
-which prevents the registration of in-tree openstack cinder plugin.
+ثبت افزونه درون‌درختی Cinder را در kubelet و کنترلرهای حجم متوقف می‌کند و shimها و منطق ترجمه را برای مسیریابی عملیات حجمی از افزونه درون‌درختی Cinder به افزونه Cinder CSI فعال می‌کند.
+نیازمند فعال بودن پرچم‌های ویژگی CSIMigration و CSIMigrationOpenStack و نصب و پیکربندی افزونه Cinder CSI روی تمام گره‌های خوشه است. این پرچم به نفع پرچم ویژگی `InTreePluginOpenStackUnregister` منسوخ شده است که از ثبت افزونه درون‌درختی openstack cinder جلوگیری می‌کند.

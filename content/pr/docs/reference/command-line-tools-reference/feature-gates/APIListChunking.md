@@ -6,7 +6,7 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: aplgha 
     defaultValue: false
     fromVersion: "1.8"
     toVersion: "1.8"
@@ -20,5 +20,4 @@ stages:
     toVersion: "1.32"
 removed: true
 ---
-Enable the API clients to retrieve (`LIST` or `GET`)
-resources from API server in chunks.
+به کلاینت‌های API این امکان را بدهید که منابع را از سرور API به صورت تکه‌تکه بازیابی کنند (`LIST` یا `GET`).

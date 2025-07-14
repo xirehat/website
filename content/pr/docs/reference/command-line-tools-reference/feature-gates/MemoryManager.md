@@ -18,5 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Allows setting memory affinity for a container based on
-NUMA topology.
+امکان تنظیم وابستگی حافظه برای یک کانتینر بر اساس توپولوژی NUMA را فراهم می‌کند.

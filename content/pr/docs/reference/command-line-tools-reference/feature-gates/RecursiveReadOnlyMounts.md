@@ -19,5 +19,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Enables support for recursive read-only mounts.
-For more details, see [read-only mounts](/docs/concepts/storage/volumes/#read-only-mounts).
+پشتیبانی از mountهای فقط خواندنی بازگشتی را فعال می‌کند. برای جزئیات بیشتر، به [read-only mounts](/docs/concepts/storage/volumes/#read-only-mounts).مراجعه کنید.

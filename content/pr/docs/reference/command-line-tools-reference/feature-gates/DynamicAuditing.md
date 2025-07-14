@@ -18,4 +18,4 @@ stages:
 
 removed: true  
 ---
-Used to enable dynamic auditing before v1.19.
+برای فعال کردن حسابرسی پویا قبل از نسخه ۱.۱۹ استفاده می‌شد.

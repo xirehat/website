@@ -23,6 +23,4 @@ stages:
 
 removed: true
 ---
-When disabled, legacy behavior in service load balancers and
-node disruption will ignore the `node-role.kubernetes.io/master` label in favor of the
-feature-specific labels provided by `NodeDisruptionExclusion` and `ServiceNodeExclusion`.
+در صورت غیرفعال بودن، رفتار قدیمی در متعادل‌کننده‌های بار سرویس و اختلال گره، برچسب `node-role.kubernetes.io/master` را به نفع برچسب‌های خاص ویژگی ارائه شده توسط `NodeDisruptionExclusion` و `ServiceNodeExclusion` نادیده می‌گیرد.

@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Allow almost all printable ASCII characters in environment variables.
+تقریباً تمام کاراکترهای ASCII قابل چاپ را در متغیرهای محیطی مجاز کنید.

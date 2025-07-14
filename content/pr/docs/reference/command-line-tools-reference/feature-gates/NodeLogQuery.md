@@ -14,4 +14,5 @@ stages:
     defaultValue: false
     fromVersion: "1.30"
 ---
-Enables querying logs of node services using the `/logs` endpoint.
+امکان پرس‌وجو از گزارش‌های سرویس‌های گره با استفاده از نقطه پایانی `/logs` را فراهم می‌کند.
+

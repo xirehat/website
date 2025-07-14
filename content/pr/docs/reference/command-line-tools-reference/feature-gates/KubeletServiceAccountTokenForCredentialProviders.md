@@ -10,4 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enable kubelet to send the service account token bound to the pod for which the image is being pulled to the credential provider plugin.
+kubelet را فعال کنید تا توکن حساب سرویس متصل به پادی که تصویر برای آن دریافت می‌شود را به افزونه ارائه‌دهنده اعتبارنامه ارسال کند.

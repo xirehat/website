@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: AttachVolumeLimit
 content_type: feature_gate
 
@@ -23,7 +23,5 @@ stages:
 
 removed: true
 ---
-Enable volume plugins to report limits on number of volumes
-that can be attached to a node.
-See [dynamic volume limits](/docs/concepts/storage/storage-limits/#dynamic-volume-limits)
-for more details.
+فزونه‌های حجم را برای گزارش محدودیت تعداد حجم‌هایی که می‌توانند به یک گره متصل شوند، فعال کنید.
+برای جزئیات بیشتر به [dynamic volume limits](/docs/concepts/storage/storage-limits/#dynamic-volume-limits) مراجعه کنید.

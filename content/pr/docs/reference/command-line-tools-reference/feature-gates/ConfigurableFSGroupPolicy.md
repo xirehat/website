@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: ConfigurableFSGroupPolicy
 content_type: feature_gate
 
@@ -23,7 +23,4 @@ stages:
 
 removed: true  
 ---
-Allows user to configure volume permission change policy
-for fsGroups when mounting a volume in a Pod. See
-[Configure volume permission and ownership change policy for Pods](/docs/tasks/configure-pod-container/security-context/#configure-volume-permission-and-ownership-change-policy-for-pods)
-for more details.
+به کاربر اجازه می‌دهد تا سیاست تغییر مجوز حجم را برای fsGroups هنگام نصب یک حجم در یک Pod پیکربندی کند. برای جزئیات بیشتر به [Configure volume permission and ownership change policy for Pods](/docs/tasks/configure-pod-container/security-context/#configure-volume-permission-and-ownership-change-policy-for-pods) مراجعه کنید.

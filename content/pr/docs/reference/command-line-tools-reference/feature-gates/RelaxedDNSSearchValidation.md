@@ -15,7 +15,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Relax the server side validation for the DNS search string
-(`.spec.dnsConfig.searches`) for containers. For example,
-with this gate enabled, it is okay to include the `_` character
-in the DNS name search string.
+اعتبارسنجی سمت سرور را برای رشته جستجوی DNS (`.spec.dnsConfig.searches`) برای کانتینرها، آسان‌تر کنید. برای مثال، با فعال بودن این گیت، اشکالی ندارد که کاراکتر `_` را در رشته جستجوی نام DNS وارد کنید.

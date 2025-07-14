@@ -17,5 +17,4 @@ stages:
 
 removed: true
 ---
-Enable use of AppArmor mandatory access control for Pods running on Linux nodes.
-See [AppArmor Tutorial](/docs/tutorials/security/apparmor/) for more details.
+فعال کردن کنترل دسترسی اجباری AppArmor برای Podهایی که روی گره‌های لینوکس اجرا می‌شوند. برای جزئیات بیشتر به [AppArmor Tutorial](/docs/tutorials/security/apparmor/) مراجعه کنید.

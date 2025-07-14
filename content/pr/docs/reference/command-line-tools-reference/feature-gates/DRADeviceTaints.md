@@ -10,8 +10,6 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enables support for
-[tainting devices and selectively tolerating those taints](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-taints-and-tolerations)
-when using dynamic resource allocation to manage devices.
+پشتیبانی از [tainting devices and selectively tolerating those taints](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-taints-and-tolerations) را هنگام استفاده از تخصیص منابع پویا برای مدیریت دستگاه‌ها فعال می‌کند.
 
-This feature gate has no effect unless you also enable the `DynamicResourceAllocation` feature gate.
+این دروازه ویژگی هیچ تاثیری ندارد مگر اینکه دروازه ویژگی `DynamicResourceAllocation` را نیز فعال کنید.

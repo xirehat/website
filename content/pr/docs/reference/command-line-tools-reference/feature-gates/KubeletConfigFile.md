@@ -18,7 +18,5 @@ stages:
 
 removed: true
 ---
-Enable loading kubelet configuration from
-a file specified using a config file.
-See [setting kubelet parameters via a config file](/docs/tasks/administer-cluster/kubelet-config-file/)
-for more details.
+فعال کردن بارگذاری پیکربندی kubelet از فایلی که با استفاده از یک فایل پیکربندی مشخص شده است.
+برای جزئیات بیشتر به [setting kubelet parameters via a config file](/docs/tasks/administer-cluster/kubelet-config-file/) مراجعه کنید.

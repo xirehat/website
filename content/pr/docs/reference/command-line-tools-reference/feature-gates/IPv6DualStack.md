@@ -23,5 +23,4 @@ stages:
 
 removed: true 
 ---
-Enable [dual stack](/docs/concepts/services-networking/dual-stack/)
-support for IPv6.
+فعال کردن پشتیبانی از IPv6 در [dual stack](/docs/concepts/services-networking/dual-stack/).

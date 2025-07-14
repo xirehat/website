@@ -21,7 +21,6 @@ stages:
 
 removed: true  
 ---
-Enables CSI drivers to publish storage capacity information
-and the Kubernetes scheduler to use that information when scheduling pods. See
-[Storage Capacity](/docs/concepts/storage/storage-capacity/).
-Check the [`csi` volume type](/docs/concepts/storage/volumes/#csi) documentation for more details.
+درایورهای CSI را قادر می‌سازد تا اطلاعات ظرفیت ذخیره‌سازی را منتشر کنند
+و زمان‌بند Kubernetes از آن اطلاعات هنگام زمان‌بندی پادها استفاده کند. برای جزئیات بیشتر به [Storage Capacity](/docs/concepts/storage/storage-capacity/). مراجعه کنید.
+برای جزئیات بیشتر، مستندات [`csi` volume type](/docs/concepts/storage/volumes/#csi) را بررسی کنید.

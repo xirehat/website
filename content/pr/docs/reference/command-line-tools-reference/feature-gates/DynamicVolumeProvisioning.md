@@ -19,5 +19,4 @@ stages:
 
 removed: true  
 ---
-Enable the
-[dynamic provisioning](/docs/concepts/storage/dynamic-provisioning/) of persistent volumes to Pods.
+فعال کردن [dynamic provisioning](/docs/concepts/storage/dynamic-provisioning/) مربوط به Volumeهای دائمی برای Podها.

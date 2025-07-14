@@ -23,6 +23,4 @@ stages:
 
 removed: true
 ---
-This flag tells the scheduler whether the nominated
-nodes will be checked first before looping through all the other nodes in
-the cluster.
+این پرچم به scheduler می‌گوید که آیا nodes نامزد شده ابتدا قبل از حلقه زدن روی سایر گره‌های موجود در کلاستر بررسی می‌شوند یا خیر.

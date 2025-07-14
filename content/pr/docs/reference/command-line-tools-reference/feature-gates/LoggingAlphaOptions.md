@@ -10,4 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.24"
 ---
-Allow fine-tuning of experimental, alpha-quality logging options.
+امکان تنظیم دقیق گزینه‌های ثبت وقایع آزمایشی و با کیفیت آلفا را فراهم می‌کند.

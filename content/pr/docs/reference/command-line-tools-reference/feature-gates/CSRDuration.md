@@ -19,5 +19,4 @@ stages:
 
 removed: true  
 ---
-Allows clients to request a duration for certificates issued
-via the Kubernetes CSR API.
+به کلاینت‌ها اجازه می‌دهد تا از طریق Kubernetes CSR API، مدت زمان اعتبار گواهی‌های صادر شده را درخواست کنند.

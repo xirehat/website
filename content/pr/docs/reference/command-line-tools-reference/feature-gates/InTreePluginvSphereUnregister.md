@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Stops registering the vSphere in-tree plugin in kubelet
-and volume controllers.
+ثبت افزونه vSphere in-tree را در kubelet و volume controllers متوقف می‌کند.

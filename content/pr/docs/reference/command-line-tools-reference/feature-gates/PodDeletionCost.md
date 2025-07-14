@@ -14,5 +14,5 @@ stages:
     defaultValue: true
     fromVersion: "1.22"
 ---
-Enable the [Pod Deletion Cost](/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost)
- feature which allows users to influence ReplicaSet downscaling order.
+ویژگی [Pod Deletion Cost](/docs/concepts/workloads/controllers/replicaset/#pod-deletion-cost)
+را فعال کنید که به کاربران امکان می‌دهد ترتیب کوچک‌سازی ReplicaSet را تحت تأثیر قرار دهند.

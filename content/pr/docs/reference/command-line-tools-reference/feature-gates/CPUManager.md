@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Enable container level CPU affinity support, see
-[CPU Management Policies](/docs/tasks/administer-cluster/cpu-management-policies/).
+پشتیبانی از وابستگی CPU در سطح کانتینر را فعال کنید، به [CPU Management Policies](/docs/tasks/administer-cluster/cpu-management-policies/).مراجعه کنید.

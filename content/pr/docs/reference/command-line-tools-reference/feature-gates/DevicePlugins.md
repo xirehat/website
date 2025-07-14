@@ -21,5 +21,4 @@ stages:
 
 removed: true  
 ---
-Enable the [device-plugins](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/)
-based resource provisioning on nodes.
+فعال کردن تأمین منابع مبتنی بر [device-plugins](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/) روی گره‌ها.

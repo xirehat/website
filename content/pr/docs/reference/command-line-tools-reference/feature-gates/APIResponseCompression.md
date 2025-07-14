@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.16"
 ---
-Compress the API responses for `LIST` or `GET` requests.
+پاسخ‌های API را برای درخواست‌های `LIST` یا `GET` فشرده‌سازی کنید.

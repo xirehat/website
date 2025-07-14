@@ -10,6 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.33"
 ---
-Enabled reduction of both the initial delay and the maximum delay accrued
-between container restarts for a node for containers in `CrashLoopBackOff`
-across the cluster to `1s` initial delay and `60s` maximum delay.
+کاهش تأخیر اولیه و حداکثر تأخیر ایجاد شده بین راه‌اندازی مجدد کانتینرها برای یک گره برای کانتینرهای موجود در `CrashLoopBackOff` در سراسر خوشه به تأخیر اولیه `1 ثانیه` و حداکثر تأخیر `60 ثانیه` فعال شد.

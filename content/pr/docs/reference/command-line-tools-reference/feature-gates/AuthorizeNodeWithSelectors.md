@@ -14,5 +14,5 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Make the [Node authorizer](/docs/reference/access-authn-authz/node/) use fine-grained selector authorization.
-Requires `AuthorizeWithSelectors` to be enabled.
+کاری کنید که [Node authorizer](/docs/reference/access-authn-authz/node/) از مجوزدهی گزینشگر دقیق استفاده کند.
+نیازمند فعال بودن `AuthorizeWithSelectors` است.

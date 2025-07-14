@@ -14,5 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.30"
 ---
-Enables the kubelet `checkpoint` API.
-See [Kubelet Checkpoint API](/docs/reference/node/kubelet-checkpoint-api/) for more details.
+API مربوط به kubelet `checkpoint` را فعال می‌کند. برای جزئیات بیشتر به [API Kubelet Checkpoint](/docs/reference/node/kubelet-checkpoint-api/) مراجعه کنید.

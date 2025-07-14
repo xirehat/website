@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable schema based validation on resources created from
-[CustomResourceDefinition](/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+اعتبارسنجی مبتنی بر طرحواره را روی منابع ایجاد شده از [CustomResourceDefinition](/docs/concepts/extend-kubernetes/api-extension/custom-resources/) فعال کنید.

@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Allows the Pod OS field to be specified. This helps in identifying
-the OS of the pod authoritatively during the API server admission time.
+امکان مشخص کردن فیلد سیستم عامل پاد را فراهم می‌کند. این به شناسایی معتبر سیستم عامل پاد در زمان پذیرش سرور API کمک می‌کند.

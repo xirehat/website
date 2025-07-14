@@ -18,5 +18,4 @@ stages:
 
 removed: true  
 ---
-Enable the scheduler to cache equivalence of
-nodes when scheduling Pods.
+فعال کردن زمانبند برای ذخیره معادل گره‌ها هنگام زمان‌بندی پادها.

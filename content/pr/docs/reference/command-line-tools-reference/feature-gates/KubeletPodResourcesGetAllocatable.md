@@ -20,6 +20,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enable the kubelet's pod resources
-`GetAllocatableResources` functionality. This API augments the
-[resource allocation reporting](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#monitoring-device-plugin-resources)
+فعال کردن قابلیت `GetAllocatableResources` در بخش منابع kubelet. این API، گزارش تخصیص منابع  را تقویت می‌کند. [resource allocation reporting](/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/#monitoring-device-plugin-resources)

@@ -13,6 +13,5 @@ stages:
 
 removed: true
 ---
-Enables support for resources with custom parameters and a lifecycle
-that is independent of a Pod. Allocation of resources is handled
-by a resource driver's control plane controller.
+پشتیبانی از منابع با پارامترهای سفارشی و چرخه عمری که مستقل از Pod است را فعال می‌کند. تخصیص منابع توسط کنترل‌کننده صفحه کنترل درایور منبع انجام می‌شود.
+p

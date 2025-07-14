@@ -13,5 +13,4 @@ stages:
     defaultValue: true
     fromVersion: "1.30"
 ---
-Enables extra details in log output of Kubernetes components that support
-contextual logging.
+جزئیات اضافی را در خروجی گزارش اجزای Kubernetes که از گزارش‌گیری متنی پشتیبانی می‌کنند، فعال می‌کند.

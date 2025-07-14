@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Allow {{< glossary_tooltip text="HorizontalPodAutoscalers" term_id="horizontal-pod-autoscaler" >}}
-to scale based on metrics from individual containers within target pods.
+به {{< glossary_tooltip text="HorizontalPodAutoscalers" term_id="horizontal-pod-autoscaler" >}} اجازه دهید تا بر اساس معیارهای کانتینرهای جداگانه در پادهای هدف، مقیاس‌بندی کند.

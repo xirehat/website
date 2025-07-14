@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: BoundServiceAccountTokenVolume
 content_type: feature_gate
 
@@ -23,11 +23,5 @@ stages:
 
 removed: true
 ---
-Migrate ServiceAccount volumes to use a projected volume
-consisting of a ServiceAccountTokenVolumeProjection. Cluster admins can use metric
-`serviceaccount_stale_tokens_total` to monitor workloads that are depending on the extended
-tokens. If there are no such workloads, turn off extended tokens by starting `kube-apiserver` with
-flag `--service-account-extend-token-expiration=false`.
-
-Check [Bound Service Account Tokens](https://github.com/kubernetes/enhancements/blob/master/keps/sig-auth/1205-bound-service-account-tokens/README.md)
-for more details.
+حجم‌های ServiceAccount را برای استفاده از یک حجم پیش‌بینی‌شده که شامل ServiceAccountTokenVolumeProjection است، منتقل کنید. مدیران کلاستر می‌توانند از معیار `serviceaccount_stale_tokens_total` برای نظارت بر حجم کاری که به توکن‌های توسعه‌یافته وابسته است، استفاده کنند. اگر چنین حجم کاری وجود ندارد، توکن‌های توسعه‌یافته را با شروع `kube-apiserver` با پرچم `--service-account-extend-token-expiration=false` خاموش کنید.
+برای جزئیات بیشتر، [Bound Service Account Tokens](https://github.com/kubernetes/enhancements/blob/master/keps/sig-auth/1205-bound-service-account-tokens/README.md) را بررسی کنید.

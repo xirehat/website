@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enable all logic related to the CSIDriver API object in
-`csi.storage.k8s.io`.
+تمام منطق مربوط به شیء API CSIDriver را در `csi.storage.k8s.io` فعال کنید.

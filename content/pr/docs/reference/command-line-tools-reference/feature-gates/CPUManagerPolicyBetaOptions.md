@@ -10,7 +10,7 @@ stages:
     defaultValue: true
     fromVersion: "1.23"
 ---
-This allows fine-tuning of CPUManager policies,
-experimental, Beta-quality options
-This feature gate guards *a group* of CPUManager options whose quality level is beta.
-This feature gate will never graduate to stable.
+این امکان تنظیم دقیق سیاست‌های CPUManager،
+آزمایشی، گزینه‌های با کیفیت بتا
+این دروازه ویژگی از *group* از گزینه‌های CPUManager که سطح کیفیت آنها بتا است، محافظت می‌کند.
+این دروازه ویژگی هرگز به حالت پایدار ارتقا پیدا نمی‌کند.

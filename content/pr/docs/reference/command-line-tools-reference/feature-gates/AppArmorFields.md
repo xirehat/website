@@ -3,6 +3,7 @@ title: AppArmorFields
 content_type: feature_gate
 _build:
   list: never
+
   render: false
 
 stages:
@@ -17,9 +18,5 @@ stages:
 
 removed: true
 ---
-Enable AppArmor related security context settings.
-
-For more information about AppArmor and Kubernetes, read the
-[AppArmor](/docs/concepts/security/linux-kernel-security-constraints/#apparmor) section
-within
-[security features in the Linux kernel](/docs/concepts/security/linux-kernel-security-constraints/#linux-security-features).
+تنظیمات زمینه امنیتی مرتبط با AppArmor را فعال کنید.
+برای اطلاعات بیشتر در مورد AppArmor و Kubernetes، بخش [AppArmor](/docs/concepts/security/linux-kernel-security-constraints/#apparmor) را در [security features in the Linux kernel](/docs/concepts/security/linux-kernel-security-constraints/#linux-security-features) مطالعه کنید.

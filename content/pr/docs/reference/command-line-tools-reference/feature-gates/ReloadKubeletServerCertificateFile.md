@@ -15,3 +15,6 @@ Enable the kubelet TLS server to update its certificate if the specified certifi
 
 This feature is useful when specifying `tlsCertFile` and `tlsPrivateKeyFile` in kubelet configuration.
 The feature gate has no effect for other cases such as using TLS boostrap.
+سرور TLS kubelet را فعال کنید تا در صورت تغییر فایل گواهی مشخص شده، گواهی خود را به‌روزرسانی کند.
+این ویژگی هنگام تعیین `tlsCertFile` و `tlsPrivateKeyFile` در پیکربندی kubelet مفید است.
+این ویژگی در موارد دیگر مانند استفاده از TLS boostrap تأثیری ندارد.

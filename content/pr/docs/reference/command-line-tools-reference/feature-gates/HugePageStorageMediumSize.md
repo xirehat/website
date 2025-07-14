@@ -23,5 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable support for multiple sizes pre-allocated
-[huge pages](/docs/tasks/manage-hugepages/scheduling-hugepages/).
+پشتیبانی از چندین اندازه از پیش تخصیص داده شده را فعال کنید. [huge pages](/docs/tasks/manage-hugepages/scheduling-hugepages/).

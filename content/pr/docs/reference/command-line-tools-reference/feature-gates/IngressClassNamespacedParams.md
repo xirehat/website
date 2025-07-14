@@ -23,6 +23,4 @@ stages:
 
 removed: true
 ---
-Allow namespace-scoped parameters reference in
-`IngressClass` resource. This feature adds two fields - `Scope` and `Namespace`
-to `IngressClass.spec.parameters`.
+اجازه دهید پارامترهای دارای محدوده فضای نام در منبع `IngressClass` ارجاع داده شوند. این ویژگی دو فیلد - `Scope` و `Namespace` - را به `IngressClass.spec.parameters` اضافه می‌کند.

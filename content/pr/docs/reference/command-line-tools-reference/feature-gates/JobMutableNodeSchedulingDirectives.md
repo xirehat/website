@@ -17,5 +17,4 @@ stages:
 
 removed: true
 ---
-Allows updating node scheduling directives in
-the pod template of [Job](/docs/concepts/workloads/controllers/job).
+امکان به‌روزرسانی دستورالعمل‌های زمان‌بندی گره را در قالب pod از [Job](/docs/concepts/workloads/controllers/job) فراهم می‌کند.

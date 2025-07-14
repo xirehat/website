@@ -18,7 +18,4 @@ stages:
 
 removed: true
 ---
-Enable a scheduler priority function that
-assigns a lowest possible score of 1 to a node that satisfies at least one of
-the input Pod's cpu and memory limits. The intent is to break ties between
-nodes with same scores.
+یک تابع اولویت زمان‌بندی را فعال کنید که کمترین امتیاز ممکن یعنی ۱ را به گره‌ای اختصاص دهد که حداقل یکی از محدودیت‌های پردازنده و حافظه‌ی پاد ورودی را برآورده کند. هدف، شکستن پیوندهای بین گره‌هایی با امتیازات یکسان است.

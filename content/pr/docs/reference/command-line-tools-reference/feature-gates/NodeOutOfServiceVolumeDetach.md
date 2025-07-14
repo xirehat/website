@@ -21,7 +21,4 @@ stages:
 
 removed: true
 ---
-When a Node is marked out-of-service using the
-`node.kubernetes.io/out-of-service` taint, Pods on the node will be forcefully deleted
- if they can not tolerate this taint, and the volume detach operations for Pods terminating
- on the node will happen immediately. The deleted Pods can recover quickly on different nodes.
+قتی یک گره با استفاده از کد مخرب `node.kubernetes.io/out-of-service` خارج از سرویس علامت‌گذاری می‌شود، Podهای روی گره در صورت عدم تحمل این کد مخرب، به اجبار حذف می‌شوند و عملیات جداسازی حجم برای Podهایی که در حال خاتمه دادن به آن هستند، بلافاصله روی گره انجام می‌شود. Podهای حذف شده می‌توانند به سرعت در گره‌های مختلف بازیابی شوند.

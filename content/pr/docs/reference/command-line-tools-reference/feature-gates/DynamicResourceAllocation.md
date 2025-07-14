@@ -19,6 +19,4 @@ stages:
 # can be removed (for example, in dra-admin-access.md).
 
 ---
-Enables support for resources with custom parameters and a lifecycle
-that is independent of a Pod. Allocation of resources is handled
-by the Kubernetes scheduler based on "structured parameters".
+پشتیبانی از منابع با پارامترهای سفارشی و چرخه عمری که مستقل از Pod است را فعال می‌کند. تخصیص منابع توسط زمانبند Kubernetes بر اساس "پارامترهای ساختاریافته" انجام می‌شود.

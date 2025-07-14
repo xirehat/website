@@ -1,5 +1,5 @@
 ---
-# Removed from Kubernetes
+# از Kubernetes حذف شد
 title: AllowInsecureBackendProxy
 content_type: feature_gate
 
@@ -21,3 +21,5 @@ removed: true
 ---
 Enable the users to skip TLS verification of
 kubelets on Pod log requests.
+
+به کاربران این امکان را بدهید که در درخواست‌های لاگ پاد، از تأیید TLS مربوط به kubelets صرف‌نظر کنند.

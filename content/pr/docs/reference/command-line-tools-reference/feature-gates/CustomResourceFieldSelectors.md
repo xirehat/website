@@ -18,7 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32" 
 ---
-
-Enable `selectableFields` in the
-{{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} API to allow filtering
-of custom resource **list**, **watch** and **deletecollection** requests.
+برای فیلتر کردن درخواست‌های سفارشی منابع **list**، **watch** و **deletecollection**، گزینه `selectableFields` را در API {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} فعال کنید.

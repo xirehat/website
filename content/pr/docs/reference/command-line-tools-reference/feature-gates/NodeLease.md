@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the new Lease API to report node heartbeats, which could be used as a node health signal.
+API جدید Lease را فعال کنید تا ضربان قلب گره را گزارش دهد، که می‌تواند به عنوان سیگنال سلامت گره مورد استفاده قرار گیرد.

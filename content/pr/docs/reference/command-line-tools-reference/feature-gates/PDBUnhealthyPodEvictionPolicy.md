@@ -21,6 +21,4 @@ stages:
 
 removed: true
 ---
-Enables the `unhealthyPodEvictionPolicy` field of a `PodDisruptionBudget`. This specifies
-when unhealthy pods should be considered for eviction. Please see [Unhealthy Pod Eviction Policy](/docs/tasks/run-application/configure-pdb/#unhealthy-pod-eviction-policy)
-for more details.
+فیلد `unhealthyPodEvictionPolicy` از «PodDisruptionBudget» را فعال می‌کند. این فیلد مشخص می‌کند که چه زمانی باید پادهای ناسالم برای حذف در نظر گرفته شوند. برای جزئیات بیشتر، لطفاً به [Unhealthy Pod Eviction Policy](/docs/tasks/run-application/configure-pdb/#unhealthy-pod-eviction-policy) مراجعه کنید.

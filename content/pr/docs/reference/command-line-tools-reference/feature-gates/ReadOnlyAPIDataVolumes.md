@@ -18,10 +18,9 @@ stages:
 
 removed: true  
 ---
-Set [`configMap`](/docs/concepts/storage/volumes/#configmap), 
-[`secret`](/docs/concepts/storage/volumes/#secret), 
-[`downwardAPI`](/docs/concepts/storage/volumes/#downwardapi) and 
-[`projected`](/docs/concepts/storage/volumes/#projected) 
-{{< glossary_tooltip term_id="volume" text="volumes" >}} to be mounted read-only.
+[`configMap`](/docs/concepts/storage/volumes/#configmap)،
+[`secret`](/docs/concepts/storage/volumes/#secret)،
+[`downwardAPI`](/docs/concepts/storage/volumes/#downwardapi) و
+[`projected`](/docs/concepts/storage/volumes/#projected) را طوری تنظیم کنید که فقط خواندنی نصب شود.
 
-Since Kubernetes v1.10, these volume types are always read-only and you cannot opt out.
+از Kubernetes نسخه ۱.۱۰، این نوع درایوها همیشه فقط خواندنی هستند و شما نمی‌توانید از این حالت خارج شوید.

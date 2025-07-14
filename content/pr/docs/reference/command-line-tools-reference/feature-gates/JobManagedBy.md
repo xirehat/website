@@ -15,4 +15,4 @@ stages:
     defaultValue: true
     fromVersion: "1.32"
 ---
-Allows to delegate reconciliation of a Job object to an external controller.
+اجازه می‌دهد تا تطبیق یک شیء Job را به یک کنترل‌کننده خارجی واگذار کنید.

@@ -22,4 +22,4 @@ stages:
 
 removed: true
 ---
-Enables the `PodSecurity` admission plugin.
+افزونه‌ی پذیرش `PodSecurity` را فعال می‌کند.

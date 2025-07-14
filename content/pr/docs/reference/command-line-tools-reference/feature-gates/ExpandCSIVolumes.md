@@ -23,4 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable the expanding of CSI volumes.
+فعال کردن گسترش حجم‌های CSI.

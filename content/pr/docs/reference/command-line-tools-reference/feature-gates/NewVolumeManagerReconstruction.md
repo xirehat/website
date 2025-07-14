@@ -21,10 +21,7 @@ stages:
 
 removed: true
 ---
-Enables improved discovery of mounted volumes during kubelet
-startup. Since the associated code had been significantly refactored, Kubernetes versions 1.25 to 1.29
-allowed you to opt-out in case the kubelet got stuck at the startup, or did not unmount volumes
-from terminated Pods.
-
 This refactoring was behind the `SELinuxMountReadWriteOncePod`  feature gate in Kubernetes
 releases 1.25 and 1.26.
+امکان کشف بهتر حجم‌های نصب‌شده در هنگام راه‌اندازی kubelet را فراهم می‌کند. از آنجایی که کد مرتبط به‌طور قابل‌توجهی اصلاح شده بود، نسخه‌های 1.25 تا 1.29 Kubernetes به شما این امکان را می‌دادند که در صورت گیر کردن kubelet در هنگام راه‌اندازی یا عدم حذف حجم‌ها از Podهای خاتمه‌یافته، از این امر انصراف دهید.
+این اصلاح، پشت دروازه ویژگی `SELinuxMountReadWriteOncePod` در نسخه‌های 1.25 و 1.26 Kubernetes بود.

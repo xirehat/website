@@ -10,6 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.26"
 ---
-Enable the usage of cross namespace volume data source
- to allow you to specify a source namespace in the `dataSourceRef` field of a
- PersistentVolumeClaim.
+فعال کردن استفاده از فضای نام متقاطع برای منبع داده حجم
+به شما امکان می‌دهد یک فضای نام منبع را در فیلد `dataSourceRef` از یک `PersistentVolumeClaim` مشخص کنید.

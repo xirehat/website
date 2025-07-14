@@ -21,5 +21,4 @@ stages:
 
 removed: true
 ---
-Implement connection draining for
-terminating nodes for `externalTrafficPolicy: Cluster` services.
+پیاده‌سازی تخلیه اتصال برای گره‌های انتهایی برای سرویس‌های `externalTrafficPolicy: Cluster`.

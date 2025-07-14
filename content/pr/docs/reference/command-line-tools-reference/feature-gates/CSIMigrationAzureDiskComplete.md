@@ -18,11 +18,4 @@ stages:
 
 removed: true
 ---
-Stops registering the Azure-Disk in-tree
-plugin in kubelet and volume controllers and enables shims and translation
-logic to route volume operations from the Azure-Disk in-tree plugin to
-AzureDisk CSI plugin. Requires CSIMigration and CSIMigrationAzureDisk feature
-flags enabled and AzureDisk CSI plugin installed and configured on all nodes
-in the cluster. This flag has been deprecated in favor of the
-`InTreePluginAzureDiskUnregister` feature flag which prevents the registration
-of in-tree AzureDisk plugin.
+ثبت افزونه درون‌شاخه‌ای Azure-Disk را در kubelet و کنترلرهای حجم متوقف می‌کند و shimها و منطق ترجمه را قادر می‌سازد تا عملیات حجم را از افزونه درون‌شاخه‌ای Azure-Disk به افزونه AzureDisk CSI مسیریابی کنند. نیاز به فعال بودن پرچم‌های ویژگی CSIMigration و CSIMigrationAzureDisk و نصب و پیکربندی افزونه AzureDisk CSI در تمام گره‌های خوشه دارد. این پرچم به نفع پرچم ویژگی `InTreePluginAzureDiskUnregister` که از ثبت افزونه درون‌شاخه‌ای AzureDisk جلوگیری می‌کند، منسوخ شده است.

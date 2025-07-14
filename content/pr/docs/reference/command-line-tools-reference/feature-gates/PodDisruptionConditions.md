@@ -18,4 +18,4 @@ stages:
     defaultValue: true
     fromVersion: "1.31"
 ---
-Enables support for appending a dedicated pod condition indicating that the pod is being deleted due to a disruption.
+پشتیبانی از افزودن یک وضعیت پاد اختصاصی را فعال می‌کند که نشان می‌دهد پاد به دلیل اختلال در حال حذف است.

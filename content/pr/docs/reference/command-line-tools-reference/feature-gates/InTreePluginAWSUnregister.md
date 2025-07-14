@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Stops registering the aws-ebs in-tree plugin in kubelet
-and volume controllers.
+ثبت افزونه‌ی درون‌برنامه‌ای aws-ebs را در kubelet و volume controllersا متوقف می‌کند.

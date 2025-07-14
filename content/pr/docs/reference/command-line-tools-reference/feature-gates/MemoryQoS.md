@@ -10,5 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.22"
 ---
-Enable memory protection and usage throttle on pod / container using
-cgroup v2 memory controller.
+فعال کردن محافظت از حافظه و کنترل مصرف در پاد/کانتینر با استفاده از کنترلر حافظه cgroup v2.

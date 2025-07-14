@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable CSI Inline volumes support for pods.
+پشتیبانی از CSI Inline volumeها را برای پادها فعال کنید.

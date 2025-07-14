@@ -19,6 +19,5 @@ stages:
 
 removed: true
 ---
-Enable
-[Hyper-V isolation](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/hyperv-container)
-for Windows containers.
+فعال کردن [Hyper-V isolation](https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/hyperv-container)
+برای کانتینرهای ویندو

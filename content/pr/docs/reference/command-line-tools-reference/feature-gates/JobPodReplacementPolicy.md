@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.29"
 ---
-Allows you to specify pod replacement for terminating pods in a [Job](/docs/concepts/workloads/controllers/job)
+به شما امکان می‌دهد جایگزینی پاد را برای پادهای خاتمه‌دهنده در یک [Job](/docs/concepts/workloads/controllers/job) مشخص کنید.

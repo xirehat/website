@@ -17,6 +17,4 @@ stages:
 
 removed: true  
 ---
-Extend the default scheduler to be aware of
-volume topology and handle PV provisioning.
-This feature was superseded by the `VolumeScheduling` feature  in v1.12.
+دهید تا از توپولوژی حجم آگاه باشد و تأمین PV را مدیریت کند. این ویژگی در نسخه ۱.۱۲ با ویژگی `VolumeScheduling` جایگزین شد.

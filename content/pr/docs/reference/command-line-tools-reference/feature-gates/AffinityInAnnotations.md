@@ -1,6 +1,6 @@
 ---
-# Removed from Kubernetes
-title: AffinityInAnnotations
+# از Kubernetes حذف شد
+title:  affinities
 content_type: feature_gate
 
 _build:
@@ -18,5 +18,5 @@ stages:
 
 removed: true
 ---
-Enable setting
+تنظیم را فعال کنید
 [Pod affinity or anti-affinity](/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity).

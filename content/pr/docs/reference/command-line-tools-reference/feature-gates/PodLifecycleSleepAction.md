@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.30"
 ---
-Enables the `sleep` action in Container lifecycle hooks.
+عمل `sleep` را در هوک‌های lifecycle کانتینر فعال می‌کند.

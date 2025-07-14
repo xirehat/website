@@ -10,5 +10,4 @@ stages:
     defaultValue: false
     fromVersion: "1.32"
 ---
-Enables the component's statusz endpoint.
-See [zpages](/docs/reference/instrumentation/zpages/) for more information.
+نقطه پایانی statusz کامپوننت را فعال می‌کند. برای اطلاعات بیشتر به [zpages](/docs/reference/instrumentation/zpages/) مراجعه کنید.

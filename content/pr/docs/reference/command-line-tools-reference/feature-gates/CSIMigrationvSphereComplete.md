@@ -18,10 +18,4 @@ stages:
 
 removed: true  
 ---
-Stops registering the vSphere in-tree plugin in kubelet
-and volume controllers and enables shims and translation logic to route volume operations
-from the vSphere in-tree plugin to vSphere CSI plugin. Requires CSIMigration and
-CSIMigrationvSphere feature flags enabled and vSphere CSI plugin installed and
-configured on all nodes in the cluster. This flag has been deprecated in favor
-of the `InTreePluginvSphereUnregister` feature flag which prevents the
-registration of in-tree vsphere plugin.
+ثبت افزونه vSphere in-tree در kubelet و کنترل‌کننده‌های حجم را متوقف می‌کند و shimها و منطق ترجمه را برای مسیریابی عملیات حجم از افزونه vSphere in-tree به افزونه vSphere CSI فعال می‌کند. نیاز به فعال بودن پرچم‌های ویژگی CSIMigration و CSIMigrationvSphere و نصب و پیکربندی افزونه vSphere CSI در تمام گره‌های کلاستر دارد. این پرچم به نفع پرچم ویژگی `InTreePluginvSphereUnregister` که از ثبت افزونه vSphere in-tree جلوگیری می‌کند، منسوخ شده است.

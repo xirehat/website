@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.33"
 ---
-Enables in-place Pod vertical scaling.
+مقیاس‌پذیری عمودی Pod را درجا فعال می‌کند.

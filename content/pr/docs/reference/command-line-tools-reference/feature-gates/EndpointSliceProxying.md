@@ -23,7 +23,4 @@ stages:
 
 removed: true  
 ---
-When enabled, kube-proxy running
- on Linux will use EndpointSlices as the primary data source instead of
- Endpoints, enabling scalability and performance improvements. See
- [Enabling Endpoint Slices](/docs/concepts/services-networking/endpoint-slices/).
+وقتی فعال باشد، kube-proxy که روی لینوکس اجرا می‌شود، از EndpointSlices به عنوان منبع داده اصلی به جای Endpoints استفاده می‌کند و امکان مقیاس‌پذیری و بهبود عملکرد را فراهم می‌کند. به  [Enabling Endpoint Slices](/docs/concepts/services-networking/endpoint-slices/). مراجعه کنید.

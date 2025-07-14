@@ -13,4 +13,4 @@ stages:
 
 removed: true
 ---
-Enable the `status` subresource for NetworkPolicy objects.
+زیرمنبع `status` را برای اشیاء NetworkPolicy فعال کنید.

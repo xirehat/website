@@ -25,7 +25,5 @@ stages:
 
 removed: true
 ---
-Enables tracking [Job](/docs/concepts/workloads/controllers/job)
-completions without relying on Pods remaining in the cluster indefinitely.
-The Job controller uses Pod finalizers and a field in the Job status to keep
-track of the finished Pods to count towards completion.
+ردیابی تکمیل‌های [Job](/docs/concepts/workloads/controllers/job) را بدون تکیه بر Podهای باقی‌مانده در کلاستر به طور نامحدود، فعال می‌کند.
+کنترل‌کننده‌ی Job از نهایی‌کننده‌های Pod و یک فیلد در وضعیت Job برای پیگیری Podهای تکمیل‌شده استفاده می‌کند تا در جهت تکمیل شمارش شوند.

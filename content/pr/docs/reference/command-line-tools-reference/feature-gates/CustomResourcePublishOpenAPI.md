@@ -23,4 +23,4 @@ stages:
 
 removed: true  
 ---
-Enables publishing of CRD OpenAPI specs.
+انتشار مشخصات CRD OpenAPI را فعال می‌کند.

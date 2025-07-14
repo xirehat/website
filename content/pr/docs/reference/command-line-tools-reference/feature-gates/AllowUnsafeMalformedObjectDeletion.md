@@ -10,7 +10,6 @@ stages:
     defaultValue: false
     fromVersion: "1.32"
 ---
-Enables the cluster operator to identify corrupt resource(s) using the **list**
-operation, and introduces an option `ignoreStoreReadErrorWithClusterBreakingPotential`
-that the operator can set to perform unsafe and force **delete** operation of
-such corrupt resource(s) using the Kubernetes API.
+
+
+به اپراتور کلاستر این امکان را می‌دهد که با استفاده از عملیات **list** منابع خراب را شناسایی کند و گزینه‌ای با عنوان `ignoreStoreReadErrorWithClusterBreakingPotential` را معرفی می‌کند که اپراتور می‌تواند آن را برای انجام عملیات ناامن و حذف اجباری چنین منابع خراب با استفاده از Kubernetes API تنظیم کند.

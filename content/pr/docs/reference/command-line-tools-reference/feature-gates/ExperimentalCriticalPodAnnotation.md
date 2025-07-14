@@ -19,6 +19,6 @@ stages:
 
 removed: true  
 ---
-Enable annotating specific pods as *critical*
-so that their [scheduling is guaranteed](/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/).
-This feature is deprecated by Pod Priority and Preemption as of v1.13.
+فعال کردن حاشیه‌نویسی پادهای خاص به عنوان *critical*
+به طوری که  آنها تضمین شود[scheduling is guaranteed](/docs/tasks/administer-cluster/guaranteed-scheduling-critical-addon-pods/).
+این ویژگی از نسخه ۱.۱۳ توسط Pod Priority and Preemption منسوخ شده است.

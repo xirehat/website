@@ -23,4 +23,4 @@ stages:
 
 removed: true  
 ---
-Enable CRD support for default values in OpenAPI v3 validation schemas.
+پشتیبانی CRD را برای مقادیر پیش‌فرض در طرح‌های اعتبارسنجی OpenAPI v3 فعال کنید.

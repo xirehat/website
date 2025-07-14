@@ -20,7 +20,4 @@ stages:
     toVersion: "1.29" 
 removed: true
 ---
-Enable kubelet and kube-apiserver to allow more DNS
-search paths and longer list of DNS search paths. This feature requires container
-runtime support(Containerd: v1.5.6 or higher, CRI-O: v1.22 or higher). See
-[Expanded DNS Configuration](/docs/concepts/services-networking/dns-pod-service/#expanded-dns-configuration).
+kubelet و kube-apiserver را فعال کنید تا مسیرهای جستجوی DNS بیشتر و لیست طولانی‌تری از مسیرهای جستجوی DNS را فراهم کنید. این ویژگی نیاز به پشتیبانی از زمان اجرای کانتینر دارد (Containerd: نسخه ۱.۵.۶ یا بالاتر، CRI-O: نسخه ۱.۲۲ یا بالاتر). به [Expanded DNS Configuration](/docs/concepts/services-networking/dns-pod-service/#expanded-dns-configuration). مراجعه کنید.

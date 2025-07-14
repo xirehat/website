@@ -25,10 +25,4 @@ stages:
 
 removed: true
 ---
-Enables shims and translation logic to route volume
-operations from the GCE-PD in-tree plugin to PD CSI plugin. Supports falling
-back to in-tree GCE plugin for mount operations to nodes that have the
-feature disabled or that do not have PD CSI plugin installed and configured.
-Does not support falling back for provision operations, for those the CSI
-plugin must be installed and configured. Requires CSIMigration feature flag
-enabled.
+شیم‌ها و منطق ترجمه را برای مسیریابی عملیات حجم از افزونه درون‌شاخه‌ای GCE-PD به افزونه PD CSI فعال می‌کند. از بازگشت به افزونه درون‌شاخه‌ای GCE برای عملیات نصب به گره‌هایی که این ویژگی غیرفعال است یا افزونه PD CSI نصب و پیکربندی نشده است، پشتیبانی می‌کند. از بازگشت به عملیات تأمین پشتیبانی نمی‌کند، برای این موارد افزونه CSI باید نصب و پیکربندی شود. نیاز به فعال بودن پرچم ویژگی CSIMigration دارد.

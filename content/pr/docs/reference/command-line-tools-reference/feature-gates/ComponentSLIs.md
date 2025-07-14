@@ -14,6 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.27"
 ---
-Enable the `/metrics/slis` endpoint on Kubernetes components like
-kubelet, kube-scheduler, kube-proxy, kube-controller-manager, cloud-controller-manager
-allowing you to scrape health check metrics.
+نقطه پایانی `/metrics/slis` را روی اجزای Kubernetes مانند kubelet، kube-scheduler، kube-proxy، kube-controller-manager، cloud-controller-manager فعال کنید تا بتوانید معیارهای بررسی سلامت را استخراج کنید.

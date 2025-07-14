@@ -20,4 +20,5 @@ stages:
     fromVersion: "1.33"
 
 ---
-Allow fine-tuning of CPUManager policies.
+امکان تنظیم دقیق سیاست‌های CPUManager.
+

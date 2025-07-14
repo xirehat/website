@@ -22,3 +22,4 @@ stages:
 removed: true  
 ---
 Allow the use of the `timeZone` optional field in [CronJobs](/docs/concepts/workloads/controllers/cron-jobs/)
+اجازه استفاده از فیلد اختیاری `timeZone` را در [CronJobs](/docs/concepts/workloads/controllers/cron-jobs/) بدهید.

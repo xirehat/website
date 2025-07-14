@@ -13,5 +13,4 @@ stages:
 
 removed: true
 ---
-Stops registering the gce-pd in-tree plugin in kubelet
-and volume controllers.
+ثبت افزونه‌ی درون‌شاخه‌ای gce-pd را در kubelet و volume controllersا متوقف می‌کند.

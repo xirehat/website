@@ -14,7 +14,6 @@ stages:
     defaultValue: true
     fromVersion: "1.27"
 ---
-Add support for distributed tracing in the kubelet.
-When enabled, kubelet CRI interface and authenticated http servers are instrumented to generate
-OpenTelemetry trace spans.
-See [Traces for Kubernetes System Components](/docs/concepts/cluster-administration/system-traces) for more details.
+پشتیبانی از ردیابی توزیع‌شده در kubelet اضافه شود.
+هنگامی که فعال شود، رابط CRI kubelet و سرورهای http احراز هویت‌شده برای تولید محدوده‌های ردیابی OpenTelemetry تجهیز می‌شوند.
+برای جزئیات بیشتر به [Traces for Kubernetes System Components](/docs/concepts/cluster-administration/system-traces) مراجعه کنید.

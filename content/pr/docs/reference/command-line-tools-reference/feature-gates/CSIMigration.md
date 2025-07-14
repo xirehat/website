@@ -23,5 +23,4 @@ stages:
 
 removed: true
 ---
-Enables shims and translation logic to route volume
-operations from in-tree plugins to corresponding pre-installed CSI plugins
+شیم‌ها و منطق ترجمه را قادر می‌سازد تا عملیات مربوط به حجم را از افزونه‌های درون درختی به افزونه‌های CSI از پیش نصب شده مربوطه هدایت کنند.

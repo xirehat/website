@@ -23,4 +23,4 @@ stages:
 
 removed: true
 ---
-Enable the [PodDisruptionBudget](/docs/tasks/run-application/configure-pdb/) feature.
+ویژگی [PodDisruptionBudget](/docs/tasks/run-application/configure-pdb/) را فعال کنید.

@@ -20,4 +20,4 @@ stages:
     locked: true
     fromVersion: "1.33"
 ---
-Allow users to specify when a Job can be declared as succeeded based on the set of succeeded pods.
+به کاربران اجازه دهید مشخص کنند که چه زمانی یک کار می‌تواند بر اساس مجموعه پادهای موفق، به عنوان موفق اعلام شود.

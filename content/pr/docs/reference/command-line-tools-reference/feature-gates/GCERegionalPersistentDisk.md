@@ -19,4 +19,4 @@ stages:
 
 removed: true  
 ---
-Enable the regional PD feature on GCE.
+ویژگی PD منطقه‌ای را در GCE فعال کنید.

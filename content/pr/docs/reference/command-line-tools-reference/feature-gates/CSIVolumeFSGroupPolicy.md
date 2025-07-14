@@ -23,6 +23,5 @@ stages:
 
 removed: true  
 ---
-Allows CSIDrivers to use the `fsGroupPolicy` field.
-This field controls whether volumes created by a CSIDriver support volume ownership
-and permission modifications when these volumes are mounted.
+به CSIDrivers اجازه می‌دهد تا از فیلد `fsGroupPolicy` استفاده کنند.
+این فیلد کنترل می‌کند که آیا Volume های ایجاد شده توسط CSIDriver از مالکیت Volume و تغییرات مجوز هنگام Mount شدن این Volume ها پشتیبانی می‌کنند یا خیر.

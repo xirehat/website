@@ -10,5 +10,5 @@ stages:
     defaultValue: false
     fromVersion: "1.23"
 ---
-Configure the kubelet to gather container and pod stats from the CRI container runtime rather than gathering them from cAdvisor.
-As of 1.26, this also includes gathering metrics from CRI and emitting them over `/metrics/cadvisor` (rather than having cAdvisor emit them directly).
+kubelet را طوری پیکربندی کنید که آمار کانتینر و پاد را از زمان اجرای کانتینر CRI جمع‌آوری کند، نه اینکه آنها را از cAdvisor جمع‌آوری کند.
+از نسخه ۱.۲۶، این شامل جمع‌آوری معیارها از CRI و انتشار آنها از طریق `/metrics/cadvisor` نیز می‌شود (به جای اینکه cAdvisor آنها را مستقیماً منتشر کند).

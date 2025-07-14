@@ -25,5 +25,4 @@ stages:
 
 removed: true  
 ---
-Enables usage of hugepages in
-[downward API](/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information).
+استفاده از صفحات بزرگ را در [API رو به پایین](/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information) فعال می‌کند.
