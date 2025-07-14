@@ -1332,308 +1332,290 @@ kube-proxy این برچسب را برای پروکسی سفارشی دارد ک
 
 ### experimental.windows.kubernetes.io/isolation-type (deprecated) {#experimental-windows-kubernetes-io-isolation-type}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `experimental.windows.kubernetes.io/isolation-type: "hyperv"`
+مثال: `experimental.windows.kubernetes.io/isolation-type: "hyperv"`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-The annotation is used to run Windows containers with Hyper-V isolation.
+این حاشیه‌نویسی برای اجرای کانتینرهای ویندوز با ایزوله‌سازی Hyper-V استفاده می‌شود.
 
 {{< note >}}
-Starting from v1.20, this annotation is deprecated.
-Experimental Hyper-V support was removed in 1.21.
+از نسخه ۱.۲۰ به بعد، این حاشیه‌نویسی منسوخ شده است.
+
+پشتیبانی آزمایشی از Hyper-V در نسخه ۱.۲۱ حذف شد.
 {{< /note >}}
 
 ### ingressclass.kubernetes.io/is-default-class
 
 Type: Annotation
 
-Example: `ingressclass.kubernetes.io/is-default-class: "true"`
+نوع: حاشیه‌نویسی
 
-Used on: IngressClass
+مثال: `ingressclass.kubernetes.io/is-default-class: "true"`
 
-When a IngressClass resource has this annotation set to `"true"`, new Ingress resource
-without a class specified will be assigned this default class.
+مورد استفاده در: IngressClass
+
+هنگامی که یک منبع IngressClass این حاشیه‌نویسی را روی `"true"` تنظیم کرده باشد، منبع جدید Ingress
+بدون کلاس مشخص شده، این کلاس پیش‌فرض را به خود اختصاص خواهد داد.
 
 ### nginx.ingress.kubernetes.io/configuration-snippet
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `nginx.ingress.kubernetes.io/configuration-snippet: "  more_set_headers \"Request-Id: $req_id\";\nmore_set_headers \"Example: 42\";\n"`
+مثال: `nginx.ingress.kubernetes.io/configuration-snippet: " more_set_headers \"شناسه درخواست: $req_id\";\nmore_set_headers \"مثال: 42\";\n"`
 
-Used on: Ingress
+مورد استفاده در: Ingress
 
-You can use this annotation to set extra configuration on an Ingress that
-uses the [NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx/).
-The `configuration-snippet` annotation is ignored
-by default since version 1.9.0 of the ingress controller.
-The NGINX ingress controller setting `allow-snippet-annotations.`
-has to be explicitly enabled to use this annotation.
-Enabling the annotation can be dangerous in a multi-tenant cluster, as it can lead people with otherwise
-limited permissions being able to retrieve all Secrets in the cluster.
+شما می‌توانید از این حاشیه‌نویسی برای تنظیم پیکربندی اضافی روی Ingress که از [NGINX Ingress Controller](https://github.com/kubernetes/ingress-nginx/).استفاده می‌کند، استفاده کنید.
+
+حاشیه‌ی `configuration-snippet` از نسخه‌ی ۱.۹.۰ کنترل‌کننده‌ی ingress به طور پیش‌فرض نادیده گرفته می‌شود.
+
+برای استفاده از این حاشیه‌نویسی، باید تنظیمات `allow-snippet-annotations.` در کنترل‌کننده‌ی ingress NGINX به صراحت فعال شود.
+
 
 ### kubernetes.io/ingress.class (deprecated)
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: Ingress
+مورد استفاده در: Ingress
 
 {{< note >}}
-Starting in v1.18, this annotation is deprecated in favor of `spec.ingressClassName`.
+
+از نسخه ۱.۱۸ به بعد، این حاشیه‌نویسی به نفع `spec.ingressClassName` منسوخ شده است.
 {{< /note >}}
 
 ### kubernetes.io/cluster-service (deprecated) {#kubernetes-io-cluster-service}
 
-Type: Label
+نوع: برچسب
 
-Example: `kubernetes.io/cluster-service: "true"`
+مثال: `kubernetes.io/cluster-service: "true"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-This label indicates that the Service provides a service to the cluster, if the value is set to true.
-When you run `kubectl cluster-info`, the tool queries for Services with this label set to true.
+این برچسب نشان می‌دهد که سرویس، در صورتی که مقدار آن روی true تنظیم شده باشد، به کلاستر سرویس ارائه می‌دهد.
 
-However, setting this label on any Service is deprecated.
+هنگامی که `kubectl cluster-info` را اجرا می‌کنید، ابزار برای سرویس‌هایی که این برچسب روی true تنظیم شده است، پرس‌وجو می‌کند.
 
+با این حال، تنظیم این برچسب روی هر سرویسی منسوخ شده است.
 ### storageclass.kubernetes.io/is-default-class
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `storageclass.kubernetes.io/is-default-class: "true"`
+مثال: `storageclass.kubernetes.io/is-default-class: "true"`
 
-Used on: StorageClass
+مورد استفاده در: StorageClass
 
-When a single StorageClass resource has this annotation set to `"true"`, new PersistentVolumeClaim
-resource without a class specified will be assigned this default class.
+هنگامی که یک منبع StorageClass واحد این حاشیه‌نویسی را روی `"true"` تنظیم کرده باشد، منبع جدید PersistentVolumeClaim بدون کلاس مشخص شده، این کلاس پیش‌فرض را به خود اختصاص خواهد داد.
+n
 
 ### alpha.kubernetes.io/provided-node-ip (alpha) {#alpha-kubernetes-io-provided-node-ip}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `alpha.kubernetes.io/provided-node-ip: "10.0.0.1"`
+مثال: `alpha.kubernetes.io/provided-node-ip: "10.0.0.1"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The kubelet can set this annotation on a Node to denote its configured IPv4 and/or IPv6 address.
+kubelet می‌تواند این حاشیه‌نویسی را روی یک Node تنظیم کند تا آدرس IPv4 و/یا IPv6 پیکربندی شده آن را نشان دهد.
 
-When kubelet is started with the `--cloud-provider` flag set to any value (includes both external
-and legacy in-tree cloud providers), it sets this annotation on the Node to denote an IP address
-set from the command line flag (`--node-ip`). This IP is verified with the cloud provider as valid
-by the cloud-controller-manager.
+هنگامی که kubelet با پرچم `--cloud-provider` که روی هر مقداری تنظیم شده است (شامل ارائه دهندگان ابری خارجی و قدیمی درون درختی) شروع می‌شود، این حاشیه‌نویسی را روی Node تنظیم می‌کند تا یک آدرس IP را که از پرچم خط فرمان (`--node-ip`) تنظیم شده است، نشان دهد. این IP توسط ارائه دهنده ابر به عنوان معتبر تأیید می‌شود.
 
 ### batch.kubernetes.io/job-completion-index
 
-Type: Annotation, Label
+نوع: حاشیه‌نویسی، برچسب
 
-Example: `batch.kubernetes.io/job-completion-index: "3"`
+مثال: `batch.kubernetes.io/job-completion-index: "3"`
 
-Used on: Pod
+مورد استفاده در: Pod
 
-The Job controller in the kube-controller-manager sets this as a label and annotation for Pods
-created with Indexed [completion mode](/docs/concepts/workloads/controllers/job/#completion-mode).
+کنترلر Job در kube-controller-manager این را به عنوان یک برچسب و حاشیه‌نویسی برای Podها تنظیم می‌کند
+ایجاد شده با Indexed [completion mode](/docs/concepts/workloads/controllers/job/#completion-mode).
 
-Note the [PodIndexLabel](/docs/reference/command-line-tools-reference/feature-gates/)
-feature gate must be enabled for this to be added as a pod **label**,
-otherwise it will just be an annotation.
-
+توجه داشته باشید که [PodIndexLabel](/docs/reference/command-line-tools-reference/feature-gates/)
+برای اضافه شدن این به عنوان یک pod **label**، باید feature gate فعال باشد، در غیر این صورت فقط یک حاشیه‌نویسی خواهد بود.
 ### batch.kubernetes.io/cronjob-scheduled-timestamp
 
 Type: Annotation
 
 Example: `batch.kubernetes.io/cronjob-scheduled-timestamp: "2016-05-19T03:00:00-07:00"`
 
-Used on: Jobs and Pods controlled by CronJobs
+مورد استفاده در: کارها و پادهای کنترل‌شده توسط CronJobs
 
-This annotation is used to record the original (expected) creation timestamp for a Job,
-when that Job is part of a CronJob.
-The control plane sets the value to that timestamp in RFC3339 format. If the Job belongs to a CronJob
-with a timezone specified, then the timestamp is in that timezone. Otherwise, the timestamp is in controller-manager's local time.
+این حاشیه‌نویسی برای ثبت برچسب زمانی ایجاد اولیه (مورد انتظار) برای یک کار، زمانی که آن کار بخشی از یک CronJob است، استفاده می‌شود.
+
+صفحه کنترل مقدار آن برچسب زمانی را با فرمت RFC3339 تنظیم می‌کند. اگر کار متعلق به یک CronJob با یک منطقه زمانی مشخص شده باشد، آنگاه برچسب زمانی در آن منطقه زمانی است. در غیر این صورت، برچسب زمانی در زمان محلی کنترلر-مدیر است.
 
 ### kubectl.kubernetes.io/default-container
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubectl.kubernetes.io/default-container: "front-end-app"`
+مثال: `kubectl.kubernetes.io/default-container: "front-end-app"`
 
-The value of the annotation is the container name that is default for this Pod.
-For example, `kubectl logs` or `kubectl exec` without `-c` or `--container` flag
-will use this default container.
+مقدار حاشیه‌نویسی، نام کانتینر پیش‌فرض برای این پاد است.
+
+برای مثال، `kubectl logs` یا `kubectl exec` بدون فلگ `-c` یا `--container` از این کانتینر پیش‌فرض استفاده خواهد کرد.
 
 ### kubectl.kubernetes.io/default-logs-container (deprecated)
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubectl.kubernetes.io/default-logs-container: "front-end-app"`
+مثال: `kubectl.kubernetes.io/default-logs-container: "front-end-app"`
 
-The value of the annotation is the container name that is the default logging container for this
-Pod. For example, `kubectl logs` without `-c` or `--container` flag will use this default
-container.
+مقدار حاشیه‌نویسی، نام کانتینری است که کانتینر ثبت وقایع پیش‌فرض برای این پاد است. برای مثال، `kubectl logs` بدون فلگ `-c` یا `--container` از این کانتینر پیش‌فرض استفاده خواهد کرد.
 
 {{< note >}}
-This annotation is deprecated. You should use the
-[`kubectl.kubernetes.io/default-container`](#kubectl-kubernetes-io-default-container)
-annotation instead. Kubernetes versions 1.25 and newer ignore this annotation.
+این حاشیه‌نویسی منسوخ شده است. شما باید به جای آن از حاشیه‌نویسی [`kubectl.kubernetes.io/default-container`](#kubectl-kubernetes-io-default-container) استفاده کنید. نسخه‌های ۱.۲۵ و جدیدتر Kubernetes این حاشیه‌نویسی را نادیده می‌گیرند.
 {{< /note >}}
 
 ### kubectl.kubernetes.io/last-applied-configuration
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: _see following snippet_
+مثال: _see following snippet_
 ```yaml
     kubectl.kubernetes.io/last-applied-configuration: >
       {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"example","namespace":"default"},"spec":{"selector":{"matchLabels":{"app.kubernetes.io/name":foo}},"template":{"metadata":{"labels":{"app.kubernetes.io/name":"foo"}},"spec":{"containers":[{"image":"container-registry.example/foo-bar:1.42","name":"foo-bar","ports":[{"containerPort":42}]}]}}}}
 ```
 
-Used on: all objects
+مورد استفاده در: همه اشیاء
 
-The kubectl command line tool uses this annotation as a legacy mechanism
-to track changes. That mechanism has been superseded by
-[Server-side apply](/docs/reference/using-api/server-side-apply/).
+ابزار خط فرمان kubectl از این حاشیه‌نویسی به عنوان یک مکانیسم قدیمی برای ردیابی تغییرات استفاده می‌کند. این مکانیسم توسط
+[Server-side apply](/docs/reference/using-api/server-side-apply/) جایگزین شده است.
 
 ### kubectl.kubernetes.io/restartedAt {#kubectl-k8s-io-restart-at}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubectl.kubernetes.io/restartedAt: "2024-06-21T17:27:41Z"`
+مثال: `kubectl.kubernetes.io/restartedAt: "2024-06-21T17:27:41Z"`
 
-Used on: Deployment, ReplicaSet, StatefulSet, DaemonSet, Pod
+مورد استفاده در: Deployment، ReplicaSet، StatefulSet، DaemonSet، Pod
 
-This annotation contains the latest restart time of a resource (Deployment, ReplicaSet, StatefulSet or DaemonSet),
-where kubectl triggered a rollout in order to force creation of new Pods.
-The command `kubectl rollout restart <RESOURCE>` triggers a restart by patching the template
-metadata of all the pods of resource with this annotation. In above example the latest restart time is shown as 21st June 2024 at 17:27:41 UTC.
+این حاشیه‌نویسی شامل آخرین زمان راه‌اندازی مجدد یک منبع (Deployment، ReplicaSet، StatefulSet یا DaemonSet) است،
 
-You should not assume that this annotation represents the date / time of the most recent update;
-a separate change could have been made since the last manually triggered rollout.
+جایی که kubectl یک راه‌اندازی مجدد را برای ایجاد اجباری Podهای جدید آغاز کرده است.
 
-If you manually set this annotation on a Pod, nothing happens. The restarting side effect comes from
-how workload management and Pod templating works.
+دستور `kubectl rollout restart <RESOURCE>` با وصله‌بندی فراداده‌های قالب تمام Podهای منبع با این حاشیه‌نویسی، راه‌اندازی مجدد را آغاز می‌کند. در مثال بالا، آخرین زمان راه‌اندازی مجدد به صورت 21 ژوئن 2024 ساعت 17:27:41 UTC نشان داده شده است.
+نباید فرض کنید که این حاشیه‌نویسی، تاریخ/زمان جدیدترین به‌روزرسانی را نشان می‌دهد؛
+
+ممکن است از آخرین به‌روزرسانی دستی، تغییر جداگانه‌ای ایجاد شده باشد.
+
+اگر این حاشیه‌نویسی را به صورت دستی روی یک Pod تنظیم کنید، هیچ اتفاقی نمی‌افتد. اثر جانبی راه‌اندازی مجدد از
+
+نحوه عملکرد مدیریت بار کاری و قالب‌بندی Pod ناشی می‌شود.
 
 ### endpoints.kubernetes.io/over-capacity
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `endpoints.kubernetes.io/over-capacity:truncated`
+مثال: `endpoints.kubernetes.io/over-capacity:truncated`
 
-Used on: Endpoints
+مورد استفاده در: نقاط پایانی
 
-The {{< glossary_tooltip text="control plane" term_id="control-plane" >}} adds this annotation to
-an [Endpoints](/docs/concepts/services-networking/service/#endpoints) object if the associated
-{{< glossary_tooltip term_id="service" >}} has more than 1000 backing endpoints.
-The annotation indicates that the Endpoints object is over capacity and the number of endpoints
-has been truncated to 1000.
-
-If the number of backend endpoints falls below 1000, the control plane removes this annotation.
+اگر {{< glossary_tooltip text="control plane" term_id="control-plane" >}} مرتبط بیش از ۱۰۰۰ نقطه پایانی پشتیبان داشته باشد، {{< glossary_tooltip term_id="service" >}} این حاشیه‌نویسی را به یک شیء [Endpoints](/docs/concepts/service-networking/service/#endpoints) اضافه می‌کند.
 
 ### endpoints.kubernetes.io/last-change-trigger-time
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `endpoints.kubernetes.io/last-change-trigger-time: "2023-07-20T04:45:21Z"`
+مثال: `endpoints.kubernetes.io/last-change-trigger-time: "2023-07-20T04:45:21Z"`
 
-Used on: Endpoints
+مورد استفاده در: نقاط پایانی
 
-This annotation set to an [Endpoints](/docs/concepts/services-networking/service/#endpoints) object that
-represents the timestamp (The timestamp is stored in RFC 3339 date-time string format. For example, '2018-10-22T19:32:52.1Z'). This is timestamp
-of the last change in some Pod or Service object, that triggered the change to the Endpoints object.
+این حاشیه‌نویسی روی یک شیء [Endpoints](/docs/concepts/services-networking/service/#endpoints) تنظیم شده است که
+
+نشانگر مهر زمانی است (مهر زمانی در قالب رشته تاریخ-زمان RFC 3339 ذخیره می‌شود. به عنوان مثال، '2018-10-22T19:32:52.1Z'). این مهر زمانی
+
+آخرین تغییر در یک شیء Pod یا Service است که باعث تغییر در شیء Endpoints شده است.
 
 ### control-plane.alpha.kubernetes.io/leader (deprecated) {#control-plane-alpha-kubernetes-io-leader}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `control-plane.alpha.kubernetes.io/leader={"holderIdentity":"controller-0","leaseDurationSeconds":15,"acquireTime":"2023-01-19T13:12:57Z","renewTime":"2023-01-19T13:13:54Z","leaderTransitions":1}`
 
-Used on: Endpoints
+مثال: `control-plane.alpha.kubernetes.io/leader={"holderIdentity":"controller-0","leaseDurationSeconds":15,"acquireTime":"2023-01-19T13:12:57Z","renewTime":"2023-01-19T13:13:54Z","leaderTransitions":1}`
 
-The {{< glossary_tooltip text="control plane" term_id="control-plane" >}} previously set annotation on
-an [Endpoints](/docs/concepts/services-networking/service/#endpoints) object. This annotation provided
-the following detail:
+مورد استفاده در: نقاط پایانی
 
-- Who is the current leader.
-- The time when the current leadership was acquired.
-- The duration of the lease (of the leadership) in seconds.
-- The time the current lease (the current leadership) should be renewed.
-- The number of leadership transitions that happened in the past.
+قبلاً حاشیه‌نویسی {{< glossary_tooltip text="control plane" term_id="control-plane" >}} روی یک شیء [Endpoints](/docs/concepts/services-networking/service/#endpoints) تنظیم شده بود. این حاشیه‌نویسی جزئیات زیر را ارائه می‌داد:
 
-Kubernetes now uses [Leases](/docs/concepts/architecture/leases/) to
-manage leader assignment for the Kubernetes control plane.
+- رهبر فعلی کیست.
+- زمانی که رهبری فعلی به دست آمده است.
+- مدت زمان اجاره (رهبری) به ثانیه.
+- زمانی که اجاره فعلی (رهبری فعلی) باید تمدید شود.
+- تعداد انتقال‌های رهبری که در گذشته اتفاق افتاده است.
+
+کوبرنتیز اکنون از [Leases](/docs/concepts/architecture/leases/) برای مدیریت تخصیص رهبر برای صفحه کنترل کوبرنتیز استفاده می‌کند.
 
 ### batch.kubernetes.io/job-tracking (deprecated) {#batch-kubernetes-io-job-tracking}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `batch.kubernetes.io/job-tracking: ""`
+مثال: `batch.kubernetes.io/job-tracking: ""`
 
-Used on: Jobs
+مورد استفاده در: مشاغل
 
-The presence of this annotation on a Job used to indicate that the control plane is
-[tracking the Job status using finalizers](/docs/concepts/workloads/controllers/job/#job-tracking-with-finalizers).
-Adding or removing this annotation no longer has an effect (Kubernetes v1.27 and later)
-All Jobs are tracked with finalizers.
+وجود این حاشیه‌نویسی در یک شغل نشان می‌دهد که صفحه کنترل در حال ردیابی وضعیت شغل با استفاده از نهایی‌سازها است (/docs/concepts/workloads/controllers/job/#job-tracking-with-finalizers).
+
+اضافه کردن یا حذف این حاشیه‌نویسی دیگر تأثیری ندارد (Kubernetes نسخه ۱.۲۷ و بالاتر)
+
+همه مشاغل با نهایی‌سازها ردیابی می‌شوند.
 
 ### job-name (deprecated) {#job-name}
 
-Type: Label
-
-Example: `job-name: "pi"`
-
-Used on: Jobs and Pods controlled by Jobs
-
+نوع: برچسب
+مثال: `job-name: "pi"`
+مورد استفاده در: Jobها و Podهای کنترل‌شده توسط Jobها
 {{< note >}}
-Starting from Kubernetes 1.27, this label is deprecated.
-Kubernetes 1.27 and newer ignore this label and use the prefixed `job-name` label.
+از Kubernetes 1.27 به بعد، این برچسب منسوخ شده است.
+Kubernetes 1.27 و جدیدتر این برچسب را نادیده می‌گیرند و از برچسب پیشوند `job-name` استفاده می‌کنند.
 {{< /note >}}
 
 ### controller-uid (deprecated) {#controller-uid}
 
-Type: Label
+نوع: برچسب
 
-Example: `controller-uid: "$UID"`
+مثال: `controller-uid: "$UID"`
 
-Used on: Jobs and Pods controlled by Jobs
+مورد استفاده در: Jobها و Podهای کنترل‌شده توسط Jobها
 
 {{< note >}}
-Starting from Kubernetes 1.27, this label is deprecated.
-Kubernetes 1.27 and newer ignore this label and use the prefixed `controller-uid` label.
+از Kubernetes 1.27 به بعد، این برچسب منسوخ شده است.
+Kubernetes 1.27 و جدیدتر این برچسب را نادیده می‌گیرند و از برچسب پیشوند `controller-uid` استفاده می‌کنند.
 {{< /note >}}
 
 ### batch.kubernetes.io/job-name {#batchkubernetesio-job-name}
 
-Type: Label
+نوع: برچسب
 
-Example: `batch.kubernetes.io/job-name: "pi"`
+مثال: `batch.kubernetes.io/job-name: "pi"`
 
-Used on: Jobs and Pods controlled by Jobs
+مورد استفاده در: کارها و پادهای کنترل‌شده توسط کارها
 
-This label is used as a user-friendly way to get Pods corresponding to a Job.
-The `job-name` comes from the `name` of the Job and allows for an easy way to
-get Pods corresponding to the Job.
+این برچسب به عنوان روشی کاربرپسند برای دریافت پادهای مربوط به یک کار استفاده می‌شود.
 
+`job-name` از `name` کار گرفته شده و روشی آسان برای دریافت پادهای مربوط به کار را فراهم می‌کند.
 ### batch.kubernetes.io/controller-uid {#batchkubernetesio-controller-uid}
 
-Type: Label
+نوع: برچسب
 
-Example: `batch.kubernetes.io/controller-uid: "$UID"`
+مثال: `batch.kubernetes.io/controller-uid: "$UID"`
 
-Used on: Jobs and Pods controlled by Jobs
+مورد استفاده در: کارها و پادهای کنترل‌شده توسط کارها
 
-This label is used as a programmatic way to get all Pods corresponding to a Job.  
-The `controller-uid` is a unique identifier that gets set in the `selector` field so the Job
-controller can get all the corresponding Pods.
+این برچسب به عنوان یک روش برنامه‌نویسی برای دریافت تمام پادهای مربوط به یک کار استفاده می‌شود.
+
+`controller-uid` یک شناسه منحصر به فرد است که در فیلد `selector` تنظیم می‌شود تا کنترل‌کننده کار بتواند تمام پادهای مربوطه را دریافت کند.
 
 ### scheduler.alpha.kubernetes.io/defaultTolerations {#scheduleralphakubernetesio-defaulttolerations}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `scheduler.alpha.kubernetes.io/defaultTolerations: '[{"operator": "Equal", "value": "value1", "effect": "NoSchedule", "key": "dedicated-node"}]'`
+مثال: `scheduler.alpha.kubernetes.io/defaultTolerations: '[{"operator": "Equal", "value": "value1", "effect": "NoSchedule", "key": "dedicated-node"}]'`
 
-Used on: Namespace
+مورد استفاده در: فضای نام
 
-This annotation requires the [PodTolerationRestriction](/docs/reference/access-authn-authz/admission-controllers/#podtolerationrestriction)
-admission controller to be enabled. This annotation key allows assigning tolerations to a
-namespace and any new pods created in this namespace would get these tolerations added.
+این حاشیه‌نویسی نیاز به فعال بودن کنترل‌کننده پذیرش [PodTolerationRestriction](/docs/reference/access-authn-authz/admission-controllers/#podtolerationrestriction) دارد. این کلید حاشیه‌نویسی امکان اختصاص دادن تلرانس‌ها به یک نیم اسپیس را فراهم می‌کند و هر پاد جدیدی که در این نیم اسپیس ایجاد شود، این تلرانس‌ها را اضافه می‌کند.
 
 ### scheduler.alpha.kubernetes.io/tolerationsWhitelist {#schedulerkubernetestolerations-whitelist}
 
@@ -1641,976 +1623,889 @@ Type: Annotation
 
 Example: `scheduler.alpha.kubernetes.io/tolerationsWhitelist: '[{"operator": "Exists", "effect": "NoSchedule", "key": "dedicated-node"}]'`
 
-Used on: Namespace
+مورد استفاده در: نیم اسپیس 
 
-This annotation is only useful when the (Alpha)
+این حاشیه‌نویسی فقط زمانی مفید است که (Alpha)
 [PodTolerationRestriction](/docs/reference/access-authn-authz/admission-controllers/#podtolerationrestriction)
-admission controller is enabled. The annotation value is a JSON document that defines a list of
-allowed tolerations for the namespace it annotates. When you create a Pod or modify its
-tolerations, the API server checks the tolerations to see if they are mentioned in the allow list.
-The pod is admitted only if the check succeeds.
+کنترل‌کننده پذیرش فعال باشد. مقدار حاشیه‌نویسی یک سند JSON است که لیستی از تحمل‌های مجاز را برای فضای نامی که حاشیه‌نویسی می‌کند، تعریف می‌کند. وقتی یک Pod ایجاد می‌کنید یا تحمل‌های آن را تغییر می‌دهید، سرور API تحمل‌ها را بررسی می‌کند تا ببیند آیا در لیست مجاز ذکر شده‌اند یا خیر.
+
+Pod فقط در صورتی پذیرفته می‌شود که بررسی موفقیت‌آمیز باشد.
 
 ### scheduler.alpha.kubernetes.io/preferAvoidPods (deprecated) {#scheduleralphakubernetesio-preferavoidpods}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: Node
+مورد استفاده در: Node
 
-This annotation requires the [NodePreferAvoidPods scheduling plugin](/docs/reference/scheduling/config/#scheduling-plugins)
-to be enabled. The plugin is deprecated since Kubernetes 1.22.
-Use [Taints and Tolerations](/docs/concepts/scheduling-eviction/taint-and-toleration/) instead.
+این حاشیه‌نویسی نیاز به فعال بودن [NodePreferAvoidPods scheduling plugin](/docs/reference/scheduling/config/#scheduling-plugins) دارد. این افزونه از Kubernetes 1.22 منسوخ شده است.
+به جای آن از [Taints and Tolerations](/docs/concepts/scheduling-eviction/taint-and-toleration/) استفاده کنید.
+
 
 ### node.kubernetes.io/not-ready
 
-Type: Taint
+نوع: نقص
 
-Example: `node.kubernetes.io/not-ready: "NoExecute"`
+مثال: `node.kubernetes.io/not-ready: "NoExecute"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The Node controller detects whether a Node is ready by monitoring its health
-and adds or removes this taint accordingly.
+کنترل‌کننده Node با نظارت بر سلامت یک Node، آماده بودن آن را تشخیص می‌دهد و بر این اساس، این نقص را اضافه یا حذف می‌کند.
 
 ### node.kubernetes.io/unreachable
 
-Type: Taint
+نوع: taint
 
-Example: `node.kubernetes.io/unreachable: "NoExecute"`
+مثال: `node.kubernetes.io/unreachable: "NoExecute"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The Node controller adds the taint to a Node corresponding to the
-[NodeCondition](/docs/concepts/architecture/nodes/#condition) `Ready` being `Unknown`.
+کنترل‌کننده Node، taint را به گره‌ای که مطابق با `[NodeCondition](/docs/concepts/architecture/nodes/#condition) `Ready` `نامشخص` است، اضافه می‌کند.
 
 ### node.kubernetes.io/unschedulable
 
-Type: Taint
+نوع: taint
 
-Example: `node.kubernetes.io/unschedulable: "NoSchedule"`
+مثال: `node.kubernetes.io/unschedulable: "NoSchedule"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The taint will be added to a node when initializing the node to avoid race condition.
+taint هنگام مقداردهی اولیه گره به آن اضافه می‌شود تا از شرایط رقابتی جلوگیری شود.
 
 ### node.kubernetes.io/memory-pressure
 
-Type: Taint
+نوع: taint
 
-Example: `node.kubernetes.io/memory-pressure: "NoSchedule"`
+مثال: `node.kubernetes.io/memory-pressure: "NoSchedule"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The kubelet detects memory pressure based on `memory.available` and `allocatableMemory.available`
-observed on a Node. The observed values are then compared to the corresponding thresholds that can
-be set on the kubelet to determine if the Node condition and taint should be added/removed.
+kubelet فشار حافظه را بر اساس `memory.available` و `allocatableMemory.available` مشاهده شده در یک Node تشخیص می‌دهد. مقادیر مشاهده شده سپس با آستانه‌های مربوطه که می‌توان در kubelet تنظیم کرد مقایسه می‌شوند تا مشخص شود که آیا شرط Node و taint باید اضافه/حذف شوند یا خیر.
 
 ### node.kubernetes.io/disk-pressure
 
-Type: Taint
+نوع: taint
 
-Example: `node.kubernetes.io/disk-pressure :"NoSchedule"`
+مثال: `node.kubernetes.io/disk-pressure :"NoSchedule"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The kubelet detects disk pressure based on `imagefs.available`, `imagefs.inodesFree`,
-`nodefs.available` and `nodefs.inodesFree`(Linux only) observed on a Node.
-The observed values are then compared to the corresponding thresholds that can be set on the
-kubelet to determine if the Node condition and taint should be added/removed.
+kubelet فشار دیسک را بر اساس `imagefs.available`، `imagefs.inodesFree`، `nodefs.available` و `nodefs.inodesFree` (فقط لینوکس) مشاهده شده در یک Node تشخیص می‌دهد.
+
+مقادیر مشاهده شده سپس با آستانه‌های مربوطه که می‌توانند در kubelet تنظیم شوند، مقایسه می‌شوند تا مشخص شود که آیا وضعیت Node و taint باید اضافه/حذف شوند یا خیر.
 
 ### node.kubernetes.io/network-unavailable
 
-Type: Taint
+نوع: Taint
 
-Example: `node.kubernetes.io/network-unavailable: "NoSchedule"`
+مثال: `node.kubernetes.io/network-unavailable: "NoSchedule"`
 
-Used on: Node
+مورد استفاده در: Node
 
-This is initially set by the kubelet when the cloud provider used indicates a requirement for
-additional network configuration. Only when the route on the cloud is configured properly will the
-taint be removed by the cloud provider.
+این مورد در ابتدا توسط kubelet تنظیم می‌شود، زمانی که ارائه‌دهنده ابری مورد استفاده، نیازی به پیکربندی شبکه اضافی نشان می‌دهد. تنها زمانی که مسیر روی ابر به درستی پیکربندی شود، آلودگی توسط ارائه‌دهنده ابری حذف خواهد شد.
 
 ### node.kubernetes.io/pid-pressure
 
-Type: Taint
+نوع: taint
 
-Example: `node.kubernetes.io/pid-pressure: "NoSchedule"`
+مثال: `node.kubernetes.io/pid-pressure: "NoSchedule"`
 
-Used on: Node
+مورد استفاده در: Node
 
-The kubelet checks D-value of the size of `/proc/sys/kernel/pid_max` and the PIDs consumed by
-Kubernetes on a node to get the number of available PIDs that referred to as the `pid.available`
-metric. The metric is then compared to the corresponding threshold that can be set on the kubelet
-to determine if the node condition and taint should be added/removed.
+kubelet مقدار D اندازه `/proc/sys/kernel/pid_max` و PID های مصرف شده توسط Kubernetes روی یک گره را بررسی می‌کند تا تعداد PID های موجود را که به عنوان معیار `pid.available` شناخته می‌شوند، بدست آورد. سپس این معیار با آستانه مربوطه که می‌توان روی kubelet تنظیم کرد، مقایسه می‌شود تا مشخص شود که آیا شرایط گره و taint باید اضافه/حذف شوند یا خیر.
 
 ### node.kubernetes.io/out-of-service
 
-Type: Taint
+نوع: taint
 
-Example: `node.kubernetes.io/out-of-service:NoExecute`
+مثال: `node.kubernetes.io/out-of-service:NoExecute`
 
-Used on: Node
+مورد استفاده در: Node
 
-A user can manually add the taint to a Node marking it out-of-service.
-If a Node is marked out-of-service with this taint, the Pods on the node 
-will be forcefully deleted if there are no matching tolerations on it and
-volume detach operations for the Pods terminating on the node will happen immediately.
-This allows the Pods on the out-of-service node to recover quickly on a different node.
+کاربر می‌تواند به صورت دستی taint را به یک Node اضافه کند و آن را خارج از سرویس علامت‌گذاری کند.
+
+اگر یک Node با این taint خارج از سرویس علامت‌گذاری شود، Podهای روی Node
+
+در صورت عدم وجود تلورانس‌های منطبق بر روی آن، به زور حذف می‌شوند و
+
+عملیات جداسازی حجم برای Podهایی که در Node خاتمه می‌یابند، بلافاصله اتفاق می‌افتد.
+
+این امر به Podهای روی Node خارج از سرویس اجازه می‌دهد تا به سرعت در یک Node دیگر بازیابی شوند.
 
 {{< caution >}}
-Refer to [Non-graceful node shutdown](/docs/concepts/architecture/nodes/#non-graceful-node-shutdown)
-for further details about when and how to use this taint.
+برای جزئیات بیشتر در مورد زمان و نحوه استفاده از این taint به [Non-graceful node shutdown](/docs/concepts/architecture/nodes/#non-graceful-node-shutdown) مراجعه کنید.
 {{< /caution >}}
 
 ### node.cloudprovider.kubernetes.io/uninitialized
 
-Type: Taint
+نوع: Taint
 
-Example: `node.cloudprovider.kubernetes.io/uninitialized: "NoSchedule"`
+مثال: `node.cloudprovider.kubernetes.io/uninitialized: "NoSchedule"`
 
-Used on: Node
+مورد استفاده در: گره
 
-Sets this taint on a Node to mark it as unusable, when kubelet is started with the "external"
-cloud provider, until a controller from the cloud-controller-manager initializes this Node, and
-then removes the taint.
+این نقص را روی یک گره تنظیم می‌کند تا وقتی که kubelet با ارائه‌دهنده ابری "خارجی" شروع می‌شود، آن را به عنوان غیرقابل استفاده علامت‌گذاری کند، تا زمانی که یک کنترل‌کننده از cloud-controller-manager این گره را مقداردهی اولیه کند و سپس نقص را حذف کند.
 
 ### node.cloudprovider.kubernetes.io/shutdown
 
-Type: Taint
+نوع: Taint
 
-Example: `node.cloudprovider.kubernetes.io/shutdown: "NoSchedule"`
+مثال: `node.cloudprovider.kubernetes.io/shutdown: "NoSchedule"`
 
-Used on: Node
+مورد استفاده در: گره
 
-If a Node is in a cloud provider specified shutdown state, the Node gets tainted accordingly
-with `node.cloudprovider.kubernetes.io/shutdown` and the taint effect of `NoSchedule`.
+اگر یک گره در حالت خاموش شدن مشخص شده توسط ارائه دهنده ابری باشد، گره به طور متناسب با `node.cloudprovider.kubernetes.io/shutdown` و اثر آلودگی `NoSchedule` آلوده می‌شود.
 
 ### feature.node.kubernetes.io/*
 
-Type: Label
+نوع: Label
 
-Example: `feature.node.kubernetes.io/network-sriov.capable: "true"`
+مثال: `feature.node.kubernetes.io/network-sriov.capable: "true"`
 
-Used on: Node
+مورد استفاده در: Node
 
-These labels are used by the Node Feature Discovery (NFD) component to advertise
-features on a node. All built-in labels use the `feature.node.kubernetes.io` label
-namespace and have the format `feature.node.kubernetes.io/<feature-name>: "true"`.
-NFD has many extension points for creating vendor and application-specific labels.
-For details, see the [customization guide](https://kubernetes-sigs.github.io/node-feature-discovery/v0.12/usage/customization-guide).
+این برچسب‌ها توسط کامپوننت Node Feature Discovery (NFD) برای تبلیغ ویژگی‌های روی یک گره استفاده می‌شوند. همه برچسب‌های داخلی از فضای نام برچسب `feature.node.kubernetes.io` استفاده می‌کنند و فرمت `feature.node.kubernetes.io/<feature-name>: "true"` را دارند.
+
+NFD دارای نقاط توسعه زیادی برای ایجاد برچسب‌های خاص فروشنده و برنامه است.
+
+برای جزئیات بیشتر، به [customization guide](https://kubernetes-sigs.github.io/node-feature-discovery/v0.12/usage/customization-guide) مراجعه کنید.
+
 
 ### nfd.node.kubernetes.io/master.version
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `nfd.node.kubernetes.io/master.version: "v0.6.0"`
+مثال: `nfd.node.kubernetes.io/master.version: "v0.6.0"`
 
-Used on: Node
+مورد استفاده در: گره
 
-For node(s) where the Node Feature Discovery (NFD)
-[master](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/nfd-master.html)
-is scheduled, this annotation records the version of the NFD master.
-It is used for informative use only.
+برای گره(هایی) که کشف ویژگی گره (NFD) در [master](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/nfd-master.html) برنامه‌ریزی شده است، این حاشیه‌نویسی نسخه NFD master را ثبت می‌کند.
+
+این فقط برای استفاده اطلاعاتی استفاده می‌شود.
+
 
 ### nfd.node.kubernetes.io/worker.version
 
-Type: Annotation
+نوع: Annotation
 
-Example: `nfd.node.kubernetes.io/worker.version: "v0.4.0"`
+مثال: `nfd.node.kubernetes.io/worker.version: "v0.4.0"`
 
-Used on: Nodes
+مورد استفاده در: گره‌ها
 
-This annotation records the version for a Node Feature Discovery's
-[worker](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/nfd-worker.html)
-if there is one running on a node. It's used for informative use only.
+این حاشیه‌نویسی، نسخه مربوط به یک گره کشف ویژگی را ثبت می‌کند. [worker](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/nfd-worker.html)
+
+اگر یکی روی یک گره در حال اجرا باشد. این فقط برای استفاده اطلاعاتی استفاده می‌شود.
 
 ### nfd.node.kubernetes.io/feature-labels
 
-Type: Annotation
+نوع: Annotation
 
-Example: `nfd.node.kubernetes.io/feature-labels: "cpu-cpuid.ADX,cpu-cpuid.AESNI,cpu-hardware_multithreading,kernel-version.full"`
+مثال: `nfd.node.kubernetes.io/feature-labels: "cpu-cpuid.ADX,cpu-cpuid.AESNI,cpu-hardware_multithreading,kernel-version.full"`
 
-Used on: Nodes
+مورد استفاده در: گره‌ها
 
-This annotation records a comma-separated list of node feature labels managed by
-[Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/) (NFD).
-NFD uses this for an internal mechanism. You should not edit this annotation yourself.
+این حاشیه‌نویسی فهرستی از برچسب‌های ویژگی‌های گره را که با کاما از هم جدا شده‌اند، ثبت می‌کند که توسط [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/) (NFD) مدیریت می‌شود. NFD از این برای یک مکانیسم داخلی استفاده می‌کند. شما نباید خودتان این حاشیه‌نویسی را ویرایش کنید.
 
 ### nfd.node.kubernetes.io/extended-resources
 
-Type: Annotation
+نوع: Annotation
 
-Example: `nfd.node.kubernetes.io/extended-resources: "accelerator.acme.example/q500,example.com/coprocessor-fx5"`
+مثال: `nfd.node.kubernetes.io/extended-resources: "accelerator.acme.example/q500,example.com/coprocessor-fx5"`
 
-Used on: Nodes
+مورد استفاده در: گره‌ها
 
-This annotation records a comma-separated list of
+این حاشیه‌نویسی فهرستی از منابع جدا شده با کاما را ثبت می‌کند.
+
 [extended resources](/docs/concepts/configuration/manage-resources-containers/#extended-resources)
-managed by [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/) (NFD).
-NFD uses this for an internal mechanism. You should not edit this annotation yourself.
+
+مدیریت شده توسط [Node Feature Discovery](https://kubernetes-sigs.github.io/node-feature-discovery/) (NFD).
+
+NFD از این برای یک مکانیسم داخلی استفاده می‌کند. شما نباید خودتان این حاشیه‌نویسی را ویرایش کنید.
 
 ### nfd.node.kubernetes.io/node-name
 
-Type: Label
+نوع: Label
 
-Example: `nfd.node.kubernetes.io/node-name: node-1`
+مثال: `nfd.node.kubernetes.io/node-name: node-1`
+مورد استفاده در: گره‌ها
+این مشخص می‌کند که شیء NodeFeature کدام گره را هدف قرار می‌دهد.
+سازندگان اشیاء NodeFeature باید این برچسب را تنظیم کنند و
 
-Used on: Nodes
-
-It specifies which node the NodeFeature object is targeting.
-Creators of NodeFeature objects must set this label and 
-consumers of the objects are supposed to use the label for 
-filtering features designated for a certain node.
+مصرف‌کنندگان اشیاء قرار است از این برچسب برای فیلتر کردن ویژگی‌های تعیین‌شده برای یک گره خاص استفاده کنند.
 
 {{< note >}}
-These Node Feature Discovery (NFD) labels or annotations only apply to 
-the nodes where NFD is running. To learn more about NFD and 
-its components go to its official [documentation](https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/).
+این برچسب‌ها یا حاشیه‌نویسی‌های کشف ویژگی گره (NFD) فقط برای گره‌هایی که NFD در آنها اجرا می‌شود، اعمال می‌شوند. برای کسب اطلاعات بیشتر در مورد NFD و اجزای آن، به [documentation] رسمی آن (https://kubernetes-sigs.github.io/node-feature-discovery/stable/get-started/) مراجعه کنید.
 {{< /note >}}
 
 ### service.beta.kubernetes.io/aws-load-balancer-access-log-emit-interval (beta) {#service-beta-kubernetes-io-aws-load-balancer-access-log-emit-interval}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-access-log-emit-interval: "5"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-access-log-emit-interval: "5"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-the load balancer for a Service based on this annotation. The value determines
-how often the load balancer writes log entries. For example, if you set the value
-to 5, the log writes occur 5 seconds apart.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را برای یک سرویس بر اساس این حاشیه‌نویسی پیکربندی می‌کند. این مقدار تعیین می‌کند که متعادل‌کننده بار هر چند وقت یکبار ورودی‌های لاگ را می‌نویسد. به عنوان مثال، اگر مقدار را روی 5 تنظیم کنید، نوشتن لاگ با فاصله 5 ثانیه اتفاق می‌افتد.
 
 ### service.beta.kubernetes.io/aws-load-balancer-access-log-enabled (beta) {#service-beta-kubernetes-io-aws-load-balancer-access-log-enabled}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "false"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "false"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-the load balancer for a Service based on this annotation. Access logging is enabled
-if you set the annotation to "true".
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را برای یک سرویس بر اساس این حاشیه‌نویسی پیکربندی می‌کند. اگر حاشیه‌نویسی را روی "true" تنظیم کنید، ثبت دسترسی فعال می‌شود.
 
 ### service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-name (beta) {#service-beta-kubernetes-io-aws-load-balancer-access-log-s3-bucket-name}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: example`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: example`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-the load balancer for a Service based on this annotation. The load balancer
-writes logs to an S3 bucket with the name you specify.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را برای یک سرویس بر اساس این حاشیه‌نویسی پیکربندی می‌کند. متعادل‌کننده بار، گزارش‌ها را در یک سطل S3 با نامی که شما مشخص می‌کنید، می‌نویسد.
 
 ### service.beta.kubernetes.io/aws-load-balancer-access-log-s3-bucket-prefix (beta) {#service-beta-kubernetes-io-aws-load-balancer-access-log-s3-bucket-prefix}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "/example"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-access-log-enabled: "/example"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-the load balancer for a Service based on this annotation. The load balancer
-writes log objects with the prefix that you specify.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را برای یک سرویس بر اساس این حاشیه‌نویسی پیکربندی می‌کند. متعادل‌کننده بار
+اشیاء گزارش را با پیشوندی که شما مشخص می‌کنید می‌نویسد.
 
 ### service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags (beta) {#service-beta-kubernetes-io-aws-load-balancer-additional-resource-tags}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "Environment=demo,Project=example"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "Environment=demo,Project=example"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-tags (an AWS concept) for a load balancer based on the comma-separated key/value
-pairs in the value of this annotation.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌کننده بار الاستیک AWS، برچسب‌هایی (یک مفهوم AWS) را برای متعادل‌کننده بار بر اساس جفت‌های کلید/مقدار جدا شده با کاما در مقدار این حاشیه‌نویسی پیکربندی می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-alpn-policy (beta) {#service-beta-kubernetes-io-aws-load-balancer-alpn-policy}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-alpn-policy: HTTP2Optional`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-alpn-policy: HTTP2Optional`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
+
+در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-attributes (beta) {#service-beta-kubernetes-io-aws-load-balancer-attributes}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-attributes: "deletion_protection.enabled=true"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-attributes: "deletion_protection.enabled=true"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/) در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-backend-protocol (beta) {#service-beta-kubernetes-io-aws-load-balancer-backend-protocol}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-the load balancer listener based on the value of this annotation.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، شنونده متعادل‌کننده بار را بر اساس مقدار این حاشیه‌نویسی پیکربندی می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-connection-draining-enabled (beta) {#service-beta-kubernetes-io-aws-load-balancer-connection-draining-enabled}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-connection-draining-enabled: "false"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-connection-draining-enabled: "false"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-the load balancer based on this annotation. The load balancer's connection draining
-setting depends on the value you set.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. تنظیم تخلیه اتصال متعادل‌کننده بار به مقداری که شما تعیین می‌کنید بستگی دارد.
 
 ### service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout (beta) {#service-beta-kubernetes-io-aws-load-balancer-connection-draining-timeout}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "60"`
 
-Used on: Service
+مثال: `service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "60"`
 
-If you configure [connection draining](#service-beta-kubernetes-io-aws-load-balancer-connection-draining-enabled)
-for a Service of `type: LoadBalancer`, and you use the AWS cloud, the integration configures
-the draining period based on this annotation. The value you set determines the draining
-timeout in seconds.
+مورد استفاده در: سرویس
+
+اگر [connection draining](#service-beta-kubernetes-io-aws-load-balancer-connection-draining-enabled) را برای سرویسی با `type: LoadBalancer` پیکربندی کنید و از ابر AWS استفاده کنید، یکپارچه‌سازی، دوره تخلیه را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقداری که تعیین می‌کنید، زمان تخلیه را بر حسب ثانیه تعیین می‌کند.
+
 
 ### service.beta.kubernetes.io/aws-load-balancer-ip-address-type (beta) {#service-beta-kubernetes-io-aws-load-balancer-ip-address-type}
 
+مثال: `service.beta.kubernetes.io/aws-load-balancer-ip-address-type: ipv4`
+
+مورد استفاده در: سرویس
+
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/) در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
+
 Example: `service.beta.kubernetes.io/aws-load-balancer-ip-address-type: ipv4`
-
-Used on: Service
-
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
 
 ### service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout (beta) {#service-beta-kubernetes-io-aws-load-balancer-connection-idle-timeout}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The load balancer has a configured idle
-timeout period (in seconds) that applies to its connections. If no data has been
-sent or received by the time that the idle timeout period elapses, the load balancer
-closes the connection.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. متعادل‌کننده بار دارای یک دوره زمانی غیرفعال پیکربندی‌شده (برحسب ثانیه) است که برای اتصالات آن اعمال می‌شود. اگر تا زمانی که دوره زمانی غیرفعال سپری شود، هیچ داده‌ای ارسال یا دریافت نشده باشد، متعادل‌کننده بار اتصال را می‌بندد.
 
 ### service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled (beta) {#service-beta-kubernetes-io-aws-load-balancer-cross-zone-load-balancing-enabled}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. If you set this annotation to "true",
-each load balancer node distributes requests evenly across the registered targets
-in all enabled [availability zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones).
-If you disable cross-zone load balancing, each load balancer node distributes requests
-evenly across the registered targets in its availability zone only.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. اگر این حاشیه‌نویسی را روی "true" تنظیم کنید، هر گره متعادل‌کننده بار، درخواست‌ها را به طور مساوی بین اهداف ثبت‌شده در تمام [مناطق دسترسی] فعال‌شده توزیع می‌کند [availability zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones).
+
+اگر متعادل‌سازی بار بین منطقه‌ای را غیرفعال کنید، هر گره متعادل‌کننده بار، درخواست‌ها را به طور مساوی بین اهداف ثبت‌شده فقط در منطقه دسترسی خود توزیع می‌کند.
+
 
 ### service.beta.kubernetes.io/aws-load-balancer-eip-allocations (beta) {#service-beta-kubernetes-io-aws-load-balancer-eip-allocations}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-01bcdef23bcdef456,eipalloc-def1234abc4567890"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-eip-allocations: "eipalloc-01bcdef23bcdef456,eipalloc-def1234abc4567890"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The value is a comma-separated list
-of elastic IP address allocation IDs.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار، فهرستی از شناسه‌های تخصیص آدرس IP الاستیک است که با کاما از هم جدا شده‌اند.
 
-This annotation is only relevant for Services of `type: LoadBalancer`, where
-the load balancer is an AWS Network Load Balancer.
+این حاشیه‌نویسی فقط برای سرویس‌هایی با `نوع: LoadBalancer` مرتبط است، که در آن
+متعادل‌کننده بار، یک متعادل‌کننده بار شبکه AWS است.
 
 ### service.beta.kubernetes.io/aws-load-balancer-extra-security-groups (beta) {#service-beta-kubernetes-io-aws-load-balancer-extra-security-groups}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-extra-security-groups: "sg-12abcd3456,sg-34dcba6543"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-extra-security-groups: "sg-12abcd3456,sg-34dcba6543"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value is a comma-separated
-list of extra AWS VPC security groups to configure for the load balancer.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی، فهرستی از گروه‌های امنیتی اضافی AWS VPC است که با کاما از هم جدا شده‌اند تا برای متعادل‌کننده بار پیکربندی شوند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-healthy-threshold}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "3"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "3"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value specifies the number of
-successive successful health checks required for a backend to be considered healthy
-for traffic.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی تعداد بررسی‌های سلامت موفق و متوالی مورد نیاز برای سالم در نظر گرفته شدن یک backend برای ترافیک را مشخص می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-interval}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "30"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-interval: "30"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value specifies the interval,
-in seconds, between health check probes made by the load balancer.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی، فاصله زمانی، بر حسب ثانیه، بین بررسی‌های سلامت انجام شده توسط متعادل‌کننده بار را مشخص می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-path (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-papth}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthcheck`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthcheck`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value determines the
-path part of the URL that is used for HTTP health checks.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی، بخش مسیر URL را که برای بررسی‌های سلامت HTTP استفاده می‌شود، تعیین می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-port (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-port}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "24"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "24"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value determines which
-port the load balancer connects to when performing health checks.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی تعیین می‌کند که متعادل‌کننده بار هنگام انجام بررسی‌های سلامت به کدام پورت متصل می‌شود.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-protocol}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: TCP`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: TCP`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value determines how the
-load balancer checks the health of backend targets.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی تعیین می‌کند که چگونه متعادل‌کننده بار، سلامت اهداف backend را بررسی می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-timeout}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "3"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "3"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value specifies the number
-of seconds before a probe that hasn't yet succeeded is automatically treated as
-having failed.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی تعداد ثانیه‌هایی را مشخص می‌کند که قبل از آن، کاوشگری که هنوز موفق نشده است، به طور خودکار به عنوان ناموفق در نظر گرفته می‌شود.
 
 ### service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold (beta) {#service-beta-kubernetes-io-aws-load-balancer-healthcheck-unhealthy-threshold}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "3"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "3"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The annotation value specifies the number of
-successive unsuccessful health checks required for a backend to be considered unhealthy
-for traffic.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی تعداد بررسی‌های سلامت ناموفق متوالی مورد نیاز برای اینکه یک backend برای ترافیک ناسالم در نظر گرفته شود را مشخص می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-internal (beta) {#service-beta-kubernetes-io-aws-load-balancer-internal}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-internal: "true"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-internal: "true"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The cloud controller manager integration with AWS elastic load balancing configures
-a load balancer based on this annotation. When you set this annotation to "true",
-the integration configures an internal load balancer.
+ادغام مدیر کنترل‌کننده ابری با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. وقتی این حاشیه‌نویسی را روی "true" تنظیم می‌کنید، این ادغام یک متعادل‌کننده بار داخلی را پیکربندی می‌کند.
 
-If you use the [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/),
-see [`service.beta.kubernetes.io/aws-load-balancer-scheme`](#service-beta-kubernetes-io-aws-load-balancer-scheme).
+اگر از [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/) استفاده می‌کنید، به [`service.beta.kubernetes.io/aws-load-balancer-scheme`](#service-beta-kubernetes-io-aws-load-balancer-scheme) مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-manage-backend-security-group-rules (beta) {#service-beta-kubernetes-io-aws-load-balancer-manage-backend-security-group-rules}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-manage-backend-security-group-rules: "true"`
 
-Used on: Service
+مثال: `service.beta.kubernetes.io/aws-load-balancer-manage-backend-security-group-rules: "true"`
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+مورد استفاده در: سرویس
+
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
+
+در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-name (beta) {#service-beta-kubernetes-io-aws-load-balancer-name}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-name: my-elb`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-name: my-elb`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-If you set this annotation on a Service, and you also annotate that Service with
-`service.beta.kubernetes.io/aws-load-balancer-type: "external"`, and you use the
-[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-in your cluster, then the AWS load balancer controller sets the name of that load
-balancer to the value you set for _this_ annotation.
+اگر این حاشیه‌نویسی را روی یک سرویس تنظیم کنید، و آن سرویس را با `service.beta.kubernetes.io/aws-load-balancer-type: "external"` نیز حاشیه‌نویسی کنید، و از [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)` در کلاستر خود استفاده کنید، آنگاه کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS نام آن متعادل‌کننده‌ی بار را روی مقداری که برای حاشیه‌نویسی _this_ تعیین کرده‌اید، قرار می‌دهد.
 
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)` در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
+
 
 ### service.beta.kubernetes.io/aws-load-balancer-nlb-target-type (beta) {#service-beta-kubernetes-io-aws-load-balancer-nlb-target-type}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "true"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "true"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
+در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-private-ipv4-addresses (beta) {#service-beta-kubernetes-io-aws-load-balancer-private-ipv4-addresses}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-private-ipv4-addresses: "198.51.100.0,198.51.100.64"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-private-ipv4-addresses: "198.51.100.0,198.51.100.64"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/) در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-proxy-protocol (beta) {#service-beta-kubernetes-io-aws-load-balancer-proxy-protocol}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The official Kubernetes integration with AWS elastic load balancing configures
-a load balancer based on this annotation. The only permitted value is `"*"`,
-which indicates that the load balancer should wrap TCP connections to the backend
-Pod with the PROXY protocol.
+ادغام رسمی Kubernetes با متعادل‌سازی بار الاستیک AWS، یک متعادل‌کننده بار را بر اساس این حاشیه‌نویسی پیکربندی می‌کند. تنها مقدار مجاز `"*"` است، که نشان می‌دهد متعادل‌کننده بار باید اتصالات TCP را به backend Pod با پروتکل PROXY بپوشاند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-scheme (beta) {#service-beta-kubernetes-io-aws-load-balancer-scheme}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-scheme: internal`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-scheme: internal`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/) در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
+
 
 ### service.beta.kubernetes.io/aws-load-balancer-security-groups (deprecated) {#service-beta-kubernetes-io-aws-load-balancer-security-groups}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-security-groups: "sg-53fae93f,sg-8725gr62r"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-security-groups: "sg-53fae93f,sg-8725gr62r"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The AWS load balancer controller uses this annotation to specify a comma separated list
-of security groups you want to attach to an AWS load balancer. Both name and ID of security
-are supported where name matches a `Name` tag, not the `groupName` attribute.
+کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS از این حاشیه‌نویسی برای مشخص کردن لیستی از گروه‌های امنیتی که با کاما از هم جدا شده‌اند استفاده می‌کند
 
-When this annotation is added to a Service, the load-balancer controller attaches the security groups
-referenced by the annotation to the load balancer. If you omit this annotation, the AWS load balancer
-controller automatically creates a new security group and attaches it to the load balancer.
+گروه‌های امنیتی که می‌خواهید به متعادل‌کننده‌ی بار AWS متصل کنید. هم نام و هم شناسه‌ی امنیتی
+
+در جایی که نام با برچسب `Name` مطابقت دارد، پشتیبانی می‌شوند، نه ویژگی `groupName`.
+
+وقتی این حاشیه‌نویسی به یک سرویس اضافه می‌شود، کنترل‌کننده‌ی متعادل‌کننده‌ی بار، گروه‌های امنیتی که توسط حاشیه‌نویسی به آنها ارجاع داده شده است را به متعادل‌کننده‌ی بار متصل می‌کند. اگر این حاشیه‌نویسی را حذف کنید، کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS به طور خودکار یک گروه امنیتی جدید ایجاد کرده و آن را به متعادل‌کننده‌ی بار متصل می‌کند.
 
 {{< note >}}
-Kubernetes v1.27 and later do not directly set or read this annotation. However, the AWS
-load balancer controller (part of the Kubernetes project) does still use the
-`service.beta.kubernetes.io/aws-load-balancer-security-groups` annotation.
+Kubernetes نسخه ۱.۲۷ و بالاتر این حاشیه‌نویسی را مستقیماً تنظیم یا نمی‌خوانند. با این حال، کنترل‌کننده متعادل‌کننده بار AWS (بخشی از پروژه Kubernetes) هنوز از حاشیه‌نویسی `service.beta.kubernetes.io/aws-load-balancer-security-groups` استفاده می‌کند.
 {{< /note >}}
 
 ### service.beta.kubernetes.io/load-balancer-source-ranges (deprecated) {#service-beta-kubernetes-io-load-balancer-source-ranges}
 
-Example: `service.beta.kubernetes.io/load-balancer-source-ranges: "192.0.2.0/25"`
+مثال: `service.beta.kubernetes.io/load-balancer-source-ranges: "192.0.2.0/25"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation. You should set `.spec.loadBalancerSourceRanges` for the Service instead.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+
+از این حاشیه نویسی استفاده می کند. شما باید به جای آن `.spec.loadBalancerSourceRanges` را برای سرویس تنظیم کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-ssl-cert (beta) {#service-beta-kubernetes-io-aws-load-balancer-ssl-cert}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-1234-123456789012"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The official integration with AWS elastic load balancing configures TLS for a Service of
-`type: LoadBalancer` based on this annotation. The value of the annotation is the
-AWS Resource Name (ARN) of the X.509 certificate that the load balancer listener should
-use.
+ادغام رسمی با متعادل‌سازی بار الاستیک AWS، TLS را برای سرویسی از نوع `LoadBalancer` بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار حاشیه‌نویسی، نام منبع AWS (ARN) گواهی X.509 است که شنونده متعادل‌کننده بار باید از آن استفاده کند.
 
-(The TLS protocol is based on an older technology that abbreviates to SSL.)
+(پروتکل TLS مبتنی بر فناوری قدیمی‌تری است که به اختصار SSL نامیده می‌شود.)
 
 ### service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy (beta) {#service-beta-kubernetes-io-aws-load-balancer-ssl-negotiation-policy}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS-1-2-2017-01`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS-1-2-2017-01`
 
-The official integration with AWS elastic load balancing configures TLS for a Service of
-`type: LoadBalancer` based on this annotation. The value of the annotation is the name
-of an AWS policy for negotiating TLS with a client peer.
+ادغام رسمی با متعادل‌سازی بار الاستیک AWS، TLS را برای سرویسی با نوع `LoadBalancer` بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار این حاشیه‌نویسی، نام یک سیاست AWS برای مذاکره TLS با یک کلاینت همتا است.
 
 ### service.beta.kubernetes.io/aws-load-balancer-ssl-ports (beta) {#service-beta-kubernetes-io-aws-load-balancer-ssl-ports}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "*"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "*"`
 
-The official integration with AWS elastic load balancing configures TLS for a Service of
-`type: LoadBalancer` based on this annotation. The value of the annotation is either `"*"`,
-which means that all the load balancer's ports should use TLS, or it is a comma separated
-list of port numbers.
+ادغام رسمی با متعادل‌سازی بار الاستیک AWS، TLS را برای سرویسی با نوع `LoadBalancer` بر اساس این حاشیه‌نویسی پیکربندی می‌کند. مقدار این حاشیه‌نویسی یا `"*"` است، به این معنی که همه پورت‌های متعادل‌کننده بار باید از TLS استفاده کنند، یا لیستی از شماره پورت‌ها است که با کاما از هم جدا شده‌اند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-subnets (beta) {#service-beta-kubernetes-io-aws-load-balancer-subnets}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-subnets: "private-a,private-b"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-subnets: "private-a,private-b"`
 
-Kubernetes' official integration with AWS uses this annotation to configure a
-load balancer and determine in which AWS availability zones to deploy the managed
-load balancing service. The value is either a comma separated list of subnet names, or a
-comma separated list of subnet IDs.
+ادغام رسمی Kubernetes با AWS از این حاشیه‌نویسی برای پیکربندی یک متعادل‌کننده بار و تعیین اینکه در کدام مناطق دسترسی AWS، سرویس متعادل‌کننده بار مدیریت‌شده مستقر شود، استفاده می‌کند. مقدار یا فهرستی از نام‌های زیرشبکه جدا شده با کاما است، یا فهرستی از شناسه‌های زیرشبکه که با کاما جدا شده‌اند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-target-group-attributes (beta) {#service-beta-kubernetes-io-aws-load-balancer-target-group-attributes}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: "stickiness.enabled=true,stickiness.type=source_ip"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: "stickiness.enabled=true,stickiness.type=source_ip"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-The [AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
-uses this annotation.
-See [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/)
-in the AWS load balancer controller documentation.
+[AWS load balancer controller](https://kubernetes-sigs.github.io/aws-load-balancer-controller/)
+از این حاشیه‌نویسی استفاده می‌کند.
+
+به [annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/service/annotations/) در مستندات کنترل‌کننده‌ی متعادل‌کننده‌ی بار AWS مراجعه کنید.
 
 ### service.beta.kubernetes.io/aws-load-balancer-target-node-labels (beta) {#service-beta-kubernetes-io-aws-target-node-labels}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-target-node-labels: "kubernetes.io/os=Linux,topology.kubernetes.io/region=us-east-2"`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-target-node-labels: "kubernetes.io/os=Linux,topology.kubernetes.io/region=us-east-2"`
 
-Kubernetes' official integration with AWS uses this annotation to determine which
-nodes in your cluster should be considered as valid targets for the load balancer.
+ادغام رسمی Kubernetes با AWS از این حاشیه‌نویسی برای تعیین اینکه کدام گره‌ها در کلاستر شما باید به عنوان اهداف معتبر برای متعادل‌کننده بار در نظر گرفته شوند، استفاده می‌کند.
 
 ### service.beta.kubernetes.io/aws-load-balancer-type (beta) {#service-beta-kubernetes-io-aws-load-balancer-type}
 
-Example: `service.beta.kubernetes.io/aws-load-balancer-type: external`
+مثال: `service.beta.kubernetes.io/aws-load-balancer-type: external`
 
-Kubernetes' official integrations with AWS use this annotation to determine
-whether the AWS cloud provider integration should manage a Service of
-`type: LoadBalancer`.
+ادغام‌های رسمی Kubernetes با AWS از این حاشیه‌نویسی برای تعیین اینکه آیا ادغام ارائه‌دهنده ابر AWS باید سرویسی با `نوع: LoadBalancer` را مدیریت کند یا خیر، استفاده می‌کنند.
 
-There are two permitted values:
+دو مقدار مجاز وجود دارد:
 
 `nlb`
-: the cloud controller manager configures a Network Load Balancer
+: مدیر کنترل‌کننده ابری، متعادل‌کننده بار شبکه را پیکربندی می‌کند.
 
 `external`
-: the cloud controller manager does not configure any load balancer
+: مدیر کنترل‌کننده ابری هیچ متعادل‌کننده باری را پیکربندی نمی‌کند.
 
-If you deploy a Service of `type: LoadBalancer` on AWS, and you don't set any
-`service.beta.kubernetes.io/aws-load-balancer-type` annotation,
-the AWS integration deploys a classic Elastic Load Balancer. This behavior,
-with no annotation present, is the default unless you specify otherwise.
+اگر سرویسی با `type: LoadBalancer` را در AWS مستقر کنید و هیچ حاشیه‌نویسی `service.beta.kubernetes.io/aws-load-balancer-type` تنظیم نکنید، یکپارچه‌سازی AWS یک متعادل‌کننده بار الاستیک کلاسیک را مستقر می‌کند. این رفتار، بدون حاشیه‌نویسی، پیش‌فرض است، مگر اینکه خلاف آن را مشخص کنید.
 
-When you set this annotation to `external` on a Service of `type: LoadBalancer`,
-and your cluster has a working deployment of the AWS Load Balancer controller,
-then the AWS Load Balancer controller attempts to deploy a load balancer based
-on the Service specification.
+وقتی این حاشیه‌نویسی را روی سرویسی با نوع «LoadBalancer» روی «external» تنظیم می‌کنید، و کلاستر شما یک استقرار فعال از کنترلر متعادل‌کننده بار AWS دارد، آنگاه کنترلر متعادل‌کننده بار AWS تلاش می‌کند تا یک متعادل‌کننده بار را بر اساس مشخصات سرویس مستقر کند.
 
 {{< caution >}}
-Do not modify or add the `service.beta.kubernetes.io/aws-load-balancer-type` annotation
-on an existing Service object. See the AWS documentation on this topic for more
-details.
+حاشیه‌نویسی `service.beta.kubernetes.io/aws-load-balancer-type` را در شیء سرویس موجود تغییر ندهید یا اضافه نکنید. برای جزئیات بیشتر به مستندات AWS در این مورد مراجعه کنید.
 {{< /caution >}}
 
 ### service.beta.kubernetes.io/azure-load-balancer-disable-tcp-reset (deprecated) {#service-beta-kubernetes-azure-load-balancer-disble-tcp-reset}
 
-Example: `service.beta.kubernetes.io/azure-load-balancer-disable-tcp-reset: "false"`
+مثال: `service.beta.kubernetes.io/azure-load-balancer-disable-tcp-reset: "false"`
 
-Used on: Service
+مورد استفاده در: سرویس
 
-This annotation only works for Azure standard load balancer backed service.
-This annotation is used on the Service to specify whether the load balancer
-should disable or enable TCP reset on idle timeout. If enabled, it helps
-applications to behave more predictably, to detect the termination of a connection,
-remove expired connections and initiate new connections. 
-You can set the value to be either true or false.
+این حاشیه‌نویسی فقط برای سرویس پشتیبانی‌شده با متعادل‌کننده بار استاندارد Azure کار می‌کند.
 
-See [Load Balancer TCP Reset](https://learn.microsoft.com/en-gb/azure/load-balancer/load-balancer-tcp-reset) for more information.
+این حاشیه‌نویسی در سرویس استفاده می‌شود تا مشخص کند که آیا متعادل‌کننده بار
+باید تنظیم مجدد TCP را در زمان بیکاری غیرفعال یا فعال کند. در صورت فعال بودن، به برنامه‌ها کمک می‌کند تا رفتار قابل پیش‌بینی‌تری داشته باشند، خاتمه اتصال را تشخیص دهند، اتصالات منقضی شده را حذف کرده و اتصالات جدید را آغاز کنند.
 
+می‌توانید مقدار را روی درست یا نادرست تنظیم کنید.
+
+
+برای اطلاعات بیشتر به [Load Balancer TCP Reset](https://learn.microsoft.com/en-gb/azure/load-balancer/load-balancer-tcp-reset) مراجعه کنید.
 {{< note >}} 
-This annotation is deprecated.
+این حاشیه‌نویسی منسوخ شده است.
 {{< /note >}}
 
 ### pod-security.kubernetes.io/enforce
 
-Type: Label
+نوع: برچسب
 
-Example: `pod-security.kubernetes.io/enforce: "baseline"`
+مثال: `pod-security.kubernetes.io/enforce: "baseline"`
 
-Used on: Namespace
+مورد استفاده در: فضای نام
 
-Value **must** be one of `privileged`, `baseline`, or `restricted` which correspond to
-[Pod Security Standard](/docs/concepts/security/pod-security-standards) levels.
-Specifically, the `enforce` label _prohibits_ the creation of any Pod in the labeled
-Namespace which does not meet the requirements outlined in the indicated level.
+مقدار **باید** یکی از سطوح `privileged`، `baseline` یا `restricted` باشد که با سطوح `[Pod Security Standard](/docs/concepts/security/pod-security-standards) مطابقت دارد.
 
-See [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission)
-for more information.
+به طور خاص، برچسب `enforce` ایجاد هرگونه Pod در فضای نام برچسب‌گذاری شده که الزامات مشخص شده در سطح مشخص شده را برآورده نمی‌کند، ممنوع می‌کند.
+
+برای اطلاعات بیشتر به [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission) مراجعه کنید.
+
 
 ### pod-security.kubernetes.io/enforce-version
 
-Type: Label
+نوع: برچسب
 
-Example: `pod-security.kubernetes.io/enforce-version: "{{< skew currentVersion >}}"`
+مثال: `pod-security.kubernetes.io/enforce-version: "{{< skew currentVersion >}}"`
 
-Used on: Namespace
+مورد استفاده در: فضای نام
 
-Value **must** be `latest` or a valid Kubernetes version in the format `v<major>.<minor>`.
-This determines the version of the
-[Pod Security Standard](/docs/concepts/security/pod-security-standards)
-policies to apply when validating a Pod.
+مقدار **باید** `آخرین نسخه` یا یک نسخه معتبر Kubernetes با فرمت `v<major>.<minor>` باشد.
 
-See [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission)
-for more information.
+این مقدار، نسخه سیاست‌های [Pod Security Standard](/docs/concepts/security/pod-security-standards)` را که هنگام اعتبارسنجی یک Pod اعمال می‌شوند، تعیین می‌کند.
+
+برای اطلاعات بیشتر به [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission) مراجعه کنید.
 
 ### pod-security.kubernetes.io/audit
 
-Type: Label
 
-Example: `pod-security.kubernetes.io/audit: "baseline"`
+نوع: برچسب
 
-Used on: Namespace
+مثال: `pod-security.kubernetes.io/audit: "baseline"`
 
-Value **must** be one of `privileged`, `baseline`, or `restricted` which correspond to
-[Pod Security Standard](/docs/concepts/security/pod-security-standards) levels.
-Specifically, the `audit` label does not prevent the creation of a Pod in the labeled
-Namespace which does not meet the requirements outlined in the indicated level,
-but adds an this annotation to the Pod.
+مورد استفاده در: فضای نام
 
-See [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission)
-for more information.
+مقدار **باید** یکی از سطوح `privileged`، `baseline` یا `restricted` باشد که با سطوح `[Pod Security Standard](/docs/concepts/security/pod-security-standards) مطابقت دارد.
+
+به طور خاص، برچسب `audit` از ایجاد یک Pod در فضای نام برچسب‌گذاری شده که الزامات مشخص شده در سطح مشخص شده را برآورده نمی‌کند، جلوگیری نمی‌کند، اما یک حاشیه‌نویسی this به Pod اضافه می‌کند.
+
+برای اطلاعات بیشتر به [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission) مراجعه کنید.
+
 
 ### pod-security.kubernetes.io/audit-version
 
-Type: Label
 
-Example: `pod-security.kubernetes.io/audit-version: "{{< skew currentVersion >}}"`
+نوع: برچسب
 
-Used on: Namespace
+مثال: `pod-security.kubernetes.io/audit-version: "{{< skew currentVersion >}}"`
 
-Value **must** be `latest` or a valid Kubernetes version in the format `v<major>.<minor>`.
-This determines the version of the
-[Pod Security Standard](/docs/concepts/security/pod-security-standards)
-policies to apply when validating a Pod.
+مورد استفاده در: فضای نام
 
-See [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission)
-for more information.
+مقدار **باید** `آخرین نسخه` یا یک نسخه معتبر Kubernetes با فرمت `v<major>.<minor>` باشد.
+
+این مقدار، نسخه سیاست‌های `[Pod Security Standard](/docs/concepts/security/pod-security-standards)` را که هنگام اعتبارسنجی یک Pod اعمال می‌شوند، تعیین می‌کند.
+
+برای اطلاعات بیشتر به [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission) مراجعه کنید.
+
+
 
 ### pod-security.kubernetes.io/warn
 
-Type: Label
+مثال: `pod-security.kubernetes.io/warn: "baseline"`
 
-Example: `pod-security.kubernetes.io/warn: "baseline"`
+مورد استفاده در: فضای نام
 
-Used on: Namespace
+مقدار **باید** یکی از سطوح `privileged`، `baseline` یا `restricted` باشد که با سطوح `[Pod Security Standard](/docs/concepts/security/pod-security-standards) مطابقت دارد.
 
-Value **must** be one of `privileged`, `baseline`, or `restricted` which correspond to
-[Pod Security Standard](/docs/concepts/security/pod-security-standards) levels.
-Specifically, the `warn` label does not prevent the creation of a Pod in the labeled
-Namespace which does not meet the requirements outlined in the indicated level,
-but returns a warning to the user after doing so.
-Note that warnings are also displayed when creating or updating objects that contain
-Pod templates, such as Deployments, Jobs, StatefulSets, etc.
+به طور خاص، برچسب `warn` از ایجاد یک Pod در فضای نام برچسب‌گذاری شده که الزامات مشخص شده در سطح مشخص شده را برآورده نمی‌کند، جلوگیری نمی‌کند، اما پس از انجام این کار، یک هشدار به کاربر برمی‌گرداند.
 
-See [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission)
-for more information.
+توجه داشته باشید که هشدارها هنگام ایجاد یا به‌روزرسانی اشیاء حاوی الگوهای Pod، مانند Deployments، Jobs، StatefulSets و غیره نیز نمایش داده می‌شوند.
+
+برای اطلاعات بیشتر به [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission) مراجعه کنید.
+
 
 ### pod-security.kubernetes.io/warn-version
 
-Type: Label
+نوع: برچسب
 
-Example: `pod-security.kubernetes.io/warn-version: "{{< skew currentVersion >}}"`
+مثال: `pod-security.kubernetes.io/warn-version: "{{< skew currentVersion >}}"`
 
-Used on: Namespace
+مورد استفاده در: فضای نام
 
-Value **must** be `latest` or a valid Kubernetes version in the format `v<major>.<minor>`.
-This determines the version of the [Pod Security Standard](/docs/concepts/security/pod-security-standards)
-policies to apply when validating a submitted Pod.
-Note that warnings are also displayed when creating or updating objects that contain
-Pod templates, such as Deployments, Jobs, StatefulSets, etc.
+مقدار **باید** `latest` یا یک نسخه معتبر Kubernetes با فرمت `v<major>.<minor>` باشد.
 
-See [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission)
-for more information.
+این مقدار، نسخه سیاست‌های [Pod Security Standard](/docs/concepts/security/pod-security-standards) را که هنگام اعتبارسنجی یک Pod ارسالی اعمال می‌شوند، تعیین می‌کند.
+
+توجه داشته باشید که هنگام ایجاد یا به‌روزرسانی اشیاء حاوی الگوهای Pod، مانند Deployments، Jobs، StatefulSets و غیره، هشدارها نیز نمایش داده می‌شوند.
+
+برای اطلاعات بیشتر به [Enforcing Pod Security at the Namespace Level](/docs/concepts/security/pod-security-admission) مراجعه کنید.
+
 
 ### rbac.authorization.kubernetes.io/autoupdate
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `rbac.authorization.kubernetes.io/autoupdate: "false"`
+مثال: `rbac.authorization.kubernetes.io/autoupdate: "false"`
 
-Used on: ClusterRole, ClusterRoleBinding, Role, RoleBinding
+مورد استفاده در: ClusterRole، ClusterRoleBinding، Role، RoleBinding
 
-When this annotation is set to `"true"` on default RBAC objects created by the API server,
-they are automatically updated at server start to add missing permissions and subjects
-(extra permissions and subjects are left in place).
-To prevent autoupdating a particular role or rolebinding, set this annotation to `"false"`.
-If you create your own RBAC objects and set this annotation to `"false"`, `kubectl auth reconcile`
-(which allows reconciling arbitrary RBAC objects in a {{< glossary_tooltip text="manifest" term_id="manifest" >}})
-respects this annotation and does not automatically add missing permissions and subjects.
+هنگامی که این حاشیه‌نویسی روی `"true"` در اشیاء پیش‌فرض RBAC ایجاد شده توسط سرور API تنظیم شود، آنها به طور خودکار در شروع سرور به‌روزرسانی می‌شوند تا مجوزها و موضوعات از دست رفته اضافه شوند
+(مجوزها و موضوعات اضافی در جای خود باقی می‌مانند).
+
+برای جلوگیری از به‌روزرسانی خودکار یک نقش یا اتصال نقش خاص، این حاشیه‌نویسی را روی `"false"` تنظیم کنید.
+
+اگر اشیاء RBAC خود را ایجاد می‌کنید و این حاشیه‌نویسی را روی `"false"` تنظیم می‌کنید، `kubectl auth adjust`
+(که امکان تطبیق اشیاء RBAC دلخواه را در یک {{< glossary_tooltip text="manifest" term_id="manifest" >}} فراهم می‌کند)
+
+به این حاشیه‌نویسی احترام می‌گذارد و به طور خودکار مجوزها و موضوعات از دست رفته را اضافه نمی‌کند.
 
 ### kubernetes.io/psp (deprecated) {#kubernetes-io-psp}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubernetes.io/psp: restricted`
+مثال: `kubernetes.io/psp: restricted`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation was only relevant if you were using
-[PodSecurityPolicy](/docs/concepts/security/pod-security-policy/) objects.
-Kubernetes v{{< skew currentVersion >}} does not support the PodSecurityPolicy API.
+این حاشیه‌نویسی فقط در صورتی مرتبط بود که از اشیاء
+[PodSecurityPolicy](/docs/concepts/security/pod-security-policy/) استفاده می‌کردید.
 
-When the PodSecurityPolicy admission controller admitted a Pod, the admission controller
-modified the Pod to have this annotation.
-The value of the annotation was the name of the PodSecurityPolicy that was used for validation.
+Kubernetes v{{< skew currentVersion >}} از API PodSecurityPolicy پشتیبانی نمی‌کند.
+
+هنگامی که کنترل‌کننده پذیرش PodSecurityPolicy یک پاد را پذیرفت، کنترل‌کننده پذیرش
+پاد را برای داشتن این حاشیه‌نویسی اصلاح کرد.
+
+مقدار حاشیه‌نویسی، نام PodSecurityPolicy بود که برای اعتبارسنجی استفاده می‌شد.
 
 ### seccomp.security.alpha.kubernetes.io/pod (non-functional) {#seccomp-security-alpha-kubernetes-io-pod}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: Pod
+مورد استفاده در: پاد
 
-Kubernetes before v1.25 allowed you to configure seccomp behavior using this annotation.
-See [Restrict a Container's Syscalls with seccomp](/docs/tutorials/security/seccomp/) to
-learn the supported way to specify seccomp restrictions for a Pod.
+کوبرنتس قبل از نسخه ۱.۲۵ به شما امکان پیکربندی رفتار seccomp را با استفاده از این حاشیه‌نویسی می‌داد.
+
+برای یادگیری روش پشتیبانی‌شده برای تعیین محدودیت‌های seccomp برای یک پاد، به [Restrict a Container's Syscalls with seccomp](/docs/tutorials/security/seccomp/) مراجعه کنید.
+
+
 
 ### container.seccomp.security.alpha.kubernetes.io/[NAME] (non-functional) {#container-seccomp-security-alpha-kubernetes-io}
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Used on: Pod
+مورد استفاده در: پاد
 
-Kubernetes before v1.25 allowed you to configure seccomp behavior using this annotation.
-See [Restrict a Container's Syscalls with seccomp](/docs/tutorials/security/seccomp/) to
-learn the supported way to specify seccomp restrictions for a Pod.
+کوبرنتس قبل از نسخه ۱.۲۵ به شما امکان پیکربندی رفتار seccomp را با استفاده از این حاشیه‌نویسی می‌داد.
+
+برای یادگیری روش پشتیبانی‌شده برای تعیین محدودیت‌های seccomp برای یک پاد، به [Restrict a Container's Syscalls with seccomp](/docs/tutorials/security/seccomp/) مراجعه کنید.
+
 
 ### snapshot.storage.kubernetes.io/allow-volume-mode-change
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `snapshot.storage.kubernetes.io/allow-volume-mode-change: "true"`
+مثال: `snapshot.storage.kubernetes.io/allow-volume-mode-change: "true"`
 
-Used on: VolumeSnapshotContent
+مورد استفاده در: VolumeSnapshotContent
 
-Value can either be `true` or `false`. This determines whether a user can modify
-the mode of the source volume when a PersistentVolumeClaim is being created from
-a VolumeSnapshot.
+مقدار می‌تواند `true` یا `false` باشد. این تعیین می‌کند که آیا کاربر می‌تواند حالت (mode) درایو منبع را هنگام ایجاد PersistentVolumeClaim از VolumeSnapshot تغییر دهد یا خیر
 
 Refer to [Converting the volume mode of a Snapshot](/docs/concepts/storage/volume-snapshots/#convert-volume-mode)
 and the [Kubernetes CSI Developer Documentation](https://kubernetes-csi.github.io/docs/)
 for more information.
 
+برای اطلاعات بیشتر به [Converting the volume mode of a Snapshot](/docs/concepts/storage/volume-snapshots/#convert-volume-mode) و [Kubernetes CSI Developer Documentation](https://kubernetes-csi.github.io/docs/)مراجعه کنید.
+baraye etlaat bishtar 
+
 ### scheduler.alpha.kubernetes.io/critical-pod (deprecated)
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `scheduler.alpha.kubernetes.io/critical-pod: ""`
+مثال: `scheduler.alpha.kubernetes.io/critical-pod: ""`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-This annotation lets Kubernetes control plane know about a Pod being a critical Pod
-so that the descheduler will not remove this Pod.
+این حاشیه‌نویسی به صفحه کنترل Kubernetes اجازه می‌دهد تا از بحرانی بودن یک پاد مطلع شود
+
+به طوری که برنامه‌ریز این پاد را حذف نکند.
 
 {{< note >}}
-Starting in v1.16, this annotation was removed in favor of
-[Pod Priority](/docs/concepts/scheduling-eviction/pod-priority-preemption/).
+از نسخه ۱.۱۶، این حاشیه‌نویسی به نفع
+[Pod Priority](/docs/concepts/scheduling-eviction/pod-priority-preemption/) حذف شد.
 {{< /note >}}
 
 ### jobset.sigs.k8s.io/jobset-name
 
-Type: Label, Annotation
+مثال: `jobset.sigs.k8s.io/jobset-name: "my-jobset"`
 
-Example:  `jobset.sigs.k8s.io/jobset-name: "my-jobset"`
+مورد استفاده در: Jobs، Pods
 
-Used on: Jobs, Pods
+این برچسب/حاشیه‌نویسی برای ذخیره نام JobSet که یک Job یا Pod به آن تعلق دارد، استفاده می‌شود.
 
-This label/annotation is used to store the name of the JobSet that a Job or Pod belongs to.
-[JobSet](https://jobset.sigs.k8s.io) is an extension API that you can deploy into your Kubernetes cluster.
-
+[JobSet](https://jobset.sigs.k8s.io) یک API افزونه است که می‌توانید در کلاستر Kubernetes خود مستقر کنید.
 ### jobset.sigs.k8s.io/replicatedjob-replicas
 
-Type: Label, Annotation
+مثال: `jobset.sigs.k8s.io/replicatedjob-replicas: "5"`
 
-Example: `jobset.sigs.k8s.io/replicatedjob-replicas: "5"`
+مورد استفاده در: Jobs، Pods
 
-Used on: Jobs, Pods
-
-This label/annotation specifies the number of replicas for a ReplicatedJob.
-
+این برچسب/حاشیه‌نویسی تعداد کپی‌ها را برای یک ReplicatedJob مشخص می‌کند.
 ### jobset.sigs.k8s.io/replicatedjob-name
 
-Type: Label, Annotation
+نوع: برچسب، حاشیه‌نویسی
 
-Example: `jobset.sigs.k8s.io/replicatedjob-name: "my-replicatedjob"`
+مثال: `jobset.sigs.k8s.io/replicatedjob-name: "my-replicatedjob"`
 
-Used on: Jobs, Pods
+مورد استفاده در: مشاغل، پادها
 
-This label or annotation stores the name of the replicated job that this Job or Pod is part of.
+این برچسب یا حاشیه‌نویسی، نام کار تکثیر شده‌ای را که این کار یا پاد بخشی از آن است، ذخیره می‌کند.
 
 ### jobset.sigs.k8s.io/job-index
 
-Type: Label, Annotation
+نوع: برچسب، حاشیه‌نویسی
 
-Example: `jobset.sigs.k8s.io/job-index: "0"`
+مثال: `jobset.sigs.k8s.io/job-index: "0"`
 
-Used on: Jobs, Pods
+مورد استفاده در: Jobs، Pods
 
-This label/annotation is set by the JobSet controller on child Jobs and Pods. It contains the index of the Job replica within its parent ReplicatedJob.
+این برچسب/حاشیه‌نویسی توسط کنترلر JobSet روی Jobها و Podهای فرزند تنظیم می‌شود. این برچسب حاوی اندیس کپی Job در داخل والد آن ReplicatedJob است.
 
 ### jobset.sigs.k8s.io/job-key
 
-Type: Label, Annotation
+نوع: برچسب، حاشیه‌نویسی
 
-Example: `jobset.sigs.k8s.io/job-key: "0f1e93893c4cb372080804ddb9153093cb0d20cefdd37f653e739c232d363feb"`
+مثال: `jobset.sigs.k8s.io/job-key: "0f1e93893c4cb372080804ddb9153093cb0d20cefdd37f653e739c232d363feb"`
 
-Used on: Jobs, Pods
+مورد استفاده در: مشاغل، پادها
 
-The JobSet controller sets this label (and also an annotation with the same key)  on child Jobs and
-Pods of a JobSet. The value is the SHA256 hash of the namespaced Job name.
+کنترلر JobSet این برچسب (و همچنین یک حاشیه‌نویسی با همان کلید) را روی مشاغل فرزند و پادهای یک JobSet تنظیم می‌کند. مقدار، هش SHA256 نام شغل با فضای نام است.
 
 ### alpha.jobset.sigs.k8s.io/exclusive-topology
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `alpha.jobset.sigs.k8s.io/exclusive-topology: "zone"`
+مثال: `alpha.jobset.sigs.k8s.io/exclusive-topology: "zone"`
 
-Used on: JobSets, Jobs
+مورد استفاده در: JobSets، Jobs
 
-You can set this label/annotation on a [JobSet](https://jobset.sigs.k8s.io) to ensure exclusive Job
-placement per topology group. You can also define this label or annotation on a replicated job
-template. Read the documentation for JobSet to learn more.
+شما می‌توانید این برچسب/حاشیه‌نویسی را روی یک [JobSet](https://jobset.sigs.k8s.io) تنظیم کنید تا از قرارگیری انحصاری شغل در هر گروه توپولوژی اطمینان حاصل شود. همچنین می‌توانید این برچسب یا حاشیه‌نویسی را روی یک الگوی شغل تکثیر شده تعریف کنید. برای کسب اطلاعات بیشتر، مستندات JobSet را مطالعه کنید.
 
 ### alpha.jobset.sigs.k8s.io/node-selector
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `alpha.jobset.sigs.k8s.io/node-selector: "true"`
+مثال: `alpha.jobset.sigs.k8s.io/node-selector: "true"`
 
-Used on: Jobs, Pods
+مورد استفاده در: Jobها، Podها
 
-This label/annotation can be applied to a JobSet. When it's set, the JobSet controller modifies the Jobs and their corresponding Pods by adding node selectors and tolerations. This ensures exclusive job placement per topology domain, restricting the scheduling of these Pods to specific nodes based on the strategy.
+این برچسب/حاشیه‌نویسی می‌تواند روی یک JobSet اعمال شود. وقتی تنظیم شد، کنترل‌کننده JobSet با اضافه کردن انتخابگرهای گره و تلرانس‌ها، Jobها و Podهای مربوطه‌شان را تغییر می‌دهد. این امر قرارگیری انحصاری شغل در هر دامنه توپولوژی را تضمین می‌کند و زمان‌بندی این Podها را بر اساس استراتژی به گره‌های خاص محدود می‌کند.
 
 ### alpha.jobset.sigs.k8s.io/namespaced-job
 
-Type: Label
+نوع: برچسب
 
-Example: `alpha.jobset.sigs.k8s.io/namespaced-job: "default_myjobset-replicatedjob-0"`
+مثال: `alpha.jobset.sigs.k8s.io/namespaced-job: "default_myjobset-replicatedjob-0"`
 
-Used on: Nodes
+مورد استفاده در: گره‌ها
 
-This label is either set manually or automatically (for example, a cluster autoscaler) on the nodes. When `alpha.jobset.sigs.k8s.io/node-selector` is set to  `"true"`, the  JobSet controller adds a nodeSelector to this node label (along with the toleration to the taint `alpha.jobset.sigs.k8s.io/no-schedule` disucssed next).
+این برچسب یا به صورت دستی یا خودکار (به عنوان مثال، یک مقیاس‌دهنده خودکار خوشه) روی گره‌ها تنظیم می‌شود. وقتی `alpha.jobset.sigs.k8s.io/node-selector` روی `"true"` تنظیم شود، کنترل‌کننده JobSet یک nodeSelector به این برچسب گره اضافه می‌کند (همراه با تلورانس به `alpha.jobset.sigs.k8s.io/no-schedule` که در مرحله بعد بررسی می‌شود).
 
 ### alpha.jobset.sigs.k8s.io/no-schedule
+نوع: taint
 
-Type: Taint
+مثال: `alpha.jobset.sigs.k8s.io/no-schedule: "NoSchedule"`
 
-Example: `alpha.jobset.sigs.k8s.io/no-schedule: "NoSchedule"`
+مورد استفاده در: گره‌ها
 
-Used on: Nodes
-
-This taint is either set manually or automatically (for example, a cluster autoscaler) on the nodes. When `alpha.jobset.sigs.k8s.io/node-selector` is set to  `"true"`, the  JobSet controller adds a toleration to this node taint (along with the node selector to the label `alpha.jobset.sigs.k8s.io/namespaced-job` disucssed previously).
-
+این taint یا به صورت دستی یا خودکار (به عنوان مثال، یک مقیاس‌دهنده خودکار خوشه) روی گره‌ها تنظیم می‌شود. وقتی `alpha.jobset.sigs.k8s.io/node-selector` روی `"true"` تنظیم شود، کنترل‌کننده JobSet یک تلرانس به این taint گره اضافه می‌کند (همراه با انتخابگر گره به برچسب `alpha.jobset.sigs.
 ### jobset.sigs.k8s.io/coordinator
 
-Type: Annotation, Label
+وع: حاشیه‌نویسی، برچسب
 
-Example: `jobset.sigs.k8s.io/coordinator: "myjobset-workers-0-0.headless-svc"`
+مثال: `jobset.sigs.k8s.io/coordinator: "myjobset-workers-0-0.headless-svc"`
 
-Used on: Jobs, Pods
+مورد استفاده در: مشاغل، پادها
 
-This annotation/label is used on Jobs and Pods to store a stable network endpoint where the coordinator
-pod can be reached if the [JobSet](https://jobset.sigs.k8s.io) spec defines the `.spec.coordinator` field.
+این حاشیه‌نویسی/برچسب در مشاغل و پادها برای ذخیره یک نقطه پایانی شبکه پایدار استفاده می‌شود که در آن پاد هماهنگ‌کننده در صورتی که مشخصات [JobSet](https://jobset.sigs.k8s.io) فیلد `.spec.coordinator` را تعریف کند، قابل دسترسی است.
 
 ## Annotations used for audit
 
@@ -2624,103 +2519,99 @@ pod can be reached if the [JobSet](https://jobset.sigs.k8s.io) spec defines the 
 - [`pod-security.kubernetes.io/exempt`](/docs/reference/labels-annotations-taints/audit-annotations/#pod-security-kubernetes-io-exempt)
 - [`validation.policy.admission.k8s.io/validation_failure`](/docs/reference/labels-annotations-taints/audit-annotations/#validation-policy-admission-k8s-io-validation-failure)
   
-See more details on [Audit Annotations](/docs/reference/labels-annotations-taints/audit-annotations/).
+جزئیات بیشتر را در [Audit Annotations](/docs/reference/labels-annotations-taints/audit-annotations/) ببینید.
+jozeia
 
 ## kubeadm
 
 ### kubeadm.alpha.kubernetes.io/cri-socket
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/container.sock`
+مثال: `kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/container.sock`
 
-Used on: Node
+مورد استفاده در: Node
 
-Annotation that kubeadm uses to preserve the CRI socket information given to kubeadm at
-`init`/`join` time for later use. kubeadm annotates the Node object with this information.
-The annotation remains "alpha", since ideally this should be a field in KubeletConfiguration
-instead.
+حاشیه‌ای که kubeadm برای حفظ اطلاعات سوکت CRI داده شده به kubeadm در زمان `init`/`join` برای استفاده‌های بعدی استفاده می‌کند. kubeadm شیء Node را با این اطلاعات حاشیه‌نویسی می‌کند.
+
+حاشیه‌نویسی "alpha" باقی می‌ماند، زیرا در حالت ایده‌آل، این باید یک فیلد در KubeletConfiguration باشد.
 
 ### kubeadm.kubernetes.io/etcd.advertise-client-urls
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubeadm.kubernetes.io/etcd.advertise-client-urls: https://172.17.0.18:2379`
+مثال: `kubeadm.kubernetes.io/etcd.advertise-client-urls: https://172.17.0.18:2379`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-Annotation that kubeadm places on locally managed etcd Pods to keep track of
-a list of URLs where etcd clients should connect to.
-This is used mainly for etcd cluster health check purposes.
+حاشیه‌ای که kubeadm روی پادهای etcd که به صورت محلی مدیریت می‌شوند قرار می‌دهد تا فهرستی از URLهایی را که کلاینت‌های etcd باید به آنها متصل شوند، پیگیری کند.
+
+این عمدتاً برای اهداف بررسی سلامت خوشه etcd استفاده می‌شود.
 
 ### kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: https://172.17.0.18:6443`
+مثال: `kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: https://172.17.0.18:6443`
 
-Used on: Pod
+مورد استفاده در: پاد
 
-Annotation that kubeadm places on locally managed `kube-apiserver` Pods to keep track
-of the exposed advertise address/port endpoint for that API server instance.
+حاشیه‌ای که kubeadm روی پادهای `kube-apiserver` که به صورت محلی مدیریت می‌شوند قرار می‌دهد تا آدرس/پورت پایانی آشکار شده برای آن نمونه سرور API را پیگیری کند.
 
 ### kubeadm.kubernetes.io/component-config.hash
 
-Type: Annotation
+نوع: حاشیه‌نویسی
 
-Example: `kubeadm.kubernetes.io/component-config.hash: 2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae`
+مثال: `kubeadm.kubernetes.io/component-config.hash: 2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae`
 
-Used on: ConfigMap
+مورد استفاده در: ConfigMap
 
-Annotation that kubeadm places on ConfigMaps that it manages for configuring components.
-It contains a hash (SHA-256) used to determine if the user has applied settings different
-from the kubeadm defaults for a particular component.
+حاشیه‌ای که kubeadm روی ConfigMaps که برای پیکربندی اجزا مدیریت می‌کند، قرار می‌دهد.
+
+این شامل یک هش (SHA-256) است که برای تعیین اینکه آیا کاربر تنظیماتی متفاوت از پیش‌فرض‌های kubeadm برای یک جزء خاص اعمال کرده است یا خیر، استفاده می‌شود.
 
 ### node-role.kubernetes.io/control-plane
 
-Type: Label
+نوع: برچسب
 
-Used on: Node
+مورد استفاده در: گره
 
-A marker label to indicate that the node is used to run control plane components.
-The kubeadm tool applies this label to the control plane nodes that it manages.
-Other cluster management tools typically also set this taint.
+یک برچسب نشانگر برای نشان دادن اینکه گره برای اجرای اجزای صفحه کنترل استفاده می‌شود.
+ابزار kubeadm این برچسب را به گره‌های صفحه کنترلی که مدیریت می‌کند اعمال می‌کند.
+سایر ابزارهای مدیریت خوشه نیز معمولاً این برچسب را تنظیم می‌کنند.
 
-You can label control plane nodes with this label to make it easier to schedule Pods
-only onto these nodes, or to avoid running Pods on the control plane.
-If this label is set, the [EndpointSlice controller](/docs/concepts/services-networking/topology-aware-routing/#implementation-control-plane)
-ignores that node while calculating Topology Aware Hints.
+شما می‌توانید گره‌های صفحه کنترل را با این برچسب برچسب‌گذاری کنید تا برنامه‌ریزی Podها فقط روی این گره‌ها آسان‌تر شود، یا از اجرای Podها روی صفحه کنترل جلوگیری شود.
+
+اگر این برچسب تنظیم شود، [EndpointSlice controller](/docs/concepts/services-networking/topology-aware-routing/#implementation-control-plane)
+
+آن گره را هنگام محاسبه Topology Aware Hints نادیده می‌گیرد.
 
 ### node-role.kubernetes.io/*
 
-Type: Label
+نوع: برچسب
 
-Example: `node-role.kubernetes.io/gpu: gpu`
+مثال: `node-role.kubernetes.io/gpu: gpu`
 
-Used on: Node
+مورد استفاده در: Node
 
-This optional label is applied to a node when you want to mark a node role. 
-The node role (text following `/` in the label key) can be set, as long as the overall key follows the
-[syntax](/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set) rules for
-object labels.
+این برچسب اختیاری زمانی به یک گره اعمال می‌شود که می‌خواهید نقش یک گره را علامت‌گذاری کنید.
 
-Kubernetes defines one specific node role, **control-plane**. A label you can use to mark that node
-role is [`node-role.kubernetes.io/control-plane`](#node-role-kubernetes-io-control-plane).
+نقش گره (متن بعد از `/` در کلید برچسب) را می‌توان تنظیم کرد، تا زمانی که کلید کلی از قوانین [syntax](/docs/concepts/overview/working-with-objects/labels/#syntax-and-character-set) برای برچسب‌های شیء پیروی کند.
+
+کوبرنتیز یک نقش گره خاص، **control-plane**، را تعریف می‌کند. برچسبی که می‌توانید برای علامت‌گذاری آن نقش گره استفاده کنید، [`node-role.kubernetes.io/control-plane`](#node-role-kubernetes-io-control-plane) است.
 
 ### node-role.kubernetes.io/control-plane {#node-role-kubernetes-io-control-plane-taint}
 
-Type: Taint
+نوع: taint
 
-Example: `node-role.kubernetes.io/control-plane:NoSchedule`
+مثال: `node-role.kubernetes.io/control-plane:NoSchedule`
 
-Used on: Node
+مورد استفاده در: گره
 
-Taint that kubeadm applies on control plane nodes to restrict placing Pods and
-allow only specific pods to schedule on them.
+taint که kubeadm روی گره‌های صفحه کنترل اعمال می‌کند تا قرار دادن Podها را محدود کند و
+فقط به Podهای خاص اجازه دهد روی آنها برنامه‌ریزی کنند.
 
-If this Taint is applied, control plane nodes allow only critical workloads to
-be scheduled onto them. You can manually remove this taint with the following
-command on a specific node.
+اگر این taint اعمال شود، گره‌های صفحه کنترل فقط اجازه می‌دهند بارهای کاری حیاتی روی آنها برنامه‌ریزی شوند. می‌توانید این taint را با دستور زیر روی یک گره خاص به صورت دستی حذف کنید.
 
 ```shell
 kubectl taint nodes <node-name> node-role.kubernetes.io/control-plane:NoSchedule-
@@ -2728,30 +2619,21 @@ kubectl taint nodes <node-name> node-role.kubernetes.io/control-plane:NoSchedule
 
 ### node-role.kubernetes.io/master (deprecated) {#node-role-kubernetes-io-master-taint}
 
-Type: Taint
+نوع: TAINT
 
-Used on: Node
+مورد استفاده در: Node
 
-Example: `node-role.kubernetes.io/master:NoSchedule`
+مثال: `node-role.kubernetes.io/master:NoSchedule`
 
-Taint that kubeadm previously applied on control plane nodes to allow only critical
-workloads to schedule on them. Replaced by the
-[`node-role.kubernetes.io/control-plane`](#node-role-kubernetes-io-control-plane-taint)
-taint. kubeadm no longer sets or uses this deprecated taint.
+TAINTی که kubeadm قبلاً روی گره‌های صفحه کنترل اعمال کرده بود تا فقط بارهای کاری بحرانی بتوانند روی آنها زمان‌بندی شوند. با TAINT [`node-role.kubernetes.io/control-plane`](#node-role-kubernetes-io-control-plane-taint) جایگزین شده است. kubeadm دیگر این TAINT منسوخ شده را تنظیم یا استفاده نمی‌کند.
 
 ### resource.k8s.io/admin-access {resource-k8s-io-admin-access}
 
-Type: Label
+نوع: برچسب
 
-Example: `resource.k8s.io/admin-access: "true"`
+مثال: `resource.k8s.io/admin-access: "true"`
 
-Used on: Namespace
+مورد استفاده در: فضای نام
 
-Used to grant administrative access to certain resource.k8s.io API types within
-a namespace. When this label is set on a namespace with the value `"true"`
-(case-sensitive), it allows the use of `adminAccess: true` in any namespaced
-`resource.k8s.io` API types. Currently, this permission applies to
-`ResourceClaim` and `ResourceClaimTemplate` objects.
-
-See [Dynamic Resource Allocation Admin access](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#enabling-admin-access)
-for more information.
+برای اعطای دسترسی مدیریتی به انواع API خاص resource.k8s.io در یک فضای نام استفاده می‌شود. هنگامی که این برچسب روی یک فضای نام با مقدار `"true"` (حساس به حروف کوچک و بزرگ) تنظیم شود، امکان استفاده از `adminAccess: true` را در هر نوع API با فضای نام `resource.k8s.io` فراهم می‌کند. در حال حاضر، این مجوز برای اشیاء `ResourceClaim` و `ResourceClaimTemplate` اعمال می‌شود.
+برای اطلاعات بیشتر به [Dynamic Resource Allocation Admin access](/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#enabling-admin-access)مراجعه کنید.

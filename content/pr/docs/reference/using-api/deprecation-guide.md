@@ -11,10 +11,9 @@ content_type: reference
 
 <!-- overview -->
 
-As the Kubernetes API evolves, APIs are periodically reorganized or upgraded.
-When APIs evolve, the old API is deprecated and eventually removed.
-This page contains information you need to know when migrating from
-deprecated API versions to newer and more stable API versions.
+با تکامل API کوبرنتیز، APIها به صورت دوره‌ای سازماندهی مجدد یا ارتقا می‌یابند.
+هنگامی که APIها تکامل می‌یابند، API قدیمی منسوخ شده و در نهایت حذف می‌شود.
+این صفحه حاوی اطلاعاتی است که هنگام مهاجرت از نسخه‌های API منسوخ شده به نسخه‌های API جدیدتر و پایدارتر باید بدانید.
 
 <!-- body -->
 
@@ -22,43 +21,48 @@ deprecated API versions to newer and more stable API versions.
 
 ### v1.32
 
-The **v1.32** release stopped serving the following deprecated API versions:
+نسخه **v1.32** ارائه نسخه‌های API منسوخ‌شده زیر را متوقف کرد:
 
 #### Flow control resources {#flowcontrol-resources-v132}
 
-The **flowcontrol.apiserver.k8s.io/v1beta3** API version of FlowSchema and PriorityLevelConfiguration is no longer served as of v1.32.
+نسخه API مربوط به FlowSchema و PriorityLevelConfiguration از نسخه ۱.۳۲ به بعد دیگر ارائه نمی‌شود. **flowcontrol.apiserver.k8s.io/v1beta3**
 
-* Migrate manifests and API clients to use the **flowcontrol.apiserver.k8s.io/v1** API version, available since v1.29.
-* All existing persisted objects are accessible via the new API
-* Notable changes in **flowcontrol.apiserver.k8s.io/v1**:
-  * The PriorityLevelConfiguration `spec.limited.nominalConcurrencyShares` field only defaults to 30 when unspecified, and an explicit value of 0 is not changed to 30.
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **flowcontrol.apiserver.k8s.io/v1** که از نسخه ۱.۲۹ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* تغییرات قابل توجه در **flowcontrol.apiserver.k8s.io/v1**:
+* فیلد PriorityLevelConfiguration `spec.limited.nominalConcurrencyShares` فقط در صورت عدم تعیین، به طور پیش‌فرض روی ۳۰ قرار می‌گیرد و مقدار صریح ۰ به ۳۰ تغییر نمی‌کند.
 
 ### v1.29
 
-The **v1.29** release stopped serving the following deprecated API versions:
+نسخه **v1.29** ارائه نسخه‌های API منسوخ‌شده زیر را متوقف کرد:
 
 #### Flow control resources {#flowcontrol-resources-v129}
 
-The **flowcontrol.apiserver.k8s.io/v1beta2** API version of FlowSchema and PriorityLevelConfiguration is no longer served as of v1.29.
+نسخه API مربوط به FlowSchema و PriorityLevelConfiguration از نسخه ۱.۲۹ به بعد دیگر ارائه نمی‌شود. **flowcontrol.apiserver.k8s.io/v1beta2**
 
-* Migrate manifests and API clients to use the **flowcontrol.apiserver.k8s.io/v1** API version, available since v1.29, or the **flowcontrol.apiserver.k8s.io/v1beta3** API version, available since v1.26.
-* All existing persisted objects are accessible via the new API
-* Notable changes in **flowcontrol.apiserver.k8s.io/v1**:
-  * The PriorityLevelConfiguration `spec.limited.assuredConcurrencyShares` field is renamed to `spec.limited.nominalConcurrencyShares` and only defaults to 30 when unspecified, and an explicit value of 0 is not changed to 30.
-* Notable changes in **flowcontrol.apiserver.k8s.io/v1beta3**:
-  * The PriorityLevelConfiguration `spec.limited.assuredConcurrencyShares` field is renamed to `spec.limited.nominalConcurrencyShares`
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **flowcontrol.apiserver.k8s.io/v1** که از نسخه ۱.۲۹ در دسترس است، یا نسخه API **flowcontrol.apiserver.k8s.io/v1beta3** که از نسخه ۱.۲۶ در دسترس است، منتقل کنید.
+* همه اشیاء موجودِ ذخیره‌شده از طریق API جدید قابل دسترسی هستند
+
+* تغییرات قابل توجه در **flowcontrol.apiserver.k8s.io/v1**:
+* فیلد PriorityLevelConfiguration `spec.limited.assuredConcurrencyShares` به `spec.limited.nominalConcurrencyShares` تغییر نام داده است و فقط در صورت عدم تعیین مقدار پیش‌فرض آن 30 است و مقدار صریح 0 به 30 تغییر نمی‌کند.
+* Notable changes in **flowcontrol.apiserver.k8s**. تغییرات قابل توجه در **flowcontrol.apiserver**.
+
+k8s.io/v1beta3**:
+* فیلد PriorityLevelConfiguration `spec.limited.assuredConcurrencyShares` به `spec.limited.nominalConcurrencyShares` تغییر نام داده است.
 
 ### v1.27
 
-The **v1.27** release stopped serving the following deprecated API versions:
+نسخه **v1.27** ارائه نسخه‌های API منسوخ‌شده زیر را متوقف کرد:
 
 #### CSIStorageCapacity {#csistoragecapacity-v127}
 
-The **storage.k8s.io/v1beta1** API version of CSIStorageCapacity is no longer served as of v1.27.
+نسخه API **storage.k8s.io/v1beta1** از CSIStorageCapacity از نسخه ۱.۲۷ دیگر ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **storage.k8s.io/v1** API version, available since v1.24.
-* All existing persisted objects are accessible via the new API
-* No notable changes
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **storage.k8s.io/v1** که از نسخه ۱.۲۴ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* هیچ تغییر قابل توجهی وجود ندارد
 
 ### v1.26
 
@@ -66,123 +70,130 @@ The **v1.26** release stopped serving the following deprecated API versions:
 
 #### Flow control resources {#flowcontrol-resources-v126}
 
-The **flowcontrol.apiserver.k8s.io/v1beta1** API version of FlowSchema and PriorityLevelConfiguration is no longer served as of v1.26.
+نسخه API **flowcontrol.apiserver.k8s.io/v1beta1** از FlowSchema و PriorityLevelConfiguration از نسخه ۱.۲۶ دیگر ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **flowcontrol.apiserver.k8s.io/v1beta2** API version.
-* All existing persisted objects are accessible via the new API
-* No notable changes
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **flowcontrol.apiserver.k8s.io/v1beta2** منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* هیچ تغییر قابل توجهی وجود ندارد
 
 #### HorizontalPodAutoscaler {#horizontalpodautoscaler-v126}
 
-The **autoscaling/v2beta2** API version of HorizontalPodAutoscaler is no longer served as of v1.26.
+نسخه API **autoscaling/v2beta2** از HorizontalPodAutoscaler از نسخه ۱.۲۶ دیگر ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **autoscaling/v2** API version, available since v1.23.
-* All existing persisted objects are accessible via the new API
-* Notable changes:
-  * `targetAverageUtilization` is replaced with `target.averageUtilization` and `target.type: Utilization`. See [Autoscaling on multiple metrics and custom metrics](/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics).
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **autoscaling/v2** که از نسخه ۱.۲۳ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* تغییرات قابل توجه:
+
+* `targetAverageUtilization` با `target.averageUtilization` و `target.type: Utilization` جایگزین شده است. به [Autoscaling on multiple metrics and custom metrics](/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics) مراجعه کنید.
 ### v1.25
 
-The **v1.25** release stopped serving the following deprecated API versions:
+نسخه **v1.25** ارائه نسخه‌های API منسوخ‌شده زیر را متوقف کرد:
 
 #### CronJob {#cronjob-v125}
 
-The **batch/v1beta1** API version of CronJob is no longer served as of v1.25.
+نسخه API **batch/v1beta1** از CronJob دیگر از نسخه ۱.۲۵ ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **batch/v1** API version, available since v1.21.
-* All existing persisted objects are accessible via the new API
-* No notable changes
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **batch/v1** که از نسخه ۱.۲۱ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* هیچ تغییر قابل توجهی وجود ندارد
 
 #### EndpointSlice {#endpointslice-v125}
 
-The **discovery.k8s.io/v1beta1** API version of EndpointSlice is no longer served as of v1.25.
+نسخه API **discovery.k8s.io/v1beta1** از EndpointSlice دیگر از نسخه ۱.۲۵ ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **discovery.k8s.io/v1** API version, available since v1.21.
-* All existing persisted objects are accessible via the new API
-* Notable changes in **discovery.k8s.io/v1**:
-  * use per Endpoint `nodeName` field instead of deprecated `topology["kubernetes.io/hostname"]` field
-  * use per Endpoint `zone` field instead of deprecated `topology["topology.kubernetes.io/zone"]` field
-  * `topology` is replaced with the `deprecatedTopology` field which is not writable in v1
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **discovery.k8s.io/v1** که از نسخه ۱.۲۱ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* تغییرات قابل توجه در **discovery.k8s.io/v1**:
+
+* استفاده از فیلد `nodeName` برای هر Endpoint به جای فیلد منسوخ شده `topology["kubernetes.io/hostname"]`
+
+* استفاده از فیلد `zone` برای هر Endpoint به جای فیلد منسوخ شده `topology["topology.kubernetes.io/zone"]`
+
+* `topology` با فیلد `deprecatedTopology` جایگزین شده است که در نسخه ۱ قابل نوشتن نیست.
 
 #### Event {#event-v125}
 
-The **events.k8s.io/v1beta1** API version of Event is no longer served as of v1.25.
+نسخه API **events.k8s.io/v1beta1** از Event دیگر از نسخه ۱.۲۵ ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **events.k8s.io/v1** API version, available since v1.19.
-* All existing persisted objects are accessible via the new API
-* Notable changes in **events.k8s.io/v1**:
-  * `type` is limited to `Normal` and `Warning`
-  * `involvedObject` is renamed to `regarding`
-  * `action`, `reason`, `reportingController`, and `reportingInstance` are required
-    when creating new **events.k8s.io/v1** Events
-  * use `eventTime` instead of the deprecated `firstTimestamp` field (which is renamed
-    to `deprecatedFirstTimestamp` and not permitted in new **events.k8s.io/v1** Events)
-  * use `series.lastObservedTime` instead of the deprecated `lastTimestamp` field
-    (which is renamed to `deprecatedLastTimestamp` and not permitted in new **events.k8s.io/v1** Events)
-  * use `series.count` instead of the deprecated `count` field
-    (which is renamed to `deprecatedCount` and not permitted in new **events.k8s.io/v1** Events)
-  * use `reportingController` instead of the deprecated `source.component` field
-    (which is renamed to `deprecatedSource.component` and not permitted in new **events.k8s.io/v1** Events)
-  * use `reportingInstance` instead of the deprecated `source.host` field
-    (which is renamed to `deprecatedSource.host` and not permitted in new **events.k8s.io/v1** Events)
+* برای استفاده از نسخه API **events.k8s.io/v1** که از نسخه ۱.۱۹ در دسترس است، مانیفست‌ها و کلاینت‌های API را منتقل کنید. * همه اشیاء موجود از طریق API جدید قابل دسترسی هستند
+* تغییرات قابل توجه در **events.k8s.io/v1**:
+* `type` به `Normal` و `Warning` محدود شده است
+* `involvedObject` به `regarding` تغییر نام داده است
+* `action`، `reason`، `reportingController` و `reportingInstance` هنگام ایجاد رویدادهای جدید **events.k8s.io/v1** الزامی هستند
+* به جای فیلد منسوخ شده `firstTimestamp` (که به `deprecatedFirstTimestamp` تغییر نام داده شده و در رویدادهای جدید **events.k8s.io/v1** مجاز نیست) از `eventTime` استفاده کنید
+* به جای فیلد منسوخ شده `lastTimestamp` از `series.lastObservedTime` استفاده کنید
+(که به `deprecatedLastTimestamp` تغییر نام داده شده و در رویدادهای جدید مجاز نیست) **events.k8s.io/v1** Events)
+* به جای فیلد منسوخ شده `count` (که به `deprecatedCount` تغییر نام داده شده و در رویدادهای جدید **events.k8s.io/v1** مجاز نیست) از `series.count` استفاده کنید.
+
+* به جای فیلد منسوخ شده `source.component` (که به `deprecatedSource.component` تغییر نام داده شده و در رویدادهای جدید **events.k8s.io/v1** مجاز نیست) از `reportingController` استفاده کنید.
+
+* به جای فیلد منسوخ شده `source.host` (که به `deprecatedSource.host` تغییر نام داده شده و در رویدادهای جدید **events.k8s.io/v1** مجاز نیست) از `reportingInstance` استفاده کنید.
 
 #### HorizontalPodAutoscaler {#horizontalpodautoscaler-v125}
 
-The **autoscaling/v2beta1** API version of HorizontalPodAutoscaler is no longer served as of v1.25.
+نسخه API **autoscaling/v2beta1** از HorizontalPodAutoscaler از نسخه ۱.۲۵ دیگر ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **autoscaling/v2** API version, available since v1.23.
-* All existing persisted objects are accessible via the new API
-* Notable changes:
-  * `targetAverageUtilization` is replaced with `target.averageUtilization` and `target.type: Utilization`. See [Autoscaling on multiple metrics and custom metrics](/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics).
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **autoscaling/v2** که از نسخه ۱.۲۳ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* تغییرات قابل توجه:
+
+* `targetAverageUtilization` با `target.averageUtilization` و `target.type: Utilization` جایگزین شده است. به [Autoscaling on multiple metrics and custom metrics](/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/#autoscaling-on-multiple-metrics-and-custom-metrics) مراجعه کنید.
 
 #### PodDisruptionBudget {#poddisruptionbudget-v125}
 
-The **policy/v1beta1** API version of PodDisruptionBudget is no longer served as of v1.25.
+نسخه API **policy/v1beta1** از PodDisruptionBudget دیگر از نسخه ۱.۲۵ ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **policy/v1** API version, available since v1.21.
-* All existing persisted objects are accessible via the new API
-* Notable changes in **policy/v1**:
-  * an empty `spec.selector` (`{}`) written to a `policy/v1` PodDisruptionBudget selects all
-    pods in the namespace (in `policy/v1beta1` an empty `spec.selector` selected no pods).
-    An unset `spec.selector` selects no pods in either API version.
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **policy/v1** که از نسخه ۱.۲۱ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* تغییرات قابل توجه در **policy/v1**:
+
+* یک `spec.selector` خالی (`{}`) که در `policy/v1` نوشته شده است، همه پادها را در فضای نام انتخاب می‌کند (در `policy/v1beta1` یک `spec.selector` خالی هیچ پادی را انتخاب نکرده است).
+
+یک `spec.selector` تنظیم نشده، هیچ پادی را در هیچ یک از نسخه‌های API انتخاب نمی‌کند.
 
 #### PodSecurityPolicy {#psp-v125}
+
+
+PodSecurityPolicy در نسخه API **policy/v1beta1** از نسخه ۱.۲۵ دیگر ارائه نمی‌شود و کنترل‌کننده پذیرش PodSecurityPolicy حذف خواهد شد.
+
+به [Pod Security Admission](/docs/concepts/security/pod-security-admission/) یا یک [3rd party admission webhook](/docs/reference/access-authn-authz/extensible-admission-controllers/). مهاجرت کنید.
+
+برای راهنمای مهاجرت، به [Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller](/docs/tasks/configure-pod-container/migrate-from-psp/) مراجعه کنید. برای اطلاعات بیشتر در مورد منسوخ شدن، به [Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller](/docs/tasks/configure-pod-container/migrate-from-psp/). مراجعه کنید.
 
 PodSecurityPolicy in the **policy/v1beta1** API version is no longer served as of v1.25,
 and the PodSecurityPolicy admission controller will be removed.
 
-Migrate to [Pod Security Admission](/docs/concepts/security/pod-security-admission/)
-or a [3rd party admission webhook](/docs/reference/access-authn-authz/extensible-admission-controllers/).
-For a migration guide, see [Migrate from PodSecurityPolicy to the Built-In PodSecurity Admission Controller](/docs/tasks/configure-pod-container/migrate-from-psp/).
-For more information on the deprecation, see [PodSecurityPolicy Deprecation: Past, Present, and Future](/blog/2021/04/06/podsecuritypolicy-deprecation-past-present-and-future/).
-
 #### RuntimeClass {#runtimeclass-v125}
 
-RuntimeClass in the **node.k8s.io/v1beta1** API version is no longer served as of v1.25.
+کلاس RuntimeClass در نسخه API **node.k8s.io/v1beta1** از نسخه ۱.۲۵ دیگر ارائه نمی‌شود.
 
-* Migrate manifests and API clients to use the **node.k8s.io/v1** API version, available since v1.20.
-* All existing persisted objects are accessible via the new API
-* No notable changes
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **node.k8s.io/v1** که از نسخه ۱.۲۰ در دسترس است، منتقل کنید.
+
+* همه اشیاء موجود از طریق API جدید قابل دسترسی هستند.
+* هیچ تغییر قابل توجهی وجود ندارد
 
 ### v1.22
 
-The **v1.22** release stopped serving the following deprecated API versions:
+نسخه **v1.22** ارائه نسخه‌های API منسوخ‌شده زیر را متوقف کرد:
 
 #### Webhook resources {#webhook-resources-v122}
 
-The **admissionregistration.k8s.io/v1beta1** API version of MutatingWebhookConfiguration
-and ValidatingWebhookConfiguration is no longer served as of v1.22.
+نسخه API مربوط به MutatingWebhookConfiguration و ValidatingWebhookConfiguration از نسخه ۱.۲۲ دیگر ارائه نمی‌شود. **admissionregistration.k8s.io/v1beta1**
 
-* Migrate manifests and API clients to use the **admissionregistration.k8s.io/v1** API version, available since v1.16.
-* All existing persisted objects are accessible via the new APIs
-* Notable changes:
-  * `webhooks[*].failurePolicy` default changed from `Ignore` to `Fail` for v1
-  * `webhooks[*].matchPolicy` default changed from `Exact` to `Equivalent` for v1
-  * `webhooks[*].timeoutSeconds` default changed from `30s` to `10s` for v1
-  * `webhooks[*].sideEffects` default value is removed, and the field made required,
-    and only `None` and `NoneOnDryRun` are permitted for v1
-  * `webhooks[*].admissionReviewVersions` default value is removed and the field made
-    required for v1 (supported versions for AdmissionReview are `v1` and `v1beta1`)
-  * `webhooks[*].name` must be unique in the list for objects created via `admissionregistration.k8s.io/v1`
+* مانیفست‌ها و کلاینت‌های API را برای استفاده از نسخه API **admissionregistration.k8s.io/v1** که از نسخه ۱.۱۶ در دسترس است، منتقل کنید. * همه اشیاء موجود از طریق API های جدید قابل دسترسی هستند
+* تغییرات قابل توجه:
+* مقدار پیش‌فرض `webhooks[*].failurePolicy` برای نسخه ۱ از `Ignore` به `Fail` تغییر کرد.
+* مقدار پیش‌فرض `webhooks[*].matchPolicy` از `Exact` به `Equivalent` برای نسخه ۱ تغییر کرد.
+* مقدار پیش‌فرض `webhooks[*].timeoutSeconds` از `30s` به `10s` برای نسخه ۱ تغییر کرد.
+* مقدار پیش‌فرض `webhooks[*].sideEffects` حذف شد و فیلد مورد نیاز شد، و فقط `None` و `NoneOnDryRun` برای نسخه ۱ مجاز هستند.
+* مقدار پیش‌فرض `webhooks[*].admissionReviewVersions` حذف شد و فیلد مورد نیاز شد. (نسخه‌های پشتیبانی شده برای AdmissionReview عبارتند از `v1` و `v1beta1`)
+* مقدار پیش‌فرض `webhooks[*].name` باید باشد. برای اشیاء ایجاد شده از طریق `admissionregistration.k8s.io/v1` در لیست منحصر به فرد باشد
 
 #### CustomResourceDefinition {#customresourcedefinition-v122}
 
