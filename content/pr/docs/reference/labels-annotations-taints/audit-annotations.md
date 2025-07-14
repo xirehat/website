@@ -1,171 +1,144 @@
 ---
-title: "Audit Annotations"
+title: "حاشیه‌نویسی‌های حسابرسی"
 weight: 10
 ---
 
 <!-- overview -->
 
-This page serves as a reference for the audit annotations of the kubernetes.io
-namespace. These annotations apply to `Event` object from API group
-`audit.k8s.io`.
+این صفحه به عنوان مرجعی برای حاشیه‌نویسی‌های حسابرسی نیم اسپیس  kubernetes.io عمل می‌کند. این حاشیه‌نویسی‌ها برای شیء `Event` از گروه API `audit.k8s.io` اعمال می‌شوند.
 
 {{< note >}}
-The following annotations are not used within the Kubernetes API. When you
-[enable auditing](/docs/tasks/debug/debug-cluster/audit/) in your cluster,
-audit event data is written using `Event` from API group `audit.k8s.io`.
-The annotations apply to audit events. Audit events are different from objects in the
-[Event API](/docs/reference/kubernetes-api/cluster-resources/event-v1/) (API group
-`events.k8s.io`).
+حاشیه‌نویسی‌های زیر در API Kubernetes استفاده نمی‌شوند. وقتی شما در کلاستر خود، حسابرسی را فعال می‌کنید، داده‌های رویداد حسابرسی با استفاده از `Event` از گروه API `audit.k8s.io` [enable auditing](/docs/tasks/debug/debug-cluster/audit/)نوشته می‌شوند. این حاشیه‌نویسی‌ها برای رویدادهای حسابرسی اعمال می‌شوند. رویدادهای حسابرسی با اشیاء موجود در [Event API](/docs/reference/kubernetes-api/cluster-resources/event-v1/) (API group `events.k8s.io`). متفاوت هستند.
 {{< /note >}}
 
 <!-- body -->
 
 ## k8s.io/deprecated
 
-Example: `k8s.io/deprecated: "true"`
+مثال: `k8s.io/deprecated: "true"`
 
-Value **must** be "true" or "false". The value "true" indicates that the
-request used a deprecated API version.
+مقدار **باید** "true" یا "false" باشد. مقدار "true" نشان می‌دهد که درخواست از یک نسخه API منسوخ شده استفاده کرده است.
 
 ## k8s.io/removed-release
 
-Example: `k8s.io/removed-release: "1.22"`
+مثال: `k8s.io/removed-release: "1.22"`
 
-Value **must** be in the format "\<MAJOR>\.\<MINOR>\". It is set to target the removal release
-on requests made to deprecated API versions with a target removal release.
+مقدار **باید** در قالب "\<MAJOR>\.\<MINOR>\" باشد. این مقدار طوری تنظیم شده است که نسخه حذف را هدف قرار دهد
+در درخواست‌های ارسالی به نسخه‌های منسوخ API با نسخه حذف هدف.
 
 ## pod-security.kubernetes.io/exempt
 
 Example: `pod-security.kubernetes.io/exempt: namespace`
 
-Value **must** be one of `user`, `namespace`, or `runtimeClass` which correspond to
-[Pod Security Exemption](/docs/concepts/security/pod-security-admission/#exemptions)
-dimensions. This annotation indicates on which dimension was based the exemption
-from the PodSecurity enforcement.
+مثال: `pod-security.kubernetes.io/exempt: namespace`
+
+مقدار **باید** یکی از `user`، `namespace` یا `runtimeClass` باشد که مربوط به ابعاد `[Pod Security Exemption](/docs/concepts/security/pod-security-admission/#exemptions)` باشد. این حاشیه‌نویسی نشان می‌دهد که معافیت از اجرای PodSecurity بر اساس کدام بعد بوده است.
 
 
 ## pod-security.kubernetes.io/enforce-policy
 
-Example: `pod-security.kubernetes.io/enforce-policy: restricted:latest`
+مثال: `pod-security.kubernetes.io/enforce-policy: restricted:latest`
 
-Value **must** be `privileged:<version>`, `baseline:<version>`,
-`restricted:<version>` which correspond to [Pod Security
-Standard](/docs/concepts/security/pod-security-standards) levels accompanied by
-a version which **must** be `latest` or a valid Kubernetes version in the format
-`v<MAJOR>.<MINOR>`. This annotations informs about the enforcement level that
-allowed or denied the pod during PodSecurity admission.
+مقدار **باید** به صورت `privileged:<version>`، `baseline:<version>`، `restricted:<version>` باشد که مربوط به سطوح [Pod Security
+Standard](/docs/concepts/security/pod-security-standards) به همراه نسخه‌ای که **باید** `latest` یا یک نسخه معتبر Kubernetes با فرمت `v<MAJOR>.<MINOR>` باشد، می‌باشد. این حاشیه‌نویسی‌ها در مورد سطح اجرایی که `pod را در طول پذیرش PodSecurity مجاز یا غیرمجاز کرده است، اطلاع می‌دهد.
 
-See [Pod Security Standards](/docs/concepts/security/pod-security-standards/)
-for more information.
+برای اطلاعات بیشتر به [استانداردهای امنیتی پاد](/docs/concepts/security/pod-security-standards/) مراجعه کنید.
+
 
 ## pod-security.kubernetes.io/audit-violations
 
-Example:  `pod-security.kubernetes.io/audit-violations: would violate
+مثال: `pod-security.kubernetes.io/audit-violations: would violation
 PodSecurity "restricted:latest": allowPrivilegeEscalation != false (container
 "example" must set securityContext.allowPrivilegeEscalation=false), ...`
 
+مقدار، جزئیات نقض سیاست حسابرسی را شرح می‌دهد، که شامل سطح [Pod Security Standard](/docs/concepts/security/pod-security-standards/) که از آن تخطی شده است و همچنین سیاست‌های خاص در فیلدهایی که از اجرای PodSecurity نقض شده‌اند، می‌باشد.
+
+برای اطلاعات بیشتر به [Pod Security Standards](/docs/concepts/security/pod-security-standards/)مراجعه کنید.
 Value details an audit policy violation, it contains the
-[Pod Security Standard](/docs/concepts/security/pod-security-standards/) level
-that was transgressed as well as the specific policies on the fields that were
-violated from the PodSecurity enforcement.
-
-See [Pod Security Standards](/docs/concepts/security/pod-security-standards/)
-for more information.
-
 ## apiserver.latency.k8s.io/etcd
 
-Example: `apiserver.latency.k8s.io/etcd: "4.730661757s"`
+مثال: `apiserver.latency.k8s.io/etcd: "4.730661757s"`
 
-This annotation indiactes the measure of latency incurred inside the storage layer,
-it accounts for the time it takes to send data to the etcd and get the complete response back.
+این حاشیه‌نویسی، میزان تأخیر ایجاد شده در داخل لایه ذخیره‌سازی را نشان می‌دهد،
+این حاشیه‌نویسی، زمان لازم برای ارسال داده‌ها به etcd و دریافت پاسخ کامل را محاسبه می‌کند.
 
-The value of this audit annotation does not include the time incurred in admission, or validation.
+مقدار این حاشیه‌نویسی حسابرسی، زمان صرف شده برای پذیرش یا اعتبارسنجی را شامل نمی‌شود.
 
 ## apiserver.latency.k8s.io/decode-response-object
 
-Example: `apiserver.latency.k8s.io/decode-response-object: "450.6649ns"`
+مثال: `apiserver.latency.k8s.io/decode-response-object: "450.6649ns"`
 
-This annotation records the time taken to decode the response received from the storage layer (etcd)
+این حاشیه‌نویسی، زمان لازم برای رمزگشایی پاسخ دریافتی از لایه ذخیره‌سازی (etcd) را ثبت می‌کند.
 
 ## apiserver.latency.k8s.io/apf-queue-wait
 
-Example: `apiserver.latency.k8s.io/apf-queue-wait: "100ns"`
+مثال: `apiserver.latency.k8s.io/apf-queue-wait: "100ns"`
 
-This annotation records the time that a request spent queued due to API server priorities.
+این حاشیه‌نویسی، مدت زمانی را که یک درخواست به دلیل اولویت‌های سرور API در صف انتظار می‌ماند، ثبت می‌کند.
 
-See [API Priority and Fairness](/docs/concepts/cluster-administration/flow-control/) (APF)
-for more information about this mechanism.
+برای اطلاعات بیشتر در مورد این مکانیسم، به [API Priority and Fairness](/docs/concepts/cluster-administration/flow-control/) (APF) مراجعه کنید.
 
 ## authorization.k8s.io/decision
 
-Example: `authorization.k8s.io/decision: "forbid"`
+مثال: `authorization.k8s.io/decision: "forbid"`
 
-Value must be **forbid** or **allow**. This annotation indicates whether or not a request
-was authorized in Kubernetes audit logs.
+مقدار باید **forbid** یا **allow** باشد. این حاشیه‌نویسی نشان می‌دهد که آیا یک درخواست
+در گزارش‌های حسابرسی Kubernetes مجاز بوده است یا خیر.
 
-See [Auditing](/docs/tasks/debug/debug-cluster/audit/) for more information.
+برای اطلاعات بیشتر به [Auditing](/docs/tasks/debug/debug-cluster/audit/) مراجعه کنید.
 
 ## authorization.k8s.io/reason
 
-Example: `authorization.k8s.io/reason: "Human-readable reason for the decision"`
+مثال: `authorization.k8s.io/reason: "دلیل قابل خواندن توسط انسان برای تصمیم"`
 
-This annotation gives reason for the [decision](#authorization-k8s-io-decision) in Kubernetes audit logs.
+این حاشیه‌نویسی دلیل [decision](#authorization-k8s-io-decision) را در گزارش‌های حسابرسی Kubernetes ارائه می‌دهد.
 
-See [Auditing](/docs/tasks/debug/debug-cluster/audit/) for more information.
+برای اطلاعات بیشتر به [Auditing](/docs/tasks/debug/debug-cluster/audit/) مراجعه کنید.
 
 ## missing-san.invalid-cert.kubernetes.io/$hostname
 
-Example: `missing-san.invalid-cert.kubernetes.io/example-svc.example-namespace.svc: "relies on a legacy Common Name field instead of the SAN extension for subject validation"`
+مثال: `missing-san.invalid-cert.kubernetes.io/example-svc.example-namespace.svc: "برای اعتبارسنجی موضوع، به جای پسوند SAN، به یک فیلد نام مشترک قدیمی متکی است"`
 
-Used by Kubernetes version v1.24 and later
+توسط Kubernetes نسخه v1.24 و بالاتر استفاده می‌شود.
 
-This annotation indicates a webhook or aggregated API server
-is using an invalid certificate that is missing `subjectAltNames`.
-Support for these certificates was disabled by default in Kubernetes 1.19,
-and removed in Kubernetes 1.23.
+این حاشیه‌نویسی نشان می‌دهد که یک وب‌هوک یا سرور API تجمیع‌شده از یک گواهی نامعتبر استفاده می‌کند که فاقد `subjectAltNames` است.
 
-Requests to endpoints using these certificates will fail.
-Services using these certificates should replace them as soon as possible
-to avoid disruption when running in Kubernetes 1.23+ environments.
+پشتیبانی از این گواهی‌ها به طور پیش‌فرض در Kubernetes 1.19 غیرفعال بود، و در Kubernetes 1.23 حذف شد.
 
-There's more information about this in the Go documentation:
+درخواست‌ها به نقاط پایانی که از این گواهینامه‌ها استفاده می‌کنند، با شکست مواجه خواهند شد.
+
+سرویس‌هایی که از این گواهینامه‌ها استفاده می‌کنند باید در اسرع وقت آنها را جایگزین کنند
+
+تا از اختلال در هنگام اجرا در محیط‌های Kubernetes 1.23+ جلوگیری شود.
+
+اطلاعات بیشتر در این مورد در مستندات Go وجود دارد:
 [X.509 CommonName deprecation](https://go.dev/doc/go1.15#commonname).
-
 ## insecure-sha1.invalid-cert.kubernetes.io/$hostname
 
-Example: `insecure-sha1.invalid-cert.kubernetes.io/example-svc.example-namespace.svc: "uses an insecure SHA-1 signature"`
+مثال: `insecure-sha1.invalid-cert.kubernetes.io/example-svc.example-namespace.svc: "از امضای SHA-1 ناامن استفاده می‌کند"`
 
-Used by Kubernetes version v1.24 and later
+توسط Kubernetes نسخه v1.24 و بالاتر استفاده می‌شود
 
-This annotation indicates a webhook or aggregated API server
-is using an insecure certificate signed with a SHA-1 hash.
-Support for these insecure certificates is disabled by default in Kubernetes 1.24,
-and will be removed in a future release.
+این حاشیه‌نویسی نشان می‌دهد که یک وب‌هوک یا سرور API تجمیع‌شده
+از یک گواهی ناامن امضا شده با هش SHA-1 استفاده می‌کند.
 
-Services using these certificates should replace them as soon as possible,
-to ensure connections are secured properly and to avoid disruption in future releases.
+پشتیبانی از این گواهی‌های ناامن به طور پیش‌فرض در Kubernetes 1.24 غیرفعال است و در نسخه‌های آینده حذف خواهد شد.
 
-There's more information about this in the Go documentation:
+سرویس‌هایی که از این گواهینامه‌ها استفاده می‌کنند باید در اسرع وقت آنها را جایگزین کنند تا از ایمن بودن اتصالات و جلوگیری از اختلال در نسخه‌های آینده اطمینان حاصل شود.
+
+اطلاعات بیشتر در این مورد در مستندات Go وجود دارد:
 [Rejecting SHA-1 certificates](https://go.dev/doc/go1.18#sha1).
 
 ## validation.policy.admission.k8s.io/validation_failure
 
-Example: `validation.policy.admission.k8s.io/validation_failure: '[{"message": "Invalid value", {"policy": "policy.example.com", {"binding": "policybinding.example.com", {"expressionIndex": "1", {"validationActions": ["Audit"]}]'`
+مثال: `validation.policy.admission.k8s.io/validation_failure: '[{"message": "مقدار نامعتبر", {"policy": "policy.example.com", {"binding": "policybinding.example.com", {"expressionIndex": "1", {"validationActions": ["Audit"]}]'`
 
-Used by Kubernetes version v1.27 and later.
+توسط Kubernetes نسخه v1.27 و بالاتر استفاده می‌شود.
 
-This annotation indicates that a admission policy validation evaluated to false
-for an API request, or that the validation resulted in an error while the policy
-was configured with `failurePolicy: Fail`.
+این حاشیه‌نویسی نشان می‌دهد که اعتبارسنجی سیاست پذیرش برای یک درخواست API به صورت نادرست ارزیابی شده است، یا اینکه اعتبارسنجی منجر به خطایی شده است در حالی که سیاست با `failurePolicy: Fail` پیکربندی شده است.
+مقدار حاشیه‌نویسی یک شیء JSON است. `message` در JSON پیامی در مورد شکست اعتبارسنجی ارائه می‌دهد.
 
-The value of the annotation is a JSON object. The `message` in the JSON
-provides the message about the validation failure.
+`policy`، `binding` و `expressionIndex` در JSON به ترتیب نام `ValidatingAdmissionPolicy`، نام `ValidatingAdmissionPolicyBinding` و اندیس موجود در `validations` سیاست عبارات CEL که شکست خورده‌اند را مشخص می‌کنند.
 
-The `policy`, `binding` and `expressionIndex` in the JSON identifies the
-name of the `ValidatingAdmissionPolicy`, the name of the
-`ValidatingAdmissionPolicyBinding` and the index in the policy `validations` of
-the CEL expressions that failed, respectively.
-
-The `validationActions` shows what actions were taken for this validation failure.
-See [Validating Admission Policy](/docs/reference/access-authn-authz/validating-admission-policy/)
-for more details about `validationActions`.
+«validationActions» نشان می‌دهد که چه اقداماتی برای این خطای اعتبارسنجی انجام شده است.
+برای جزئیات بیشتر در مورد «validationActions» به [Validating Admission Policy](/docs/reference/access-authn-authz/validating-admission-policy/) مراجعه کنید.
