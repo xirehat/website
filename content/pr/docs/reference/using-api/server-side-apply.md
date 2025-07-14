@@ -13,92 +13,49 @@ weight: 25
 
 {{< feature-state feature_gate_name="ServerSideApply" >}}
 
-Kubernetes supports multiple appliers collaborating to manage the fields
-of a single [object](/docs/concepts/overview/working-with-objects/).
-
-Server-Side Apply provides an optional mechanism for your cluster's control plane to track
-changes to an object's fields. At the level of a specific resource, Server-Side
-Apply records and tracks information about control over the fields of that object.
-
-Server-Side Apply helps users and {{< glossary_tooltip text="controllers" term_id="controller" >}}
-manage their resources through declarative configuration. Clients can create and modify
-{{< glossary_tooltip text="objects" term_id="object" >}}
-declaratively by submitting their _fully specified intent_.
-
-A fully specified intent is a partial object that only includes the fields and
-values for which the user has an opinion. That intent either creates a new
-object (using default values for unspecified fields), or is
-[combined](#merge-strategy), by the API server, with the existing object.
-
-[Comparison with Client-Side Apply](#comparison-with-client-side-apply) explains
-how Server-Side Apply differs from the original, client-side `kubectl apply`
-implementation.
+Kubernetes از چندین برنامه‌نویس که برای مدیریت فیلدهای یک [object] واحد با هم همکاری می‌کنند، پشتیبانی می‌کند (/docs/concepts/overview/working-with-objects/).
+Server-Side Apply یک مکانیزم اختیاری برای صفحه کنترل خوشه شما فراهم می‌کند تا تغییرات فیلدهای یک شیء را ردیابی کند. در سطح یک منبع خاص، Server-Side Apply اطلاعات مربوط به کنترل فیلدهای آن شیء را ثبت و ردیابی می‌کند.
+Server-Side Apply به کاربران و {{< glossary_tooltip text="controllers" term_id="controller" >}} کمک می‌کند تا منابع خود را از طریق پیکربندی اعلانی مدیریت کنند. کلاینت‌ها می‌توانند با ارسال intent_fully specified_ خود، intent_{{< glossary_tooltip text="objects" term_id="object" >}} را به صورت اعلانی ایجاد و اصلاح کنند.
+یک intent_fully specified یک شیء جزئی است که فقط شامل فیلدها و مقادیری است که کاربر در مورد آنها نظر دارد. این intent یا یک شیء جدید ایجاد می‌کند (با استفاده از مقادیر پیش‌فرض برای فیلدهای نامشخص)، یا توسط سرور API با شیء موجود ترکیب می‌شود (#merge-strategy).
+[مقایسه با Client-Side Apply](#comparison-with-client-side-apply) توضیح می‌دهد که چگونه Server-Side Apply با پیاده‌سازی اصلی `kubectl apply` در سمت کلاینت متفاوت است.
 
 <!-- body -->
 
 ## Field management
 
-The Kubernetes API server tracks _managed fields_ for all newly created objects.
+سرور Kubernetes API، فیلدهای مدیریت‌شده را برای همه اشیاء تازه ایجاد شده ردیابی می‌کند.
 
-When trying to apply an object, fields that have a different value and are owned by
-another [manager](#managers) will result in a [conflict](#conflicts). This is done
-in order to signal that the operation might undo another collaborator's changes.
-Writes to objects with managed fields can be forced, in which case the value of any
-conflicted field will be overridden, and the ownership will be transferred.
+هنگام تلاش برای اعمال یک شیء، فیلدهایی که مقدار متفاوتی دارند و متعلق به [manager](#مدیران) دیگری هستند، منجر به [conflict](#تعارض) می‌شوند. این کار به منظور نشان دادن این موضوع انجام می‌شود که عملیات ممکن است تغییرات همکار دیگری را لغو کند.
+می‌توان نوشتن روی اشیاء با فیلدهای مدیریت‌شده را اجباری کرد، در این صورت مقدار هر فیلد دارای تداخل لغو می‌شود و مالکیت منتقل می‌شود.
 
-Whenever a field's value does change, ownership moves from its current manager to the
-manager making the change.
+هر زمان که مقدار یک فیلد تغییر کند، مالکیت از مدیر فعلی آن به مدیری که تغییر را انجام می‌دهد، منتقل می‌شود.
 
-Apply checks if there are any other field managers that also own the
-field.  If the field is not owned by any other field managers, that field is
-set to its default value (if there is one), or otherwise is deleted from the
-object.
-The same rule applies to fields that are lists, associative lists, or maps.
+بررسی کنید که آیا مدیر فیلد دیگری هم وجود دارد که مالک آن فیلد باشد یا خیر. اگر فیلد متعلق به هیچ مدیر فیلد دیگری نباشد، آن فیلد به مقدار پیش‌فرض خود (در صورت وجود) تنظیم می‌شود، یا در غیر این صورت از شیء حذف می‌شود. همین قانون در مورد فیلدهایی که لیست، لیست انجمنی یا نقشه هستند نیز صدق می‌کند.
 
-For a user to manage a field, in the Server-Side Apply sense, means that the
-user relies on and expects the value of the field not to change. The user who
-last made an assertion about the value of a field will be recorded as the
-current field manager. This can be done by changing the field manager
-details explicitly using HTTP `POST` (**create**), `PUT` (**update**), or non-apply
-`PATCH` (**patch**). You can also declare and record a field manager
-by including a value for that field in a Server-Side Apply operation.
 
-A Server-Side Apply **patch** request requires the client to provide its identity
-as a [field manager](#managers). When using Server-Side Apply, trying to change a
-field that is controlled by a different manager results in a rejected
-request unless the client forces an override.
-For details of overrides, see [Conflicts](#conflicts).
+مدیریت یک فیلد توسط یک کاربر، به معنای اعمال در سمت سرور، به این معنی است که کاربر به مقدار فیلد تکیه می‌کند و انتظار دارد که تغییر نکند. کاربری که آخرین بار در مورد مقدار یک فیلد اظهار نظری کرده است، به عنوان مدیر فعلی فیلد ثبت خواهد شد. این کار را می‌توان با تغییر صریح جزئیات مدیر فیلد با استفاده از HTTP `POST` (**create**)، `PUT` (**update**) یا عدم اعمال `PATCH` (**patch**) انجام داد. همچنین می‌توانید با وارد کردن مقداری برای آن فیلد در یک عملیات اعمال در سمت سرور، یک مدیر فیلد را اعلام و ثبت کنید.
 
-When two or more appliers set a field to the same value, they share ownership of
-that field. Any subsequent attempt to change the value of the shared field, by any of
-the appliers, results in a conflict. Shared field owners may give up ownership
-of a field by making a Server-Side Apply **patch** request that doesn't include
-that field.
+درخواست **patch** سمت سرور، مستلزم آن است که کلاینت هویت خود را به عنوان [field manager ](#managers) ارائه دهد. هنگام استفاده از Server-Side Apply، تلاش برای تغییر فیلدی که توسط مدیر دیگری کنترل می‌شود، منجر به رد درخواست می‌شود، مگر اینکه کلاینت یک لغو را اعمال کند.
+برای جزئیات لغوها، به [Conflicts](#conflicts) مراجعه کنید.
 
-Field management details are stored in a `managedFields` field that is part of an
-object's [`metadata`](/docs/reference/kubernetes-api/common-definitions/object-meta/).
+وقتی دو یا چند اعمال‌کننده مقدار یکسانی را برای یک فیلد تعیین می‌کنند، مالکیت آن فیلد را به اشتراک می‌گذارند. هرگونه تلاش بعدی برای تغییر مقدار فیلد مشترک، توسط هر یک از اعمال‌کننده‌ها، منجر به تداخل می‌شود. مالکان فیلد مشترک می‌توانند با ارسال درخواست Server-Side Apply **patch** که شامل آن فیلد نمی‌شود، مالکیت یک فیلد را واگذار کنند.
 
-If you remove a field from a manifest and apply that manifest, Server-Side
-Apply checks if there are any other field managers that also own the field.
-If the field is not owned by any other field managers, it is either deleted
-from the live object or reset to its default value, if it has one.
-The same rule applies to associative list or map items.
+جزئیات مدیریت فیلدها در فیلدی به نام `managedFields` ذخیره می‌شوند که بخشی از [`metadata`](/docs/reference/kubernetes-api/common-definitions/object-meta/) یک شیء است.
 
-Compared to the (legacy)
-[`kubectl.kubernetes.io/last-applied-configuration`](/docs/reference/labels-annotations-taints/#kubectl-kubernetes-io-last-applied-configuration)
-annotation managed by `kubectl`, Server-Side Apply uses a more declarative
-approach, that tracks a user's (or client's) field management, rather than
-a user's last applied state. As a side effect of using Server-Side Apply,
-information about which field manager manages each field in an object also
-becomes available.
+اگر فیلدی را از مانیفست حذف کنید و آن مانیفست را اعمال کنید، Server-Side
+Apply بررسی می‌کند که آیا مدیر فیلد دیگری نیز وجود دارد که مالک آن فیلد باشد یا خیر.
+اگر فیلد متعلق به هیچ مدیر فیلد دیگری نباشد، یا از شیء زنده حذف می‌شود یا در صورت وجود، به مقدار پیش‌فرض خود بازنشانی می‌شود.
+همین قانون در مورد آیتم‌های لیست انجمنی یا نقشه نیز صدق می‌کند.
+
+در مقایسه با حاشیه‌نویسی (قدیمی) [`kubectl.kubernetes.io/last-applied-configuration`](/docs/reference/labels-annotations-taints/#kubectl-kubernetes-io-last-applied-configuration)
+مدیریت‌شده توسط `kubectl`، Server-Side Apply از رویکرد اعلانی‌تری استفاده می‌کند که مدیریت فیلد کاربر (یا کلاینت) را به جای آخرین وضعیت اعمال‌شده کاربر، ردیابی می‌کند. به عنوان یک عارضه جانبی استفاده از Server-Side Apply، اطلاعاتی در مورد اینکه کدام مدیر فیلد هر فیلد را در یک شیء مدیریت می‌کند نیز در دسترس قرار می‌گیرد.
 
 ### Example {#ssa-example-configmap}
 
-A simple example of an object created using Server-Side Apply could look like this:
+یک مثال ساده از یک شیء ایجاد شده با استفاده از Server-Side Apply می‌تواند چیزی شبیه به این باشد:
 
 {{< note >}}
-`kubectl get` omits managed fields by default. 
-Add `--show-managed-fields` to show `managedFields` when the output format is either `json` or `yaml`.
+دستور `kubectl get` به طور پیش‌فرض فیلدهای مدیریت‌شده را حذف می‌کند. برای نمایش `managedFields` در زمانی که فرمت خروجی `json` یا `yaml` است، `--show-managed-fields` را اضافه کنید.
 {{< /note >}}
 
 ```yaml
@@ -126,90 +83,49 @@ data:
   key: some value
 ```
 
-That example ConfigMap object contains a single field management record in
-`.metadata.managedFields`. The field management record consists of basic information
-about the managing entity itself, plus details about the fields being managed and
-the relevant operation (`Apply` or `Update`). If the request that last changed that
-field was a Server-Side Apply **patch** then the value of `operation` is `Apply`;
-otherwise, it is `Update`.
+آن شیء ConfigMap نمونه شامل یک رکورد مدیریت فیلد در `.metadata.managedFields` است. رکورد مدیریت فیلد شامل اطلاعات اولیه در مورد خود موجودیت مدیریت کننده، به علاوه جزئیاتی در مورد فیلدهای تحت مدیریت و عملیات مربوطه (`Apply` یا `Update`) است. اگر درخواستی که آخرین بار آن فیلد را تغییر داده است، یک `Server-Side Apply **patch** بوده باشد، مقدار `operation` برابر با `Apply` خواهد بود؛ در غیر این صورت، `Update` خواهد بود.
 
-There is another possible outcome. A client could submit an invalid request
-body. If the fully specified intent does not produce a valid object, the
-request fails.
+یک نتیجه‌ی محتمل دیگر هم وجود دارد. یک کلاینت می‌تواند یک بدنه‌ی درخواست نامعتبر ارسال کند. اگر هدف کاملاً مشخص‌شده، یک شیء معتبر تولید نکند، درخواست با شکست مواجه می‌شود.
 
-It is however possible to change `.metadata.managedFields` through an
-**update**, or through a **patch** operation that does not use Server-Side Apply.
-Doing so is highly discouraged, but might be a reasonable option to try if,
-for example, the `.metadata.managedFields` get into an inconsistent state
-(which should not happen in normal operations).
+با این حال، می‌توان `.metadata.managedFields` را از طریق یک **به‌روزرسانی** یا از طریق یک عملیات **پچ** که از Server-Side Apply استفاده نمی‌کند، تغییر داد. انجام این کار اکیداً توصیه نمی‌شود، اما اگر، برای مثال، `.metadata.managedFields` وارد حالت ناپایدار شود (که نباید در عملیات عادی اتفاق بیفتد)، می‌تواند گزینه معقولی برای امتحان کردن باشد.
 
-The format of `managedFields` is [described](/docs/reference/kubernetes-api/common-definitions/object-meta/#System)
-in the Kubernetes API reference.
+قالب «`managedFields` در مرجع API Kubernetes به صورت [description](/docs/reference/kubernetes-api/common-definitions/object-meta/#System) آمده است.
 
 {{< caution >}}
-The `.metadata.managedFields` field is managed by the API server.
-You should avoid updating it manually.
+فیلد `.metadata.managedFields` توسط سرور API مدیریت می‌شود. شما باید از به‌روزرسانی دستی آن خودداری کنید.
 {{< /caution >}}
 
 ### Conflicts
 
-A _conflict_ is a special status error that occurs when an `Apply` operation tries
-to change a field that another manager also claims to manage. This prevents an
-applier from unintentionally overwriting the value set by another user. When
-this occurs, the applier has 3 options to resolve the conflicts:
+یک _conflict_ یک خطای وضعیت خاص است که زمانی رخ می‌دهد که یک عملیات `Apply` سعی می‌کند فیلدی را که مدیر دیگری نیز ادعای مدیریت آن را دارد، تغییر دهد. این امر مانع از آن می‌شود که یک درخواست‌کننده ناخواسته مقدار تعیین‌شده توسط کاربر دیگری را بازنویسی کند. وقتی این اتفاق می‌افتد، درخواست‌کننده 3 گزینه برای حل تداخل‌ها دارد:
 
-* **Overwrite value, become sole manager:** If overwriting the value was
-  intentional (or if the applier is an automated process like a controller) the
-  applier should set the `force` query parameter to true (for `kubectl apply`,
-  you use the `--force-conflicts` command line parameter), and make the request
-  again. This forces the operation to succeed, changes the value of the field,
-  and removes the field from all other managers' entries in `managedFields`.
+* **مقدار را بازنویسی کنید، مدیر انحصاری شوید:** اگر بازنویسی مقدار عمدی بوده باشد (یا اگر اعمال‌کننده یک فرآیند خودکار مانند یک کنترل‌کننده باشد)، اعمال‌کننده باید پارامتر پرس‌وجوی `force` را روی true تنظیم کند (برای `kubectl apply`، از پارامتر خط فرمان `--force-conflicts` استفاده می‌کنید) و درخواست را دوباره انجام دهید. این کار عملیات را مجبور به موفقیت می‌کند، مقدار فیلد را تغییر می‌دهد، و فیلد را از تمام ورودی‌های سایر مدیران در `managedFields` حذف می‌کند.
 
-* **Don't overwrite value, give up management claim:** If the applier doesn't
-  care about the value of the field any more, the applier can remove it from their
-  local model of the resource, and make a new request with that particular field
-  omitted. This leaves the value unchanged, and causes the field to be removed
-  from the applier's entry in `managedFields`.
 
-* **Don't overwrite value, become shared manager:** If the applier still cares
-  about the value of a field, but doesn't want to overwrite it, they can
-  change the value of that field in their local model of the resource so as to
-  match the value of the object on the server, and then make a new request that
-  takes into account that local update. Doing so leaves the value unchanged,
-  and causes that field's management to be shared by the applier along with all
-  other field managers that already claimed to manage it.
+* **مقدار را بازنویسی نکنید، ادعای مدیریت را کنار بگذارید:** اگر درخواست‌کننده دیگر به مقدار فیلد اهمیتی ندهد، می‌تواند آن را از مدل محلی منبع خود حذف کند و درخواست جدیدی با آن فیلد خاص ارسال کند. این کار مقدار را بدون تغییر باقی می‌گذارد و باعث می‌شود فیلد از ورودی درخواست‌کننده در `managedFields` حذف شود.
+
+* **مقدار را بازنویسی نکنید، مدیر مشترک شوید:** اگر کاربر هنوز به مقدار یک فیلد اهمیت می‌دهد، اما نمی‌خواهد آن را بازنویسی کند، می‌تواند مقدار آن فیلد را در مدل محلی منبع خود تغییر دهد تا با مقدار شیء روی سرور مطابقت داشته باشد و سپس درخواست جدیدی ارسال کند که آن به‌روزرسانی محلی را در نظر می‌گیرد. انجام این کار مقدار را بدون تغییر باقی می‌گذارد و باعث می‌شود مدیریت آن فیلد توسط کاربر به همراه تمام مدیران فیلد دیگری که قبلاً ادعای مدیریت آن را داشته‌اند، به اشتراک گذاشته شود.
 
 ### Field managers {#managers}
 
-Managers identify distinct workflows that are modifying the object (especially
-useful on conflicts!), and can be specified through the
-[`fieldManager`](/docs/reference/kubernetes-api/common-parameters/common-parameters/#fieldManager)
-query parameter as part of a modifying request. When you Apply to a resource,
-the `fieldManager` parameter is required.
-For other updates, the API server infers a field manager identity from the
- "User-Agent:" HTTP header (if present).
+مدیران، گردش‌های کاری متمایزی را که شیء را تغییر می‌دهند شناسایی می‌کنند (به‌ویژه در مورد تداخل‌ها مفید است!)، و می‌توانند از طریق پارامتر پرس‌وجوی [`fieldManager`](/docs/reference/kubernetes-api/common-parameters/common-parameters/#fieldManager) به عنوان بخشی از یک درخواست اصلاح مشخص شوند. هنگامی که شما به یک منبع درخواست می‌دهید، پارامتر `fieldManager` مورد نیاز است.
+برای سایر به‌روزرسانی‌ها، سرور API هویت یک مدیر فیلد را از هدر HTTP "User-Agent:" (در صورت وجود) استنباط می‌کند.
 
-When you use the `kubectl` tool to perform a Server-Side Apply operation, `kubectl`
-sets the manager identity to `"kubectl"` by default.
+وقتی از ابزار `kubectl` برای انجام عملیات اعمال سمت سرور استفاده می‌کنید، `kubectl` به طور پیش‌فرض هویت مدیر را روی ``kubectl`` تنظیم می‌کند.
 
 ## Serialization
 
-At the protocol level, Kubernetes represents Server-Side Apply message bodies
-as [YAML](https://yaml.org/), with the media type `application/apply-patch+yaml`.
+در سطح پروتکل، Kubernetes بدنه پیام‌های Server-Side Apply را به صورت [YAML](https://yaml.org/) و با نوع رسانه `application/apply-patch+yaml` نمایش می‌دهد.
 
 {{< note >}}
-Whether you are submitting JSON data or YAML data, use
-`application/apply-patch+yaml` as the `Content-Type` header value.
+چه داده‌های JSON ارسال کنید و چه داده‌های YAML، از `application/apply-patch+yaml` به عنوان مقدار هدر `Content-Type` استفاده کنید.
 
-All JSON documents are valid YAML. However, Kubernetes has a bug where it uses a YAML
-parser that does not fully implement the YAML specification. Some JSON escapes may
-not be recognized.
+تمام اسناد JSON با فرمت YAML معتبر هستند. با این حال، Kubernetes دارای یک اشکال است که در آن از یک تجزیه‌کننده YAML استفاده می‌کند که مشخصات YAML را به طور کامل پیاده‌سازی نمی‌کند. برخی از escapeهای JSON ممکن است شناسایی نشوند.
 {{< /note >}}
 
-The serialization is the same as for Kubernetes objects, with the exception that
-clients are not required to send a complete object.
+سریال‌سازی همانند اشیاء Kubernetes است، با این تفاوت که کلاینت‌ها ملزم به ارسال یک شیء کامل نیستند.
 
-Here's an example of a Server-Side Apply message body (fully specified intent):
+در اینجا مثالی از بدنه پیام Apply سمت سرور (با هدف کاملاً مشخص) آورده شده است:
 ```yaml
 {
   "apiVersion": "v1",
@@ -217,30 +133,22 @@ Here's an example of a Server-Side Apply message body (fully specified intent):
 }
 ```
 
-(this would make a no-change update, provided that it was sent as the body
-of a **patch** request to a valid `v1/configmaps` resource, and with the
-appropriate request `Content-Type`).
+(این یک به‌روزرسانی بدون تغییر ایجاد می‌کند، مشروط بر اینکه به عنوان بدنه‌ی یک درخواست **patch** به یک منبع معتبر `v1/configmaps` و با درخواست مناسب `Content-Type` ارسال شده باشد).
 
 
-## Operations in scope for field management {#apply-and-update}
+## عملیات در محدوده مدیریت میدانی {#apply-and-update}
 
-The Kubernetes API operations where field management is considered are:
+عملیات API کوبرنتیز که مدیریت فیلد در آنها در نظر گرفته شده است عبارتند از:
 
-1. Server-Side Apply (HTTP `PATCH`, with content type `application/apply-patch+yaml`)
-2. Replacing an existing object (**update** to Kubernetes; `PUT` at the HTTP level)
+1. اعمال سمت سرور (HTTP `PATCH`، با نوع محتوای `application/apply-patch+yaml`)
+2. جایگزینی یک شیء موجود (**به‌روزرسانی** به کوبرنتیز؛ `PUT` در سطح HTTP)
 
-Both operations update `.metadata.managedFields`, but behave a little differently.
+هر دو عملیات، `.metadata.managedFields` را به‌روزرسانی می‌کنند، اما کمی متفاوت رفتار می‌کنند.
 
-Unless you specify a forced override, an apply operation that encounters field-level
-conflicts always fails; by contrast, if you make a change using **update** that would
-affect a managed field, a conflict never provokes failure of the operation.
+اگر یک لغو اجباری مشخص نکنید، یک عملیات اعمال که با تداخل در سطح فیلد مواجه می‌شود، همیشه با شکست مواجه می‌شود. در مقابل، اگر با استفاده از **update** تغییری ایجاد کنید که بر یک فیلد مدیریت‌شده تأثیر بگذارد، تداخل هرگز باعث شکست عملیات نمی‌شود.
 
-All Server-Side Apply **patch** requests are required to identify themselves by providing a
-`fieldManager` query parameter, while the query parameter is optional for **update**
-operations. Finally, when using the `Apply` operation you cannot define `managedFields` in
-the body of the request that you submit.
-
-An example object with multiple managers could look like this:
+تمام درخواست‌های سمت سرور Apply **patch** ملزم به شناسایی خود با ارائه پارامتر پرس‌وجوی `fieldManager` هستند، در حالی که پارامتر پرس‌وجو برای عملیات **update** اختیاری است. در نهایت، هنگام استفاده از عملیات `Apply`، نمی‌توانید `managedFields` را در بدنه درخواستی که ارسال می‌کنید تعریف کنید.
+یک شیء نمونه با چندین مدیر می‌تواند به این شکل باشد:
 
 ```yaml
 ---
@@ -273,85 +181,48 @@ data:
   key: new value
 ```
 
-In this example, a second operation was run as an **update** by the manager called
-`kube-controller-manager`. The update request succeeded and changed a value in the data
-field, which caused that field's management to change to the `kube-controller-manager`.
+در این مثال، عملیات دوم به عنوان **به‌روزرسانی** توسط مدیری به نام `kube-controller-manager` اجرا شد. درخواست به‌روزرسانی با موفقیت انجام شد و مقداری را در فیلد داده تغییر داد که باعث شد مدیریت آن فیلد به `kube-controller-manager` تغییر کند.
+اگر به جای آن، این به‌روزرسانی با استفاده از Server-Side Apply انجام می‌شد، درخواست به دلیل مالکیت متضاد با شکست مواجه می‌شد.
 
-If this update has instead been attempted using Server-Side Apply, the request
-would have failed due to conflicting ownership.
+## استراتژی ادغام
 
-## Merge strategy
+استراتژی ادغام، که با Server-Side Apply پیاده‌سازی شده است، چرخه حیات شیء را عموماً پایدارتر می‌کند. Server-Side Apply سعی می‌کند فیلدها را بر اساس بازیگری که آنها را مدیریت می‌کند ادغام کند، نه بر اساس مقادیر. به این ترتیب، چندین بازیگر می‌توانند بدون ایجاد تداخل غیرمنتظره، شیء یکسانی را به‌روزرسانی کنند.
 
-The merging strategy, implemented with Server-Side Apply, provides a generally
-more stable object lifecycle. Server-Side Apply tries to merge fields based on
-the actor who manages them instead of overruling based on values. This way
-multiple actors can update the same object without causing unexpected interference.
+وقتی کاربری یک شیء intent با مشخصات کامل را به نقطه پایانی Server-Side Apply ارسال می‌کند، سرور آن را با شیء زنده‌ای که مقدار آن از بدنه درخواست در صورت مشخص بودن در هر دو مکان، مطلوب است، ادغام می‌کند. اگر مجموعه اقلام موجود در پیکربندی اعمال شده، مجموعه‌ای از اقلام اعمال شده توسط همان کاربر در دفعه قبل نباشد، هر مورد از دست رفته که توسط هیچ اعمال‌کننده دیگری مدیریت نمی‌شود، حذف می‌شود. برای اطلاعات بیشتر در مورد نحوه استفاده از طرحواره یک شیء برای تصمیم‌گیری هنگام ادغام، به [sigs.k8s.io/structured-merge-diff](https://sigs.k8s.io/structured-merge-diff) مراجعه کنید.
 
-When a user sends a _fully-specified intent_ object to the Server-Side Apply
-endpoint, the server merges it with the live object favoring the value from the
-request body if it is specified in both places. If the set of items present in
-the applied config is not a superset of the items applied by the same user last
-time, each missing item not managed by any other appliers is removed. For
-more information about how an object's schema is used to make decisions when
-merging, see
-[sigs.k8s.io/structured-merge-diff](https://sigs.k8s.io/structured-merge-diff).
 
-The Kubernetes API (and the Go code that implements that API for Kubernetes) allows
-defining _merge strategy markers_. These markers describe the merge strategy supported
-for fields within Kubernetes objects.
-For a {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}},
-you can set these markers when you define the custom resource.
+API کوبرنتیز (و کد Go که آن API را برای کوبرنتیز پیاده‌سازی می‌کند) امکان تعریف نشانگرهای استراتژی ادغام را فراهم می‌کند. این نشانگرها، استراتژی ادغام پشتیبانی‌شده برای فیلدهای درون اشیاء کوبرنتیز را توصیف می‌کنند. برای {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}، می‌توانید این نشانگرها را هنگام تعریف منبع سفارشی تنظیم کنید.
 
 | Golang marker   | OpenAPI extension            | Possible values                                  | Description                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | --------------- | ---------------------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `//+listType`   | `x-kubernetes-list-type`     | `atomic`/`set`/`map`                             | Applicable to lists. `set` applies to lists that include only scalar elements. These elements must be unique. `map` applies to lists of nested types only. The key values (see `listMapKey`) must be unique in the list. `atomic` can apply to any list. If configured as `atomic`, the entire list is replaced during merge. At any point in time, a single manager owns the list. If `set` or `map`, different managers can manage entries separately. |
-| `//+listMapKey` | `x-kubernetes-list-map-keys` | List of field names, e.g. `["port", "protocol"]` | Only applicable when `+listType=map`. A list of field names whose values uniquely identify entries in the list. While there can be multiple keys, `listMapKey` is singular because keys need to be specified individually in the Go type. The key fields must be scalars.                                                                                                                                                                                |
-| `//+mapType`    | `x-kubernetes-map-type`      | `atomic`/`granular`                              | Applicable to maps. `atomic` means that the map can only be entirely replaced by a single manager. `granular` means that the map supports separate managers updating individual fields.                                                                                                                                                                                                                                                                  |
-| `//+structType` | `x-kubernetes-map-type`      | `atomic`/`granular`                              | Applicable to structs; otherwise same usage and OpenAPI annotation as `//+mapType`.                                                                                                                                                                                                                                                                                                                                                                      |
+| `//+listType`   | `x-kubernetes-list-type`     | `atomic`/`set`/`map`                             | قابل اجرا برای لیست‌ها. `set` برای لیست‌هایی اعمال می‌شود که فقط شامل عناصر اسکالر هستند. این عناصر باید منحصر به فرد باشند. `map` فقط برای لیست‌های تو در تو اعمال می‌شود. مقادیر کلید (به `listMapKey` مراجعه کنید) باید در لیست منحصر به فرد باشند.. «اتمی» می‌تواند برای هر لیستی اعمال شود. اگر به عنوان «اتمی» پیکربندی شود، کل لیست در طول ادغام جایگزین می‌شود. در هر نقطه از زمان، یک مدیر واحد مالک لیست است.. If `set` or `map`, مدیران مختلف می‌توانند ورودی‌ها را به‌طور جداگانه مدیریت کنند. |
+| `//+listMapKey` | `x-kubernetes-list-map-keys` | فهرست نام فیلدها، مثلاً `["port", "protocol"]` | فقط زمانی قابل اجرا است که `+listType=map`. فهرستی از نام فیلدها که مقادیر آنها به طور منحصر به فرد ورودی‌های لیست را مشخص می‌کند. در حالی که می‌تواند چندین کلید وجود داشته باشد، `listMapKey` مفرد است زیرا کلیدها باید به صورت جداگانه در نوع Go مشخص شوند. فیلدهای کلید باید اسکالر باشند.                                                                                                                                                                               |
+| `//+mapType` | `x-kubernetes-map-type` | `atomic`/`granular` | قابل اجرا برای نقشه‌ها. `atomic` به این معنی است که نقشه فقط می‌تواند به طور کامل توسط یک مدیر واحد جایگزین شود. `granular` به این معنی است که نقشه از مدیران جداگانه‌ای برای به‌روزرسانی فیلدهای جداگانه پشتیبانی می‌کند.                                                                                                                                                                                                                                                                 |
+| `//+structType` | `x-kubernetes-map-type`      | `atomic`/`granular`                              | قابل اجرا برای ساختارها؛ در غیر این صورت، همان نحوه استفاده و حاشیه‌نویسی OpenAPI مانند `//+mapType`.                                                                                                                                                                                                                                                                                                                                                                      |
 
-If `listType` is missing, the API server interprets a
-`patchStrategy=merge` marker as a `listType=map` and the
-corresponding `patchMergeKey` marker as a `listMapKey`.
-
+اگر `listType` وجود نداشته باشد، سرور API نشانگر `patchStrategy=merge` را به عنوان `listType=map` و نشانگر `patchMergeKey` مربوطه را به عنوان `listMapKey` تفسیر می‌کند.
 The `atomic` list type is recursive.
 
-(In the [Go](https://go.dev/) code for Kubernetes, these markers are specified as
-comments and code authors need not repeat them as field tags).
+(در کد [Go](https://go.dev/) برای Kubernetes، این نشانگرها به عنوان توضیحات مشخص شده‌اند و نویسندگان کد نیازی به تکرار آنها به عنوان برچسب‌های فیلد ندارند.)
 
-## Custom resources and Server-Side Apply
+## منابع سفارشی و اعمال سمت سرور
 
-By default, Server-Side Apply treats custom resources as unstructured data. All
-keys are treated the same as struct fields, and all lists are considered atomic.
+به طور پیش‌فرض، Server-Side Apply با منابع سفارشی به عنوان داده‌های بدون ساختار رفتار می‌کند. با همه کلیدها مانند فیلدهای struct رفتار می‌شود و همه لیست‌ها اتمیک در نظر گرفته می‌شوند.
 
-If the CustomResourceDefinition defines a
-[schema](/docs/reference/generated/kubernetes-api/{{< param "version" >}}#jsonschemaprops-v1-apiextensions-k8s-io)
-that contains annotations as defined in the previous [Merge Strategy](#merge-strategy)
-section, these annotations will be used when merging objects of this
-type.
+اگر CustomResourceDefinition یک[schema](/docs/reference/generated/kubernetes-api/{{< param "version" >}}#jsonschemaprops-v1-apiextensions-k8s-io)
+که حاوی حاشیه‌نویسی‌هایی مطابق تعریف قبلی در بخش [Merge Strategy](#merge-strategy)
+است، تعریف کند، این حاشیه‌نویسی‌ها هنگام ادغام اشیاء از این نوع استفاده خواهند شد.
 
 
-### Compatibility across topology changes
+### سازگاری در تغییرات توپولوژی
 
-On rare occurrences, the author for a CustomResourceDefinition (CRD) or built-in
-may want to change the specific topology of a field in their resource,
-without incrementing its API version. Changing the topology of types,
-by upgrading the cluster or updating the CRD, has different consequences when
-updating existing objects. There are two categories of changes: when a field goes from
-`map`/`set`/`granular` to `atomic`, and the other way around.
+در موارد نادر، نویسنده‌ی یک CustomResourceDefinition (CRD) یا یک منبع داخلی ممکن است بخواهد توپولوژی خاص یک فیلد را در منبع خود تغییر دهد، بدون اینکه نسخه API آن را افزایش دهد. تغییر توپولوژی انواع، با ارتقاء خوشه یا به‌روزرسانی CRD، هنگام به‌روزرسانی اشیاء موجود پیامدهای متفاوتی دارد. دو دسته تغییر وجود دارد: وقتی یک فیلد از `map`/`set`/`granular` به `atomic` تغییر می‌کند، و برعکس.
 
-When the `listType`, `mapType`, or `structType` changes from
-`map`/`set`/`granular` to `atomic`, the whole list, map, or struct of
-existing objects will end-up being owned by actors who owned an element
-of these types. This means that any further change to these objects
-would cause a conflict.
+وقتی `listType`، `mapType` یا `structType` از `map`/`set`/`granular` به `atomic` تغییر کند، کل لیست، نقشه یا ساختار اشیاء موجود در نهایت متعلق به بازیگرانی خواهد بود که عنصری از این نوع‌ها را در اختیار داشته‌اند. این بدان معناست که هرگونه تغییر بیشتر در این اشیاء باعث ایجاد تداخل می‌شود.
 
-When a `listType`, `mapType`, or `structType` changes from `atomic` to
-`map`/`set`/`granular`, the API server is unable to infer the new
-ownership of these fields. Because of that, no conflict will be produced
-when objects have these fields updated. For that reason, it is not
-recommended to change a type from `atomic` to `map`/`set`/`granular`.
+وقتی یک `listType`، `mapType` یا `structType` از `atomic` به `map`/`set`/`granular` تغییر می‌کند، سرور API قادر به استنباط مالکیت جدید این فیلدها نیست. به همین دلیل، وقتی اشیاء این فیلدها را به‌روزرسانی می‌کنند، هیچ تداخلی ایجاد نمی‌شود. به همین دلیل، تغییر نوع از `atomic` به `map`/`set`/`granular` توصیه نمی‌شود.
 
-Take for example, the custom resource:
+برای مثال، منبع سفارشی را در نظر بگیرید:
 
 ```yaml
 ---
@@ -373,45 +244,31 @@ spec:
     key2: val2
 ```
 
-Before `spec.data` gets changed from `atomic` to `granular`,
-`manager-one` owns the field `spec.data`, and all the fields within it
-(`key1` and `key2`). When the CRD gets changed to make `spec.data`
-`granular`, `manager-one` continues to own the top-level field
-`spec.data` (meaning no other managers can delete the map called `data`
-without a conflict), but it no longer owns `key1` and `key2`, so another
-manager can then modify or delete those fields without conflict.
+قبل از اینکه `spec.data` از `atomic` به `granular` تغییر کند، `manager-one` مالک فیلد `spec.data` و تمام فیلدهای درون آن (`key1` و `key2`) است. وقتی CRD برای تبدیل `spec.data` به `granular` تغییر می‌کند، `manager-one` همچنان مالک فیلد سطح بالا `spec.data` است (به این معنی که هیچ مدیر دیگری نمی‌تواند نقشه‌ای به نام `data` را بدون تداخل حذف کند)، اما دیگر مالک `key1` و `key2` نیست، بنابراین مدیر دیگری می‌تواند آن فیلدها را بدون تداخل تغییر یا حذف کند.
 
-## Using Server-Side Apply in a controller
+## استفاده از Server-Side Apply در یک کنترلر
 
-As a developer of a controller, you can use Server-Side Apply as a way to
-simplify the update logic of your controller. The main differences with a
-read-modify-write and/or patch are the following:
+به عنوان توسعه‌دهنده یک کنترلر، می‌توانید از Server-Side Apply به عنوان راهی برای ساده‌سازی منطق به‌روزرسانی کنترلر خود استفاده کنید. تفاوت‌های اصلی با یک 
+read-modify-write و/یا patch موارد زیر است:
 
-* the applied object must contain all the fields that the controller cares about.
-* there is no way to remove fields that haven't been applied by the controller
-  before (controller can still send a **patch** or **update** for these use-cases).
-* the object doesn't have to be read beforehand; `resourceVersion` doesn't have
-  to be specified.
+* شیء اعمال شده باید شامل تمام فیلدهایی باشد که کنترلر به آنها اهمیت می‌دهد.
+* هیچ راهی برای حذف فیلدهایی که قبلاً توسط کنترلر اعمال نشده‌اند وجود ندارد (کنترلر همچنان می‌تواند برای این موارد استفاده **patch** یا **update** ارسال کند).
+* لازم نیست شیء از قبل خوانده شود؛ `resourceVersion` لازم نیست مشخص شود.
 
 It is strongly recommended for controllers to always force conflicts on objects that
 they own and manage, since they might not be able to resolve or act on these conflicts.
 
-## Transferring ownership
+## انتقال مالکیت
 
-In addition to the concurrency controls provided by [conflict resolution](#conflicts),
-Server-Side Apply provides ways to perform coordinated
-field ownership transfers from users to controllers.
+علاوه بر کنترل‌های همزمانی ارائه شده توسط [conflict resolution](#conflicts)، Server-Side Apply روش‌هایی را برای انجام انتقال مالکیت فیلد هماهنگ از کاربران به کنترل‌کننده‌ها فراهم می‌کند.
 
-This is best explained by example. Let's look at how to safely transfer
-ownership of the `replicas` field from a user to a controller while enabling
-automatic horizontal scaling for a Deployment, using the HorizontalPodAutoscaler
-resource and its accompanying controller.
+این موضوع با مثال به بهترین شکل توضیح داده می‌شود. بیایید نگاهی به نحوه انتقال ایمن مالکیت فیلد `replicas` از یک کاربر به یک کنترلر بیندازیم، در حالی که «مقیاس‌بندی افقی خودکار برای یک Deployment» را با استفاده از منبع HorizontalPodAutoscaler و کنترلر همراه آن فعال می‌کنیم.
 
-Say a user has defined Deployment with `replicas` set to the desired value:
+فرض کنید کاربری Deployment را با مقدار دلخواه `replicas` تعریف کرده است:
 
 {{% code_sample file="application/ssa/nginx-deployment.yaml" %}}
 
-And the user has created the Deployment using Server-Side Apply, like so:
+و کاربر Deployment را با استفاده از Server-Side Apply ایجاد کرده است، مانند:
 
 ```shell
 kubectl apply -f https://k8s.io/examples/application/ssa/nginx-deployment.yaml --server-side
@@ -423,27 +280,15 @@ Then later, automatic scaling is enabled for the Deployment; for example:
 kubectl autoscale deployment nginx-deployment --cpu-percent=50 --min=1 --max=10
 ```
 
-Now, the user would like to remove `replicas` from their configuration, so they
-don't accidentally fight with the HorizontalPodAutoscaler (HPA) and its controller.
-However, there is a race: it might take some time before the HPA feels the need
-to adjust `.spec.replicas`; if the user removes `.spec.replicas` before the HPA writes
-to the field and becomes its owner, then the API server would set `.spec.replicas` to
-1 (the default replica count for Deployment).
-This is not what the user wants to happen, even temporarily - it might well degrade
-a running workload.
+اکنون، کاربر می‌خواهد `replicas` را از پیکربندی خود حذف کند تا به طور تصادفی با HorizontalPodAutoscaler (HPA) و کنترل‌کننده آن درگیر نشود. با این حال، یک رقابت وجود دارد: ممکن است مدتی طول بکشد تا HPA نیاز به تنظیم `.spec.replicas` را احساس کند. اگر کاربر `.spec.replicas` را قبل از اینکه HPA در فیلد بنویسد و مالک آن شود، حذف کند، سرور API `.spec.replicas` را روی 1 (تعداد کپی پیش‌فرض برای استقرار) تنظیم می‌کند. این چیزی نیست که کاربر بخواهد اتفاق بیفتد، حتی به طور موقت - ممکن است بار کاری در حال اجرا را به خوبی کاهش دهد.
 
-There are two solutions:
+دو راه حل وجود دارد:
 
-- (basic) Leave `replicas` in the configuration; when the HPA eventually writes to that
-  field, the system gives the user a conflict over it. At that point, it is safe
-  to remove from the configuration.
+- (اساسی) `replicas` را در پیکربندی باقی بگذارید؛ وقتی HPA در نهایت در آن فیلد می‌نویسد، سیستم بر سر آن با کاربر تداخل ایجاد می‌کند. در آن مرحله، حذف آن از پیکربندی بی‌خطر است.
 
-- (more advanced) If, however, the user doesn't want to wait, for example
-  because they want to keep the cluster legible to their colleagues, then they
-  can take the following steps to make it safe to remove `replicas` from their
-  configuration:
+- (پیشرفته‌تر) با این حال، اگر کاربر نخواهد منتظر بماند، مثلاً به این دلیل که می‌خواهد خوشه را برای همکارانش خوانا نگه دارد، می‌تواند مراحل زیر را برای ایمن‌سازی حذف «نسخه‌های کپی» از پیکربندی خود انجام دهد:
 
-First, the user defines a new manifest containing only the `replicas` field:
+ابتدا، کاربر یک مانیفست جدید تعریف می‌کند که فقط شامل فیلد `replicas` است:
 
 ```yaml
 # Save this file as 'nginx-deployment-replicas-only.yaml'.
@@ -456,13 +301,11 @@ spec:
 ```
 
 {{< note >}}
-The YAML file for SSA in this case only contains the fields you want to change.
-You are not supposed to provide a fully compliant Deployment manifest if you only
-want to modify the `spec.replicas` field using SSA.
+فایل YAML برای SSA در این مورد فقط شامل فیلدهایی است که می‌خواهید تغییر دهید.
+اگر فقط می‌خواهید فیلد `spec.replicas` را با استفاده از SSA تغییر دهید، قرار نیست یک مانیفست استقرار کاملاً سازگار ارائه دهید.
 {{< /note >}}
 
-The user applies that manifest using a private field manager name. In this example,
-the user picked `handover-to-hpa`:
+کاربر آن مانیفست را با استفاده از یک نام مدیر فیلد خصوصی اعمال می‌کند. در این مثال، کاربر `handover-to-hpa` را انتخاب کرده است:
 
 ```shell
 kubectl apply -f nginx-deployment-replicas-only.yaml \
@@ -470,83 +313,59 @@ kubectl apply -f nginx-deployment-replicas-only.yaml \
   --validate=false
 ```
 
-If the apply results in a conflict with the HPA controller, then do nothing. The
-conflict indicates the controller has claimed the field earlier in the
-process than it sometimes does.
+اگر اعمال منجر به تداخل با کنترل‌کننده HPA شود، هیچ کاری انجام ندهید. این تداخل نشان می‌دهد که کنترل‌کننده فیلد را زودتر از آنچه که گاهی اوقات اتفاق می‌افتد، در فرآیند تصاحب کرده است.
 
-At this point the user may remove the `replicas` field from their manifest:
+در این مرحله، کاربر می‌تواند فیلد `replicas` را از مانیفست خود حذف کند:
 
 {{% code_sample file="application/ssa/nginx-deployment-no-replicas.yaml" %}}
 
-Note that whenever the HPA controller sets the `replicas` field to a new value,
-the temporary field manager will no longer own any fields and will be
-automatically deleted. No further clean up is required.
+توجه داشته باشید که هر زمان که کنترل‌کننده HPA فیلد `replicas` را روی مقدار جدیدی تنظیم کند، مدیر فیلد موقت دیگر هیچ فیلدی نخواهد داشت و به طور خودکار حذف می‌شود. نیازی به پاکسازی بیشتر نیست.
 
-### Transferring ownership between managers
+### انتقال مالکیت بین مدیران
 
-Field managers can transfer ownership of a field between each other by setting the field
-to the same value in both of their applied configurations, causing them to share
-ownership of the field. Once the managers share ownership of the field, one of them
-can remove the field from their applied configuration to give up ownership and
-complete the transfer to the other field manager.
 
-## Comparison with Client-Side Apply
+مدیران فیلد می‌توانند با تنظیم فیلد به مقدار یکسان در هر دو پیکربندی اعمال‌شده، مالکیت یک فیلد را بین یکدیگر منتقل کنند و باعث شوند که مالکیت فیلد را به اشتراک بگذارند. هنگامی که مدیران مالکیت فیلد را به اشتراک گذاشتند، یکی از آنها می‌تواند فیلد را از پیکربندی اعمال‌شده خود حذف کند تا مالکیت را واگذار کند و انتقال را به مدیر فیلد دیگر تکمیل کند.
 
-Server-Side Apply is meant both as a replacement for the original client-side
-implementation of the `kubectl apply` subcommand, and as simple and effective
-mechanism for {{< glossary_tooltip term_id="controller" text="controllers" >}}
-to enact their changes.
+## مقایسه با Apply سمت کلاینت
 
-Compared to the `last-applied` annotation managed by `kubectl`, Server-Side
-Apply uses a more declarative approach, which tracks an object's field management,
-rather than a user's last applied state. This means that as a side effect of
-using Server-Side Apply, information about which field manager manages each
-field in an object also becomes available.
+دستور Server-Side Apply هم به عنوان جایگزینی برای پیاده‌سازی اصلی دستور فرعی `kubectl apply` در سمت کلاینت و هم به عنوان مکانیزمی ساده و مؤثر برای {{< glossary_tooltip term_id="controller" text="controllers" >}} برای اعمال تغییرات آنها در نظر گرفته شده است.
 
-A consequence of the conflict detection and resolution implemented by Server-Side
-Apply is that an applier always has up to date field values in their local
-state. If they don't, they get a conflict the next time they apply. Any of the
-three options to resolve conflicts results in the applied configuration being an
-up to date subset of the object on the server's fields.
 
-This is different from Client-Side Apply, where outdated values which have been
-overwritten by other users are left in an applier's local config. These values
-only become accurate when the user updates that specific field, if ever, and an
-applier has no way of knowing whether their next apply will overwrite other
-users' changes.
+در مقایسه با حاشیه‌نویسی `last-applied` که توسط `kubectl` مدیریت می‌شود، Server-Side
+Apply از رویکرد اعلانی‌تری استفاده می‌کند که مدیریت فیلد یک شیء را به جای آخرین وضعیت اعمال‌شده توسط کاربر، پیگیری می‌کند. این بدان معناست که به عنوان یک اثر جانبی استفاده از Server-Side Apply، اطلاعاتی در مورد اینکه کدام مدیر فیلد هر فیلد را در یک شیء مدیریت می‌کند نیز در دسترس قرار می‌گیرد.
 
-Another difference is that an applier using Client-Side Apply is unable to
-change the API version they are using, but Server-Side Apply supports this use
-case.
+
+
+یکی از پیامدهای تشخیص و حل تعارض پیاده‌سازی شده توسط Server-Side
+Apply این است که یک اعمال‌کننده همیشه مقادیر فیلد به‌روزی را در وضعیت محلی خود دارد. اگر این مقادیر به‌روز نباشند، دفعه بعد که درخواست می‌دهند، با تعارض مواجه می‌شوند. هر یک از سه گزینه برای حل تعارض منجر به این می‌شود که پیکربندی اعمال شده، زیرمجموعه‌ای به‌روز از شیء در فیلدهای سرور باشد.
+
+این با Client-Side Apply متفاوت است، که در آن مقادیر قدیمی که توسط کاربران دیگر رونویسی شده‌اند، در پیکربندی محلی یک متقاضی باقی می‌مانند. این مقادیر فقط زمانی دقیق می‌شوند که کاربر آن فیلد خاص را به‌روزرسانی کند، اگر اصلاً به‌روزرسانی شود، و یک متقاضی هیچ راهی برای دانستن اینکه آیا درخواست بعدی او تغییرات کاربران دیگر را بازنویسی خواهد کرد یا خیر، ندارد.
+
+تفاوت دیگر این است که یک برنامه‌نویس که از Client-Side Apply استفاده می‌کند، قادر به تغییر نسخه API مورد استفاده خود نیست، اما Server-Side Apply از این مورد استفاده پشتیبانی می‌کند.
 
 ## Migration between client-side and server-side apply
 
 ### Upgrading from client-side apply to server-side apply
 
-Client-side apply users who manage a resource with `kubectl apply` can start
-using server-side apply with the following flag.
+کاربران apply سمت کلاینت که منبعی را با `kubectl apply` مدیریت می‌کنند، می‌توانند با استفاده از پرچم زیر، استفاده از apply سمت سرور را شروع کنند.
 
 ```shell
 kubectl apply --server-side [--dry-run=server]
 ```
 
-By default, field management of the object transfers from client-side apply to
-kubectl server-side apply, without encountering conflicts.
+به طور پیش‌فرض، مدیریت فیلد انتقال اشیاء از سمت کلاینت به سمت سرور kubectl اعمال می‌شود، بدون اینکه با تداخلی مواجه شود.
 
 {{< caution >}}
-Keep the `last-applied-configuration` annotation up to date.
-The annotation infers client-side applies managed fields.
-Any fields not managed by client-side apply raise conflicts.
+حاشیه‌نویسی `last-applied-configuration` را به‌روز نگه دارید.
+این حاشیه‌نویسی استنباط می‌کند که فیلدهای مدیریت‌شده سمت کلاینت اعمال می‌شوند.
+هر فیلدی که توسط apply سمت کلاینت مدیریت نشود، تداخل ایجاد می‌کند.
 
-For example, if you used `kubectl scale` to update the replicas field after
-client-side apply, then this field is not owned by client-side apply and
-creates conflicts on `kubectl apply --server-side`.
+برای مثال، اگر از `kubectl scale` برای به‌روزرسانی فیلد replicas پس از `client-side apply` استفاده کرده باشید، این فیلد متعلق به `client-side apply` نیست و در `kubectl apply --server-side` تداخل ایجاد می‌کند.
 {{< /caution >}}
 
-This behavior applies to server-side apply with the `kubectl` field manager.
-As an exception, you can opt-out of this behavior by specifying a different,
-non-default field manager, as seen in the following example. The default field
-manager for kubectl server-side apply is `kubectl`.
+این رفتار در مورد apply سمت سرور با مدیر فیلد `kubectl` اعمال می‌شود.
+
+به عنوان یک استثنا، می‌توانید با مشخص کردن یک مدیر فیلد متفاوت و غیر پیش‌فرض، همانطور که در مثال زیر مشاهده می‌شود، از این رفتار خودداری کنید. مدیر فیلد پیش‌فرض برای kubectl server-side apply، `kubectl` است.
 
 ```shell
 kubectl apply --server-side --field-manager=my-manager [--dry-run=server]
@@ -554,47 +373,36 @@ kubectl apply --server-side --field-manager=my-manager [--dry-run=server]
 
 ### Downgrading from server-side apply to client-side apply
 
-If you manage a resource with `kubectl apply --server-side`,
-you can downgrade to client-side apply directly with `kubectl apply`.
+اگر منبعی را با `kubectl apply --server-side` مدیریت می‌کنید، می‌توانید مستقیماً با `kubectl apply` به سمت کلاینت برگردید.
 
 Downgrading works because kubectl Server-Side Apply keeps the
 `last-applied-configuration` annotation up-to-date if you use
 `kubectl apply`.
 
-This behavior applies to Server-Side Apply with the `kubectl` field manager.
-As an exception, you can opt-out of this behavior by specifying a different,
-non-default field manager, as seen in the following example. The default field
-manager for kubectl server-side apply is `kubectl`.
+دانگرید به نسخه پایین‌تر (downgrade) کار می‌کند زیرا kubectl Server-Side Apply در صورت استفاده از `kubectl apply`.، حاشیه‌نویسی `last-applied-configuration` را به‌روز نگه می‌دارد.
+
+این رفتار در مورد Server-Side Apply با مدیر فیلد `kubectl` اعمال می‌شود.
+به عنوان یک استثنا، می‌توانید با مشخص کردن یک مدیر فیلد متفاوت و غیر پیش‌فرض، همانطور که در مثال زیر مشاهده می‌شود، از این رفتار صرف نظر کنید. مدیر فیلد پیش‌فرض برای kubectl server-side apply، `kubectl` است.
 
 ```shell
 kubectl apply --server-side --field-manager=my-manager [--dry-run=server]
 ```
 
-## API implementation
+## پیاده سازی API
 
-The `PATCH` verb (for an object that supports Server-Side Apply) accepts the
-unofficial `application/apply-patch+yaml` content type. Users of Server-Side
-Apply can send partially specified objects as YAML as the body of a `PATCH` request
-to the URI of a resource.  When applying a configuration, you should always include all the
-fields that are important to the outcome (such as a desired state) that you want to define.
+فعل `PATCH` (برای شیء‌ای که از Server-Side Apply پشتیبانی می‌کند) نوع محتوای غیررسمی `application/apply-patch+yaml` را می‌پذیرد. کاربران Server-Side
+Apply می‌توانند اشیاء جزئی مشخص شده را به صورت YAML به عنوان بدنه درخواست `PATCH` به URI یک منبع ارسال کنند. هنگام اعمال پیکربندی، همیشه باید تمام فیلدهایی را که برای نتیجه (مانند حالت مطلوب) که می‌خواهید تعریف کنید، مهم هستند، لحاظ کنید.
 
-All JSON messages are valid YAML. Therefore, in addition to using YAML request bodies for Server-Side Apply requests, you can also use JSON request bodies, as they are also valid YAML.
-In either case, use the media type `application/apply-patch+yaml` for the HTTP request.
+تمام پیام‌های JSON از نوع YAML معتبر هستند. بنابراین، علاوه بر استفاده از بدنه‌های درخواست YAML برای درخواست‌های Server-Side Apply، می‌توانید از بدنه‌های درخواست JSON نیز استفاده کنید، زیرا آنها نیز از نوع YAML معتبر هستند. در هر صورت، برای درخواست HTTP از نوع رسانه `application/apply-patch+yaml` استفاده کنید.
 
-### Access control and permissions {#rbac-and-permissions}
+### کنترل دسترسی و مجوزها {#rbac-and-permissions}
 
-Since Server-Side Apply is a type of `PATCH`, a principal (such as a Role for Kubernetes
-{{< glossary_tooltip text="RBAC" term_id="rbac" >}}) requires the **patch** permission to
-edit existing resources, and also needs the **create** verb permission in order to create
-new resources with Server-Side Apply.
+از آنجایی که Server-Side Apply نوعی `PATCH` است، یک principal (مانند یک Role برای Kubernetes
+{{< glossary_tooltip text="RBAC" term_id="rbac" >}}) برای ویرایش منابع موجود به مجوز **patch** نیاز دارد و همچنین برای ایجاد منابع جدید با Server-Side Apply به مجوز **create** verb نیاز دارد.
 
 ## Clearing `managedFields`
 
-It is possible to strip all `managedFields` from an object by overwriting them
-using a **patch** (JSON Merge Patch, Strategic Merge Patch, JSON Patch), or
-through an **update** (HTTP `PUT`); in other words, through every write operation
-other than **apply**. This can be done by overwriting the `managedFields` field
-with an empty entry. Two examples are:
+می‌توان تمام «فیلدهای مدیریت‌شده» را از یک شیء با بازنویسی آنها - با استفاده از یک **پچ** (پچ ادغام JSON، پچ ادغام استراتژیک، پچ JSON) - یا از طریق **به‌روزرسانی** (HTTP `PUT`) - حذف کرد؛ به عبارت دیگر، از طریق هر عملیات نوشتن - به غیر از **اعمال**. این کار را می‌توان با بازنویسی فیلد «فیلدهای مدیریت‌شده» با یک ورودی خالی انجام داد. دو مثال عبارتند از:
 
 ```console
 PATCH /api/v1/namespaces/default/configmaps/example-cm
@@ -619,26 +427,14 @@ If-Match: 1234567890123456789
 [{"op": "replace", "path": "/metadata/managedFields", "value": [{}]}]
 ```
 
-This will overwrite the `managedFields` with a list containing a single empty
-entry that then results in the `managedFields` being stripped entirely from the
-object. Note that setting the `managedFields` to an empty list will not
-reset the field. This is on purpose, so `managedFields` never get stripped by
-clients not aware of the field.
+این کار `managedFields` را با فهرستی حاوی یک ورودی خالی بازنویسی می‌کند که در نتیجه منجر به حذف کامل `managedFields` از شیء می‌شود. توجه داشته باشید که تنظیم `managedFields` روی یک فهرست خالی، فیلد را بازنشانی نمی‌کند. این کار عمدی است، بنابراین `managedFields` هرگز توسط کلاینت‌هایی که از فیلد آگاه نیستند، حذف نمی‌شود.
 
-In cases where the reset operation is combined with changes to other fields
-than the `managedFields`, this will result in the `managedFields` being reset
-first and the other changes being processed afterwards. As a result the
-applier takes ownership of any fields updated in the same request.
+
 
 {{< note >}}
-Server-Side Apply does not correctly track ownership on
-sub-resources that don't receive the resource object type. If you are
-using Server-Side Apply with such a sub-resource, the changed fields
-may not be tracked.
+Server-Side Apply مالکیت را در زیرمنابعی که نوع شیء منبع را دریافت نمی‌کنند، به درستی ردیابی نمی‌کند. اگر از Server-Side Apply با چنین زیرمنبعی استفاده می‌کنید، ممکن است فیلدهای تغییر یافته ردیابی نشوند.
 {{< /note >}}
 
 ## {{% heading "whatsnext" %}}
 
-You can read about `managedFields` within the Kubernetes API reference for the
-[`metadata`](/docs/reference/kubernetes-api/common-definitions/object-meta/)
-top level field.
+می‌توانید در مورد  `managedFields` در مرجع API کوبرنتیز برای فیلد سطح بالا [`metadata`](/docs/reference/kubernetes-api/common-definitions/object-meta/) مطالعه کنید.

@@ -7,26 +7,18 @@ weight: 30
 ---
 
 <!-- overview -->
-This page contains an overview of the client libraries for using the Kubernetes
-API from various programming languages.
+این صفحه شامل مروری بر کتابخانه‌های کلاینت برای استفاده از API کوبرنتیز از زبان‌های برنامه‌نویسی مختلف است.
 
 
 <!-- body -->
-To write applications using the [Kubernetes REST API](/docs/reference/using-api/),
-you do not need to implement the API calls and request/response types yourself.
-You can use a client library for the programming language you are using.
+برای نوشتن برنامه‌ها با استفاده از [Kubernetes REST API](/docs/reference/using-api/)، نیازی نیست که خودتان فراخوانی‌های API و انواع درخواست/پاسخ را پیاده‌سازی کنید. می‌توانید از یک کتابخانه کلاینت برای زبان برنامه‌نویسی مورد استفاده خود استفاده کنید.
 
-Client libraries often handle common tasks such as authentication for you.
-Most client libraries can discover and use the Kubernetes Service Account to
-authenticate if the API client is running inside the Kubernetes cluster, or can
-understand the [kubeconfig file](/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
-format to read the credentials and the API Server address.
+کتابخانه‌های کلاینت اغلب وظایف رایجی مانند احراز هویت را برای شما انجام می‌دهند.
+اکثر کتابخانه‌های کلاینت می‌توانند حساب سرویس Kubernetes را کشف کرده و از آن برای احراز هویت استفاده کنند، اگر کلاینت API در داخل خوشه Kubernetes در حال اجرا باشد، یا می‌توانند فرمت [kubeconfig file](/docs/tasks/access-application-cluster/configure-access-multiple-clusters/) را برای خواندن اعتبارنامه‌ها و آدرس سرور API درک کنند.
 
-## Officially-supported Kubernetes client libraries
+## کتابخانه‌های کلاینت Kubernetes که رسماً پشتیبانی می‌شوند
 
-The following client libraries are officially maintained by
-[Kubernetes SIG API Machinery](https://github.com/kubernetes/community/tree/master/sig-api-machinery).
-
+کتابخانه‌های کلاینت زیر رسماً توسط [Kubernetes SIG API Machinery](https://github.com/kubernetes/community/tree/master/sig-api-machinery). نگهداری می‌شوند.
 
 | Language   | Client Library | Sample Programs |
 |------------|----------------|-----------------|
@@ -44,8 +36,7 @@ The following client libraries are officially maintained by
 
 {{% thirdparty-content %}}
 
-The following Kubernetes API client libraries are provided and maintained by
-their authors, not the Kubernetes team.
+کتابخانه‌های کلاینت Kubernetes API زیر توسط نویسندگان آنها ارائه و نگهداری می‌شوند، نه تیم Kubernetes.
 
 | Language             | Client Library                           |
 | -------------------- | ---------------------------------------- |

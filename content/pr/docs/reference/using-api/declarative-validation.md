@@ -11,53 +11,53 @@ weight: 20
 
 {{< feature-state for_k8s_version="v1.33" state="beta" >}}
 
-Kubernetes {{< skew currentVersion >}} includes optional _declarative validation_ for APIs. When enabled, the Kubernetes API server can use this mechanism rather than the legacy approach that relies on hand-written Go
-code (`validation.go` files) to ensure that requests against the API are valid.
-Kubernetes developers, and people [extending the Kubernetes API](/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/),
-can define validation rules directly alongside the API type definitions (`types.go` files). Code authors define
-pecial comment tags (e.g., `+k8s:minimum=0`). A code generator (`validation-gen`) then uses these tags to produce
-optimized Go code for API validation.
+{{< skew currentVersion >}} شامل اعتبارسنجی اختیاری _declarative_ برای APIها است. وقتی این فعال باشد، سرور API Kubernetes می‌تواند از این مکانیسم به جای رویکرد قدیمی که به کدهای دست‌نویس Go (فایل‌های `validation.go`) متکی است، برای اطمینان از معتبر بودن درخواست‌های ارسالی به API استفاده کند.
 
-While primarily a feature impacting Kubernetes contributors and potentially developers of [extension API servers](/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/), cluster administrators should understand its behavior, especially during its rollout phases.
+توسعه‌دهندگان Kubernetes و افرادی که API Kubernetes را گسترش می‌دهند (/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/)، می‌توانند قوانین اعتبارسنجی را مستقیماً در کنار تعاریف نوع API (فایل‌های `types.go`) تعریف کنند. نویسندگان کد، برچسب‌های کامنت ویژه (مثلاً `+k8s:minimum=0`) را تعریف می‌کنند. سپس یک تولیدکننده کد (`validation-gen`) از این برچسب‌ها برای تولید کد Go بهینه شده برای اعتبارسنجی API استفاده می‌کند.
+
+
+اگرچه این ویژگی در درجه اول بر مشارکت‌کنندگان Kubernetes و توسعه‌دهندگان بالقوه [extension API servers](/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/) تأثیر می‌گذارد، مدیران کلاستر باید رفتار آن را، به‌ویژه در مراحل راه‌اندازی، درک کنند.
 
 
 
-Declarative validation is being rolled out gradually.
-In Kubernetes {{< skew currentVersion >}}, the APIs that use declarative validation include:
+اعتبارسنجی اعلانی به تدریج در حال ارائه است.
+در Kubernetes {{< skew currentVersion >}}، رابط‌های برنامه‌نویسی کاربردی (API) که از اعتبارسنجی اعلانی استفاده می‌کنند عبارتند از:
 
 * [ReplicationController](/docs/concepts/workloads/controllers/replicationcontroller/)
 
 {{< note >}}
-For the beta of this feature, Kubernetes is intentionally using a superseded API as a test bed for the change.
-Future Kubernetes releases may roll this out to more APIs.
+برای نسخه بتای این ویژگی، کوبرنتیز عمداً از یک API جایگزین به عنوان بستر آزمایشی برای این تغییر استفاده می‌کند.
+نسخه‌های آینده کوبرنتیز ممکن است این ویژگی را به APIهای بیشتری گسترش دهند.
 {{< /note >}}
 
 
-*   `DeclarativeValidation`: (Beta, Default: `true`) When enabled, the API server runs *both* the new declarative validation and the old hand-written validation for migrated types/fields. The results are compared internally.
-*   `DeclarativeValidationTakeover`: (Beta, Default: `false`) This gate determines which validation result is *authoritative* (i.e., returned to the user and used for admission decisions).
+*   `DeclarativeValidation`: (نسخه بتا، پیش‌فرض: `true`) وقتی فعال باشد، سرور API *هم* اعتبارسنجی اعلانی جدید و هم اعتبارسنجی دست‌نویس قدیمی را برای انواع/فیلدهای منتقل‌شده اجرا می‌کند. نتایج به‌صورت داخلی مقایسه می‌شوند.
+*   `DeclarativeValidationTakeover`: (بتا، پیش‌فرض: `false`) این گیت تعیین می‌کند که کدام نتیجه اعتبارسنجی *معتبر* است (یعنی به کاربر برگردانده شده و برای تصمیمات پذیرش استفاده می‌شود).
 
-**Default Behavior (Kubernetes {{< skew currentVersion >}}):**
+**رفتار پیش‌فرض (Kubernetes {{< skew currentVersion >}}):
 
-*   With `DeclarativeValidation=true` and `DeclarativeValidationTakeover=false` (the default values for the gates), both validation systems run.
-*   **The results of the *hand-written* validation are used.** The declarative validation runs in a mismatch mode for comparison.
-*   Mismatches between the two validation systems are logged by the API server and increment the `declarative_validation_mismatch_total` metric. This helps developers identify and fix discrepancies during the Beta phase.
-*   **Cluster upgrades should be safe** regarding this feature, as the authoritative validation logic doesn't change by default.
+*  با مقادیر `DeclarativeValidation=true` و `DeclarativeValidationTakeover=false` (مقادیر پیش‌فرض برای گیت‌ها)، هر دو سیستم اعتبارسنجی اجرا می‌شوند.
+*   **نتایج اعتبارسنجی *دست‌نویس* استفاده می‌شوند.** اعتبارسنجی اعلانی برای مقایسه در حالت عدم تطابق اجرا می‌شود.
+*  عدم تطابق بین دو سیستم اعتبارسنجی توسط سرور API ثبت می‌شود و معیار `declarative_validation_mismatch_total` را افزایش می‌دهد. این به توسعه‌دهندگان کمک می‌کند تا اختلافات را در طول مرحله بتا شناسایی و برطرف کنند
+*   **ارتقای کلاستر باید در مورد این ویژگی ایمن باشد**، زیرا منطق اعتبارسنجی معتبر به طور پیش‌فرض تغییر نمی‌کند.
 
-Administrators can choose to explicitly enable `DeclarativeValidationTakeover=true` to make the *declarative* validation authoritative for migrated fields, typically after verifying stability in their environment (e.g., by monitoring the mismatch metric).
 
-## Disabling declarative validation {#opt-out}
+مدیران سیستم می‌توانند به طور صریح `DeclarativeValidationTakeover=true` را فعال کنند تا اعتبارسنجی *declarative* برای فیلدهای منتقل شده معتبر شود، که معمولاً پس از تأیید پایداری در محیط آنها (مثلاً با نظارت بر معیار عدم تطابق) انجام می‌شود.
 
-As a cluster administrator, you might consider disabling declarative validation whilst it is still beta, under specific circumstances:
+## غیرفعال کردن اعتبارسنجی اعلانی {#opt-out}
 
-*   **Unexpected Validation Behavior:** If enabling `DeclarativeValidationTakeover` leads to unexpected validation errors or allows objects that were previously invalid.
-*   **Performance Regressions:** If monitoring indicates significant latency increases (e.g., in `apiserver_request_duration_seconds`) correlated with the feature's enablement.
-*   **High Mismatch Rate:** If the `declarative_validation_mismatch_total` metric shows frequent mismatches, suggesting potential bugs in the declarative rules affecting the cluster's workloads, even if `DeclarativeValidationTakeover` is false.
+به عنوان یک مدیر کلاستر، می‌توانید غیرفعال کردن اعتبارسنجی اعلانی را در حالی که هنوز نسخه بتا است، تحت شرایط خاص در نظر بگیرید:
 
-To revert to only using hand-written validation (as used before Kubernetes v1.33), disable the `DeclarativeValidation` feature gate, for example
-via command-line arguments: (`--feature-gates=DeclarativeValidation=false`). This also implicitly disables the effect of `DeclarativeValidationTakeover`.
+*   **Unexpected Validation Behavior:** اگر فعال کردن `DeclarativeValidationTakeover` منجر به خطاهای اعتبارسنجی غیرمنتظره شود یا به اشیایی که قبلاً نامعتبر بودند، اجازه اجرا دهد.
+*   **Performance Regressions:** اگر نظارت افزایش قابل توجه تأخیر (مثلاً در `apiserver_request_duration_seconds`) را نشان دهد که با فعال‌سازی ویژگی مرتبط است.
+*   **High Mismatch Rate:** اگر معیار `declarative_validation_mismatch_total` عدم تطابق‌های مکرری را نشان دهد، نشان‌دهنده‌ی اشکالات احتمالی در قوانین اعلانی است که بر حجم کاری کلاستر تأثیر می‌گذارند، حتی اگر `DeclarativeValidationTakeover` نادرست باشد.
 
-## Considerations for downgrade and rollback
 
-Disabling the feature acts as a safety mechanism. However, be aware of a potential edge case (considered unlikely due to extensive testing): If a bug in declarative validation (when `DeclarativeValidationTakeover=true`) *incorrectly allowed* an invalid object to be persisted, disabling the feature gates might then cause subsequent updates to that specific object to be blocked by the now-authoritative (and correct) hand-written validation. Resolving this might require manual correction of the stored object, potentially via direct etcd modification in rare cases.
+برای بازگشت به حالت اعتبارسنجی دستی (همانطور که قبل از Kubernetes نسخه ۱.۳۳ استفاده می‌شد)، دروازه ویژگی `DeclarativeValidation` را غیرفعال کنید، برای مثال از طریق آرگومان‌های خط فرمان: (`--feature-gates=DeclarativeValidation=false`). این کار همچنین به طور ضمنی اثر `DeclarativeValidationTakeover` را غیرفعال می‌کند.
 
-For details on managing feature gates, see [Feature Gates](/docs/reference/command-line-tools-reference/feature-gates/).
+## ملاحظات مربوط به تنزل رتبه و بازگشت به نسخه قبلی
+
+غیرفعال کردن این ویژگی به عنوان یک مکانیسم ایمنی عمل می‌کند. با این حال، از یک مورد حاشیه‌ای احتمالی (که به دلیل آزمایش‌های گسترده بعید به نظر می‌رسد) آگاه باشید: اگر یک اشکال در اعتبارسنجی اعلانی (هنگامی که `DeclarativeValidationTakeover=true`) *به اشتباه* اجازه داده باشد که یک شیء نامعتبر حفظ شود، غیرفعال کردن دروازه‌های ویژگی ممکن است باعث شود که به‌روزرسانی‌های بعدی آن شیء خاص توسط اعتبارسنجی دست‌نویس که اکنون معتبر (و صحیح) شده است، مسدود شود. حل این مشکل ممکن است نیاز به اصلاح دستی شیء ذخیره شده داشته باشد، که احتمالاً در موارد نادر از طریق اصلاح مستقیم etcd انجام می‌شود.
+
+
+برای جزئیات بیشتر در مورد مدیریت دروازه‌های ویژگی، به [Feature Gates](/docs/reference/command-line-tools-reference/feature-gates/). مراجعه کنید.

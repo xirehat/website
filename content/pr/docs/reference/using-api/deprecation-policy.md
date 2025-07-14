@@ -9,22 +9,14 @@ weight: 40
 ---
 
 <!-- overview -->
-This document details the deprecation policy for various facets of the system.
+این سند جزئیات سیاست حذف را برای جنبه‌های مختلف سیستم شرح می‌دهد.
 
 <!-- body -->
-Kubernetes is a large system with many components and many contributors. As
-with any such software, the feature set naturally evolves over time, and
-sometimes a feature may need to be removed. This could include an API, a flag,
-or even an entire feature. To avoid breaking existing users, Kubernetes follows
-a deprecation policy for aspects of the system that are slated to be removed.
+کوبرنتیز یک سیستم بزرگ با اجزای زیاد و مشارکت‌کنندگان فراوان است. مانند هر نرم‌افزار دیگری از این دست، مجموعه ویژگی‌ها به طور طبیعی با گذشت زمان تکامل می‌یابد و گاهی اوقات ممکن است نیاز به حذف یک ویژگی باشد. این می‌تواند شامل یک API، یک پرچم یا حتی کل یک ویژگی باشد. برای جلوگیری از ایجاد مشکل برای کاربران فعلی، کوبرنتیز از یک سیاست منسوخ‌سازی برای جنبه‌هایی از سیستم که قرار است حذف شوند، پیروی می‌کند.
 
 ## Deprecating parts of the API
 
-Since Kubernetes is an API-driven system, the API has evolved over time to
-reflect the evolving understanding of the problem space. The Kubernetes API is
-actually a set of APIs, called "API groups", and each API group is
-independently versioned. [API versions](/docs/reference/using-api/#api-versioning) fall
-into 3 main tracks, each of which has different policies for deprecation:
+از آنجایی که Kubernetes یک سیستم مبتنی بر API است، API آن در طول زمان تکامل یافته تا منعکس کننده درک در حال تکامل از فضای مشکل باشد. API Kubernetes در واقع مجموعه‌ای از APIها است که "گروه‌های API" نامیده می‌شوند و هر گروه API به طور مستقل نسخه‌بندی می‌شود. [API versions](/docs/reference/using-api/#api-versioning) در 3 مسیر اصلی قرار می‌گیرند که هر کدام سیاست‌های متفاوتی برای منسوخ شدن دارند:
 
 | Example  | Track                            |
 |----------|----------------------------------|
@@ -32,89 +24,61 @@ into 3 main tracks, each of which has different policies for deprecation:
 | v1beta1  | Beta (pre-release)               |
 | v1alpha1 | Alpha (experimental)             |
 
-A given release of Kubernetes can support any number of API groups and any
-number of versions of each.
+یک نسخه مشخص از Kubernetes می‌تواند از هر تعداد گروه API و هر تعداد نسخه از هر کدام پشتیبانی کند.
 
-The following rules govern the deprecation of elements of the API. This
-includes:
 
-* REST resources (aka API objects)
-* Fields of REST resources
-* Annotations on REST resources, including "beta" annotations but not
-  including "alpha" annotations.
-* Enumerated or constant values
-* Component config structures
+قوانین زیر، منسوخ شدن عناصر API را تعیین می‌کنند. این موارد شامل موارد زیر است:
 
-These rules are enforced between official releases, not between
-arbitrary commits to master or release branches.
+* منابع REST (معروف به اشیاء API)
+* زمینه‌های منابع REST
+* حاشیه‌نویسی‌ها روی منابع REST، شامل حاشیه‌نویسی‌های «بتا» اما نه
+ شامل حاشیه‌نویسی‌های «آلفا».
+* مقادیر شمارشی یا ثابت
+* ساختارهای پیکربندی کامپوننت
 
-**Rule #1: API elements may only be removed by incrementing the version of the
-API group.**
+این قوانین بین انتشارهای رسمی اعمال می‌شوند، نه بین کامیت‌های دلخواه برای شاخه‌های اصلی یا انتشار.
 
-Once an API element has been added to an API group at a particular version, it
-can not be removed from that version or have its behavior significantly
-changed, regardless of track.
+**قانون شماره ۱: عناصر API فقط با افزایش نسخه گروه API قابل حذف هستند.**
+
+
 
 {{< note >}}
-For historical reasons, there are 2 "monolithic" API groups - "core" (no
-group name) and "extensions". Resources will incrementally be moved from these
-legacy API groups into more domain-specific API groups.
+وقتی یک عنصر API به یک گروه API در یک نسخه خاص اضافه می‌شود، صرف نظر از مسیر، نمی‌توان آن را از آن نسخه حذف کرد یا رفتار آن را به طور قابل توجهی تغییر داد.
+به دلایل تاریخی، دو گروه API «یکپارچه» وجود دارد - «هسته» (بدون نام گروه) و "extensions". منابع به تدریج از این گروه‌های API قدیمی به گروه‌های API مختص دامنه منتقل خواهند شد.
 {{< /note >}}
 
-**Rule #2: API objects must be able to round-trip between API versions in a given
-release without information loss, with the exception of whole REST resources
-that do not exist in some versions.**
+**قانون شماره ۲: اشیاء API باید بتوانند در یک نسخه مشخص، بدون از دست دادن اطلاعات، بین نسخه‌های API رفت و برگشت داشته باشند، به استثنای کل منابع REST که در برخی نسخه‌ها وجود ندارند.**
 
-For example, an object can be written as v1 and then read back as v2 and
-converted to v1, and the resulting v1 resource will be identical to the
-original. The representation in v2 might be different from v1, but the system
-knows how to convert between them in both directions. Additionally, any new
-field added in v2 must be able to round-trip to v1 and back, which means v1
-might have to add an equivalent field or represent it as an annotation.
+برای مثال، یک شیء می‌تواند به صورت v1 نوشته شود و سپس به صورت v2 خوانده شود و به v1 تبدیل شود، و منبع v1 حاصل با منبع اصلی یکسان خواهد بود. نمایش در v2 ممکن است با v1 متفاوت باشد، اما سیستم می‌داند که چگونه بین آنها در هر دو جهت تبدیل کند. علاوه بر این، هر فیلد جدیدی که در v2 اضافه می‌شود باید بتواند به v1 رفت و برگشت کند، به این معنی که v1 ممکن است مجبور شود یک فیلد معادل اضافه کند یا آن را به عنوان یک حاشیه‌نویسی نمایش دهد.
 
 **Rule #3: An API version in a given track may not be deprecated in favor of a less stable API version.**
 
-* GA API versions can replace beta and alpha API versions.
-* Beta API versions can replace earlier beta and alpha API versions, but *may not* replace GA API versions.
-* Alpha API versions can replace earlier alpha API versions, but *may not* replace GA or beta API versions.
+* نسخه‌های API GA می‌توانند جایگزین نسخه‌های بتا و آلفا API شوند.
+* نسخه‌های API بتا می‌توانند جایگزین نسخه‌های بتا و آلفا API قبلی شوند، اما *ممکن است* جایگزین نسخه‌های API GA نشوند.
+* نسخه‌های API آلفا می‌توانند جایگزین نسخه‌های آلفا API قبلی شوند، اما *ممکن است* جایگزین نسخه‌های GA یا بتا API نشوند.
 
 **Rule #4a: API lifetime is determined by the API stability level**
 
-* GA API versions may be marked as deprecated, but must not be removed within a major version of Kubernetes
-* Beta API versions are deprecated no more than 9 months or 3 minor releases after introduction (whichever is longer),
-  and are no longer served 9 months or 3 minor releases after deprecation (whichever is longer)
-* Alpha API versions may be removed in any release without prior deprecation notice
+* نسخه‌های API GA ممکن است به عنوان منسوخ علامت‌گذاری شوند، اما نباید در نسخه اصلی Kubernetes حذف شوند.
+* نسخه‌های API بتا حداکثر ۹ ماه یا ۳ نسخه فرعی پس از معرفی (هر کدام که طولانی‌تر باشد) منسوخ می‌شوند،
+و دیگر ۹ ماه یا ۳ نسخه فرعی پس از منسوخ شدن (هر کدام که طولانی‌تر باشد) ارائه نمی‌شوند.
+* نسخه‌های API آلفا ممکن است در هر نسخه‌ای بدون اطلاع قبلی در مورد منسوخ شدن حذف شوند.
 
-This ensures beta API support covers the [maximum supported version skew of 2 releases](/releases/version-skew-policy/),
-and that APIs don't stagnate on unstable beta versions, accumulating production usage that will be
-disrupted when support for the beta API ends.
+این تضمین می‌کند که پشتیبانی از API بتا، [حداکثر انحراف نسخه پشتیبانی‌شده از ۲ نسخه](/releases/version-skew-policy/) را پوشش می‌دهد، و APIها در نسخه‌های بتای ناپایدار راکد نمی‌مانند و استفاده از محصول را انباشته نمی‌کنند که با پایان پشتیبانی از API بتا مختل خواهد شد.
 
 {{< note >}}
-There are no current plans for a major version revision of Kubernetes that removes GA APIs.
+در حال حاضر هیچ برنامه‌ای برای نسخه اصلی Kubernetes که APIهای GA را حذف کند، وجود ندارد.
 {{< /note >}}
 
 {{< note >}}
-Until [#52185](https://github.com/kubernetes/kubernetes/issues/52185) is
-resolved, no API versions that have been persisted to storage may be removed.
-Serving REST endpoints for those versions may be disabled (subject to the
-deprecation timelines in this document), but the API server must remain capable
-of decoding/converting previously persisted data from storage.
+تا زمانی که مشکل [#52185](https://github.com/kubernetes/kubernetes/issues/52185) حل نشود، هیچ نسخه‌ای از API که در فضای ذخیره‌سازی ذخیره شده است، قابل حذف نیست. ارائه نقاط پایانی REST برای آن نسخه‌ها ممکن است غیرفعال شود (با توجه به جدول زمانی منسوخ شدن در این سند)، اما سرور API باید قادر به رمزگشایی/تبدیل داده‌های ذخیره شده قبلی از فضای ذخیره‌سازی باشد.
 {{< /note >}}
 
-**Rule #4b: The "preferred" API version and the "storage version" for a given
-group may not advance until after a release has been made that supports both the
-new version and the previous version**
+**قانون شماره ۴ب: نسخه API «ترجیحی» و «نسخه ذخیره‌سازی» برای یک گروه خاص ممکن است تا زمانی که نسخه‌ای منتشر نشده باشد که هم از نسخه جدید و هم از نسخه قبلی پشتیبانی کند، ارتقا نیابند.**
 
-Users must be able to upgrade to a new release of Kubernetes and then roll back
-to a previous release, without converting anything to the new API version or
-suffering breakages (unless they explicitly used features only available in the
-newer version). This is particularly evident in the stored representation of
-objects.
+کاربران باید بتوانند به نسخه جدید Kubernetes ارتقا دهند و سپس بدون تبدیل چیزی به نسخه جدید API یا بروز هرگونه مشکل (مگر اینکه صریحاً از ویژگی‌هایی که فقط در نسخه جدیدتر موجود است استفاده کرده باشند) به نسخه قبلی بازگردند. این امر به ویژه در نمایش ذخیره شده اشیاء مشهود است.
 
-All of this is best illustrated by examples. Imagine a Kubernetes release,
-version X, which introduces a new API group. A new Kubernetes release is made
-every approximately 4 months (3 per year). The following table describes which
-API versions are supported in a series of subsequent releases.
+همه این موارد به بهترین شکل با مثال نشان داده می‌شود. یک نسخه Kubernetes، نسخه X، را تصور کنید که یک گروه API جدید را معرفی می‌کند. تقریباً هر ۴ ماه (۳ ماه در سال) یک نسخه جدید Kubernetes منتشر می‌شود. جدول زیر شرح می‌دهد که کدام نسخه‌های API در یک سری از نسخه‌های بعدی پشتیبانی می‌شوند.
 
 <table>
   <thead>
@@ -276,227 +240,148 @@ API versions are supported in a series of subsequent releases.
 
 ### REST resources (aka API objects)
 
-Consider a hypothetical REST resource named Widget, which was present in API v1
-in the above timeline, and which needs to be deprecated. We document and
-[announce](https://groups.google.com/forum/#!forum/kubernetes-announce) the
-deprecation in sync with release X+1. The Widget resource still exists in API
-version v1 (deprecated) but not in v2alpha1. The Widget resource continues to
-exist and function in releases up to and including X+8. Only in release X+9,
-when API v1 has aged out, does the Widget resource cease to exist, and the
-behavior get removed.
 
-Starting in Kubernetes v1.19, making an API request to a deprecated REST API endpoint:
+یک منبع فرضی REST به نام Widget را در نظر بگیرید که در جدول زمانی بالا در API نسخه ۱ وجود داشته و باید منسوخ شود. ما منسوخ شدن را همزمان با انتشار X+1 مستند و اعلام می‌کنیم [announce](https://groups.google.com/forum/#!forum/kubernetes-announce). منبع Widget هنوز در API نسخه ۱ (منسوخ شده) وجود دارد اما در نسخه ۲alpha1 وجود ندارد. منبع Widget همچنان در نسخه‌های تا X+۸ و از جمله آن وجود دارد و کار می‌کند. تنها در نسخه X+۹، زمانی که API نسخه ۱ منسوخ شده است، منبع Widget از بین می‌رود و رفتار آن حذف می‌شود.
 
-1. Returns a `Warning` header
-   (as defined in [RFC7234, Section 5.5](https://tools.ietf.org/html/rfc7234#section-5.5)) in the API response.
-1. Adds a `"k8s.io/deprecated":"true"` annotation to the
-   [audit event](/docs/tasks/debug/debug-cluster/audit/) recorded for the request.
-1. Sets an `apiserver_requested_deprecated_apis` gauge metric to `1` in the `kube-apiserver`
-   process. The metric has labels for `group`, `version`, `resource`, `subresource` that can be joined
-   to the `apiserver_request_total` metric, and a `removed_release` label that indicates the
-   Kubernetes release in which the API will no longer be served. The following Prometheus query
-   returns information about requests made to deprecated APIs which will be removed in v1.22:
+
+با شروع از Kubernetes نسخه ۱.۱۹، ارسال یک درخواست API به یک نقطه پایانی REST API منسوخ شده:
+
+1. یک هدر `Warning` (مطابق تعریف‌شده در [RFC7234، بخش 5.5](https://tools.ietf.org/html/rfc7234#section-5.5)) در پاسخ API برمی‌گرداند.
+1. یک حاشیه‌نویسی `"k8s.io/deprecated":"true"` به رویداد [audit](/docs/tasks/debug/debug-cluster/audit/) ثبت‌شده برای درخواست اضافه می‌کند.
+1. معیار سنجش `apiserver_requested_deprecated_apis` را در فرآیند `kube-apiserver` روی `1` تنظیم می‌کند. این معیار دارای برچسب‌هایی برای `group`، `version`، `resource`، `subresource` است که می‌توانند به معیار `apiserver_request_total` ملحق شوند، و یک برچسب `removed_release` که نشان دهنده نسخه Kubernetes است که در آن API دیگر ارائه نخواهد شد. پرس و جوی Prometheus زیر اطلاعاتی در مورد درخواست‌های ارسال شده به APIهای منسوخ شده که در نسخه ۱.۲۲ حذف خواهند شد، برمی‌گرداند:
 
    ```promql
    apiserver_requested_deprecated_apis{removed_release="1.22"} * on(group,version,resource,subresource) group_right() apiserver_request_total
    ```
 
-### Fields of REST resources
+### زمینه‌های منابع REST
 
-As with whole REST resources, an individual field which was present in API v1
-must exist and function until API v1 is removed. Unlike whole resources, the
-v2 APIs may choose a different representation for the field, as long as it can
-be round-tripped. For example a v1 field named "magnitude" which was
-deprecated might be named "deprecatedMagnitude" in API v2. When v1 is
-eventually removed, the deprecated field can be removed from v2.
+همانند کل منابع REST، یک فیلد منفرد که در API نسخه ۱ وجود داشت، باید تا زمانی که API نسخه ۱ حذف شود، وجود داشته باشد و کار کند. برخلاف کل منابع، APIهای نسخه ۲ می‌توانند نمایش متفاوتی برای فیلد انتخاب کنند، البته تا زمانی که بتوان آن را به صورت رفت و برگشتی نمایش داد. به عنوان مثال، یک فیلد نسخه ۱ با نام "magnitude" که منسوخ شده بود، ممکن است در API نسخه ۲ با نام "deprecatedMagnitude" نامگذاری شود. هنگامی که v1 در نهایت حذف شود، فیلد منسوخ شده می‌تواند از نسخه ۲ حذف شود.
 
-### Enumerated or constant values
+### مقادیر شمارشی یا ثابت
 
-As with whole REST resources and fields thereof, a constant value which was
-supported in API v1 must exist and function until API v1 is removed.
+همانند کل منابع REST و فیلدهای وابسته به آن، یک مقدار ثابت که در API نسخه ۱ پشتیبانی می‌شد، باید وجود داشته باشد و تا زمان حذف API نسخه ۱ عمل کند.
 
-### Component config structures
+### ساختارهای پیکربندی کامپوننت
 
-Component configs are versioned and managed similar to REST resources.
+پیکربندی‌های کامپوننت مشابه منابع REST نسخه‌بندی و مدیریت می‌شوند.
 
-### Future work
+### کار آینده
 
-Over time, Kubernetes will introduce more fine-grained API versions, at which
-point these rules will be adjusted as needed.
+با گذشت زمان، کوبرنتیز نسخه‌های API دقیق‌تری را معرفی خواهد کرد که در آن زمان این قوانین در صورت نیاز تنظیم می‌شوند.
 
 ## Deprecating a flag or CLI
 
-The Kubernetes system is comprised of several different programs cooperating.
-Sometimes, a Kubernetes release might remove flags or CLI commands
-(collectively "CLI elements") in these programs. The individual programs
-naturally sort into two main groups - user-facing and admin-facing programs,
-which vary slightly in their deprecation policies. Unless a flag is explicitly
-prefixed or documented as "alpha" or "beta", it is considered GA.
+سیستم Kubernetes از چندین برنامه مختلف تشکیل شده است که با هم همکاری می‌کنند.
+گاهی اوقات، یک نسخه Kubernetes ممکن است پرچم‌ها یا دستورات CLI (در مجموع "عناصر CLI") را در این برنامه‌ها حذف کند. برنامه‌های منفرد
+به طور طبیعی به دو گروه اصلی تقسیم می‌شوند - برنامه‌های کاربرپسند و مدیرپسند، که در سیاست‌های منسوخ شدن آنها کمی متفاوت است. مگر اینکه یک پرچم به صراحت
+با پیشوند "آلفا" یا "بتا" ذکر شده یا مستند شده باشد، به عنوان GA در نظر گرفته می‌شود.
 
-CLI elements are effectively part of the API to the system, but since they are
-not versioned in the same way as the REST API, the rules for deprecation are as
-follows:
+عناصر CLI عملاً بخشی از API سیستم هستند، اما از آنجایی که به روش REST API نسخه‌بندی نمی‌شوند، قوانین منسوخ شدن آنها به شرح زیر است:
 
-**Rule #5a: CLI elements of user-facing components (e.g. kubectl) must function
-after their announced deprecation for no less than:**
+**قانون شماره ۵a: عناصر رابط خط فرمان 
+(CLI) کامپوننت‌های کاربرپسند (مثلاً kubectl) باید پس از انقضای اعلام‌شده‌شان، حداقل به مدت زیر عمل کنند:**
 
 * **GA: 12 months or 2 releases (whichever is longer)**
 * **Beta: 3 months or 1 release (whichever is longer)**
 * **Alpha: 0 releases**
 
-**Rule #5b: CLI elements of admin-facing components (e.g. kubelet) must function
-after their announced deprecation for no less than:**
+**قانون شماره ۵ب:
+ عناصر رابط خط فرمان (CLI) کامپوننت‌های مربوط به ادمین (مثلاً kubelet) باید پس از انقضای اعلام‌شده‌شان، حداقل به مدت زیر عمل کنند:**
 
-* **GA: 6 months or 1 release (whichever is longer)**
-* **Beta: 3 months or 1 release (whichever is longer)**
-* **Alpha: 0 releases**
+* **GA: ۶ ماه یا ۱ بار انتشار (هر کدام که طولانی‌تر باشد)**
+* **بتا: ۳ ماه یا ۱ نسخه (هر کدام که طولانی‌تر باشد)**
+* **آلفا: ۰ نسخه منتشر شده**
 
-**Rule #5c: Command line interface (CLI) elements cannot be deprecated in favor of
-less stable CLI elements**
 
-Similar to the Rule #3 for APIs, if an element of a command line interface is being replaced with an
-alternative implementation, such as by renaming an existing element, or by switching to
-use configuration sourced from a file
-instead of a command line argument, that recommended alternative must be of
-the same or higher stability level.
 
-**Rule #6: Deprecated CLI elements must emit warnings (optionally disable)
-when used.**
+**قانون شماره ۵c: عناصر رابط خط فرمان (CLI) 
+را نمی‌توان به نفع عناصر CLI با پایداری کمتر، منسوخ کرد**
 
-## Deprecating a feature or behavior
+مشابه قانون شماره ۳ برای APIها، اگر عنصری از رابط خط فرمان با یک پیاده‌سازی جایگزین جایگزین شود، مانند تغییر نام یک عنصر موجود، یا با تغییر به استفاده از پیکربندی منبع گرفته شده از یک فایل به جای یک آرگومان خط فرمان، آن جایگزین پیشنهادی باید از سطح پایداری یکسان یا بالاتری برخوردار باشد.
 
-Occasionally a Kubernetes release needs to deprecate some feature or behavior
-of the system that is not controlled by the API or CLI. In this case, the
-rules for deprecation are as follows:
+**قانون شماره ۶: عناصر CLI منسوخ‌شده باید هنگام استفاده هشدارهایی (به صورت اختیاری غیرفعال)
+ منتشر کنند.**
 
-**Rule #7: Deprecated behaviors must function for no less than 1 year after their
-announced deprecation.**
+## منسوخ کردن یک ویژگی یا رفتار
 
-If the feature or behavior is being replaced with an alternative implementation
-that requires work to adopt the change, there should be an effort to simplify
-the transition whenever possible. If an alternative implementation is under
-Kubernetes organization control, the following rules apply:
+گاهی اوقات، یک نسخه از Kubernetes نیاز به منسوخ کردن برخی از ویژگی‌ها یا رفتارهای سیستم دارد که توسط API یا CLI کنترل نمی‌شوند. در این حالت، قوانین منسوخ کردن به شرح زیر است:
+**قانون شماره ۷: رفتارهای منسوخ‌شده باید حداقل ۱ سال پس از اعلام منسوخ‌شدنشان،
+ همچنان فعال باشند.**
 
-**Rule #8: The feature of behavior must not be deprecated in favor of an alternative
-implementation that is less stable**
+اگر ویژگی یا رفتار با یک پیاده‌سازی جایگزین جایگزین می‌شود که برای تطبیق با تغییر نیاز به کار دارد، باید تا حد امکان تلاش شود تا این انتقال ساده شود. اگر پیاده‌سازی جایگزین تحت کنترل سازمان Kubernetes باشد، قوانین زیر اعمال می‌شود:
 
-For example, a generally available feature cannot be deprecated in favor of a Beta replacement.
-The Kubernetes project does, however, encourage users to adopt and transitions to alternative
-implementations even before they reach the same maturity level. This is particularly important
-for exploring new use cases of a feature or getting an early feedback on the replacement.
+**قانون شماره ۸: ویژگی رفتاری نباید به نفع پیاده‌سازی جایگزین که پایداری کمتری دارد، کنار گذاشته شود*
 
-Alternative implementations may sometimes be external tools or products,
-for example a feature may move from the kubelet to container runtime
-that is not under Kubernetes project control. In such cases, the rule cannot be
-applied, but there must be an effort to ensure that there is a transition path
-that does not compromise on components' maturity levels. In the example with
-container runtimes, the effort may involve trying to ensure that popular container runtimes
-have versions that offer the same level of stability while implementing that replacement behavior.
+برای مثال، یک ویژگی که به‌طور عمومی در دسترس است را نمی‌توان به نفع یک جایگزین بتا کنار گذاشت.
+با این حال، پروژه Kubernetes کاربران را تشویق می‌کند که پیاده‌سازی‌های جایگزین را حتی قبل از رسیدن به همان سطح بلوغ، بپذیرند و به آن‌ها منتقل شوند. این امر به‌ویژه برای بررسی موارد استفاده جدید یک ویژگی یا دریافت بازخورد اولیه در مورد جایگزین، مهم است.
 
-Deprecation rules for features and behaviors do not imply that all changes
-to the system are governed by this policy.
-These rules apply only to significant, user-visible behaviors which impact the
-correctness of applications running on Kubernetes or that impact the
-administration of Kubernetes clusters, and which are being removed entirely.
+پیاده‌سازی‌های جایگزین گاهی اوقات ممکن است ابزارها یا محصولات خارجی باشند، برای مثال، یک ویژگی ممکن است از kubelet به container runtime منتقل شود که تحت کنترل پروژه Kubernetes نیست. در چنین مواردی، نمی‌توان این قانون را اعمال کرد، اما باید تلاشی برای اطمینان از وجود یک مسیر انتقال وجود داشته باشد که سطوح بلوغ اجزا را به خطر نیندازد. در مثال مربوط به container runtime، این تلاش ممکن است شامل تلاش برای اطمینان از این باشد که container runtime های محبوب، نسخه‌هایی داشته باشند که در حین پیاده‌سازی آن رفتار جایگزین، همان سطح پایداری را ارائه دهند..
 
-An exception to the above rule is _feature gates_. Feature gates are key=value
-pairs that allow for users to enable/disable experimental features.
+قوانین منسوخ‌شده برای ویژگی‌ها و رفتارها به این معنی نیست که همه تغییرات در سیستم تابع این خط‌مشی هستند. این قوانین فقط در مورد رفتارهای قابل توجه و قابل مشاهده توسط کاربر اعمال می‌شوند که بر صحت برنامه‌های در حال اجرا در Kubernetes یا بر مدیریت خوشه‌های Kubernetes تأثیر می‌گذارند و به طور کامل حذف می‌شوند.
 
-Feature gates are intended to cover the development life cycle of a feature - they
-are not intended to be long-term APIs. As such, they are expected to be deprecated
-and removed after a feature becomes GA or is dropped.
+یک استثنا برای قانون فوق، _دروازه‌های ویژگی_ است. دروازه‌های ویژگی، جفت‌های کلید=مقدار هستند که به کاربران امکان می‌دهند ویژگی‌های آزمایشی را فعال/غیرفعال کنند.
 
-As a feature moves through the stages, the associated feature gate evolves.
-The feature life cycle matched to its corresponding feature gate is:
+دروازه‌های ویژگی برای پوشش چرخه عمر توسعه یک ویژگی در نظر گرفته شده‌اند - آنها به عنوان API های بلندمدت در نظر گرفته نشده‌اند. به همین ترتیب، انتظار می‌رود که پس از تبدیل شدن یک ویژگی به GA یا حذف آن، منسوخ شده و حذف شوند.
 
-* Alpha: the feature gate is disabled by default and can be enabled by the user.
-* Beta: the feature gate is enabled by default and can be disabled by the user.
-* GA: the feature gate is deprecated (see ["Deprecation"](#deprecation)) and becomes
-  non-operational.
-* GA, deprecation window complete: the feature gate is removed and calls to it are
-  no longer accepted.
+با عبور یک ویژگی از مراحل، گیت ویژگی مرتبط با آن تکامل می‌یابد.
+چرخه عمر ویژگی مطابق با گیت ویژگی مربوطه به صورت زیر است:
+
+* آلفا: دروازه ویژگی به طور پیش‌فرض غیرفعال است و می‌تواند توسط کاربر فعال شود.
+* بتا: دروازه ویژگی به طور پیش‌فرض فعال است و می‌تواند توسط کاربر غیرفعال شود.
+* GA: دروازه ویژگی منسوخ شده است (به ["انحراف"](#انحراف) مراجعه کنید) و غیرعملیاتی می‌شود.
+* GA، پنجره منسوخ شدن کامل: دروازه ویژگی حذف شده و فراخوانی‌های آن دیگر پذیرفته نمی‌شوند.
 
 ### Deprecation
 
-Features can be removed at any point in the life cycle prior to GA. When features are
-removed prior to GA, their associated feature gates are also deprecated.
+ویژگی‌ها می‌توانند در هر نقطه‌ای از چرخه حیات قبل از GA حذف شوند. وقتی ویژگی‌ها قبل از GA حذف می‌شوند، دروازه‌های ویژگی مرتبط با آنها نیز منسوخ می‌شوند.
 
-When an invocation tries to disable a non-operational feature gate, the call fails in order
-to avoid unsupported scenarios that might otherwise run silently.
+هنگامی که یک فراخوانی سعی می‌کند یک دروازه ویژگی غیرعملیاتی را غیرفعال کند، فراخوانی با شکست مواجه می‌شود تا از سناریوهای پشتیبانی نشده‌ای که در غیر این صورت ممکن است به صورت خاموش اجرا شوند، جلوگیری شود.
 
-In some cases, removing pre-GA features requires considerable time. Feature gates can remain
-operational until their associated feature is fully removed, at which point the feature gate
-itself can be deprecated.
+در برخی موارد، حذف ویژگی‌های پیش از GA به زمان قابل توجهی نیاز دارد. دروازه‌های ویژگی می‌توانند تا زمانی که ویژگی مرتبط با آنها به طور کامل حذف شود، عملیاتی باقی بمانند، که در آن نقطه خود دروازه ویژگی می‌تواند منسوخ شود..
 
-When removing a feature gate for a GA feature also requires considerable time, calls to
-feature gates may remain operational if the feature gate has no effect on the feature,
-and if the feature gate causes no errors.
+وقتی حذف یک دروازه ویژگی برای یک ویژگی GA نیز به زمان قابل توجهی نیاز دارد، فراخوانی دروازه‌های ویژگی ممکن است در صورتی که دروازه ویژگی هیچ تاثیری بر ویژگی نداشته باشد و اگر دروازه ویژگی هیچ خطایی ایجاد نکند، همچنان عملیاتی باقی بمانند.
 
-Features intended to be disabled by users should include a mechanism for disabling the
-feature in the associated feature gate.
+ویژگی‌هایی که قرار است توسط کاربران غیرفعال شوند، باید شامل مکانیزمی برای غیرفعال کردن ویژگی در گیت ویژگی مرتبط باشند.
 
-Versioning for feature gates is different from the previously discussed components,
-therefore the rules for deprecation are as follows:
+نسخه‌بندی برای درگاه‌های ویژگی با اجزایی که قبلاً مورد بحث قرار گرفتند متفاوت است، بنابراین قوانین منسوخ شدن به شرح زیر است:
 
-**Rule #9: Feature gates must be deprecated when the corresponding feature they control
-transitions a lifecycle stage as follows. Feature gates must function for no less than:**
+**قانون شماره ۹: گیت‌های ویژگی باید زمانی منسوخ شوند که ویژگی مربوطه که کنترل می‌کنند
+ یک مرحله از چرخه عمر را به شرح زیر تغییر دهد. گیت‌های ویژگی نباید کمتر از:** عمل کنند.
 
-* **Beta feature to GA: 6 months or 2 releases (whichever is longer)**
-* **Beta feature to EOL: 3 months or 1 release (whichever is longer)**
-* **Alpha feature to EOL: 0 releases**
+* **ویژگی بتا برای GA: ۶ ماه یا ۲ انتشار (هر کدام که طولانی‌تر باشد)**
+* **تاریخ انقضای نسخه بتا: ۳ ماه یا ۱ انتشار (هر کدام که طولانی‌تر باشد)**
+* **ویژگی آلفا تا پایان انتشار: 0 نسخه**
 
-**Rule #10: Deprecated feature gates must respond with a warning when used. When a feature gate
-is deprecated it must be documented in both in the release notes and the corresponding CLI help.
-Both warnings and documentation must indicate whether a feature gate is non-operational.**
+**قانون شماره ۱۰: گیت‌های ویژگی منسوخ‌شده باید هنگام استفاده با یک هشدار پاسخ دهند. هنگامی که یک گیت ویژگی منسوخ می‌شود، باید هم در یادداشت‌های انتشار و هم در راهنمای CLI مربوطه مستند شود.
+هم هشدارها و هم مستندات باید نشان دهند که آیا یک گیت ویژگی غیرفعال است یا خیر.**
 
 ## Deprecating a metric
 
-Each component of the Kubernetes control-plane exposes metrics (usually the
-`/metrics` endpoint), which are typically ingested by cluster administrators.
-Not all metrics are the same: some metrics are commonly used as SLIs or used
-to determine SLOs, these tend to have greater import. Other metrics are more
-experimental in nature or are used primarily in the Kubernetes development
-process.
+هر جزء از صفحه کنترل Kubernetes معیارهایی (معمولاً نقطه پایانی `/metrics`) را در معرض نمایش قرار می‌دهد که معمولاً توسط مدیران خوشه استفاده می‌شوند.
+همه معیارها یکسان نیستند: برخی از معیارها معمولاً به عنوان SLI یا برای تعیین SLO استفاده می‌شوند، که معمولاً اهمیت بیشتری دارند. سایر معیارها ماهیت تجربی‌تری دارند یا در درجه اول در فرآیند توسعه Kubernetes استفاده می‌شوند.
 
-Accordingly, metrics fall under three stability classes (`ALPHA`, `BETA` `STABLE`);
-this impacts removal of a metric during a Kubernetes release. These classes
-are determined by the perceived importance of the metric. The rules for
-deprecating and removing a metric are as follows:
+بر این اساس، معیارها در سه کلاس پایداری (`ALPHA`، `BETA` `STABLE`) قرار می‌گیرند.
+این امر بر حذف یک معیار در طول انتشار Kubernetes تأثیر می‌گذارد. این کلاس‌ها
+با توجه به اهمیت درک شده از معیار تعیین می‌شوند. قوانین برای
+حذف و حذف یک معیار به شرح زیر است:
 
-**Rule #11a: Metrics, for the corresponding stability class, must function for no less than:**
+**قانون شماره ۱۱a: معیارها، برای کلاس پایداری مربوطه، باید حداقل برای موارد زیر عمل کنند:**
 
-* **STABLE: 4 releases or 12 months (whichever is longer)**
-* **BETA: 2 releases or 8 months (whichever is longer)**
-* **ALPHA: 0 releases**
+* **پایدار: ۴ انتشار یا ۱۲ ماه (هر کدام که طولانی‌تر باشد)**
+* **بتا: ۲ انتشار یا ۸ ماه (هر کدام که طولانی‌تر باشد)**
+* **آلفا: ۰ انتشار**
 
-**Rule #11b: Metrics, after their _announced deprecation_, must function for no less than:**
+**قانون شماره ۱۱ب: معیارها، پس از _اعلام منسوخ شدن_ خود، باید حداقل برای مدت زیر کار کنند:**
 
-* **STABLE: 3 releases or 9 months (whichever is longer)**
-* **BETA: 1 releases or 4 months (whichever is longer)**
-* **ALPHA: 0 releases**
+* **پایدار: ۳ انتشار یا ۹ ماه (هر کدام که طولانی‌تر باشد)**
+* **بتا: ۱ انتشار یا ۴ ماه (هر کدام که طولانی‌تر باشد)**
+* **آلفا: ۰ انتشار**
+معیارهای منسوخ‌شده، متن توضیحات خود را با پیشوند رشته‌ی اعلان منسوخ‌شده '(منسوخ‌شده از x.y)' خواهند داشت و در طول ثبت معیار، یک گزارش هشدار منتشر می‌شود. معیارهای منسوخ‌شده، مانند همتایان پایدار و منسوخ‌نشده‌ی خود، به‌طور خودکار در نقطه‌ی پایانی معیارها ثبت می‌شوند و بنابراین قابل مشاهده هستند.
 
-Deprecated metrics will have their description text prefixed with a deprecation notice
-string '(Deprecated from x.y)' and a warning log will be emitted during metric
-registration. Like their stable undeprecated counterparts, deprecated metrics will
-be automatically registered to the metrics endpoint and therefore visible.
+در نسخه بعدی (زمانی که `deprecatedVersion` متریک برابر با `_current_kubernetes_version - 3` باشد)، یک متریک منسوخ شده به یک متریک `hidden_` تبدیل می‌شود.
+**_برخلاف همتایان منسوخ شده‌شان، متریک‌های پنهان دیگر به طور خودکار در نقطه پایانی متریک‌ها ثبت نمی‌شوند (از این رو پنهان می‌شوند). با این حال، می‌توان آنها را به صراحت از طریق یک پرچم خط فرمان روی فایل باینری فعال کرد. (`--show-hidden-metrics-for-version=`). این به مدیران خوشه یک دریچه فرار می‌دهد تا در صورت عدم توانایی در واکنش به هشدارهای منسوخ قبلی، به درستی از یک متریک منسوخ شده مهاجرت کنند. متریک‌های پنهان باید پس از یک نسخه حذف شوند.
 
-On a subsequent release (when the metric's `deprecatedVersion` is equal to
-_current_kubernetes_version - 3_), a deprecated metric will become a _hidden_ metric.
-**_Unlike_** their deprecated counterparts, hidden metrics will _no longer_ be
-automatically registered to the metrics endpoint (hence hidden). However, they
-can be explicitly enabled through a command line flag on the binary
-(`--show-hidden-metrics-for-version=`). This provides cluster admins an
-escape hatch to properly migrate off of a deprecated metric, if they were not
-able to react to the earlier deprecation warnings. Hidden metrics should be
-deleted after one release.
+## استثنائات
 
-## Exceptions
-
-No policy can cover every possible situation. This policy is a living
-document, and will evolve over time. In practice, there will be situations
-that do not fit neatly into this policy, or for which this policy becomes a
-serious impediment. Such situations should be discussed with SIGs and project
-leaders to find the best solutions for those specific cases, always bearing in
-mind that Kubernetes is committed to being a stable system that, as much as
-possible, never breaks users. Exceptions will always be announced in all
-relevant release notes.
+هیچ سیاستی نمی‌تواند تمام موقعیت‌های ممکن را پوشش دهد. این سیاست یک سند زنده است و با گذشت زمان تکامل می‌یابد. در عمل، موقعیت‌هایی وجود خواهد داشت که به طور کامل در این سیاست نمی‌گنجند، یا این سیاست برای آنها به یک مانع جدی تبدیل می‌شود. چنین موقعیت‌هایی باید با SIGها و رهبران پروژه مورد بحث قرار گیرد تا بهترین راه‌حل‌ها برای آن موارد خاص پیدا شود، و همیشه در نظر داشته باشید که Kubernetes متعهد به ایجاد یک سیستم پایدار است که تا حد امکان، هرگز کاربران را از کار نمی‌اندازد. موارد استثنا همیشه در تمام یادداشت‌های انتشار مربوطه اعلام خواهد شد.

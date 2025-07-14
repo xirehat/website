@@ -10,39 +10,20 @@ min-kubernetes-server-version: 1.25
 
 <!-- overview -->
 
-The [Common Expression Language (CEL)](https://github.com/google/cel-go) is used
-in the Kubernetes API to declare validation rules, policy rules, and other
-constraints or conditions.
-
-CEL expressions are evaluated directly in the
-{{< glossary_tooltip text="API server" term_id="kube-apiserver" >}}, making CEL a
-convenient alternative to out-of-process mechanisms, such as webhooks, for many
-extensibility use cases. Your CEL expressions continue to execute so long as the
-control plane's API server component remains available.
-
+زبان عبارت مشترک [Common Expression Language (CEL)](https://github.com/google/cel-go) در API کوبرنتیز برای اعلام قوانین اعتبارسنجی، قوانین سیاست و سایر محدودیت‌ها یا شرایط استفاده می‌شود.
+عبارات CEL مستقیماً در {{< glossary_tooltip text="API server" term_id="kube-apiserver" >}} ارزیابی می‌شوند، که CEL را به جایگزینی مناسب برای مکانیسم‌های خارج از فرآیند، مانند webhooks، برای بسیاری از موارد استفاده از توسعه‌پذیری تبدیل می‌کند. عبارات CEL شما تا زمانی که مؤلفه سرور API صفحه کنترل در دسترس باشد، به اجرای خود ادامه می‌دهند.
 <!-- body -->
 
-## Language overview
+## مروری بر زبان
 
-The [CEL language](https://github.com/google/cel-spec/blob/master/doc/langdef.md)
-has a straightforward syntax that is similar to the expressions in C, C++, Java,
-JavaScript and Go.
+زبان [CEL language](https://github.com/google/cel-spec/blob/master/doc/langdef.md) دارای سینتکس سرراستی است که مشابه عبارات موجود در C، C++، جاوا، جاوا اسکریپت و Go می‌باشد.
 
-CEL was designed to be embedded into applications. Each CEL "program" is a
-single expression that evaluates to a single value. CEL expressions are
-typically short "one-liners" that inline well into the string fields of Kubernetes
-API resources.
 
-Inputs to a CEL program are "variables". Each Kubernetes API field that contains
-CEL declares in the API documentation which variables are available to use for
-that field. For example, in the `x-kubernetes-validations[i].rules` field of
-CustomResourceDefinitions, the `self` and `oldSelf` variables are available and
-refer to the previous and current state of the custom resource data to be
-validated by the CEL expression. Other Kubernetes API fields may declare
-different variables. See the API documentation of the API fields to learn which
-variables are available for that field.
+CEL برای جاسازی در برنامه‌ها طراحی شده است. هر "برنامه" CEL یک عبارت واحد است که به یک مقدار واحد ارزیابی می‌شود. عبارات CEL معمولاً "جمله‌های تک‌خطی" کوتاهی هستند که به خوبی در فیلدهای رشته‌ای منابع API Kubernetes قرار می‌گیرند.
 
-Example CEL expressions:
+ورودی‌های یک برنامه CEL «متغیرها» هستند. هر فیلد API Kubernetes که شامل CEL باشد، در مستندات API اعلام می‌کند که کدام متغیرها برای استفاده در آن فیلد در دسترس هستند. به عنوان مثال، در فیلد `x-kubernetes-validations[i].rules` از CustomResourceDefinitions، متغیرهای `self` و `oldSelf` در دسترس هستند و به وضعیت قبلی و فعلی داده‌های منبع سفارشی که باید توسط عبارت CEL اعتبارسنجی شوند، اشاره دارند. سایر فیلدهای API Kubernetes ممکن است متغیرهای متفاوتی را اعلام کنند. برای اطلاع از اینکه کدام متغیرها برای آن فیلد در دسترس هستند، به مستندات API مربوط به فیلدهای API مراجعه کنید.
+
+مثال‌هایی از عبارات CEL:
 
 <table>
 <caption>Examples of CEL expressions and the purpose of each</caption>
@@ -108,10 +89,9 @@ Example CEL expressions:
 </tbody>
 </table>
 
-## CEL options, language features, and libraries
+## گزینه‌های CEL، ویژگی‌های زبان و کتابخانه‌ها
 
-CEL is configured with the following options, libraries and language features,
-introduced at the specified Kubernetes versions:
+CEL با گزینه‌ها، کتابخانه‌ها و ویژگی‌های زبانی زیر پیکربندی شده است که در نسخه‌های مشخص شده Kubernetes معرفی شده‌اند:
 
 <table>
 <thead>
@@ -234,32 +214,21 @@ introduced at the specified Kubernetes versions:
 </tbody>
 </table>
 
-CEL functions, features and language settings support Kubernetes control plane
-rollbacks. For example, _CEL Optional Values_ was introduced at Kubernetes 1.29
-and so only API servers at that version or newer will accept write requests to
-CEL expressions that use _CEL Optional Values_. However, when a cluster is
-rolled back to Kubernetes 1.28 CEL expressions using "CEL Optional Values" that
-are already stored in API resources will continue to evaluate correctly.
+توابع، ویژگی‌ها و تنظیمات زبان CEL از عقب‌گردهای صفحه کنترل Kubernetes پشتیبانی می‌کنند. به عنوان مثال، _CEL Optional Values_ در Kubernetes 1.29 معرفی شد و بنابراین فقط سرورهای API در آن نسخه یا جدیدتر درخواست‌های نوشتن به عبارات CEL را که از _CEL Optional Values_ استفاده می‌کنند، می‌پذیرند. با این حال، هنگامی که یک خوشه به Kubernetes 1.28 برگردانده می‌شود، عبارات CEL با استفاده از "CEL Optional Values" که از قبل در منابع API ذخیره شده‌اند، به ارزیابی صحیح ادامه خواهند داد.
 
-## Kubernetes CEL libraries
+## کتابخانه‌های Kubernetes CE
 
-In additional to the CEL community libraries, Kubernetes includes CEL libraries
-that are available everywhere CEL is used in Kubernetes.
+علاوه بر کتابخانه‌های جامعه CEL، کوبرنتیز شامل کتابخانه‌های CEL نیز می‌شود که در هر جایی که CEL در کوبرنتیز استفاده می‌شود، در دسترس هستند.
 
-### Kubernetes list library
+### کتابخانه فهرست Kubernetes
 
-The list library includes `indexOf` and `lastIndexOf`, which work similar to the
-strings functions of the same names. These functions either the first or last
-positional index of the provided element in the list.
+کتابخانه لیست شامل `indexOf` و `lastIndexOf` است که مشابه توابع رشته‌ای با همین نام‌ها عمل می‌کنند. این توابع یا اولین یا آخرین اندیس مکانی عنصر ارائه شده در لیست را تعیین می‌کنند.
 
-The list library also includes `min`, `max` and `sum`. Sum is supported on all
-number types as well as the duration type. Min and max are supported on all
-comparable types.
+کتابخانه لیست همچنین شامل `min`، `max` و `sum` است. Sum در همه نوع‌های عددی و همچنین نوع مدت زمان پشتیبانی می‌شود. Min و max در همه نوع‌های قابل مقایسه پشتیبانی می‌شوند.
 
-`isSorted` is also provided as a convenience function and is supported on all
-comparable types.
+تابع `isSorted` نیز به عنوان یک تابع کمکی ارائه شده و در تمام انواع داده قابل مقایسه پشتیبانی می‌شود.
 
-Examples:
+نمونه ها:
 
 <table>
 <caption>Examples of CEL expressions using list library functions</caption>
@@ -289,16 +258,12 @@ Examples:
 </tbody>
 </table>
 
-See the [Kubernetes List Library](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apiserver/schema/cel/library#Lists)
-godoc for more information.
+برای اطلاعات بیشتر به [Kubernetes List Library](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apiserver/schema/cel/library#Lists) مراجعه کنید.
+### کتابخانه regex در Kubernetes
 
-### Kubernetes regex library
+علاوه بر تابع `matches` که توسط کتابخانه استاندارد CEL ارائه شده است، کتابخانه regex توابع `find` و `findAll` را نیز ارائه می‌دهد که طیف وسیع‌تری از عملیات regex را امکان‌پذیر می‌سازد.
 
-In addition to the `matches` function provided by the CEL standard library, the
-regex library provides `find` and `findAll`, enabling a much wider range of
-regex operations.
-
-Examples:
+نمونه ها:
 
 <table>
 <caption>Examples of CEL expressions using regex library functions</caption>
@@ -320,23 +285,18 @@ Examples:
 </tbody>
 </table>
 
-See the [Kubernetes regex library](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apiserver/schema/cel/library#Regex)
-godoc for more information.
+برای اطلاعات بیشتر به [Kubernetes regex library](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apiserver/schema/cel/library#Regex)
+godoc مراجعه کنید.
+### کتابخانه URL کوبرنتیز
 
-### Kubernetes URL library
+برای آسان‌تر و ایمن‌تر کردن پردازش URLها، توابع زیر اضافه شده‌اند:
+- `isURL(string)` بررسی می‌کند که آیا یک رشته، یک URL معتبر طبق بسته‌ی [Go's net/url](https://pkg.go.dev/net/url#URL) است یا خیر. رشته باید یک URL مطلق باشد.
 
-To make it easier and safer to process URLs, the following functions have been added:
+- `url(string) URL` یک رشته را به URL تبدیل می‌کند یا اگر رشته یک URL معتبر نباشد، منجر به خطا می‌شود.
 
-- `isURL(string)` checks if a string is a valid URL according to the
-  [Go's net/url](https://pkg.go.dev/net/url#URL) package. The string must be an
-  absolute URL.
-- `url(string) URL` converts a string to a URL or results in an error if the
-  string is not a valid URL.
+پس از تجزیه از طریق تابع `url`، شیء URL حاصل دارای دسترسی‌های `getScheme`، `getHost`، `getHostname`، `getPort`، `getEscapedPath` و `getQuery` است.
 
-Once parsed via the `url` function, the resulting URL object has `getScheme`,
-`getHost`, `getHostname`, `getPort`, `getEscapedPath` and `getQuery` accessors.
-
-Examples:
+نمونه ها:
 
 <table>
 <caption>Examples of CEL expressions using URL library functions</caption>
@@ -359,33 +319,33 @@ Examples:
 </tbody>
 </table>
 
-See the [Kubernetes URL library](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apiserver/schema/cel/library#URLs)
-godoc for more information.
+برای اطلاعات بیشتر به [Kubernetes URL library](https://pkg.go.dev/k8s.io/apiextensions-apiserver/pkg/apiserver/schema/cel/library#URLs) مراجعه کنید.
 
-### Kubernetes authorizer library
 
-For CEL expressions in the API where a variable of type `Authorizer` is available,
-the authorizer may be used to perform authorization checks for the principal
-(authenticated user) of the request.
+### کتابخانه مجوزدهی Kubernetes
 
-API resource checks are performed as follows:
 
-1. Specify the group and resource to check: `Authorizer.group(string).resource(string) ResourceCheck`
-1. Optionally call any combination of the following builder functions to further narrow the authorization check.
-   Note that these functions return the receiver type and can be chained:
-   - `ResourceCheck.subresource(string) ResourceCheck`
-   - `ResourceCheck.namespace(string) ResourceCheck`
-   - `ResourceCheck.name(string) ResourceCheck`
-1. Call `ResourceCheck.check(verb string) Decision` to perform the authorization check.
-1. Call `allowed() bool` or `reason() string` to inspect the result of the authorization check.
+برای عبارات CEL در API که در آن متغیری از نوع `Authorizer` موجود است، می‌توان از مجوزدهنده برای انجام بررسی‌های مجوز برای کاربر اصلی (کاربر احراز هویت شده) درخواست استفاده کرد.
 
-Non-resource authorization performed are used as follows:
 
-1. Specify only a path: `Authorizer.path(string) PathCheck`
-1. Call `PathCheck.check(httpVerb string) Decision` to perform the authorization check.
-1. Call `allowed() bool` or `reason() string` to inspect the result of the authorization check.
+بررسی منابع API به شرح زیر انجام می‌شود:
 
-To perform an authorization check for a service account:
+1. گروه و منبعی را که می‌خواهید بررسی کنید مشخص کنید: `Authorizer.group(string).resource(string) ResourceCheck`
+1. به صورت اختیاری، هر ترکیبی از توابع سازنده زیر را برای محدود کردن بیشتر بررسی مجوز فراخوانی کنید.
+توجه داشته باشید که این توابع نوع گیرنده را برمی‌گردانند و می‌توانند به صورت زنجیره‌ای باشند:
+- `ResourceCheck.subresource(string) ResourceCheck`
+- `ResourceCheck.namespace(string) ResourceCheck`
+- `ResourceCheck.name(string) ResourceCheck`
+1. برای انجام بررسی مجوز، `ResourceCheck.check(verb string) Decision` را فراخوانی کنید.
+1. برای بررسی نتیجه بررسی مجوز، تابع `allowed() bool` یا `reason() string` را فراخوانی کنید.
+
+مجوزهای غیر منبعی انجام شده به شرح زیر استفاده می‌شوند:
+
+1. فقط یک مسیر مشخص کنید: `Authorizer.path(string) PathCheck`
+1. برای انجام بررسی مجوز، تابع `PathCheck.check(httpVerb string) Decision` را فراخوانی کنید.
+1. برای بررسی نتیجه بررسی مجوز، تابع `allowed() bool` یا `reason() string` را فراخوانی کنید.
+
+برای انجام بررسی مجوز برای یک حساب سرویس:
 
 - `Authorizer.serviceAccount(namespace string, name string) Authorizer`
 
@@ -415,7 +375,7 @@ To perform an authorization check for a service account:
 
 {{< feature-state state="alpha" for_k8s_version="v1.31" >}}
 
-With the alpha `AuthorizeWithSelectors` feature enabled, field and label selectors can be added to authorization checks.
+با فعال بودن ویژگی آلفای `AuthorizeWithSelectors`، می‌توان انتخابگرهای فیلد و برچسب را به بررسی‌های مجوز اضافه کرد.
 
 <table>
 <caption>Examples of CEL expressions using selector authorization functions</caption>
@@ -443,21 +403,18 @@ With the alpha `AuthorizeWithSelectors` feature enabled, field and label selecto
 </tbody>
 </table>
 
-See the [Kubernetes Authz library](https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#Authz)
-and [Kubernetes AuthzSelectors library](https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#AuthzSelectors)
-godoc for more information.
+برای اطلاعات بیشتر به [Kubernetes Authz library](https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#Authz) و 
+[Kubernetes AuthzSelectors library](https://pkg.go.dev/k8s.io/apiserver/pkg/cel/library#AuthzSelectors) مراجعه کنید.
 
 ### Kubernetes quantity library
 
-Kubernetes 1.28 adds support for manipulating quantity strings (ex 1.5G, 512k, 20Mi)
+Kubernetes 1.28 پشتیبانی از دستکاری رشته‌های مقداری (مثلاً 1.5G، 512k، 20Mi) را اضافه می‌کند.
 
-- `isQuantity(string)` checks if a string is a valid Quantity according to
+- `isQuantity(string)` بررسی می‌کند که آیا یک رشته، مقدار معتبری بر اساس ... است یا خیر.
   [Kubernetes' resource.Quantity](https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity).
-- `quantity(string) Quantity` converts a string to a Quantity or results in an error if the
-  string is not a valid quantity.
+-`quantity(string) Quantity` یک رشته را به Quantity تبدیل می‌کند یا اگر رشته یک مقدار معتبر نباشد، منجر به خطا می‌شود
 
-Once parsed via the `quantity` function, the resulting Quantity object has the
-following library of member functions:
+پس از تجزیه از طریق تابع `quantity`، شیء Quantity حاصل دارای کتابخانه توابع عضو زیر است:
 
 <table>
 <caption>Available member functions of a Quantity</caption>
@@ -539,7 +496,7 @@ following library of member functions:
 </tbody>
 </table>
 
-Examples:
+مثال ها:
 
 <table>
 <caption>Examples of CEL expressions using URL library functions</caption>
@@ -589,34 +546,23 @@ Examples:
 </tbody>
 </table>
 
-## Type checking
+## بررسی تایپ
 
-CEL is a [gradually typed language](https://github.com/google/cel-spec/blob/master/doc/langdef.md#gradual-type-checking).
+CEL یک زبان  است [gradually typed language](https://github.com/google/cel-spec/blob/master/doc/langdef.md#gradual-type-checking).
 
-Some Kubernetes API fields contain fully type checked CEL expressions. For example,
-[CustomResourceDefinitions Validation Rules](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-rules)
-are fully type checked.
+برخی از فیلدهای API Kubernetes حاوی عبارات CEL هستند که از نظر نوع کاملاً بررسی شده‌اند. برای مثال، [CustomResourceDefinitions Validation Rules](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-rules)
+ کاملاً بررسی شده‌اند.
 
-Some Kubernetes API fields contain partially type checked CEL expressions. A
-partially type checked expression is an expressions where some of the variables
-are statically typed but others are dynamically typed. For example, in the CEL
-expressions of
-[ValidatingAdmissionPolicies](/docs/reference/access-authn-authz/validating-admission-policy/)
-the `request` variable is typed, but the `object` variable is dynamically typed.
-As a result, an expression containing `request.namex` would fail type checking
-because the `namex` field is not defined. However, `object.namex` would pass
-type checking even when the `namex` field is not defined for the resource kinds
-that `object` refers to, because `object` is dynamically typed.
+برخی از فیلدهای API Kubernetes حاوی عبارات CEL هستند که تا حدی از نظر نوع بررسی شده‌اند. یک عبارت CEL که تا حدی از نظر نوع بررسی شده است، عبارتی است که در آن برخی از متغیرها به صورت ایستا و برخی دیگر به صورت پویا تایپ می‌شوند. به عنوان مثال، در عبارات CEL از [ValidatingAdmissionPolicies](/docs/reference/access-authn-authz/validating-admission-policy/) متغیر `request` تایپ شده است، اما متغیر `object` به صورت پویا تایپ شده است. در نتیجه، عبارتی که حاوی `request.namex` باشد، در بررسی نوع با شکست مواجه می‌شود، زیرا فیلد `namex` تعریف نشده است. با این حال، `object.namex` حتی زمانی که فیلد `namex` برای انواع منابعی که `object` به آنها اشاره می‌کند تعریف نشده باشد، در بررسی نوع با موفقیت عمل می‌کند، زیرا `object` به صورت پویا تایپ شده است.
 
-The `has()` macro in CEL may be used in CEL expressions to check if a field of a
-dynamically typed variable is accessible before attempting to access the field's
-value. For example:
+
+ماکروی `has()` در زبان CEL می‌تواند در عبارات CEL برای بررسی دسترسی به فیلدی از یک متغیر با نوع پویا، قبل از تلاش برای دسترسی به مقدار آن فیلد، استفاده شود. برای مثال:
 
 ```cel
 has(object.namex) ? object.namex == 'special' : request.name == 'special'
 ```
 
-## Type system integration
+## یکپارچه سازی سیستم را تایپ کنید
 
 <table>
 <caption>Table showing the relationship between OpenAPIv3 types and CEL types</caption>
@@ -713,33 +659,23 @@ has(object.namex) ? object.namex == 'special' : request.name == 'special'
 </tbody>
 </table>
 
-Also see: [CEL types](https://github.com/google/cel-spec/blob/v0.6.0/doc/langdef.md#values),
+همچنین ببینید: [CEL types](https://github.com/google/cel-spec/blob/v0.6.0/doc/langdef.md#values),
 [OpenAPI types](https://swagger.io/specification/#data-types),
 [Kubernetes Structural Schemas](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#specifying-a-structural-schema).
 
-Equality comparison for arrays with `x-kubernetes-list-type` of `set` or `map` ignores element
-order. For example `[1, 2] == [2, 1]` if the arrays represent Kubernetes `set` values.
+مقایسه برابری برای آرایه‌هایی با `x-kubernetes-list-type` از `set` یا `map` ترتیب عناصر را نادیده می‌گیرد. برای مثال `[1, 2] == [2, 1]` اگر آرایه‌ها نشان‌دهنده مقادیر `set` Kubernetes باشند.
 
-Concatenation on arrays with `x-kubernetes-list-type` use the semantics of the
-list type:
+الحاق روی آرایه‌ها با `x-kubernetes-list-type` از معانی نوع لیست استفاده می‌کند:
 
 `set`
-: `X + Y` performs a union where the array positions of all elements in
-  `X` are preserved and non-intersecting elements in `Y` are appended, retaining
-  their partial order.
+: `X + Y` یک اتحاد انجام می‌دهد که در آن موقعیت آرایه تمام عناصر در `X` حفظ می‌شود و عناصر غیر متقاطع در `Y` با حفظ ترتیب جزئی خود، اضافه می‌شوند.
 
 `map`
-: `X + Y` performs a merge where the array positions of all keys in `X`
-  are preserved but the values are overwritten by values in `Y` when the key
-  sets of `X` and `Y` intersect. Elements in `Y` with non-intersecting keys are
-  appended, retaining their partial order.
+: `X + Y` ادغامی را انجام می‌دهد که در آن موقعیت‌های آرایه‌ای تمام کلیدها در `X` حفظ می‌شوند، اما مقادیر توسط مقادیر در `Y` رونویسی می‌شوند، زمانی که مجموعه کلیدهای `X` و `Y` با هم تلاقی می‌کنند. عناصر در `Y` با کلیدهای غیر متقاطع، با حفظ ترتیب جزئی خود، الحاق می‌شوند..
 
 ## Escaping
 
-Only Kubernetes resource property names of the form
-`[a-zA-Z_.-/][a-zA-Z0-9_.-/]*` are accessible from CEL. Accessible property
-names are escaped according to the following rules when accessed in the
-expression:
+فقط نام‌های ویژگی منابع Kubernetes به شکل `[a-zA-Z_.-/][a-zA-Z0-9_.-/]*` از CEL قابل دسترسی هستند. نام‌های ویژگی قابل دسترسی طبق قوانین زیر هنگام دسترسی در عبارت escape می‌شوند:
 
 <table>
 <caption>Table of CEL identifier escaping rules</caption>
@@ -777,11 +713,9 @@ expression:
 </tbody>
 </table>
 
-When you escape any of CEL's **RESERVED** keywords you need to match the exact property name
-use the underscore escaping
-(for example, `int` in the word `sprint` would not be escaped and nor would it need to be).
+وقتی می‌خواهید هر یک از کلمات کلیدی **RESERVED** در CEL را escape کنید، باید دقیقاً با نام ویژگی مطابقت داشته باشید. از کاراکتر underscore برای escape کردن استفاده کنید. (برای مثال، `int` در کلمه `sprint` escape نمی‌شود و نیازی هم به escape کردن ندارد).
 
-Examples on escaping:
+مثال‌هایی از escape کردن:
 
 <table>
 <caption>Examples escaped CEL identifiers</caption>
@@ -811,54 +745,20 @@ Examples on escaping:
 </tbody>
 </table>
 
-## Resource constraints
+## محدودیت های منابع
 
-CEL is non-Turing complete and offers a variety of production safety controls to
-limit execution time. CEL's _resource constraint_ features provide feedback to
-developers about expression complexity and help protect the API server from
-excessive resource consumption during evaluation. CEL's resource constraint
-features are used to prevent CEL evaluation from consuming excessive API server
-resources.
 
-A key element of the resource constraint features is a _cost unit_ that CEL
-defines as a way of tracking CPU utilization. Cost units are independent of
-system load and hardware. Cost units are also deterministic; for any given CEL
-expression and input data, evaluation of the expression by the CEL interpreter
-will always result in the same cost.
+CEL کامل نیست و انواع کنترل‌های ایمنی تولید را برای محدود کردن زمان اجرا ارائه می‌دهد. ویژگی‌های محدودیت منابع CEL، بازخوردی را در مورد پیچیدگی عبارت به توسعه‌دهندگان ارائه می‌دهد و به محافظت از سرور API در برابر مصرف بیش از حد منابع در طول ارزیابی کمک می‌کند. ویژگی‌های محدودیت منابع CEL برای جلوگیری از مصرف بیش از حد منابع سرور API در ارزیابی CEL استفاده می‌شوند.
+یکی از عناصر کلیدی ویژگی‌های محدودیت منابع، واحد هزینه است که CEL آن را به عنوان راهی برای ردیابی استفاده از CPU تعریف می‌کند. واحدهای هزینه مستقل از بار سیستم و سخت‌افزار هستند. واحدهای هزینه نیز قطعی هستند؛ برای هر عبارت CEL و داده‌های ورودی داده شده، ارزیابی عبارت توسط مفسر CEL همیشه منجر به هزینه یکسانی خواهد شد.
+بسیاری از عملیات اصلی CEL هزینه‌های ثابتی دارند. ساده‌ترین عملیات، مانند مقایسه‌ها (به عنوان مثال `<`) هزینه‌ای برابر با ۱ دارند. برخی هزینه ثابت بالاتری دارند، به عنوان مثال، اعلان‌های تحت‌اللفظی لیست، هزینه پایه ثابتی برابر با ۴۰ واحد هزینه دارند.
+فراخوانی توابع پیاده‌سازی‌شده در کد بومی، هزینه تقریبی را بر اساس پیچیدگی زمانی عملیات محاسبه می‌کند. برای مثال: عملیاتی که از عبارات منظم استفاده می‌کنند، مانند `match` و `find`، با استفاده از هزینه تقریبی `length(regexString)*length(inputString)` تخمین زده می‌شوند. هزینه تقریبی، بدترین حالت پیچیدگی زمانی پیاده‌سازی RE2 در Go را نشان می‌دهد.
 
-Many of CEL's core operations have fixed costs. The simplest operations, such as
-comparisons (e.g. `<`) have a cost of 1. Some have a higher fixed cost, for
-example list literal declarations have a fixed base cost of 40 cost units.
+### بودجه هزینه زمان اجرا
 
-Calls to functions implemented in native code approximate cost based on the time
-complexity of the operation. For example: operations that use regular
-expressions, such as `match` and `find`, are estimated using an approximated
-cost of `length(regexString)*length(inputString)`. The approximated cost
-reflects the worst case time complexity of Go's RE2 implementation.
 
-### Runtime cost budget
+تمام عبارات CEL که توسط Kubernetes ارزیابی می‌شوند، توسط یک بودجه هزینه زمان اجرا محدود می‌شوند. بودجه هزینه زمان اجرا، تخمینی از میزان واقعی استفاده از CPU است که با افزایش یک شمارنده واحد هزینه هنگام تفسیر یک عبارت CEL محاسبه می‌شود. اگر مفسر CEL دستورالعمل‌های زیادی را اجرا کند، از بودجه هزینه زمان اجرا تجاوز می‌کند، اجرای عبارات متوقف می‌شود و خطایی رخ می‌دهد.
+برخی از منابع Kubernetes یک بودجه هزینه زمان اجرا اضافی تعریف می‌کنند که اجرای چندین عبارت را محدود می‌کند. اگر مجموع هزینه عبارات از بودجه تجاوز کند، اجرای عبارات متوقف می‌شود و خطایی رخ می‌دهد. به عنوان مثال، اعتبارسنجی یک منبع سفارشی دارای یک بودجه هزینه زمان اجرا _به ازای هر اعتبارسنجی_ برای همه [Validation Rules](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-rules) است که برای اعتبارسنجی منبع سفارشی ارزیابی شده‌اند.
 
-All CEL expressions evaluated by Kubernetes are constrained by a runtime cost
-budget. The runtime cost budget is an estimate of actual CPU utilization
-computed by incrementing a cost unit counter while interpreting a CEL
-expression. If the CEL interpreter executes too many instructions, the runtime
-cost budget will be exceeded, execution of the expressions will be halted, and
-an error will result.
+### محدودیت‌های هزینه تخمینی
 
-Some Kubernetes resources define an additional runtime cost budget that bounds
-the execution of multiple expressions. If the sum total of the cost of
-expressions exceed the budget, execution of the expressions will be halted, and
-an error will result. For example the validation of a custom resource has a
-_per-validation_ runtime cost budget for all
-[Validation Rules](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation-rules)
-evaluated to validate the custom resource.
-
-### Estimated cost limits
-
-For some Kubernetes resources, the API server may also check if worst case
-estimated running time of CEL expressions would be prohibitively expensive to
-execute. If so, the API server prevent the CEL expression from being written to
-API resources by rejecting create or update operations containing the CEL
-expression to the API resources. This feature offers a stronger assurance that
-CEL expressions written to the API resource will be evaluated at runtime without
-exceeding the runtime cost budget.
+برای برخی از منابع Kubernetes، سرور API همچنین ممکن است بررسی کند که آیا زمان اجرای تخمینی بدترین حالت عبارات CEL برای اجرا بسیار گران خواهد بود یا خیر. در این صورت، سرور API با رد عملیات ایجاد یا به‌روزرسانی حاوی عبارت CEL در منابع API، از نوشتن عبارت CEL در منابع API جلوگیری می‌کند. این ویژگی تضمین قوی‌تری ارائه می‌دهد که عبارات CEL نوشته شده در منبع API در زمان اجرا بدون تجاوز از بودجه هزینه زمان اجرا ارزیابی شوند.

@@ -7,25 +7,20 @@ weight: 50
 ---
 
 <!-- overview -->
-The Kubernetes {{< glossary_tooltip term_id="kube-apiserver" text="API server" >}} provides API endpoints to indicate the current status of the API server.
-This page describes these API endpoints and explains how you can use them.
-
+Kubernetes {{< glossary_tooltip term_id="kube-apiserver" text="API server" >}} نقاط پایانی API را برای نشان دادن وضعیت فعلی سرور API ارائه می‌دهد.
+این صفحه این نقاط پایانی API را شرح می‌دهد و نحوه استفاده از آنها را توضیح می‌دهد.
 <!-- body -->
 
 ## API endpoints for health
 
-The Kubernetes API server provides 3 API endpoints (`healthz`, `livez` and `readyz`) to indicate the current status of the API server.
-The `healthz` endpoint is deprecated (since Kubernetes v1.16), and you should use the more specific `livez` and `readyz` endpoints instead.
-The `livez` endpoint can be used with the `--livez-grace-period` [flag](/docs/reference/command-line-tools-reference/kube-apiserver) to specify the startup duration.
-For a graceful shutdown you can specify the `--shutdown-delay-duration` [flag](/docs/reference/command-line-tools-reference/kube-apiserver) with the `/readyz` endpoint.
-Machines that check the `healthz`/`livez`/`readyz` of the API server should rely on the HTTP status code.
-A status code `200` indicates the API server is `healthy`/`live`/`ready`, depending on the called endpoint.
-The more verbose options shown below are intended to be used by human operators to debug their cluster or understand the state of the API server.
+سرور API کوبرنتیز ۳ نقطه پایانی API (`healthz`، `livez` و `readyz`) را برای نشان دادن وضعیت فعلی سرور API ارائه می‌دهد. نقطه پایانی `healthz` منسوخ شده است (از Kubernetes نسخه ۱.۱۶) و شما باید به جای آن از نقاط پایانی خاص‌تر `livez` و `readyz` استفاده کنید.
+نقطه پایانی `livez` را می‌توان با `--livez-grace-period` [flag](/docs/reference/command-line-tools-reference/kube-apiserver) برای مشخص کردن مدت زمان راه‌اندازی استفاده کرد.
+برای خاموش کردن مناسب، می‌توانید `--shutdown-delay-duration` [flag](/docs/reference/command-line-tools-reference/kube-apiserver) را با نقطه پایانی `/readyz` مشخص کنید. ماشین‌هایی که `healthz`/`livez`/`readyz` سرور API را بررسی می‌کنند، باید به کد وضعیت HTTP تکیه کنند. کد وضعیت `200` نشان می‌دهد که سرور API بسته به نقطه پایانی فراخوانی شده، `healthy`/`live`/`ready` است.
+گزینه‌های طولانی‌تر نشان داده شده در زیر برای استفاده توسط اپراتورهای انسانی برای اشکال‌زدایی خوشه خود یا درک وضعیت سرور API در نظر گرفته شده‌اند.
 
-The following examples will show how you can interact with the health API endpoints.
-
-For all endpoints, you can use the `verbose` parameter to print out the checks and their status.
-This can be useful for a human operator to debug the current status of the API server, it is not intended to be consumed by a machine:
+مثال‌های زیر نحوه تعامل با نقاط پایانی API سلامت را نشان می‌دهند.
+برای همه نقاط پایانی، می‌توانید از پارامتر `verbose` برای چاپ بررسی‌ها و وضعیت آنها استفاده کنید.
+این می‌تواند برای یک اپراتور انسانی جهت اشکال‌زدایی وضعیت فعلی سرور API مفید باشد، اما قرار نیست توسط یک ماشین مصرف شود:
 
 ```shell
 curl -k https://localhost:6443/livez?verbose
@@ -93,10 +88,10 @@ The output show that the `etcd` check is excluded:
 
 {{< feature-state state="alpha" >}}
 
-Each individual health check exposes an HTTP endpoint and can be checked individually.
-The schema for the individual health checks is `/livez/<healthcheck-name>` or `/readyz/<healthcheck-name>`, where `livez` and `readyz` can be used to indicate if you want to check the liveness or the readiness of the API server, respectively.
-The `<healthcheck-name>` path can be discovered using the `verbose` flag from above and take the path between `[+]` and `ok`.
-These individual health checks should not be consumed by machines but can be helpful for a human operator to debug a system:
+هر بررسی سلامت جداگانه، یک نقطه پایانی HTTP را در معرض نمایش قرار می‌دهد و می‌تواند به صورت جداگانه بررسی شود.
+طرحواره بررسی‌های سلامت جداگانه `/livez/<healthcheck-name>` یا `/readyz/<healthcheck-name>` است، که در آن `livez` و `readyz` می‌توانند به ترتیب برای نشان دادن اینکه آیا می‌خواهید زنده بودن یا آمادگی سرور API را بررسی کنید، استفاده شوند.
+مسیر `<healthcheck-name>` را می‌توان با استفاده از پرچم `verbose` از بالا کشف کرد و مسیر بین `[+]` و `ok` را در پیش گرفت.
+این بررسی‌های سلامت جداگانه نباید توسط ماشین‌ها مصرف شوند، اما می‌توانند برای یک اپراتور انسانی برای اشکال‌زدایی سیستم مفید باشند:
 
 ```shell
 curl -k https://localhost:6443/livez/etcd
