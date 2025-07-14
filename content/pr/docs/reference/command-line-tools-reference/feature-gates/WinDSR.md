@@ -15,4 +15,4 @@ stages:
     fromVersion: "1.33"
 
 ---
-Allows kube-proxy to create DSR loadbalancers for Windows.
+به kube-proxy اجازه می‌دهد تا متعادل‌کننده‌های بار DSR را برای ویندوز ایجاد کند.

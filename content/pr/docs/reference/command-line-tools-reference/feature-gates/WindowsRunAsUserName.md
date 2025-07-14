@@ -23,6 +23,4 @@ stages:
 
 removed: true
 ---
-Enable support for running applications in Windows containers with as a
-non-default user. See [Configuring RunAsUserName](/docs/tasks/configure-pod-container/configure-runasusername)
-for more details.
+پشتیبانی از اجرای برنامه‌ها در کانتینرهای ویندوز را با یک کاربر غیر پیش‌فرض فعال کنید. برای جزئیات بیشتر به [Configuring RunAsUserName](/docs/tasks/configure-pod-container/configure-runasusername) مراجعه کنید.

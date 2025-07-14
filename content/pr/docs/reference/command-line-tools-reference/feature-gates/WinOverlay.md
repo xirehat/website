@@ -14,4 +14,4 @@ stages:
     defaultValue: true
     fromVersion: "1.20"
 ---
-Allows kube-proxy to run in overlay mode for Windows.
+به kube-proxy اجازه می‌دهد تا در حالت همپوشانی برای ویندوز اجرا شود.

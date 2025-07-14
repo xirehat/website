@@ -17,6 +17,4 @@ stages:
 
 removed: true
 ---
-Allow [priority & fairness](/docs/concepts/cluster-administration/flow-control/)
-in the API server to use a zero value for the `nominalConcurrencyShares` field of
-the `limited` section of a priority level.
+به [priority & fairness](/docs/concepts/cluster-administration/flow-control/) در سرور API اجازه دهید تا از مقدار صفر برای فیلد `nominalConcurrencyShares` در بخش `limited` از سطح اولویت استفاده کند.
