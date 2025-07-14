@@ -6,7 +6,7 @@ card:
   name: tutorials
   weight: 10
 ---
-
+<div dir="rtl" style="text-align: right;">
 <!-- overview -->
 
 این آموزش به شما نشان می‌دهد که چگونه یک اپلیکیشن نمونه  را با استفاده از Minikube روی Kubernetes اجرا کنید.در این آموزش، یک ایمیج Nginx  استفاده شده است  و برای بازگرداندن تمام درخواست‌ها (Echo) استفاده می‌کند.
@@ -342,3 +342,5 @@ minikube delete
 * بیشتر راجبش یادبگیرید  [Deploying applications](/docs/tasks/run-application/run-stateless-application-deployment/).
 * بیشتر راجبش یادبگیرید [Service objects](/docs/concepts/services-networking/service/).
 
+
+</div>
